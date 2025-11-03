@@ -1014,8 +1014,8 @@ const u8 gText_ButtonTypeLEqualsA[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}L=A");
 const u8 gText_BattleModeSingles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}1v1");
 const u8 gText_BattleModeDoubles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}2v2");
 const u8 gText_BattleModeMixed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MIX");
-const u8 gText_FollowerOff[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SHOW");
-const u8 gText_FollowerOn[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}HIDE");
+const u8 gText_FollowerShow[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SHOW"); // When follower flag is CLEAR (0)
+const u8 gText_FollowerHide[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}HIDE"); // When follower flag is SET (1)
 const u8 gText_NumPlayerLink[] = _("{STR_VAR_1}P LINK");
 const u8 gText_BronzeCard[] = _("BRONZE");
 const u8 gText_CopperCard[] = _("COPPER");
