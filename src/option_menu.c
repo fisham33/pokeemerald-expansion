@@ -208,8 +208,8 @@ static void DrawOptionsPg1(u8 taskId)
     BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
     BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle);
     Sound_DrawChoices(gTasks[taskId].tSound);
+    ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
-    BattleMode_DrawChoices(gTasks[taskId].tBattleMode);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
