@@ -1040,10 +1040,8 @@ static void ConvertDoubleToSingleIfNeeded(void)
 // expects parameters have been loaded correctly with TrainerBattleLoadArgs
 const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
 {
-    // Apply battle mode preference (SINGLES, DOUBLES, or MIXED)
-    if (gSaveBlock2Ptr->battleMode == BATTLE_MODE_SINGLES)
+        if (gSaveBlock2Ptr->battleMode == BATTLE_MODE_SINGLES)
     {
-        // Force all battles to be singles
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_DOUBLE)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_SINGLE;
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE)
@@ -1053,19 +1051,25 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
     }
     else if (gSaveBlock2Ptr->battleMode == BATTLE_MODE_DOUBLES)
     {
-        // Force all battles to be doubles
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_SINGLE)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_DOUBLE;
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE;
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_REMATCH)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_REMATCH_DOUBLE;
-
-        ConvertDoubleToSingleIfNeeded();
     }
-    // BATTLE_MODE_MIXED: Keep original battle type (no conversion)
 
-    ConvertDoubleToSingleIfNeeded();
+        // Force single battle if trainer only has 1 pokemon OR player doesn't have 2 usable mons
+        if (GetTrainerPartySizeFromId(TRAINER_BATTLE_PARAM.opponentA) == 1
+            || GetMonsStateToDoubles_2() != PLAYER_HAS_TWO_USABLE_MONS)
+        {
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_SINGLE;
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT;
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_REMATCH_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_REMATCH;
+        }
 
     switch (TRAINER_BATTLE_PARAM.mode)
     {

@@ -42,7 +42,7 @@ enum
     MENUITEM_COUNT,
 };
 
-// Page 2 menu items (extended options)
+// Menu items Pg2
 enum
 {
     MENUITEM_FOLLOWER,
@@ -57,7 +57,7 @@ enum
     WIN_OPTIONS
 };
 
-// Y-positions for Page 1 menu items
+//Pg 1
 #define YPOS_TEXTSPEED    (MENUITEM_TEXTSPEED * 16)
 #define YPOS_BATTLESCENE  (MENUITEM_BATTLESCENE * 16)
 #define YPOS_BATTLESTYLE  (MENUITEM_BATTLESTYLE * 16)
@@ -65,11 +65,10 @@ enum
 #define YPOS_BUTTONMODE   (MENUITEM_BUTTONMODE * 16)
 #define YPOS_FRAMETYPE    (MENUITEM_FRAMETYPE * 16)
 
-// Y-positions for Page 2 menu items
+//Pg2
 #define YPOS_FOLLOWER        (MENUITEM_FOLLOWER * 16)
 #define YPOS_BATTLEMODE      (MENUITEM_BATTLEMODE * 16)
 
-// Total number of pages in the options menu (use L/R to navigate)
 #define PAGE_COUNT  2
 
 static void Task_OptionMenuFadeIn(u8 taskId);
@@ -210,6 +209,7 @@ static void DrawOptionsPg1(u8 taskId)
     Sound_DrawChoices(gTasks[taskId].tSound);
     ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
+    BattleMode_DrawChoices(gTasks[taskId].tBattleMode);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
@@ -369,7 +369,6 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 {
     if (JOY_NEW(L_BUTTON) || JOY_NEW(R_BUTTON))
     {
-        SaveCurrentSettings(taskId);
         FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
         ClearStdWindowAndFrame(WIN_OPTIONS, FALSE);
         sCurrPage = Process_ChangePage(sCurrPage);
@@ -470,7 +469,6 @@ static void Task_OptionMenuProcessInput_Pg2(u8 taskId)
 {
     if (JOY_NEW(L_BUTTON) || JOY_NEW(R_BUTTON))
     {
-        SaveCurrentSettings(taskId);
         FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
         ClearStdWindowAndFrame(WIN_OPTIONS, FALSE);
         sCurrPage = Process_ChangePage(sCurrPage);
@@ -534,7 +532,7 @@ static void Task_OptionMenuProcessInput_Pg2(u8 taskId)
     }
 }
 
-static void SaveCurrentSettings(u8 taskId)
+static void Task_OptionMenuSave(u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
     gSaveBlock2Ptr->optionsBattleSceneOff = gTasks[taskId].tBattleSceneOff;
@@ -543,6 +541,7 @@ static void SaveCurrentSettings(u8 taskId)
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->battleMode = gTasks[taskId].tBattleMode;
+    gTasks[taskId].tFollower == 0 ? FlagClear(FLAG_POKEMON_FOLLOWERS) : FlagSet(FLAG_POKEMON_FOLLOWERS);
 
     // Update follower visibility flag
     if (gTasks[taskId].tFollower == 0)
@@ -700,8 +699,8 @@ static void Follower_DrawChoices(u8 selection)
     styles[0] = 0;
     styles[1] = 0;
     styles[selection] = 1;
-    DrawOptionMenuChoice(gText_FollowerShow, 104, YPOS_FOLLOWER, styles[0]);
-    DrawOptionMenuChoice(gText_FollowerHide, GetStringRightAlignXOffset(FONT_NORMAL, gText_FollowerHide, 198), YPOS_FOLLOWER, styles[1]);
+    DrawOptionMenuChoice(gText_FollowerOff, 104, YPOS_FOLLOWER, styles[0]);
+    DrawOptionMenuChoice(gText_FollowerOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_FollowerOn, 198), YPOS_FOLLOWER, styles[1]);
 }
 
 static u8 Sound_ProcessInput(u8 selection)
@@ -881,9 +880,7 @@ static void BattleMode_DrawChoices(u8 selection)
 static void DrawTextOption(void)
 {
     u32 i, widthOptions, xMid;
-    // Buffer for page indicators: dots + spaces + null terminator
-    // Sized for PAGE_COUNT dots, (PAGE_COUNT-1) spaces, and multi-byte characters
-    u8 pageDots[16] = _("");
+    u8 pageDots[9] = _("");  // Array size should be at least (2 * PAGE_COUNT) -1
     widthOptions = GetStringWidth(FONT_NORMAL, gText_Option, 0);
 
     for (i = 0; i < PAGE_COUNT; i++)
