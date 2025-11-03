@@ -4745,6 +4745,7 @@ static void CreatePartyMonsSprites(bool8 visible)
     u16 i, count;
     u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES_OR_EGG);
     u32 personality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
+    bool8 isDead = GetMonData(&gPlayerParty[0], MON_DATA_IS_DEAD, NULL);
 
     sStorage->partySprites[0] = CreateMonIconSprite(species, personality, 104, 64, 1, 12, isDead);
     count = 1;
