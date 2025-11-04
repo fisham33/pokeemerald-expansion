@@ -32,6 +32,7 @@
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
+static void CB2_ReturnFromChooseVGCParty(void); // Forward declaration for the new callback
 static void HealPlayerBoxes(void);
 
 void HealPlayerParty(void)
@@ -226,7 +227,7 @@ void ReducePlayerPartyToSelectedMons(void)
 
     // copy the selected Pokémon according to the order.
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
-        if (gSelectedOrderFromParty[i]) // as long as the order keeps going (did the player select 1 mon? 2? 3?), do not stop
+        if (gSelectedOrderFromParty[i]) // as long as the order keeps going (did the player select 1 mon? 2? 3?),
             party[i] = gPlayerParty[gSelectedOrderFromParty[i] - 1]; // index is 0 based, not literal
 
     CpuFill32(0, gPlayerParty, sizeof gPlayerParty);
@@ -237,6 +238,39 @@ void ReducePlayerPartyToSelectedMons(void)
 
     CalculatePlayerPartyCount();
 }
+
+// Note: When control returns to the event script, gSpecialVar_Result will be
+// TRUE if the party selection was successful.
+// gSpecialVar_0x8004 should contain the number of Pokemon to select (1-6)
+void ChoosePartyForStandardBattle(void)
+{
+    u8 partyLimit = gSpecialVar_0x8004;
+
+    // Clamp to valid range
+    if (partyLimit < 1 || partyLimit > PARTY_SIZE)
+        partyLimit = 1;
+
+    SetPartySelectionLimit(partyLimit);
+    gMain.savedCallback = CB2_ReturnFromChooseVGCParty;
+    InitChooseHalfPartyForBattle(0);
+}
+
+static void CB2_ReturnFromChooseVGCParty(void)
+{
+    switch (gSelectedOrderFromParty[0])
+    {
+    case 0:
+        gSpecialVar_Result = FALSE;
+        break;
+    default:
+        gSpecialVar_Result = TRUE;
+        break;
+    }
+
+    ClearPartySelectionLimit();
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
 
 void CanHyperTrain(struct ScriptContext *ctx)
 {
