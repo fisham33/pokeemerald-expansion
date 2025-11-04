@@ -228,6 +228,7 @@ static EWRAM_DATA u16 *sSlot2TilemapBuffer = 0; //
 EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
 static EWRAM_DATA u16 sPartyMenuItemId = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
+static EWRAM_DATA u8 sPartySelectionLimit = 0; // Stores the number of Pokemon to select for battles (0 = use facility default)
 static EWRAM_DATA u8 sInitialLevel = 0;
 static EWRAM_DATA u8 sFinalLevel = 0;
 
@@ -7225,6 +7226,16 @@ static void TryGiveMailToSelectedMon(u8 taskId)
     gTasks[taskId].func = Task_UpdateHeldItemSpriteAndClosePartyMenu;
 }
 
+void SetPartySelectionLimit(u8 limit)
+{
+    sPartySelectionLimit = limit;
+}
+
+void ClearPartySelectionLimit(void)
+{
+    sPartySelectionLimit = 0;
+}
+
 void InitChooseHalfPartyForBattle(u8 unused)
 {
     ClearSelectedPartyOrder();
@@ -7354,11 +7365,13 @@ static void Task_ContinueChoosingHalfParty(u8 taskId)
 
 static u8 GetMaxBattleEntries(void)
 {
+    // If party selection limit is set, use it
+    if (sPartySelectionLimit >= 1 && sPartySelectionLimit <= PARTY_SIZE)
+        return sPartySelectionLimit;
+
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
-        if (gSpecialVar_0x8004 >= 1 && gSpecialVar_0x8004 <= 6)
-            return gSpecialVar_0x8004;
         return MULTI_PARTY_SIZE;
     case FACILITY_UNION_ROOM:
         return UNION_ROOM_PARTY_SIZE;
@@ -7369,11 +7382,13 @@ static u8 GetMaxBattleEntries(void)
 
 static u8 GetMinBattleEntries(void)
 {
+    // If party selection limit is set, use it
+    if (sPartySelectionLimit >= 1 && sPartySelectionLimit <= PARTY_SIZE)
+        return sPartySelectionLimit;
+
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
-    if (gSpecialVar_0x8004 >= 1 && gSpecialVar_0x8004 <= 6)
-            return gSpecialVar_0x8004;
         return 1;
     case FACILITY_UNION_ROOM:
         return UNION_ROOM_PARTY_SIZE;

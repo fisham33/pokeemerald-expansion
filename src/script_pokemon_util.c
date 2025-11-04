@@ -241,11 +241,18 @@ void ReducePlayerPartyToSelectedMons(void)
 
 // Note: When control returns to the event script, gSpecialVar_Result will be
 // TRUE if the party selection was successful.
+// gSpecialVar_0x8004 should contain the number of Pokemon to select (1-6)
 void ChoosePartyForStandardBattle(void)
 {
+    u8 partyLimit = gSpecialVar_0x8004;
+
+    // Clamp to valid range
+    if (partyLimit < 1 || partyLimit > PARTY_SIZE)
+        partyLimit = 1;
+
+    SetPartySelectionLimit(partyLimit);
     gMain.savedCallback = CB2_ReturnFromChooseVGCParty;
-    VarSet(VAR_FRONTIER_FACILITY, FACILITY_MULTI_OR_EREADER); // Re-using this var, but it's not strictly for frontier
-    InitChooseHalfPartyForBattle(gSpecialVar_0x8004); // gSpecialVar_0x8004 will hold the party limit
+    InitChooseHalfPartyForBattle(0);
 }
 
 static void CB2_ReturnFromChooseVGCParty(void)
@@ -260,6 +267,7 @@ static void CB2_ReturnFromChooseVGCParty(void)
         break;
     }
 
+    ClearPartySelectionLimit();
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
