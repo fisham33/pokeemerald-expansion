@@ -799,6 +799,31 @@
 	.byte SCR_OP_DOTRAINERBATTLE
 	.endm
 
+	@ Starts a single trainer battle with pre-selected Pokémon.
+	@ This macro handles the party selection and restoration logic.
+	.macro trainerbattle_selectmons trainer:req, intro_text:req, lose_text:req, post_battle_script:req
+		trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_NONE, \trainer, \intro_text, \lose_text, \post_battle_script, LOCALID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+	.endm
+	
+	.macro trainerbattle_special trainer:req, intro_text:req, lose_text:req, post_battle_script:req, num_pokemon:req
+	    special SavePlayerParty
+	    fadescreen FADE_TO_BLACK
+	    setvar VAR_0x8004, \num_pokemon
+	    special ChoosePartyForStandardBattle
+	    waitstate
+	    goto_if_eq VAR_RESULT, 0, 1f
+	    special ReducePlayerPartyToSelectedMons
+	    setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SET_DATA
+	    setvar VAR_0x8005, FRONTIER_DATA_SELECTED_MON_ORDER
+	    special CallFrontierUtilFunc
+	    trainerbattle_selectmons \trainer, \intro_text, \lose_text, \post_battle_script
+	    end
+		1:
+	    special LoadPlayerParty
+	    releaseall
+	    end
+	.endm	@ Starts a double battle with the player against two trainers
+	
 	@ Goes to address after the trainerbattle command (called by the battle functions, see battle_setup.c)
 	.macro gotopostbattlescript
 	.byte SCR_OP_GOTOPOSTBATTLESCRIPT

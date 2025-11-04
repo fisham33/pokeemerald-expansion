@@ -1044,6 +1044,19 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE;
         if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_REMATCH)
             TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_REMATCH_DOUBLE;
+
+        
+        // Force single battle if trainer only has 1 pokemon OR player doesn't have 2 usable mons
+        if (GetTrainerPartySizeFromId(TRAINER_BATTLE_PARAM.opponentA) == 1
+            || GetMonsStateToDoubles_2() != PLAYER_HAS_TWO_USABLE_MONS)
+        {
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_SINGLE;
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT;
+            if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_REMATCH_DOUBLE)
+                TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_REMATCH;
+        }
     }
     // BATTLE_MODE_MIXED: Keep original battle type (no conversion)
 
@@ -1342,7 +1355,14 @@ static void CB2_EndTrainerBattle(void)
     }
     else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
-        if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge() || (!NoAliveMonsForPlayer()) || FlagGet(B_FLAG_NO_WHITEOUT))
+        if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT
+            || TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
+            || TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE
+            || TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
+        {
+            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+        }
+        else if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge() || (!NoAliveMonsForPlayer()) || FlagGet(B_FLAG_NO_WHITEOUT))
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
             SetMainCallback2(CB2_WhiteOut);

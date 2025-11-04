@@ -7357,6 +7357,8 @@ static u8 GetMaxBattleEntries(void)
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
+        if (gSpecialVar_0x8004 >= 1 && gSpecialVar_0x8004 <= 6)
+            return gSpecialVar_0x8004;
         return MULTI_PARTY_SIZE;
     case FACILITY_UNION_ROOM:
         return UNION_ROOM_PARTY_SIZE;
@@ -7370,6 +7372,8 @@ static u8 GetMinBattleEntries(void)
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
+    if (gSpecialVar_0x8004 >= 1 && gSpecialVar_0x8004 <= 6)
+            return gSpecialVar_0x8004;
         return 1;
     case FACILITY_UNION_ROOM:
         return UNION_ROOM_PARTY_SIZE;
