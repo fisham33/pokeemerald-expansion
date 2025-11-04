@@ -43,6 +43,8 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/pokemon_icon.h"
+#include "nuzlocke.h"
+#include "variant_colours.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -440,6 +442,7 @@ struct PokemonStorageSystemData
     u16 iconSpeciesList[MAX_MON_ICONS];
     u16 boxSpecies[IN_BOX_COUNT];
     u32 boxPersonalities[IN_BOX_COUNT];
+    bool8 boxIsDead[IN_BOX_COUNT];
     u8 incomingBoxId;
     u8 shiftTimer;
     u8 numPartyToCompact;
@@ -472,6 +475,7 @@ struct PokemonStorageSystemData
     u8 cursorFlipTimer;
     u8 cursorPalNums[2];
     const u16 *displayMonPalette;
+    u16 displayMonGreyPalette[16]; // Nuzlocke: Dedicated storage for dead Pokemon grey palette
     u32 displayMonPersonality;
     u16 displayMonSpecies;
     u16 displayMonItemId;
@@ -626,7 +630,7 @@ static void ReshowReleaseMon(void);
 static bool8 ResetReleaseMonSpritePtr(void);
 static void SetMovingMonPriority(u8);
 static void SpriteCB_HeldMon(struct Sprite *);
-static struct Sprite *CreateMonIconSprite(u16, u32, s16, s16, u8, u8);
+static struct Sprite *CreateMonIconSprite(u16, u32, s16, s16, u8, u8, bool8);
 static void DestroyBoxMonIcon(struct Sprite *);
 
 // Pokémon data
@@ -4425,8 +4429,9 @@ static void CreateMovingMonIcon(void)
     u32 personality = GetMonData(&sStorage->movingMon, MON_DATA_PERSONALITY);
     u16 species = GetMonData(&sStorage->movingMon, MON_DATA_SPECIES_OR_EGG);
     u8 priority = GetMonIconPriorityByCursorPos();
+    bool8 isDead = GetMonData(&sStorage->movingMon, MON_DATA_IS_DEAD, NULL);
 
-    sStorage->movingMonSprite = CreateMonIconSprite(species, personality, 0, 0, priority, 7);
+    sStorage->movingMonSprite = CreateMonIconSprite(species, personality, 0, 0, priority, 7, isDead);
     sStorage->movingMonSprite->callback = SpriteCB_HeldMon;
 }
 
@@ -4449,7 +4454,8 @@ static void InitBoxMonSprites(u8 boxId)
             if (species != SPECIES_NONE)
             {
                 personality = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_PERSONALITY);
-                sStorage->boxMonsSprites[count] = CreateMonIconSprite(species, personality, 8 * (3 * j) + 100, 8 * (3 * i) + 44, 2, 19 - j);
+                bool8 isDead = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_IS_DEAD);
+                sStorage->boxMonsSprites[count] = CreateMonIconSprite(species, personality, 8 * (3 * j) + 100, 8 * (3 * i) + 44, 2, 19 - j, isDead);
             }
             else
             {
@@ -4480,8 +4486,9 @@ static void CreateBoxMonIconAtPos(u8 boxPosition)
         s16 x = 8 * (3 * (boxPosition % IN_BOX_COLUMNS)) + 100;
         s16 y = 8 * (3 * (boxPosition / IN_BOX_COLUMNS)) + 44;
         u32 personality = GetCurrentBoxMonData(boxPosition, MON_DATA_PERSONALITY);
+        bool8 isDead = GetCurrentBoxMonData(boxPosition, MON_DATA_IS_DEAD);
 
-        sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(species, personality, x, y, 2, 19 - (boxPosition % IN_BOX_COLUMNS));
+        sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(species, personality, x, y, 2, 19 - (boxPosition % IN_BOX_COLUMNS), isDead);
         if (sStorage->boxOption == OPTION_MOVE_ITEMS)
             sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
     }
@@ -4580,7 +4587,7 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
             {
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
                                                                                         sStorage->boxPersonalities[boxPosition],
-                                                                                        x, y, 2, subpriority);
+                                                                                        x, y, 2, subpriority, sStorage->boxIsDead[boxPosition]);
                 if (sStorage->boxMonsSprites[boxPosition] != NULL)
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
@@ -4604,7 +4611,7 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
             {
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
                                                                                         sStorage->boxPersonalities[boxPosition],
-                                                                                        x, y, 2, subpriority);
+                                                                                        x, y, 2, subpriority, sStorage->boxIsDead[boxPosition]);
                 if (sStorage->boxMonsSprites[boxPosition] != NULL)
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
@@ -4708,7 +4715,10 @@ static void GetIncomingBoxMonData(u8 boxId)
         {
             sStorage->boxSpecies[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_SPECIES_OR_EGG);
             if (sStorage->boxSpecies[boxPosition] != SPECIES_NONE)
+            {
                 sStorage->boxPersonalities[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_PERSONALITY);
+                sStorage->boxIsDead[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_IS_DEAD);
+            }
             boxPosition++;
         }
     }
@@ -4736,8 +4746,9 @@ static void CreatePartyMonsSprites(bool8 visible)
     u16 i, count;
     u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES_OR_EGG);
     u32 personality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
+    bool8 isDead = GetMonData(&gPlayerParty[0], MON_DATA_IS_DEAD, NULL);
 
-    sStorage->partySprites[0] = CreateMonIconSprite(species, personality, 104, 64, 1, 12);
+    sStorage->partySprites[0] = CreateMonIconSprite(species, personality, 104, 64, 1, 12, isDead);
     count = 1;
     for (i = 1; i < PARTY_SIZE; i++)
     {
@@ -4745,7 +4756,8 @@ static void CreatePartyMonsSprites(bool8 visible)
         if (species != SPECIES_NONE)
         {
             personality = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
-            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 152,  8 * (3 * (i - 1)) + 16, 1, 12);
+            isDead = GetMonData(&gPlayerParty[i], MON_DATA_IS_DEAD, NULL);
+            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 152,  8 * (3 * (i - 1)) + 16, 1, 12, isDead);
             count++;
         }
         else
@@ -5149,7 +5161,7 @@ static void RemoveSpeciesFromIconList(u16 species)
     }
 }
 
-static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority)
+static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority, bool8 isDead)
 {
     u16 tileNum;
     u8 spriteId;
@@ -5165,6 +5177,22 @@ static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s
 #endif
     {
         template.paletteTag = PALTAG_MON_ICON_0 + gSpeciesInfo[species].iconPalIndex;
+    }
+
+    // Apply grey palette for dead pokemon in Nuzlocke mode
+    if (IsNuzlockeActive() && isDead)
+    {
+        static u16 sGreyIconPal[16];
+        const u16 *originalPal = GetValidMonIconPalettePtr(species);
+
+        // Copy and apply grey effect to palette
+        CpuCopy16(originalPal, sGreyIconPal, sizeof(sGreyIconPal));
+        ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sGreyIconPal);
+
+        // Load grey palette with unique tag
+        struct SpritePalette greyPalette = { sGreyIconPal, POKE_ICON_BASE_PAL_TAG + 20 };
+        LoadSpritePalette(&greyPalette);
+        template.paletteTag = greyPalette.tag;
     }
 
     tileNum = TryLoadMonIconTiles(species, personality);
@@ -6942,7 +6970,23 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonLevel = GetMonData(mon, MON_DATA_LEVEL);
             sStorage->displayMonMarkings = GetMonData(mon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
-            sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
+
+            // Apply grey palette for dead pokemon in Nuzlocke mode
+            if (IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
+            {
+                u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL);
+                bool32 isShiny = GetMonData(mon, MON_DATA_IS_SHINY, NULL);
+                u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+                const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
+                CpuCopy16(pal, sStorage->displayMonGreyPalette, sizeof(sStorage->displayMonGreyPalette));
+                ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sStorage->displayMonGreyPalette);
+                sStorage->displayMonPalette = sStorage->displayMonGreyPalette;
+            }
+            else
+            {
+                sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
+            }
+
             gender = GetMonGender(mon);
             sStorage->displayMonItemId = GetMonData(mon, MON_DATA_HELD_ITEM);
         }
@@ -6967,7 +7011,20 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
-            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, isShiny, sStorage->displayMonPersonality);
+            
+            // Apply grey palette for dead pokemon in Nuzlocke mode
+            const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, isShiny, sStorage->displayMonPersonality);
+            if (IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
+            {
+                CpuCopy16(pal, sStorage->displayMonGreyPalette, sizeof(sStorage->displayMonGreyPalette));
+                ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sStorage->displayMonGreyPalette);
+                sStorage->displayMonPalette = sStorage->displayMonGreyPalette;
+            }
+            else
+            {
+                sStorage->displayMonPalette = pal;
+            }
+
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
         }
@@ -10060,7 +10117,20 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
 
     // Update front sprite
     sStorage->displayMonSpecies = species;
-    sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, pid);
+    
+
+    // Apply grey palette for dead pokemon in Nuzlocke mode
+    const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, pid);
+    if (IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
+    {
+        CpuCopy16(pal, sStorage->displayMonGreyPalette, sizeof(sStorage->displayMonGreyPalette));
+        ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sStorage->displayMonGreyPalette);
+        sStorage->displayMonPalette = sStorage->displayMonGreyPalette;
+    }
+    else
+    {
+        sStorage->displayMonPalette = pal;
+    }
     if (!sJustOpenedBag)
     {
         if (sRefreshDisplayMonGfx)
