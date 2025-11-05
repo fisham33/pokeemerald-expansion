@@ -43,6 +43,8 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/pokemon_icon.h"
+#include "config/variant_colours.h"
+#include "variant_colours.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -5166,6 +5168,32 @@ static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s
     {
         template.paletteTag = PALTAG_MON_ICON_0 + gSpeciesInfo[species].iconPalIndex;
     }
+
+#if P_ENABLE_VARIANT_COLOURS && P_ENABLE_VARIANT_COLOURS_ICONS
+    // Apply variant colours to icon palette
+    if (personality != 0)
+    {
+        // Note: We don't have access to the full mon data here to determine shininess,
+        // but variant colours will still apply based on personality
+        const u16 *variantPal = GetMonIconPaletteWithVariants(species, FALSE, personality);
+
+        // Use palette pooling: map personality to one of 8 variant palette slots
+        // This prevents running out of palette slots when many Pokemon are visible
+        u8 paletteSlot = (personality % 8);  // Use 8 variant palette slots
+        u16 paletteTag = POKE_ICON_BASE_PAL_TAG + 100 + paletteSlot;  // Offset by 100 to avoid standard palette conflicts
+
+        // Check if this palette slot already has the correct palette loaded
+        u8 palIndex = IndexOfSpritePaletteTag(paletteTag);
+
+        // Always reload to ensure correct variant (different Pokemon may share slot)
+        if (palIndex != 0xFF)
+            FreeSpritePaletteByTag(paletteTag);
+
+        struct SpritePalette variantSpritePal = { variantPal, paletteTag };
+        LoadSpritePalette(&variantSpritePal);
+        template.paletteTag = paletteTag;
+    }
+#endif
 
     tileNum = TryLoadMonIconTiles(species, personality);
     if (tileNum == 0xFFFF)

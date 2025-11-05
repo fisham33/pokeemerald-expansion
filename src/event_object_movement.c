@@ -56,6 +56,7 @@
 #include "constants/trainer_types.h"
 #include "constants/union_room.h"
 #include "constants/weather.h"
+#include "config/variant_colours.h"
 
 #define SPECIAL_LOCALIDS_START (min(LOCALID_CAMERA, \
                                 min(LOCALID_PLAYER, \
@@ -2033,6 +2034,15 @@ const struct ObjectEventGraphicsInfo *SpeciesToGraphicsInfo(u32 species, bool32 
 static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
 {
     u32 paletteNum;
+    u32 personality = 0;
+
+#if P_ENABLE_VARIANT_COLOURS && P_ENABLE_VARIANT_COLOURS_FOLLOWERS
+    // Get follower Pokemon's PID for variant colours
+    struct Pokemon *followerMon = GetFirstLiveMon();
+    if (followerMon != NULL)
+        personality = GetMonData(followerMon, MON_DATA_PERSONALITY, NULL);
+#endif
+
     // Use standalone palette, unless entry is OOB or NULL (fallback to front-sprite-based)
 #if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
     if ((shiny && gSpeciesInfo[species].overworldPalette)
@@ -2072,7 +2082,24 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
     {
         // Note that the shiny palette tag is `species + SPECIES_SHINY_TAG`, which must be increased with more pokemon
         // so that palette tags do not overlap
-        const u16 *palette = GetMonSpritePalFromSpecies(species, shiny, female); //ETODO
+#if P_ENABLE_VARIANT_COLOURS && P_ENABLE_VARIANT_COLOURS_FOLLOWERS
+        const u16 *palette = GetMonSpritePalFromSpeciesAndPersonality(species, shiny, personality);
+#else
+        const u16 *palette = GetMonSpritePalFromSpecies(species, shiny, female);
+#endif
+
+#if P_ENABLE_VARIANT_COLOURS && P_ENABLE_VARIANT_COLOURS_FOLLOWERS
+        // With variant colours, each Pokemon has unique colors based on PID
+        // Always reload to ensure correct colors and fresh weather blend
+        paletteNum = IndexOfSpritePaletteTag(species);
+        if (paletteNum < 16)
+        {
+            // Free the old palette slot so we can reload with current variant colors
+            FreeSpritePaletteByTag(species);
+        }
+        LoadSpritePaletteWithTag(palette, species);
+        paletteNum = IndexOfSpritePaletteTag(species);
+#else
         // palette already loaded
         if ((paletteNum = IndexOfSpritePaletteTag(species)) < 16)
             return paletteNum;
@@ -2080,6 +2107,7 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
         // Load compressed palette
         LoadSpritePaletteWithTag(palette, species);
         paletteNum = IndexOfSpritePaletteTag(species); // Tag is always present
+#endif
     }
 
     if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL) // don't want to weather blend in fog

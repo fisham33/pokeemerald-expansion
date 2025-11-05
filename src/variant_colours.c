@@ -362,3 +362,16 @@ void ApplyMonSpeciesVariantToPaletteBuffer(u32 species, bool8 shiny, u32 origina
     ApplyPaletteVariantToPaletteBuffer(pal16, &sv->pv2, prn2);
   }
 }
+
+// Apply variant colours to Pokemon icon palettes
+const u16 *GetMonIconPaletteWithVariants(u16 species, bool8 shiny, u32 personality)
+{
+  extern const u16 *GetValidMonIconPalettePtr(u16 species);
+  const u16 *base = GetValidMonIconPalettePtr(species);
+  static u16 sVariantIconPal[16];
+
+  CpuCopy16(base, sVariantIconPal, sizeof(sVariantIconPal));
+  ApplyMonSpeciesVariantToPaletteBuffer(species, shiny, personality, sVariantIconPal);
+
+  return sVariantIconPal;
+}

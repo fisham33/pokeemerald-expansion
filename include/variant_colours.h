@@ -29,6 +29,7 @@ const struct SpeciesVariant *GetSpeciesVariants(u32 species);
 void ApplyPaletteVariantToPaletteBuffer(u16 pal16[16], const struct PaletteVariant *pv, u16 prn16);
 void ApplyCustomRestrictionToPaletteBuffer(u8 hMin, u8 hMax, u8 cMin, u8 cMax, u8 lMin, u8 lMax, u16 pal16[16]);
 void ApplyMonSpeciesVariantToPaletteBuffer(u32 species, bool8 shiny, u32 PID, u16 pal16[16]);
+const u16 *GetMonIconPaletteWithVariants(u16 species, bool8 shiny, u32 personality);
 
 // Species data helpers
 
@@ -75,7 +76,7 @@ void ApplyMonSpeciesVariantToPaletteBuffer(u32 species, bool8 shiny, u32 PID, u1
 #define DEFAULT_SPECIES_VARIANT \
   {                             \
       PAL1(1, 15),              \
-      HCL1(50, 0, 0, FALSE),    \
+      HCL1(120, 0, 0, FALSE),    \
   }
 
 static const struct SpeciesVariant gSpeciesVariants[NUM_SPECIES] = {
