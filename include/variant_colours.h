@@ -88,11 +88,9 @@ void ApplyMonSpeciesVariantToPaletteBuffer(u32 species, bool8 shiny, u32 PID, u1
  *
  * PALETTE FEATURE REFERENCE:
  * For a comprehensive list of palette features (body parts, colors, etc.) for each
- * Pokémon species, see:
- *   - docs/PALETTE_FEATURES_REFERENCE.md (detailed documentation)
- *   - include/variant_colours_palette_reference.h (C header format for easy reference)
+ * Pokémon species, see: docs/PALETTE_FEATURES_REFERENCE.md
  *
- * These reference files show all available palette regions (PALa, PALb, PALc, PALd, PALe)
+ * This reference file shows all available palette regions (PALa, PALb, PALc, PALd, PALe)
  * for each species. Choose up to 2 regions to use as PAL1/PAL2 below.
  *
  * CONFIGURATION FORMAT:

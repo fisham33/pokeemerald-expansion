@@ -34,9 +34,9 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
-## Generation I
+## Pokémon #1-30
 
-### SPECIES_BULBASAUR
+### #001 SPECIES_BULBASAUR
 ```c
 [SPECIES_BULBASAUR] = {
     PALa(1, 4),    // Teal/cyan body
@@ -124,7 +124,7 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
-### SPECIES_BLASTOISE
+### #009 SPECIES_BLASTOISE
 ```c
 [SPECIES_BLASTOISE] = {
     PALa(1, 4),    // Blue body
@@ -135,7 +135,172 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
-### SPECIES_PIKACHU
+### #010 SPECIES_CATERPIE
+```c
+[SPECIES_CATERPIE] = {
+    PALa(1, 4),    // Green body
+    PALb(5, 3),    // Yellow belly segments
+    PALc(8, 2),    // Pink/red antenna
+    PALd(10, 3),   // Eyes (white and black)
+    PALe(13, 2),   // Feet
+},
+```
+
+### #011 SPECIES_METAPOD
+```c
+[SPECIES_METAPOD] = {
+    PALa(1, 5),    // Green shell/body
+    PALb(6, 3),    // Dark green shell shading
+    PALc(9, 2),    // Eyes
+    PALd(11, 3),   // Shell highlights
+    PALe(14, 1),   // White shine
+},
+```
+
+### #012 SPECIES_BUTTERFREE
+```c
+[SPECIES_BUTTERFREE] = {
+    PALa(1, 3),    // Purple/blue body
+    PALb(4, 4),    // White wings
+    PALc(8, 3),    // Black wing markings
+    PALd(11, 2),   // Red/pink eyes
+    PALe(13, 2),   // Antennae and feet
+},
+```
+
+### #013 SPECIES_WEEDLE
+```c
+[SPECIES_WEEDLE] = {
+    PALa(1, 4),    // Brown/tan body
+    PALb(5, 3),    // Yellow/cream segments
+    PALc(8, 2),    // Pink nose
+    PALd(10, 3),   // Red stinger/horn
+    PALe(13, 2),   // Eyes and feet
+},
+```
+
+### #014 SPECIES_KAKUNA
+```c
+[SPECIES_KAKUNA] = {
+    PALa(1, 5),    // Yellow shell/body
+    PALb(6, 3),    // Dark yellow/gold shading
+    PALc(9, 2),    // Eyes
+    PALd(11, 3),   // Shell details
+    PALe(14, 1),   // Highlights
+},
+```
+
+### #015 SPECIES_BEEDRILL
+```c
+[SPECIES_BEEDRILL] = {
+    PALa(1, 4),    // Yellow body segments
+    PALb(5, 3),    // Black stripes
+    PALc(8, 3),    // White/grey wings
+    PALd(11, 2),   // Red eyes
+    PALe(13, 2),   // Stingers
+},
+```
+
+### #016 SPECIES_PIDGEY
+```c
+[SPECIES_PIDGEY] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Cream/tan belly and face
+    PALc(8, 2),    // Pink/red crest
+    PALd(10, 3),   // Wing feathers (dark brown)
+    PALe(13, 2),   // Eyes and beak
+},
+```
+
+### #017 SPECIES_PIDGEOTTO
+```c
+[SPECIES_PIDGEOTTO] = {
+    PALa(1, 4),    // Brown body and wings
+    PALb(5, 3),    // Cream/pink belly
+    PALc(8, 2),    // Red/pink crest
+    PALd(10, 3),   // Dark wing tips
+    PALe(13, 2),   // Eyes and talons
+},
+```
+
+### #018 SPECIES_PIDGEOT
+```c
+[SPECIES_PIDGEOT] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Cream belly and neck
+    PALc(8, 3),    // Red/yellow head crest
+    PALd(11, 2),   // Wing patterns
+    PALe(13, 2),   // Eyes and talons
+},
+```
+
+### #019 SPECIES_RATTATA
+```c
+[SPECIES_RATTATA] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Cream/white belly and face
+    PALc(8, 2),    // Red eyes
+    PALd(10, 3),   // Whiskers and teeth
+    PALe(13, 2),   // Feet and tail
+},
+```
+
+### #020 SPECIES_RATICATE
+```c
+[SPECIES_RATICATE] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Cream/tan belly
+    PALc(8, 3),    // Yellow whiskers and teeth
+    PALd(11, 2),   // Red eyes
+    PALe(13, 2),   // Feet and ears
+},
+```
+
+### #021 SPECIES_SPEAROW
+```c
+[SPECIES_SPEAROW] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Cream/beige belly and face
+    PALc(8, 2),    // Pink/red crest
+    PALd(10, 3),   // Wings and tail
+    PALe(13, 2),   // Eyes and beak
+},
+```
+
+### #022 SPECIES_FEAROW
+```c
+[SPECIES_FEAROW] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Cream neck and underside
+    PALc(8, 3),    // Red crest and beak
+    PALd(11, 2),   // Wing feathers
+    PALe(13, 2),   // Eyes and talons
+},
+```
+
+### #023 SPECIES_EKANS
+```c
+[SPECIES_EKANS] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Yellow belly bands
+    PALc(8, 2),    // Dark purple patterns
+    PALd(10, 3),   // Eyes and tongue
+    PALe(13, 2),   // Rattle tail
+},
+```
+
+### #024 SPECIES_ARBOK
+```c
+[SPECIES_ARBOK] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Yellow belly and bands
+    PALc(8, 3),    // Black hood pattern
+    PALd(11, 2),   // Red/pink pattern accents
+    PALe(13, 2),   // Eyes and tongue
+},
+```
+
+### #025 SPECIES_PIKACHU
 ```c
 [SPECIES_PIKACHU] = {
     PALa(1, 5),    // Yellow body
@@ -146,232 +311,61 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
-### SPECIES_RAICHU
+### #026 SPECIES_RAICHU
 ```c
 [SPECIES_RAICHU] = {
     PALa(1, 5),    // Orange/yellow body
     PALb(6, 3),    // White/cream belly
     PALc(9, 2),    // Brown details
-    PALd(11, 2),   // Black ears
-    PALe(13, 2),   // Eyes and tail
-},
-```
-
-### SPECIES_MEOWTH
-```c
-[SPECIES_MEOWTH] = {
-    PALa(1, 4),    // Cream/beige body
-    PALb(5, 3),    // Brown stripes
-    PALc(8, 2),    // Gold charm
-    PALd(10, 2),   // Pink nose and ears
-    PALe(12, 3),   // Eyes and whiskers
-},
-```
-
-### SPECIES_PSYDUCK
-```c
-[SPECIES_PSYDUCK] = {
-    PALa(1, 5),    // Yellow body
-    PALb(6, 2),    // Cream/beige bill
-    PALc(8, 2),    // Black eyes
-    PALd(10, 3),   // Limb shading
-    PALe(13, 2),   // White highlights
-},
-```
-
-### SPECIES_EEVEE
-```c
-[SPECIES_EEVEE] = {
-    PALa(1, 4),    // Brown body
-    PALb(5, 3),    // Cream neck ruff
-    PALc(8, 2),    // Tail tip (cream/brown)
-    PALd(10, 3),   // Ear details
+    PALd(11, 2),   // Black ears and tail
     PALe(13, 2),   // Eyes
 },
 ```
 
-### SPECIES_VAPOREON
+### #027 SPECIES_SANDSHREW
 ```c
-[SPECIES_VAPOREON] = {
-    PALa(1, 5),    // Light blue body
-    PALb(6, 3),    // Dark blue fins/ruff
-    PALc(9, 2),    // Fin membrane details
-    PALd(11, 2),   // Eyes
-    PALe(13, 2),   // White highlights
+[SPECIES_SANDSHREW] = {
+    PALa(1, 4),    // Yellow/tan body
+    PALb(5, 3),    // Brown back scales
+    PALc(8, 3),    // Cream/white belly
+    PALd(11, 2),   // Claws
+    PALe(13, 2),   // Eyes
 },
 ```
 
-### SPECIES_JOLTEON
+### #028 SPECIES_SANDSLASH
 ```c
-[SPECIES_JOLTEON] = {
-    PALa(1, 5),    // Yellow body
-    PALb(6, 3),    // White spikes/ruff
-    PALc(9, 2),    // Spike shadows
-    PALd(11, 2),   // Eyes
-    PALe(13, 2),   // Dark details
+[SPECIES_SANDSLASH] = {
+    PALa(1, 4),    // Yellow/tan body
+    PALb(5, 3),    // Brown back spikes
+    PALc(8, 3),    // Cream belly
+    PALd(11, 2),   // Dark spike tips
+    PALe(13, 2),   // Eyes and claws
 },
 ```
 
-### SPECIES_FLAREON
+### #029 SPECIES_NIDORAN_F
 ```c
-[SPECIES_FLAREON] = {
-    PALa(1, 5),    // Orange/red body
-    PALb(6, 3),    // Yellow/cream ruff
-    PALc(9, 2),    // Flame tail details
-    PALd(11, 2),   // Eyes
-    PALe(13, 2),   // Dark nose and paws
+[SPECIES_NIDORAN_F] = {
+    PALa(1, 4),    // Blue/cyan body
+    PALb(5, 3),    // Lighter blue spots
+    PALc(8, 2),    // Pink ears
+    PALd(10, 3),   // Spikes/horn
+    PALe(13, 2),   // Eyes and whiskers
 },
 ```
 
----
-
-## Generation II
-
-### SPECIES_CHIKORITA
+### #030 SPECIES_NIDORINA
 ```c
-[SPECIES_CHIKORITA] = {
-    PALa(1, 4),    // Light green body
-    PALb(5, 3),    // Dark green leaf
-    PALc(8, 2),    // Leaf collar
-    PALd(10, 2),   // Eyes
-    PALe(12, 3),   // Neck markings
-},
-```
-
-### SPECIES_CYNDAQUIL
-```c
-[SPECIES_CYNDAQUIL] = {
-    PALa(1, 5),    // Teal/blue body
-    PALb(6, 3),    // Cream/yellow belly
-    PALc(9, 3),    // Back flames (red/orange/yellow)
-    PALd(12, 2),   // Eyes
-    PALe(14, 1),   // White highlights
-},
-```
-
-### SPECIES_TOTODILE
-```c
-[SPECIES_TOTODILE] = {
+[SPECIES_NIDORINA] = {
     PALa(1, 4),    // Blue body
-    PALb(5, 3),    // Yellow/cream belly
-    PALc(8, 2),    // Red spines/back
-    PALd(10, 2),   // Eyes
-    PALe(12, 3),   // Teeth and claws
+    PALb(5, 3),    // Lighter blue/white belly
+    PALc(8, 3),    // Dark blue back spikes
+    PALd(11, 2),   // Ears and horn
+    PALe(13, 2),   // Eyes and details
 },
 ```
 
-### SPECIES_PICHU
-```c
-[SPECIES_PICHU] = {
-    PALa(1, 5),    // Yellow body
-    PALb(6, 2),    // Pink cheeks
-    PALc(8, 2),    // Black ear tips
-    PALd(10, 2),   // Tail markings
-    PALe(12, 3),   // Eyes and details
-},
-```
-
-### SPECIES_MAREEP
-```c
-[SPECIES_MAREEP] = {
-    PALa(1, 4),    // White wool
-    PALb(5, 3),    // Blue body/face
-    PALc(8, 2),    // Yellow/orange tail orb
-    PALd(10, 3),   // Black stripes/hooves
-    PALe(13, 2),   // Eyes
-},
-```
-
-### SPECIES_TYRANITAR
-```c
-[SPECIES_TYRANITAR] = {
-    PALa(1, 5),    // Green body/scales
-    PALb(6, 3),    // Purple/grey belly
-    PALc(9, 2),    // Shell/armor plates
-    PALd(11, 3),   // Blue chest diamonds
-    PALe(14, 1),   // Eyes and details
-},
-```
-
----
-
-## Generation III
-
-### SPECIES_TREECKO
-```c
-[SPECIES_TREECKO] = {
-    PALa(1, 5),    // Green body
-    PALb(6, 3),    // Yellow/cream belly
-    PALc(9, 2),    // Red tail
-    PALd(11, 2),   // Eyes
-    PALe(13, 2),   // Dark green accents
-},
-```
-
-### SPECIES_TORCHIC
-```c
-[SPECIES_TORCHIC] = {
-    PALa(1, 5),    // Orange/yellow body
-    PALb(6, 2),    // Yellow accents
-    PALc(8, 2),    // Orange beak/feet
-    PALd(10, 2),   // Eyes
-    PALe(12, 3),   // Feather details
-},
-```
-
-### SPECIES_MUDKIP
-```c
-[SPECIES_MUDKIP] = {
-    PALa(1, 4),    // Light blue body
-    PALb(5, 3),    // Orange/coral cheeks and tail fin
-    PALc(8, 2),    // Dark blue back fin
-    PALd(10, 2),   // Eyes
-    PALe(12, 3),   // White belly
-},
-```
-
-### SPECIES_POOCHYENA
-```c
-[SPECIES_POOCHYENA] = {
-    PALa(1, 4),    // Grey body
-    PALb(5, 3),    // Black fur patches
-    PALc(8, 2),    // Red eyes
-    PALd(10, 2),   // Yellow sclera
-    PALe(12, 3),   // Teeth and claws
-},
-```
-
-### SPECIES_ZIGZAGOON
-```c
-[SPECIES_ZIGZAGOON] = {
-    PALa(1, 4),    // Brown body
-    PALb(5, 3),    // Cream/white zigzag stripes
-    PALc(8, 2),    // Black nose
-    PALd(10, 3),   // Eyes
-    PALe(13, 2),   // Ear details
-},
-```
-
-### SPECIES_WURMPLE
-```c
-[SPECIES_WURMPLE] = {
-    PALa(1, 4),    // Pink/magenta body
-    PALb(5, 3),    // White segments
-    PALc(8, 2),    // Yellow spike base
-    PALd(10, 2),   // Black spike tips
-    PALe(12, 3),   // Eyes and feet
-},
-```
-
-### SPECIES_RALTS
-```c
-[SPECIES_RALTS] = {
-    PALa(1, 4),    // White body
-    PALb(5, 3),    // Green hair
-    PALc(8, 2),    // Red horn
-    PALd(10, 2),   // Eyes
-    PALe(12, 3),   // Pink cheeks
-},
 ```
 
 ### SPECIES_GARDEVOIR
