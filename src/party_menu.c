@@ -7365,9 +7365,13 @@ static void Task_ContinueChoosingHalfParty(u8 taskId)
 
 static u8 GetMaxBattleEntries(void)
 {
-    // If party selection limit is set, use it
+    // If party selection limit is set, use it (but don't exceed actual party size)
     if (sPartySelectionLimit >= 1 && sPartySelectionLimit <= PARTY_SIZE)
+    {
+        if (gPlayerPartyCount < sPartySelectionLimit)
+            return gPlayerPartyCount;
         return sPartySelectionLimit;
+    }
 
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
@@ -7382,9 +7386,9 @@ static u8 GetMaxBattleEntries(void)
 
 static u8 GetMinBattleEntries(void)
 {
-    // If party selection limit is set, use it
+    // If party selection limit is set, allow selecting 1 to limit Pokémon
     if (sPartySelectionLimit >= 1 && sPartySelectionLimit <= PARTY_SIZE)
-        return sPartySelectionLimit;
+        return 1;
 
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {

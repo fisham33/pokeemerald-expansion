@@ -59,6 +59,8 @@ gSpecials::
 	def_special LoadPlayerParty
 	def_special ChooseHalfPartyForBattle
 	def_special ChoosePartyForStandardBattle
+	def_special SaveSelectMonsParty
+	def_special LoadSelectMonsParty
 	def_special Script_ShowLinkTrainerCard
 	def_special ObjectEventInteractionGetBerryTreeData
 	def_special ObjectEventInteractionGetBerryName

@@ -808,8 +808,10 @@
 	@ Starts a trainer battle where the player selects N Pokémon from their party.
 	@ num_pokemon: The number of Pokémon the player must choose (1-6).
 	@ The party is automatically saved/restored, and the script continues on loss.
+	@ The post_battle_script is called AFTER party restoration with VAR_RESULT set to battle outcome.
 	.macro trainerbattle_selectmons trainer:req, intro_text:req, lose_text:req, post_battle_script:req, num_pokemon:req
-	    special SavePlayerParty
+	    @ Save party to static backup (won't be overwritten by battle auto-save)
+	    special SaveSelectMonsParty
 	    fadescreen FADE_TO_BLACK
 	    setvar VAR_0x8004, \num_pokemon
 	    special ChoosePartyForStandardBattle
@@ -819,11 +821,17 @@
 	    setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SET_DATA
 	    setvar VAR_0x8005, FRONTIER_DATA_SELECTED_MON_ORDER
 	    special CallFrontierUtilFunc
-	    trainerbattle_continuescript \trainer, \intro_text, \lose_text, \post_battle_script
+	    trainerbattle_continuescript \trainer, \intro_text, \lose_text, 2f
 	    end
-		1:
-	    special LoadPlayerParty
+	1:
+	    @ Restore party from static backup on cancel
+	    special LoadSelectMonsParty
 	    releaseall
+	    end
+	2:
+	    @ Restore party from static backup after battle
+	    special LoadSelectMonsParty
+	    goto \post_battle_script
 	    end
 	.endm
 
