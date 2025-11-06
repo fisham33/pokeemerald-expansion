@@ -141,21 +141,16 @@ Debug_EventScript_Script_1::
 	end
 
 Debug_EventScript_Script_2::
-	trainerbattle_selectmons TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, Debug_EventScript_PostBattleRestoreParty, 2
+	trainerbattle_selectmons TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, Debug_EventScript_PostBattleHandler, 2
     end
 
-Debug_EventScript_PostBattleRestoreParty::
-    call Debug_EventScript_RestoreParty
+Debug_EventScript_PostBattleHandler::
+    @ Party is already restored by the macro
+    @ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
     switch VAR_RESULT
     case 1, RustboroCity_Gym_EventScript_RoxanneDefeated
     case 0, Debug_EventScript_WhiteOut
     end
-
-Debug_EventScript_RestoreParty::
-    setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SAVE_PARTY
-    special CallFrontierUtilFunc
-    special LoadPlayerParty
-    return
 
 Debug_EventScript_WhiteOut::
     fadescreen FADE_TO_BLACK

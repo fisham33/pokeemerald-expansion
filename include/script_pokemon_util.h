@@ -14,5 +14,9 @@ void Script_GetChosenMonOffensiveIVs(void);
 void Script_GetChosenMonDefensiveIVs(void);
 u32 BirchCase_GiveMonParameterized(u16 species, u8 level, u16 item, u8 ball, u8 nature, u8 abilityNum, u8 gender, u8 *evs, u8 *ivs, u16 *moves, bool8 ggMaxFactor, u8 teraType, bool8 isShinyExpansion);
 void ChoosePartyForStandardBattle(void);
+void SaveSelectMonsParty(void);
+void LoadSelectMonsParty(void);
+void RestoreSelectMonsPartyAfterBattle(void);
+bool8 IsSelectMonsBattleActive(void);
 
 #endif // GUARD_SCRIPT_POKEMON_UTIL_H
