@@ -78,6 +78,61 @@ void ApplyMonSpeciesVariantToPaletteBuffer(u32 species, bool8 shiny, u32 PID, u1
       HCL1(50, 0, 0, FALSE),    \
   }
 
+/*
+ * ==============================================
+ * SPECIES VARIANTS CONFIGURATION
+ * ==============================================
+ *
+ * This array defines color variations for Pokémon species.
+ * Each species can have up to 2 palette regions (PAL1/PAL2) that will be varied.
+ *
+ * PALETTE FEATURE REFERENCE:
+ * For a comprehensive list of palette features (body parts, colors, etc.) for each
+ * Pokémon species, see:
+ *   - docs/PALETTE_FEATURES_REFERENCE.md (detailed documentation)
+ *   - include/variant_colours_palette_reference.h (C header format for easy reference)
+ *
+ * These reference files show all available palette regions (PALa, PALb, PALc, PALd, PALe)
+ * for each species. Choose up to 2 regions to use as PAL1/PAL2 below.
+ *
+ * CONFIGURATION FORMAT:
+ * [SPECIES_NAME] = {
+ *     PAL1(start, length),     // First palette region to vary
+ *     HCL1(hue, chr, lum, f),  // Variation amounts for PAL1
+ *     PAL2(start, length),     // Second palette region to vary (optional)
+ *     HCL2(hue, chr, lum, f),  // Variation amounts for PAL2 (optional)
+ * },
+ *
+ * PARAMETERS:
+ * - start: Starting palette index (0-15)
+ * - length: Number of consecutive palette indices (1-15)
+ * - hue: Hue shift in degrees {0, 10, 20, 30, 45, 60, 90, 180}
+ * - chr: Chroma (saturation) variation {0, 5, 10, 25}
+ * - lum: Luminance (brightness) variation {0, 5, 10, 25}
+ * - f: FALSE = ±variation, TRUE = "down only" mode (darker/desaturated)
+ *
+ * EXAMPLE (from palette reference):
+ * Pikachu has these available features:
+ *   PALa(1, 5)  - Yellow body
+ *   PALb(6, 3)  - Red cheeks
+ *   PALc(9, 2)  - Brown stripes
+ *   PALd(11, 2) - Black ear tips
+ *
+ * To vary the body and cheeks:
+ * [SPECIES_PIKACHU] = {
+ *     PAL1(1, 5),              // Yellow body
+ *     HCL1(30, 10, 5, FALSE),  // Hue ±30°, chroma ±10, luminance ±5
+ *     PAL2(6, 3),              // Red cheeks
+ *     HCL2(20, 15, 0, FALSE),  // Hue ±20°, chroma ±15, no luminance change
+ * },
+ *
+ * TIPS:
+ * - Use matching HCL values for evolution chains to preserve colors across evolutions
+ * - Start with PAL1 for the most prominent feature (usually body)
+ * - Keep at least one defining feature unchanged for recognition
+ * - Experiment with "down only" mode (TRUE) for shadow/alternate forms
+ */
+
 static const struct SpeciesVariant gSpeciesVariants[NUM_SPECIES] = {
     //[SPECIES_TYRANITAR] = {
     //  PAL1(11, 3),
