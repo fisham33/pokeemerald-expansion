@@ -366,7 +366,447 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+### #031 SPECIES_NIDOQUEEN
+```c
+[SPECIES_NIDOQUEEN] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // Light blue/cream belly
+    PALc(8, 3),    // Dark blue back plates
+    PALd(11, 2),   // Ears and spikes
+    PALe(13, 2),   // Eyes and claws
+},
 ```
+
+### #032 SPECIES_NIDORAN_M
+```c
+[SPECIES_NIDORAN_M] = {
+    PALa(1, 4),    // Purple/magenta body
+    PALb(5, 3),    // Lighter purple spots
+    PALc(8, 2),    // Pink/red ears
+    PALd(10, 3),   // Horn and spikes
+    PALe(13, 2),   // Eyes and whiskers
+},
+```
+
+### #033 SPECIES_NIDORINO
+```c
+[SPECIES_NIDORINO] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Lighter purple/white belly
+    PALc(8, 3),    // Dark purple back spikes
+    PALd(11, 2),   // Ears and horn
+    PALe(13, 2),   // Eyes and details
+},
+```
+
+### #034 SPECIES_NIDOKING
+```c
+[SPECIES_NIDOKING] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Light purple/cream belly
+    PALc(8, 3),    // Dark purple back plates
+    PALd(11, 2),   // Ears and horn
+    PALe(13, 2),   // Eyes and claws
+},
+```
+
+### #035 SPECIES_CLEFAIRY
+```c
+[SPECIES_CLEFAIRY] = {
+    PALa(1, 4),    // Pink body
+    PALb(5, 3),    // Lighter pink/cream details
+    PALc(8, 2),    // Brown/tan feet
+    PALd(10, 3),   // Ears and tail
+    PALe(13, 2),   // Eyes and markings
+},
+```
+
+### #036 SPECIES_CLEFABLE
+```c
+[SPECIES_CLEFABLE] = {
+    PALa(1, 4),    // Pink body
+    PALb(5, 3),    // Lighter pink wings/details
+    PALc(8, 2),    // Brown feet
+    PALd(10, 3),   // Ears and features
+    PALe(13, 2),   // Eyes
+},
+```
+
+### #037 SPECIES_VULPIX
+```c
+[SPECIES_VULPIX] = {
+    PALa(1, 4),    // Orange/red-brown body
+    PALb(5, 3),    // Cream/tan muzzle and tail tips
+    PALc(8, 3),    // Red-orange fur highlights
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Darker fur accents
+},
+```
+
+### #038 SPECIES_NINETALES
+```c
+[SPECIES_NINETALES] = {
+    PALa(1, 4),    // Cream/tan body
+    PALb(5, 3),    // Yellow/gold mane and tails
+    PALc(8, 3),    // Orange tail tips
+    PALd(11, 2),   // Red eyes
+    PALe(13, 2),   // Highlights and details
+},
+```
+
+### #039 SPECIES_JIGGLYPUFF
+```c
+[SPECIES_JIGGLYPUFF] = {
+    PALa(1, 4),    // Pink body
+    PALb(5, 3),    // Lighter pink/white features
+    PALc(8, 2),    // Blue/teal eyes
+    PALd(10, 3),   // Ears and tuft
+    PALe(13, 2),   // Face details
+},
+```
+
+### #040 SPECIES_WIGGLYTUFF
+```c
+[SPECIES_WIGGLYTUFF] = {
+    PALa(1, 4),    // Pink body
+    PALb(5, 3),    // White/cream fur
+    PALc(8, 2),    // Blue eyes
+    PALd(10, 3),   // Ears
+    PALe(13, 2),   // Face markings
+},
+```
+
+### #041 SPECIES_ZUBAT
+```c
+[SPECIES_ZUBAT] = {
+    PALa(1, 4),    // Blue/purple body
+    PALb(5, 3),    // Purple wing membrane
+    PALc(8, 2),    // Dark blue/black wing edges
+    PALd(10, 3),   // Mouth/fangs
+    PALe(13, 2),   // Body highlights
+},
+```
+
+### #042 SPECIES_GOLBAT
+```c
+[SPECIES_GOLBAT] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Blue wing membrane
+    PALc(8, 3),    // Dark purple wing edges
+    PALd(11, 2),   // Mouth/tongue
+    PALe(13, 2),   // Eyes and fangs
+},
+```
+
+### #043 SPECIES_ODDISH
+```c
+[SPECIES_ODDISH] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // Green/dark green leaves
+    PALc(8, 2),    // Leaf highlights
+    PALd(10, 3),   // Eyes and feet
+    PALe(13, 2),   // Details
+},
+```
+
+### #044 SPECIES_GLOOM
+```c
+[SPECIES_GLOOM] = {
+    PALa(1, 4),    // Blue/dark blue body
+    PALb(5, 3),    // Red/brown flower petals
+    PALc(8, 3),    // Dark red petal spots
+    PALd(11, 2),   // Yellow stigma/drool
+    PALe(13, 2),   // Eyes and mouth
+},
+```
+
+### #045 SPECIES_VILEPLUME
+```c
+[SPECIES_VILEPLUME] = {
+    PALa(1, 4),    // Red/dark red body
+    PALb(5, 3),    // Red flower petals
+    PALc(8, 3),    // White/cream spots on petals
+    PALd(11, 2),   // Yellow stigma
+    PALe(13, 2),   // Eyes and feet
+},
+```
+
+### #046 SPECIES_PARAS
+```c
+[SPECIES_PARAS] = {
+    PALa(1, 4),    // Orange body/shell
+    PALb(5, 3),    // Red/orange mushroom caps
+    PALc(8, 2),    // White mushroom spots
+    PALd(10, 3),   // Eyes and claws
+    PALe(13, 2),   // Legs
+},
+```
+
+### #047 SPECIES_PARASECT
+```c
+[SPECIES_PARASECT] = {
+    PALa(1, 4),    // Orange/yellow body
+    PALb(5, 3),    // Red/orange mushroom cap
+    PALc(8, 3),    // White/cream mushroom spots
+    PALd(11, 2),   // Eyes (white/blank)
+    PALe(13, 2),   // Claws and legs
+},
+```
+
+### #048 SPECIES_VENONAT
+```c
+[SPECIES_VENONAT] = {
+    PALa(1, 4),    // Purple body/fur
+    PALb(5, 3),    // Red/pink eyes
+    PALc(8, 2),    // White eye highlights
+    PALd(10, 3),   // Purple fur details
+    PALe(13, 2),   // Mouth and feet
+},
+```
+
+### #049 SPECIES_VENOMOTH
+```c
+[SPECIES_VENOMOTH] = {
+    PALa(1, 4),    // Purple body
+    PALb(5, 3),    // Light purple/pink wings
+    PALc(8, 3),    // Dark purple wing patterns
+    PALd(11, 2),   // Red eyes
+    PALe(13, 2),   // Antennae and details
+},
+```
+
+### #050 SPECIES_DIGLETT
+```c
+[SPECIES_DIGLETT] = {
+    PALa(1, 4),    // Brown body
+    PALb(5, 3),    // Pink nose
+    PALc(8, 2),    // Darker brown shading
+    PALd(10, 3),   // Eyes and mouth
+    PALe(13, 2),   // Highlights
+},
+```
+
+### #051 SPECIES_DUGTRIO
+```c
+[SPECIES_DUGTRIO] = {
+    PALa(1, 4),    // Brown bodies
+    PALb(5, 3),    // Pink noses
+    PALc(8, 2),    // Dark brown shading
+    PALd(10, 3),   // Eyes and mouths
+    PALe(13, 2),   // Body highlights
+},
+```
+
+### #052 SPECIES_MEOWTH
+```c
+[SPECIES_MEOWTH] = {
+    PALa(1, 4),    // Cream/beige body
+    PALb(5, 3),    // Brown stripes
+    PALc(8, 2),    // Gold charm
+    PALd(10, 2),   // Pink nose and ears
+    PALe(12, 3),   // Eyes and whiskers
+},
+```
+
+### #053 SPECIES_PERSIAN
+```c
+[SPECIES_PERSIAN] = {
+    PALa(1, 4),    // Cream/tan body
+    PALb(5, 3),    // Brown/tan accents
+    PALc(8, 2),    // Red gem on forehead
+    PALd(10, 3),   // Whiskers and ears
+    PALe(13, 2),   // Eyes and details
+},
+```
+
+### #054 SPECIES_PSYDUCK
+```c
+[SPECIES_PSYDUCK] = {
+    PALa(1, 5),    // Yellow body
+    PALb(6, 2),    // Cream/beige bill
+    PALc(8, 2),    // Black eyes
+    PALd(10, 3),   // Limb shading
+    PALe(13, 2),   // White highlights
+},
+```
+
+### #055 SPECIES_GOLDUCK
+```c
+[SPECIES_GOLDUCK] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // Cream/tan bill and hands
+    PALc(8, 3),    // Red gem on forehead
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Webbed feet details
+},
+```
+
+### #056 SPECIES_MANKEY
+```c
+[SPECIES_MANKEY] = {
+    PALa(1, 4),    // Cream/tan body
+    PALb(5, 3),    // Brown/tan fur patches
+    PALc(8, 2),    // Pink nose and ears
+    PALd(10, 3),   // Eyes and mouth
+    PALe(13, 2),   // Hands and feet
+},
+```
+
+### #057 SPECIES_PRIMEAPE
+```c
+[SPECIES_PRIMEAPE] = {
+    PALa(1, 4),    // Cream/tan body
+    PALb(5, 3),    // Brown fur
+    PALc(8, 3),    // Pink nose, hands, and feet
+    PALd(11, 2),   // Red angry eyes
+    PALe(13, 2),   // Shackles/bands
+},
+```
+
+### #058 SPECIES_GROWLITHE
+```c
+[SPECIES_GROWLITHE] = {
+    PALa(1, 4),    // Orange body
+    PALb(5, 3),    // Cream/tan stripes and muzzle
+    PALc(8, 3),    // Black stripes
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Tail and details
+},
+```
+
+### #059 SPECIES_ARCANINE
+```c
+[SPECIES_ARCANINE] = {
+    PALa(1, 4),    // Orange body
+    PALb(5, 3),    // Cream/tan mane and stripes
+    PALc(8, 3),    // Black stripes
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Details and highlights
+},
+```
+
+### #060 SPECIES_POLIWAG
+```c
+[SPECIES_POLIWAG] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // White belly
+    PALc(8, 2),    // Black/dark blue spiral
+    PALd(10, 3),   // Eyes and mouth
+    PALe(13, 2),   // Tail and details
+},
+```
+
+### #061 SPECIES_POLIWHIRL
+```c
+[SPECIES_POLIWHIRL] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // White belly
+    PALc(8, 3),    // Black spiral pattern
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Hands and feet
+},
+```
+
+### #062 SPECIES_POLIWRATH
+```c
+[SPECIES_POLIWRATH] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // White belly and gloves
+    PALc(8, 3),    // Black spiral pattern
+    PALd(11, 2),   // Eyes
+    PALe(13, 2),   // Details
+},
+```
+
+### #063 SPECIES_ABRA
+```c
+[SPECIES_ABRA] = {
+    PALa(1, 4),    // Yellow/gold body
+    PALb(5, 3),    // Brown/tan chest and joints
+    PALc(8, 2),    // Tail
+    PALd(10, 3),   // Ears and armor
+    PALe(13, 2),   // Eyes (closed) and details
+},
+```
+
+### #064 SPECIES_KADABRA
+```c
+[SPECIES_KADABRA] = {
+    PALa(1, 4),    // Yellow/gold body
+    PALb(5, 3),    // Brown chest and joints
+    PALc(8, 3),    // Silver spoon
+    PALd(11, 2),   // Red star on forehead
+    PALe(13, 2),   // Eyes and whiskers
+},
+```
+
+### #065 SPECIES_ALAKAZAM
+```c
+[SPECIES_ALAKAZAM] = {
+    PALa(1, 4),    // Yellow/gold body
+    PALb(5, 3),    // Brown chest and joints
+    PALc(8, 3),    // Silver spoons
+    PALd(11, 2),   // Red star on forehead
+    PALe(13, 2),   // Eyes and mustache
+},
+```
+
+### #066 SPECIES_MACHOP
+```c
+[SPECIES_MACHOP] = {
+    PALa(1, 4),    // Grey/blue body
+    PALb(5, 3),    // Darker grey markings
+    PALc(8, 2),    // Red eyes
+    PALd(10, 3),   // Black briefs/belt
+    PALe(13, 2),   // Teeth and details
+},
+```
+
+### #067 SPECIES_MACHOKE
+```c
+[SPECIES_MACHOKE] = {
+    PALa(1, 4),    // Grey/blue body
+    PALb(5, 3),    // Darker grey markings
+    PALc(8, 3),    // Red eyes
+    PALd(11, 2),   // Black belt/briefs
+    PALe(13, 2),   // Teeth and muscles
+},
+```
+
+### #068 SPECIES_MACHAMP
+```c
+[SPECIES_MACHAMP] = {
+    PALa(1, 4),    // Grey/blue body
+    PALb(5, 3),    // Darker grey markings
+    PALc(8, 3),    // Red eyes
+    PALd(11, 2),   // Black belt/briefs
+    PALe(13, 2),   // Teeth and details
+},
+```
+
+### #069 SPECIES_BELLSPROUT
+```c
+[SPECIES_BELLSPROUT] = {
+    PALa(1, 4),    // Yellow/green body
+    PALb(5, 3),    // Green leaves
+    PALc(8, 2),    // Brown stem/roots
+    PALd(10, 3),   // Eyes and mouth
+    PALe(13, 2),   // Leaf details
+},
+```
+
+### #070 SPECIES_WEEPINBELL
+```c
+[SPECIES_WEEPINBELL] = {
+    PALa(1, 4),    // Yellow body
+    PALb(5, 3),    // Green leaves/mouth
+    PALc(8, 2),    // Pink/red mouth interior
+    PALd(10, 3),   // Brown spots
+    PALe(13, 2),   // Eyes and details
+},
+```
+
+---
 
 ### SPECIES_GARDEVOIR
 ```c
