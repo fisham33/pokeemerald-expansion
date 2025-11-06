@@ -379,12 +379,21 @@ static void (*const sMovementStatusHandler[])(struct LinkPlayerObjectEvent *, st
 void DoWhiteOut(void)
 {
     RunScriptImmediately(EventScript_WhiteOut);
+
+    // Check if this is a select-mons battle before restoring
+    bool8 isSelectMonsBattle = IsSelectMonsBattleActive();
+
+    // Restore full party from select-mons backup if needed (before healing)
+    RestoreSelectMonsPartyAfterBattle();
+
     HealPlayerParty();
-    
-    // Handle Nuzlocke whiteout - mark all party Pokemon as dead
-    if (IsNuzlockeActive())
+
+    // Handle Nuzlocke whiteout
+    // For select-mons battles, only the fainted mons (already marked dead in battle) count
+    // For normal battles, mark entire party as dead
+    if (IsNuzlockeActive() && !isSelectMonsBattle)
         NuzlockeHandleWhiteout();
-        
+
     Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();
     WarpIntoMap();
