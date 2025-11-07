@@ -1049,6 +1049,210 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Pokémon #387-395 (Gen 4 Starters)
+
+### #387 SPECIES_TURTWIG
+```c
+[SPECIES_TURTWIG] = {
+    PALa(1, 2),    // Green body
+    PALb(3, 1),    // Light green shell
+    PALc(4, 3),    // Brown/orange shell base
+    PALd(7, 5),    // Green/yellow shell and body shading
+    PALe(12, 4),   // Yellow twig and white highlights
+},
+```
+
+### #388 SPECIES_GROTLE
+```c
+[SPECIES_GROTLE] = {
+    PALa(1, 2),    // Green body
+    PALb(3, 2),    // Light green shell
+    PALc(5, 3),    // Brown shell base
+    PALd(8, 5),    // Yellow/green tree and foliage
+    PALe(13, 3),   // White and grey shading
+},
+```
+
+### #389 SPECIES_TORTERRA
+```c
+[SPECIES_TORTERRA] = {
+    PALa(1, 4),    // Dark green body
+    PALb(5, 4),    // Grey shell and shading
+    PALc(9, 3),    // Brown shell base
+    PALd(12, 1),   // Dark green accent
+    PALe(13, 3),   // Grey/brown shell details
+},
+```
+
+### #390 SPECIES_CHIMCHAR
+```c
+[SPECIES_CHIMCHAR] = {
+    PALa(1, 4),    // Orange/brown body
+    PALb(5, 4),    // Cream/tan belly and face
+    PALc(9, 1),    // Light orange accent
+    PALd(10, 3),   // Red/pink face and flame
+    PALe(13, 3),   // White, grey, and yellow details
+},
+```
+
+### #391 SPECIES_MONFERNO
+```c
+[SPECIES_MONFERNO] = {
+    PALa(1, 3),    // Red/brown body
+    PALb(4, 3),    // Cream/tan belly
+    PALc(7, 2),    // Yellow/orange flame
+    PALd(9, 4),    // Blue flame base and details
+    PALe(13, 3),   // Black, white, and grey shading
+},
+```
+
+### #392 SPECIES_INFERNAPE
+```c
+[SPECIES_INFERNAPE] = {
+    PALa(1, 3),    // Brown body and eyes
+    PALb(4, 2),    // Blue head flame
+    PALc(6, 3),    // Red/orange body flames
+    PALd(9, 1),    // Yellow flame tips
+    PALe(10, 6),   // Cream/tan belly and white highlights
+},
+```
+
+### #393 SPECIES_PIPLUP
+```c
+[SPECIES_PIPLUP] = {
+    PALa(1, 5),    // Blue body (dark to light)
+    PALb(6, 4),    // White/grey belly and accents
+    PALc(10, 1),   // Black outlines
+    PALd(11, 4),   // Yellow/orange beak and feet
+    PALe(15, 1),   // Grey shading
+},
+```
+
+### #394 SPECIES_PRINPLUP
+```c
+[SPECIES_PRINPLUP] = {
+    PALa(1, 4),    // Cream/tan head crest
+    PALb(5, 1),    // Black outlines
+    PALc(6, 5),    // Blue body
+    PALd(11, 3),   // White/grey highlights
+    PALe(14, 2),   // Light blue/white shading
+},
+```
+
+### #395 SPECIES_EMPOLEON
+```c
+[SPECIES_EMPOLEON] = {
+    PALa(1, 4),    // Cream/tan head crest
+    PALb(5, 1),    // Black outlines
+    PALc(6, 3),    // Dark blue body
+    PALd(9, 4),    // Light blue body and highlights
+    PALe(13, 3),   // White and grey shading
+},
+```
+
+---
+
+## Pokémon #495-503 (Gen 5 Starters)
+
+### #495 SPECIES_SNIVY
+```c
+[SPECIES_SNIVY] = {
+    PALa(1, 2),    // Dark green body
+    PALb(3, 1),    // Black outlines
+    PALc(4, 5),    // Yellow leaf/tail details
+    PALd(9, 4),    // Brown/orange accents
+    PALe(13, 3),   // Light green and white highlights
+},
+```
+
+### #496 SPECIES_SERVINE
+```c
+[SPECIES_SERVINE] = {
+    PALa(1, 2),    // Dark green body
+    PALb(3, 3),    // Yellow leaf collar
+    PALc(6, 2),    // Light green body shading
+    PALd(8, 5),    // Black, white, and cream details
+    PALe(13, 3),   // Yellow/brown leaf accents
+},
+```
+
+### #497 SPECIES_SERPERIOR
+```c
+[SPECIES_SERPERIOR] = {
+    PALa(1, 3),    // Cream/yellow leaf patterns
+    PALb(4, 3),    // Green body
+    PALc(7, 2),    // Black/dark outlines
+    PALd(9, 4),    // White and light green highlights
+    PALe(13, 4),   // Orange/red eyes and dark green accents
+},
+```
+
+### #498 SPECIES_TEPIG
+```c
+[SPECIES_TEPIG] = {
+    PALa(1, 5),    // Black and brown body
+    PALb(6, 5),    // Orange/red body and ears
+    PALc(11, 2),   // Yellow/orange flame and accents
+    PALd(13, 3),   // White and cream highlights
+},
+```
+
+### #499 SPECIES_PIGNITE
+```c
+[SPECIES_PIGNITE] = {
+    PALa(1, 4),    // Black and brown body
+    PALb(5, 4),    // Orange/red body and flame
+    PALc(9, 3),    // Yellow flame collar
+    PALd(12, 4),   // Red flame details and grey/brown shading
+},
+```
+
+### #500 SPECIES_EMBOAR
+```c
+[SPECIES_EMBOAR] = {
+    PALa(1, 3),    // Red body and eyes
+    PALb(4, 2),    // Dark grey/black shading
+    PALc(6, 3),    // Orange/red flame beard
+    PALd(9, 4),    // Yellow flame accents
+    PALe(13, 3),   // White, red, and brown details
+},
+```
+
+### #501 SPECIES_OSHAWOTT
+```c
+[SPECIES_OSHAWOTT] = {
+    PALa(1, 3),    // Grey scalchop and details
+    PALb(4, 3),    // Blue body
+    PALc(7, 1),    // Black outlines
+    PALd(8, 2),    // Brown/orange nose
+    PALe(10, 6),   // White, cyan, and cream highlights
+},
+```
+
+### #502 SPECIES_DEWOTT
+```c
+[SPECIES_DEWOTT] = {
+    PALa(1, 2),    // Blue body
+    PALb(3, 3),    // Black, white, and red accents
+    PALc(6, 3),    // Grey/blue body shading
+    PALd(9, 3),    // Yellow/brown details
+    PALe(12, 4),   // White, grey, and light blue highlights
+},
+```
+
+### #503 SPECIES_SAMUROTT
+```c
+[SPECIES_SAMUROTT] = {
+    PALa(1, 6),    // Black, brown, and yellow armor
+    PALb(7, 2),    // Dark grey/black shading
+    PALc(9, 3),    // White and cyan highlights
+    PALd(12, 2),   // Blue body and red accents
+    PALe(14, 2),   // Grey/blue shading
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
