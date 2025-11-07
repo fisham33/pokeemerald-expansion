@@ -2949,6 +2949,360 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+## Pokémon #1298-1372 (Gen 9 Regular Pokemon - Part 1)
+
+### #1298 SPECIES_LECHONK
+```c
+[SPECIES_LECHONK] = {
+    PALa(5, 4),    // Dark grey/black body
+    PALb(9, 3),    // Brown/tan body markings
+    PALc(13, 3),   // Yellow/pink accents
+},
+```
+
+### #1299 SPECIES_OINKOLOGNE_M
+```c
+[SPECIES_OINKOLOGNE_M] = {
+    PALa(5, 7),    // Dark purple/grey body (shading)
+    PALb(10, 2),   // Purple/pink accent
+    PALc(13, 2),   // Brown/tan
+    PALd(17, 2),   // Yellow/white
+},
+```
+
+### #1301 SPECIES_TAROUNTULA
+```c
+[SPECIES_TAROUNTULA] = {
+    PALa(5, 4),    // Grey/white body
+    PALb(9, 4),    // Yellow/orange/green eyes and markings
+    PALc(14, 2),   // Blue and green accents
+},
+```
+
+### #1302 SPECIES_SPIDOPS
+```c
+[SPECIES_SPIDOPS] = {
+    PALa(5, 6),    // Green body (dark to bright)
+    PALb(11, 4),    // Brown/tan/orange markings
+    PALc(13, 2),   // Purple/grey shading
+    PALd(17, 2),   // Purple/grey highlights
+},
+```
+
+### #1303 SPECIES_NYMBLE
+```c
+[SPECIES_NYMBLE] = {
+    PALa(5, 5),    // Blue/grey body
+    PALb(12, 4),   // Yellow/gold accents
+},
+```
+
+### #1304 SPECIES_LOKIX
+```c
+[SPECIES_LOKIX] = {
+    PALa(5, 5),    // Dark grey/black body
+    PALb(9, 4),    // Blue/grey shading
+    PALc(14, 3),   // Orange/yellow accents
+},
+```
+
+### #1305 SPECIES_PAWMI
+```c
+[SPECIES_PAWMI] = {
+    PALa(5, 2),    // Brown body
+    PALb(7, 2),    // Dark grey/cyan accent
+    PALc(10, 5),   // Orange/yellow fur
+    PALd(16, 3),   // Tan/white shading
+},
+```
+
+### #1306 SPECIES_PAWMO
+```c
+[SPECIES_PAWMO] = {
+    PALa(5, 2),    // Brown body
+    PALb(7, 2),    // Dark grey/cyan accent
+    PALc(9, 6),    // Orange/yellow/tan fur progression
+    PALd(16, 2),   // Tan/white accents
+},
+```
+
+### #1307 SPECIES_PAWMOT
+```c
+[SPECIES_PAWMOT] = {
+    PALa(5, 5),    // Brown/orange/yellow body
+    PALb(10, 3),   // Cyan/teal electricity
+    PALc(14, 3),   // Tan/cream/white fur
+},
+```
+
+### #1308 SPECIES_TANDEMAUS
+```c
+[SPECIES_TANDEMAUS] = {
+    PALa(5, 7),    // Grey/white body (shading progression)
+    PALb(12, 3),   // Blue eyes/details
+},
+```
+
+### #1309 SPECIES_MAUSHOLD_THREE
+```c
+[SPECIES_MAUSHOLD_THREE] = {
+    PALa(5, 7),    // Grey/white body (shading progression)
+    PALb(11, 4),   // Blue details/accents
+},
+```
+
+### #1311 SPECIES_FIDOUGH
+```c
+[SPECIES_FIDOUGH] = {
+    PALa(5, 7),    // Brown/cream/yellow dough body
+    PALb(15, 2),   // Blue/pink accents
+},
+```
+
+### #1312 SPECIES_DACHSBUN
+```c
+[SPECIES_DACHSBUN] = {
+    PALa(5, 11),   // Brown/tan/orange/cream bread body (full progression)
+},
+```
+
+### #1313 SPECIES_SMOLIV
+```c
+[SPECIES_SMOLIV] = {
+    PALa(5, 5),    // Yellow/tan/cream fruit body
+    PALb(10, 7),   // Green/yellow leaves and accents
+},
+```
+
+### #1314 SPECIES_DOLLIV
+```c
+[SPECIES_DOLLIV] = {
+    PALa(5, 9),    // Green body and yellow/white progression
+    PALb(16, 3),   // White/grey/beige shading
+},
+```
+
+### #1315 SPECIES_ARBOLIVA
+```c
+[SPECIES_ARBOLIVA] = {
+    PALa(5, 6),    // Green body (dark to bright)
+    PALb(11, 4),   // Red/pink fruit accents
+    PALc(16, 4),   // White/tan/brown/orange details
+},
+```
+
+### #1320 SPECIES_NACLI
+```c
+[SPECIES_NACLI] = {
+    PALa(5, 8),    // White/grey/brown/tan salt body
+    PALb(15, 1),   // Orange/yellow accent
+},
+```
+
+### #1321 SPECIES_NACLSTACK
+```c
+[SPECIES_NACLSTACK] = {
+    PALa(5, 3),    // Brown/grey rock body
+    PALb(9, 5),    // White/grey/brown salt
+    PALc(16, 2),   // Orange/yellow eyes
+},
+```
+
+### #1322 SPECIES_GARGANACL
+```c
+[SPECIES_GARGANACL] = {
+    PALa(5, 4),    // White/grey salt body
+    PALb(9, 6),    // Brown/tan/grey rock
+    PALc(15, 2),   // Orange/yellow eyes
+},
+```
+
+### #1323 SPECIES_CHARCADET
+```c
+[SPECIES_CHARCADET] = {
+    PALa(5, 2),    // Purple body
+    PALb(8, 4),    // Red/pink/black armor
+    PALc(14, 2),   // Orange/yellow fire
+    PALd(17, 2),   // Red/white accents
+},
+```
+
+### #1324 SPECIES_ARMAROUGE
+```c
+[SPECIES_ARMAROUGE] = {
+    PALa(5, 2),    // Red armor
+    PALb(8, 2),    // Yellow/orange fire
+    PALc(10, 2),   // Red/pink accents
+    PALd(12, 3),   // Grey/black body
+    PALe(16, 3),   // Yellow/orange cannon fire
+},
+```
+
+### #1325 SPECIES_CERULEDGE
+```c
+[SPECIES_CERULEDGE] = {
+    PALa(5, 2),    // Purple/magenta swords
+    PALb(7, 5),    // Blue/purple armor
+    PALc(13, 4),   // Brown/black body
+    PALd(18, 1),   // Dark purple accent
+},
+```
+
+### #1326 SPECIES_TADBULB
+```c
+[SPECIES_TADBULB] = {
+    PALa(5, 6),    // Brown/orange/yellow body
+    PALb(13, 4),   // Brown/grey shading
+    PALc(18, 2),   // Brown accents
+},
+```
+
+### #1327 SPECIES_BELLIBOLT
+```c
+[SPECIES_BELLIBOLT] = {
+    PALa(5, 3),    // Orange/red body
+    PALb(8, 4),    // Orange/yellow/white belly
+    PALc(12, 3),   // Teal/cyan/turquoise electricity
+    PALd(15, 1),   // Yellow accent
+},
+```
+
+### #1328 SPECIES_WATTREL
+```c
+[SPECIES_WATTREL] = {
+    PALa(5, 4),    // Dark grey/black body
+    PALb(10, 2),   // White/grey
+    PALc(11, 6),   // Yellow/orange/brown beak and legs
+},
+```
+
+### #1329 SPECIES_KILOWATTREL
+```c
+[SPECIES_KILOWATTREL] = {
+    PALa(5, 4),    // Dark grey/black body
+    PALb(8, 4),    // Yellow/orange beak and legs
+    PALc(13, 1),   // Cyan electricity
+    PALd(15, 2),   // Red/brown accents
+},
+```
+
+### #1330 SPECIES_MASCHIFF
+```c
+[SPECIES_MASCHIFF] = {
+    PALa(5, 4),    // Dark purple/grey/brown body
+    PALb(9, 3),    // Tan/grey/brown markings
+    PALc(10, 4),   // Orange/tan/red accents
+    PALd(13, 3),   // Pink/brown/yellow details
+},
+```
+
+### #1331 SPECIES_MABOSSTIFF
+```c
+[SPECIES_MABOSSTIFF] = {
+    PALa(5, 7),    // Grey/white body (shading)
+    PALb(13, 4),   // Brown/tan markings
+},
+```
+
+### #1332 SPECIES_SHROODLE
+```c
+[SPECIES_SHROODLE] = {
+    PALa(5, 4),    // Grey/tan/white body
+    PALb(9, 3),    // Blue shading
+    PALc(13, 3),   // Green/teal accents
+    PALd(18, 1),   // Purple accent
+},
+```
+
+### #1333 SPECIES_GRAFAIAI
+```c
+[SPECIES_GRAFAIAI] = {
+    PALa(5, 4),    // Grey/tan/white body
+    PALb(9, 3),    // Purple/black shading
+    PALc(12, 3),   // Green/teal body accents
+    PALd(16, 2),   // Red/pink markings
+    PALe(18, 2),   // Cyan highlights
+},
+```
+
+### #1334 SPECIES_BRAMBLIN
+```c
+[SPECIES_BRAMBLIN] = {
+    PALa(5, 8),    // Brown/tan tumbleweed body
+},
+```
+
+### #1335 SPECIES_BRAMBLEGHAST
+```c
+[SPECIES_BRAMBLEGHAST] = {
+    PALa(5, 8),    // Purple/brown/tan/yellow tumbleweed body
+    PALb(15, 2),   // Red/purple eyes
+    PALc(17, 1),   // Red accent
+},
+```
+
+### #1336 SPECIES_TOEDSCOOL
+```c
+[SPECIES_TOEDSCOOL] = {
+    PALa(5, 5),    // Orange/pink/tan body
+    PALb(9, 4),    // Yellow/white shading
+    PALc(15, 2),   // Grey/tan accents
+},
+```
+
+### #1337 SPECIES_TOEDSCRUEL
+```c
+[SPECIES_TOEDSCRUEL] = {
+    PALa(5, 5),    // Grey/tan/brown body
+    PALb(10, 5),   // Yellow/white/grey tentacles
+    PALc(17, 3),   // Yellow/tan/orange spores
+},
+```
+
+### #1338 SPECIES_KLAWF
+```c
+[SPECIES_KLAWF] = {
+    PALa(5, 3),    // Dark grey/brown body
+    PALb(8, 4),    // White/grey shading
+    PALc(11, 8),   // Orange/tan/grey/brown shell (progression)
+},
+```
+
+### #1339 SPECIES_CAPSAKID
+```c
+[SPECIES_CAPSAKID] = {
+    PALa(5, 6),    // Dark green to light green body
+    PALb(16, 1),   // Orange/yellow accent
+},
+```
+
+### #1340 SPECIES_SCOVILLAIN
+```c
+[SPECIES_SCOVILLAIN] = {
+    PALa(5, 10),   // Green/red body with white/yellow/orange accents (two heads)
+    PALb(16, 4),   // Dark green shading
+},
+```
+
+### #1341 SPECIES_RELLOR
+```c
+[SPECIES_RELLOR] = {
+    PALa(5, 11),   // Brown/tan/grey bug body
+    PALb(18, 2),   // Purple/pink accents
+},
+```
+
+### #1342 SPECIES_RABSCA
+```c
+[SPECIES_RABSCA] = {
+    PALa(5, 4),    // Purple/magenta/pink body
+    PALb(8, 3),    // Pink/red psychic energy
+    PALc(13, 2),   // Blue sphere
+    PALd(17, 2),   // Grey/purple accents
+    PALe(18, 2),   // Red/pink details
+},
+```
+
 ---
 
 ## Notes for Developers
