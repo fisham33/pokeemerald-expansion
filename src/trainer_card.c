@@ -34,6 +34,7 @@
 #include "constants/trainers.h"
 #include "constants/union_room.h"
 #include "constants/flags.h"
+#include "config/nuzlocke.h"
 
 enum {
     WIN_MSG,
@@ -1074,8 +1075,8 @@ static void PrintPokedexOnCard(void)
 {
     s32 xOffset;
     u8 top;
-    bool8 nuzlockeActive = FlagGet(FLAG_NUZLOCKE);
-    
+    bool8 nuzlockeActive = I_NUZLOCKE_TRAINER_CARD && FlagGet(FLAG_NUZLOCKE);
+
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         const u8 *pokedexLabel = nuzlockeActive ? gText_TrainerCardNuzlockePokedex : gText_TrainerCardPokedex;

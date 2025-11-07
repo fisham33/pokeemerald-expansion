@@ -113,6 +113,7 @@ gSpecials::
 	def_special TryContestGModeLinkup
 	def_special SaveGame
 	def_special NuzlockeSilentSave
+	def_special NuzlockeShowWhiteoutOption
 	def_special DoWateringBerryTreeAnim
 	def_special ShowEasyChatScreen
 	def_special ShowEasyChatProfile

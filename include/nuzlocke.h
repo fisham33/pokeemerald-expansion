@@ -43,6 +43,9 @@ void NuzlockeOnBattleEnd(void);
 // Nuzlocke encounter status (for messages)
 u8 GetNuzlockeEncounterStatus(u16 species, u32 personality, u32 otId);
 
+// Check if whiteout option should be shown
+bool8 NuzlockeShowWhiteoutOption(void);
+
 // Silent save function
 void NuzlockeSilentSave(void);
 
