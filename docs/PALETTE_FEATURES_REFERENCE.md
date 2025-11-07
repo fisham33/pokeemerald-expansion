@@ -1923,6 +1923,130 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Legendary Pokémon - Gen 5
+
+### #494 SPECIES_VICTINI
+```c
+[SPECIES_VICTINI] = {
+    PALa(1, 3),    // Orange/red body
+    PALb(4, 4),    // Black and cream/tan details
+    PALc(8, 3),    // Blue eyes and accents
+    PALd(11, 5),   // White, grey, and red/pink highlights
+},
+```
+
+### #638 SPECIES_COBALION
+```c
+[SPECIES_COBALION] = {
+    PALa(1, 5),    // Brown/tan/yellow body
+    PALb(6, 9),    // Black, grey, cyan/blue armor and highlights
+    PALd(15, 1),   // White details
+},
+```
+
+### #639 SPECIES_TERRAKION
+```c
+[SPECIES_TERRAKION] = {
+    PALa(1, 8),    // Black, grey body and rock armor
+    PALb(9, 3),    // Orange/brown horns
+    PALc(12, 4),   // White and tan/brown shading
+},
+```
+
+### #640 SPECIES_VIRIZION
+```c
+[SPECIES_VIRIZION] = {
+    PALa(1, 5),    // Green body and leaves
+    PALb(6, 5),    // Black, grey, and pink/red accents
+    PALc(11, 5),   // White, yellow/tan, and grey details
+},
+```
+
+### #641 SPECIES_TORNADUS
+```c
+[SPECIES_TORNADUS] = {
+    PALa(1, 5),    // Grey/white body
+    PALb(6, 5),    // Purple cloud tail
+    PALc(11, 5),   // Green/yellow winds and brown details
+},
+```
+
+### #642 SPECIES_THUNDURUS
+```c
+[SPECIES_THUNDURUS] = {
+    PALa(1, 4),    // Grey/white body
+    PALb(5, 6),    // Black, blue lightning tail
+    PALc(11, 5),   // Yellow/orange electricity and brown details
+},
+```
+
+### #643 SPECIES_LANDORUS
+```c
+[SPECIES_LANDORUS] = {
+    PALa(1, 5),    // Brown/tan body and white
+    PALb(6, 4),    // Orange cloud tail
+    PALc(10, 6),   // Yellow/brown earth energy and grey/brown details
+},
+```
+
+### #644 SPECIES_RESHIRAM
+```c
+[SPECIES_RESHIRAM] = {
+    PALa(1, 6),    // Grey/white body
+    PALb(7, 2),    // Blue eyes
+    PALc(9, 2),    // Grey/white shading
+    PALd(11, 2),   // Red/orange fire details
+    PALe(13, 1),   // Orange/yellow flame accent
+},
+```
+
+### #645 SPECIES_ZEKROM
+```c
+[SPECIES_ZEKROM] = {
+    PALa(1, 3),    // Black/dark grey body
+    PALb(4, 7),    // Black, cyan/blue electricity
+    PALc(11, 2),   // Red eyes
+},
+```
+
+### #646 SPECIES_KYUREM
+```c
+[SPECIES_KYUREM] = {
+    PALa(1, 5),    // Grey/blue ice body
+    PALb(6, 5),    // White/yellow ice crystals
+    PALc(11, 5),   // Black, grey, and brown/yellow details
+},
+```
+
+### #647 SPECIES_KELDEO
+```c
+[SPECIES_KELDEO] = {
+    PALa(1, 5),    // Red/orange horn and body
+    PALb(6, 5),    // Grey/tan/blue details
+    PALc(11, 5),   // Blue/cyan hooves and mane with white highlights
+},
+```
+
+### #648 SPECIES_MELOETTA
+```c
+[SPECIES_MELOETTA] = {
+    PALa(1, 5),    // Black, grey body
+    PALb(6, 5),    // Green hair and cyan/teal accents
+    PALc(11, 5),   // White, grey, and pink/red details
+},
+```
+
+### #649 SPECIES_GENESECT
+```c
+[SPECIES_GENESECT] = {
+    PALa(1, 5),    // Purple cyborg body
+    PALb(6, 4),    // Black, yellow/orange cannon
+    PALc(10, 6),   // Purple/grey shading and red/orange details
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
