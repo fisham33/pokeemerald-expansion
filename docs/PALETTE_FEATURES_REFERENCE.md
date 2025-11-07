@@ -1680,6 +1680,108 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Legendary Pokémon - Gen 3
+
+### #377 SPECIES_REGIROCK
+```c
+[SPECIES_REGIROCK] = {
+    PALa(1, 2),    // Black outlines
+    PALb(3, 5),    // Orange/brown rock body
+    PALc(8, 5),    // Grey/tan rock shading and highlights
+    PALd(13, 1),   // Black details
+},
+```
+
+### #378 SPECIES_REGICE
+```c
+[SPECIES_REGICE] = {
+    PALa(1, 4),    // Blue ice body (dark to light)
+    PALb(5, 4),    // Black, white, and light blue highlights
+    PALc(9, 3),    // Yellow eyes and accents
+},
+```
+
+### #379 SPECIES_REGISTEEL
+```c
+[SPECIES_REGISTEEL] = {
+    PALa(1, 4),    // Grey/black steel body
+    PALb(5, 5),    // Silver/white metal shading
+    PALc(10, 3),   // Red/pink eyes
+    PALd(13, 2),   // Grey/blue metal accents
+},
+```
+
+### #380 SPECIES_LATIAS
+```c
+[SPECIES_LATIAS] = {
+    PALa(1, 5),    // Purple/blue/white feathers and body
+    PALb(6, 5),    // Red body and accents
+    PALc(11, 2),   // Yellow/orange details
+    PALd(13, 3),   // White highlights and blue eyes
+},
+```
+
+### #381 SPECIES_LATIOS
+```c
+[SPECIES_LATIOS] = {
+    PALa(1, 6),    // Grey/purple/white body
+    PALb(7, 5),    // Black, blue, and cyan details
+    PALc(12, 2),   // Red eyes and accents
+    PALd(14, 2),   // White highlights
+},
+```
+
+### #382 SPECIES_KYOGRE
+```c
+[SPECIES_KYOGRE] = {
+    PALa(1, 4),    // Dark grey/blue body
+    PALb(5, 5),    // Blue markings and highlights
+    PALc(10, 2),   // Red eyes and pink accents
+    PALd(12, 3),   // Light blue/cyan highlights
+    PALe(15, 1),   // Yellow detail
+},
+```
+
+### #383 SPECIES_GROUDON
+```c
+[SPECIES_GROUDON] = {
+    PALa(1, 8),    // Black, red, and orange body
+    PALb(9, 2),    // Yellow/grey details
+    PALc(11, 5),   // White and grey armor plates
+},
+```
+
+### #384 SPECIES_RAYQUAZA
+```c
+[SPECIES_RAYQUAZA] = {
+    PALa(1, 4),    // Green body (dark to light)
+    PALb(5, 4),    // Black and dark green accents
+    PALc(9, 4),    // Pink/red mouth and highlights
+    PALd(13, 3),   // Yellow eyes and white/blue details
+},
+```
+
+### #385 SPECIES_JIRACHI
+```c
+[SPECIES_JIRACHI] = {
+    PALa(1, 5),    // Brown/tan tags and yellow body
+    PALb(6, 5),    // Blue/cyan head ribbons
+    PALc(11, 3),   // White and grey highlights
+},
+```
+
+### #386 SPECIES_DEOXYS
+```c
+[SPECIES_DEOXYS] = {
+    PALa(1, 4),    // Red/orange body
+    PALb(5, 5),    // Blue/cyan crystals and grey details
+    PALc(10, 4),   // Purple/pink accents
+    PALd(14, 2),   // Grey/brown shading
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
