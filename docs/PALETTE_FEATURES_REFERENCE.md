@@ -1782,6 +1782,147 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Legendary Pokémon - Gen 4
+
+### #480 SPECIES_UXIE
+```c
+[SPECIES_UXIE] = {
+    PALa(1, 5),    // Brown/tan/yellow body
+    PALb(6, 4),    // Black and red eyes
+    PALc(10, 4),   // Blue/grey tails
+    PALd(14, 2),   // Brown/grey shading
+},
+```
+
+### #481 SPECIES_MESPRIT
+```c
+[SPECIES_MESPRIT] = {
+    PALa(1, 6),    // Black, pink/magenta body
+    PALb(7, 5),    // Brown/grey details
+    PALc(12, 4),   // Blue/grey tails and yellow/brown accents
+},
+```
+
+### #482 SPECIES_AZELF
+```c
+[SPECIES_AZELF] = {
+    PALa(1, 4),    // Blue body (dark to light)
+    PALb(5, 4),    // Black, brown, and red eyes
+    PALc(9, 4),    // White and light blue tails
+    PALd(13, 3),   // Yellow/brown and grey accents
+},
+```
+
+### #483 SPECIES_DIALGA
+```c
+[SPECIES_DIALGA] = {
+    PALa(1, 4),    // Grey/blue metal body
+    PALb(5, 6),    // Blue time crystals and armor
+    PALc(11, 3),   // Red chest diamond and eyes
+    PALd(14, 2),   // Blue/grey shading
+},
+```
+
+### #484 SPECIES_PALKIA
+```c
+[SPECIES_PALKIA] = {
+    PALa(1, 7),    // Purple/grey/white body
+    PALb(8, 3),    // Pink/purple space crystals
+    PALc(11, 2),   // White highlights
+    PALd(13, 3),   // Red pearls and pink details
+},
+```
+
+### #485 SPECIES_GIRATINA
+```c
+[SPECIES_GIRATINA] = {
+    PALa(1, 4),    // Dark grey/black body
+    PALb(5, 6),    // Red eyes and yellow/gold accents
+    PALc(11, 2),   // Grey/white shading
+    PALd(13, 3),   // Black and grey details
+},
+```
+
+### #486 SPECIES_HEATRAN
+```c
+[SPECIES_HEATRAN] = {
+    PALa(1, 4),    // Brown/dark body and pink accents
+    PALb(5, 8),    // Grey/white metal shell and orange/yellow lava
+    PALc(13, 3),   // Red/orange fire details
+},
+```
+
+### #487 SPECIES_REGIGIGAS
+```c
+[SPECIES_REGIGIGAS] = {
+    PALa(1, 4),    // Brown/tan moss and green body
+    PALb(5, 3),    // Black and dark green details
+    PALc(8, 5),    // White/grey body
+    PALd(13, 3),   // Yellow/blue crystals and red eyes
+},
+```
+
+### #488 SPECIES_CRESSELIA
+```c
+[SPECIES_CRESSELIA] = {
+    PALa(1, 5),    // Brown/tan/yellow body
+    PALb(6, 6),    // Pink/purple crescent wings
+    PALc(12, 4),   // Blue eyes and white/grey highlights
+},
+```
+
+### #489 SPECIES_PHIONE
+```c
+[SPECIES_PHIONE] = {
+    PALa(1, 7),    // Blue body (dark to light)
+    PALb(8, 2),    // Black and white
+    PALc(10, 3),   // Grey/white highlights
+    PALd(13, 3),   // Red/pink/orange accents
+},
+```
+
+### #490 SPECIES_MANAPHY
+```c
+[SPECIES_MANAPHY] = {
+    PALa(1, 7),    // Blue body (dark to light)
+    PALb(8, 3),    // Black, white, and yellow antennae
+    PALc(11, 2),   // White highlights
+    PALd(12, 3),   // Red/pink/orange accents
+},
+```
+
+### #491 SPECIES_DARKRAI
+```c
+[SPECIES_DARKRAI] = {
+    PALa(1, 6),    // Black/grey/white shadowy body
+    PALb(7, 3),    // Red eyes and accents
+    PALc(10, 3),   // Cyan/blue nightmare smoke
+    PALd(13, 1),   // Red detail
+},
+```
+
+### #492 SPECIES_SHAYMIN
+```c
+[SPECIES_SHAYMIN] = {
+    PALa(1, 6),    // Green body and flowers
+    PALb(7, 4),    // Pink/purple flowers
+    PALc(11, 2),   // Black and white
+    PALd(13, 3),   // Green/brown/grey details
+},
+```
+
+### #493 SPECIES_ARCEUS
+```c
+[SPECIES_ARCEUS] = {
+    PALa(1, 5),    // Grey/white body
+    PALb(6, 5),    // Yellow/gold ring and eyes
+    PALc(11, 2),   // Red/pink gem
+    PALd(13, 3),   // Green accents and yellow/white highlights
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
