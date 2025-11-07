@@ -85,5 +85,65 @@ static const struct SpeciesVariant gSpeciesVariants[NUM_SPECIES] = {
     //  PAL2(1, 5),
     //  HCL2(180, 5, 5, FALSE),
     //},
-
+    [SPECIES_PIKACHU] = {
+      PAL1(2, 5), // yellow body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(9, 2), // red cheeks
+      HCL2(180, 5, 5, FALSE),
+    },
+    // PAL2(13, 2), // black ears
+    [SPECIES_MUDKIP] = {
+      PAL1(1, 5), // blue body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(10, 3), // orange cheeks
+      HCL2(180, 5, 5, FALSE),
+    },
+    [SPECIES_MARSHTOMP] = {
+      PAL1(4, 5), // blue body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(9, 3), // orange cheeks
+      HCL2(180, 5, 5, FALSE),
+    },
+    // PAL2(2, 2), // dark blue fins
+    // PAL2(12, 2), // blue belly
+    [SPECIES_SWAMPERT] = {
+      PAL1(4, 7), // blue body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(9, 3), // orange cheeks
+      HCL2(180, 5, 5, FALSE),
+    },
+    // PAL2(2, 2), // dark blue fins
+    // PAL2(13, 3), // white belly
+    [SPECIES_GROOKEY] = {
+      PAL1(1, 4), // green body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(7, 3), // brown ears/tail
+      HCL2(180, 5, 5, FALSE),
+    },
+    [SPECIES_THWACKEY] = {
+      PAL1(1, 5), // green body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(7, 3), // brown ears/tail
+      HCL2(180, 10, 5, TRUE),
+    },
+      // PAL2(7, 4), // orange nose/hands
+      // PAL2(7, 4), // brown ears
+    [SPECIES_RILLABOOM] = {
+      PAL1(1, 4), // green hair
+      HCL1(180, 10, 5, TRUE),
+      PAL2(5, 5), // brown body
+      HCL2(180, 5, 5, FALSE),
+    },
+    [SPECIES_SCORBUNNY] = {
+      PAL1(6, 3), // white body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(1, 7), // orange/yellow ears/feet/nose
+      HCL2(180, 5, 5, FALSE),
+    },
+    [SPECIES_RABOOT] = {
+      PAL1(6, 3), // white body
+      HCL1(180, 10, 5, TRUE),
+      PAL2(1, 7), // orange/yellow ears/feet/nose
+      HCL2(180, 5, 5, FALSE),
+    },
 };
