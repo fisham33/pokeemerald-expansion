@@ -843,6 +843,212 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Pokémon #152-160 (Gen 2 Starters)
+
+### #152 SPECIES_CHIKORITA
+```c
+[SPECIES_CHIKORITA] = {
+    PALa(1, 4),    // Green body
+    PALb(5, 2),    // Black outlines and details
+    PALc(7, 4),    // Light green/yellow leaf
+    PALd(11, 2),   // White/grey eyes
+    PALe(13, 3),   // Pink/red inner mouth
+},
+```
+
+### #153 SPECIES_BAYLEEF
+```c
+[SPECIES_BAYLEEF] = {
+    PALa(1, 4),    // Green body
+    PALb(5, 1),    // Black outlines
+    PALc(6, 5),    // Brown stem and yellow leaves
+    PALd(11, 1),   // White highlights
+    PALe(12, 4),   // Red/orange neck buds and eyes
+},
+```
+
+### #154 SPECIES_MEGANIUM
+```c
+[SPECIES_MEGANIUM] = {
+    PALa(1, 3),    // Yellow antennae
+    PALb(4, 4),    // Green body and leaves
+    PALc(8, 2),    // Black outlines and white
+    PALd(10, 4),   // Pink flower petals
+    PALe(14, 2),   // Grey shading
+},
+```
+
+### #155 SPECIES_CYNDAQUIL
+```c
+[SPECIES_CYNDAQUIL] = {
+    PALa(1, 2),    // Red/orange back flames
+    PALb(3, 3),    // Blue-teal body
+    PALc(6, 3),    // Yellow flame spots and black
+    PALd(9, 1),    // Dark blue shading
+    PALe(10, 6),   // Cream/yellow belly
+},
+```
+
+### #156 SPECIES_QUILAVA
+```c
+[SPECIES_QUILAVA] = {
+    PALa(1, 4),    // Red/orange/yellow flames
+    PALb(5, 3),    // Blue body
+    PALc(8, 2),    // Black and dark red
+    PALd(10, 1),   // White highlights
+    PALe(11, 5),   // Cream/yellow belly
+},
+```
+
+### #157 SPECIES_TYPHLOSION
+```c
+[SPECIES_TYPHLOSION] = {
+    PALa(1, 4),    // Red/orange/yellow flames
+    PALb(5, 3),    // Blue body
+    PALc(8, 3),    // Cream belly
+    PALd(11, 3),   // Black and white accents
+    PALe(14, 2),   // Black and blue shading
+},
+```
+
+### #158 SPECIES_TOTODILE
+```c
+[SPECIES_TOTODILE] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 3),    // Black, white, and grey
+    PALc(8, 1),    // Additional grey
+    PALd(9, 4),    // Red spikes and mouth
+    PALe(13, 3),   // Yellow belly
+},
+```
+
+### #159 SPECIES_CROCONAW
+```c
+[SPECIES_CROCONAW] = {
+    PALa(1, 2),    // Red and orange accents
+    PALb(3, 3),    // Black and red spikes
+    PALc(6, 4),    // Blue body
+    PALd(10, 3),   // White and dark red
+    PALe(13, 3),   // Yellow belly
+},
+```
+
+### #160 SPECIES_FERALIGATR
+```c
+[SPECIES_FERALIGATR] = {
+    PALa(1, 4),    // Dark red and pink spikes
+    PALb(5, 4),    // Blue body
+    PALc(9, 2),    // White and grey
+    PALd(11, 4),   // Yellow belly
+    PALe(15, 1),   // Black shading
+},
+```
+
+---
+
+## Pokémon #252-260 (Gen 3 Starters)
+
+### #252 SPECIES_TREECKO
+```c
+[SPECIES_TREECKO] = {
+    PALa(1, 2),    // Dark green body
+    PALb(3, 3),    // Light green/yellow belly
+    PALc(6, 4),    // Orange/yellow eyes and belly details
+    PALd(10, 3),   // Pink/red mouth
+    PALe(13, 3),   // Medium green shading
+},
+```
+
+### #253 SPECIES_GROVYLE
+```c
+[SPECIES_GROVYLE] = {
+    PALa(1, 4),    // Dark green body
+    PALb(5, 4),    // Medium to light green shading
+    PALc(9, 2),    // Orange/brown details
+    PALd(11, 2),   // Yellow/white highlights
+    PALe(13, 3),   // Red mouth and green accents
+},
+```
+
+### #254 SPECIES_SCEPTILE
+```c
+[SPECIES_SCEPTILE] = {
+    PALa(1, 1),    // Dark green
+    PALb(2, 5),    // Light green body and leaves
+    PALc(7, 3),    // Orange/yellow eyes and accents
+    PALd(10, 3),   // Red mouth and orbs
+    PALe(13, 3),   // Green shading details
+},
+```
+
+### #255 SPECIES_TORCHIC
+```c
+[SPECIES_TORCHIC] = {
+    PALa(1, 3),    // Orange/brown body
+    PALb(4, 4),    // Black and red/orange accents
+    PALc(8, 2),    // Light orange feathers
+    PALd(10, 1),   // White highlights
+    PALe(11, 5),   // Yellow/orange/brown variations
+},
+```
+
+### #256 SPECIES_COMBUSKEN
+```c
+[SPECIES_COMBUSKEN] = {
+    PALa(1, 2),    // Red/orange body
+    PALb(3, 3),    // Black and darker red
+    PALc(6, 3),    // Yellow/orange feathers
+    PALd(9, 2),    // Red and white
+    PALe(11, 5),   // Grey and tan shading
+},
+```
+
+### #257 SPECIES_BLAZIKEN
+```c
+[SPECIES_BLAZIKEN] = {
+    PALa(1, 2),    // Red body
+    PALb(3, 3),    // Grey/tan feathers
+    PALc(6, 3),    // Red and orange flames
+    PALd(9, 2),    // Brown/dark and white
+    PALe(11, 5),   // Yellow/orange/blue/white accents
+},
+```
+
+### #258 SPECIES_MUDKIP
+```c
+[SPECIES_MUDKIP] = {
+    PALa(1, 4),    // Blue body (dark to light)
+    PALb(5, 4),    // Light blue/purple highlights
+    PALc(9, 1),    // Light blue accent
+    PALd(10, 4),   // Orange fin and belly
+    PALe(14, 2),   // Grey/black shading
+},
+```
+
+### #259 SPECIES_MARSHTOMP
+```c
+[SPECIES_MARSHTOMP] = {
+    PALa(1, 2),    // Grey/black outlines
+    PALb(3, 2),    // Grey body
+    PALc(5, 4),    // Teal/cyan fins and gills
+    PALd(9, 3),    // Orange/brown accents
+    PALe(12, 4),   // Pink mouth and grey shading
+},
+```
+
+### #260 SPECIES_SWAMPERT
+```c
+[SPECIES_SWAMPERT] = {
+    PALa(1, 2),    // Black outlines
+    PALb(3, 4),    // Grey/blue body
+    PALc(7, 3),    // Orange/brown details
+    PALd(10, 1),   // Light blue accent
+    PALe(11, 5),   // Pink mouth, grey, and white shading
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
