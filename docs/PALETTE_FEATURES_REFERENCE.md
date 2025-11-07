@@ -3800,6 +3800,549 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+## Pokémon #819-884 (Gen 8 Galar Pokemon)
+
+### #819 SPECIES_SKWOVET
+```c
+[SPECIES_SKWOVET] = {
+    PALa(5, 5),    // Dark grey/brown body
+    PALb(10, 7),   // Brown/orange/tan fur and tail
+},
+```
+
+### #820 SPECIES_GREEDENT
+```c
+[SPECIES_GREEDENT] = {
+    PALa(6, 6),    // Brown/tan/orange body
+    PALb(9, 6),    // Red/brown/orange/tan shading
+    PALc(18, 1),   // Red accent
+},
+```
+
+### #821 SPECIES_ROOKIDEE
+```c
+[SPECIES_ROOKIDEE] = {
+    PALa(5, 4),    // Dark brown/grey body
+    PALb(7, 3),    // Blue feathers
+    PALc(10, 2),   // Red/pink eyes
+    PALd(17, 3),   // Brown/yellow beak
+},
+```
+
+### #822 SPECIES_CORVISQUIRE
+```c
+[SPECIES_CORVISQUIRE] = {
+    PALa(5, 4),    // Dark brown/grey body
+    PALb(7, 4),    // Blue feathers
+    PALc(12, 2),   // Red/pink eyes
+    PALd(17, 2),   // Orange/blue accents
+},
+```
+
+### #823 SPECIES_CORVIKNIGHT
+```c
+[SPECIES_CORVIKNIGHT] = {
+    PALa(5, 6),    // Dark blue/purple metal body
+    PALb(11, 2),   // Pink/red eyes
+    PALc(17, 2),   // Dark grey/brown accents
+},
+```
+
+### #824 SPECIES_BLIPBUG
+```c
+[SPECIES_BLIPBUG] = {
+    PALa(5, 4),    // Blue/purple bug body
+    PALb(13, 6),   // Yellow/tan/brown/orange antennae
+},
+```
+
+### #825 SPECIES_DOTTLER
+```c
+[SPECIES_DOTTLER] = {
+    PALa(5, 7),    // Blue/purple/yellow shell
+    PALc(15, 4),   // Cyan/white/orange highlights
+},
+```
+
+### #826 SPECIES_ORBEETLE
+```c
+[SPECIES_ORBEETLE] = {
+    PALa(5, 8),    // Red/purple psychic body
+    PALb(14, 2),   // Orange/brown
+    PALc(18, 2),   // Cyan/white accents
+},
+```
+
+### #827 SPECIES_NICKIT
+```c
+[SPECIES_NICKIT] = {
+    PALa(5, 4),    // Dark brown/grey body
+    PALb(8, 3),    // Red/brown/orange fur
+    PALc(12, 2),   // White/grey tail
+    PALd(13, 1),   // Yellow accent
+},
+```
+
+### #828 SPECIES_THIEVUL
+```c
+[SPECIES_THIEVUL] = {
+    PALa(5, 4),    // Dark brown/grey body
+    PALb(8, 3),    // Red/brown/orange fur
+    PALc(13, 2),   // White/grey fur
+    PALd(14, 2),   // Yellow/brown accents
+},
+```
+
+### #829 SPECIES_GOSSIFLEUR
+```c
+[SPECIES_GOSSIFLEUR] = {
+    PALa(5, 6),    // Yellow/orange flower body
+    PALb(11, 4),   // Red/pink/green flower accents
+    PALc(16, 3),   // Green leaves/stem
+},
+```
+
+### #830 SPECIES_ELDEGOSS
+```c
+[SPECIES_ELDEGOSS] = {
+    PALa(5, 5),    // Brown/tan/white cotton body
+    PALb(9, 7),    // Yellow/green/brown shading
+},
+```
+
+### #831 SPECIES_WOOLOO
+```c
+[SPECIES_WOOLOO] = {
+    PALa(5, 8),    // White/grey/brown/pink wool body
+    PALc(15, 3),   // Yellow/brown horns
+    PALd(19, 1),   // Pink accent
+},
+```
+
+### #832 SPECIES_DUBWOOL
+```c
+[SPECIES_DUBWOOL] = {
+    PALa(5, 8),    // White/grey/brown wool body
+    PALc(15, 3),   // Yellow/brown horns and hooves
+    PALd(19, 1),   // Pink accent
+},
+```
+
+### #833 SPECIES_CHEWTLE
+```c
+[SPECIES_CHEWTLE] = {
+    PALa(5, 5),    // Orange/yellow head
+    PALb(7, 4),    // Cyan/teal/turquoise shell
+    PALc(13, 4),   // Blue/orange shading
+},
+```
+
+### #834 SPECIES_DREDNAW
+```c
+[SPECIES_DREDNAW] = {
+    PALa(5, 5),    // Orange/brown head
+    PALb(10, 3),   // Red/orange/brown accents
+    PALc(13, 4),   // Cyan/teal/turquoise shell
+},
+```
+
+### #835 SPECIES_YAMPER
+```c
+[SPECIES_YAMPER] = {
+    PALa(5, 5),    // Brown/tan body
+    PALb(11, 4),   // Yellow/green belly
+    PALc(16, 1),   // Pink accent
+},
+```
+
+### #836 SPECIES_BOLTUND
+```c
+[SPECIES_BOLTUND] = {
+    PALa(5, 3),    // Yellow/orange body
+    PALb(11, 4),   // Yellow/green/white lightning marks
+},
+```
+
+### #837 SPECIES_ROLYCOLY
+```c
+[SPECIES_ROLYCOLY] = {
+    PALa(5, 7),    // Grey/black coal body
+    PALb(14, 3),   // Orange/red eye
+},
+```
+
+### #838 SPECIES_CARKOL
+```c
+[SPECIES_CARKOL] = {
+    PALa(5, 5),    // Dark grey/black/red coal body
+    PALb(11, 1),   // Red/orange glow
+    PALc(12, 4),   // Grey/black shading
+},
+```
+
+### #839 SPECIES_COALOSSAL
+```c
+[SPECIES_COALOSSAL] = {
+    PALa(5, 9),    // Dark grey/black coal body
+    PALb(14, 2),   // Red/orange glow
+    PALc(16, 2),   // Orange/yellow fire
+},
+```
+
+### #840 SPECIES_APPLIN
+```c
+[SPECIES_APPLIN] = {
+    PALa(5, 3),    // Green apple
+    PALb(10, 5),   // Red/pink blush
+    PALc(15, 3),   // Brown stem
+},
+```
+
+### #841 SPECIES_FLAPPLE
+```c
+[SPECIES_FLAPPLE] = {
+    PALa(5, 3),    // Red/pink apple body
+    PALb(8, 2),    // Green leaves
+    PALc(10, 7),   // Brown/tan/yellow shading
+},
+```
+
+### #842 SPECIES_APPLETUN
+```c
+[SPECIES_APPLETUN] = {
+    PALa(5, 4),    // Pink/red/brown apple body
+    PALb(9, 3),    // Green leaves/pie
+    PALc(12, 3),   // Brown/yellow/orange pastry
+},
+```
+
+### #843 SPECIES_SILICOBRA
+```c
+[SPECIES_SILICOBRA] = {
+    PALa(5, 4),    // Brown/tan body
+    PALb(9, 4),    // Tan/yellow/grey sand
+    PALc(13, 3),   // Green nostrils
+},
+```
+
+### #844 SPECIES_SANDACONDA
+```c
+[SPECIES_SANDACONDA] = {
+    PALa(5, 2),    // Brown body
+    PALb(8, 7),    // Brown/tan/grey sand coils
+    PALc(15, 1),   // Red eyes
+},
+```
+
+### #845 SPECIES_CRAMORANT
+```c
+[SPECIES_CRAMORANT] = {
+    PALa(5, 4),    // Blue body
+    PALb(9, 4),    // Yellow/orange/brown beak
+    PALc(13, 4),   // Grey/blue/white feathers
+},
+```
+
+### #846 SPECIES_ARROKUDA
+```c
+[SPECIES_ARROKUDA] = {
+    PALa(5, 5),    // Brown/orange body
+    PALb(10, 6),   // Yellow/grey/white belly
+    PALc(17, 2),   // Red accent
+},
+```
+
+### #847 SPECIES_BARRASKEWDA
+```c
+[SPECIES_BARRASKEWDA] = {
+    PALa(5, 2),    // Brown body
+    PALb(7, 5),    // Red/orange/brown shading
+    PALc(12, 4),   // Grey/white/yellow belly
+},
+```
+
+### #848 SPECIES_TOXEL
+```c
+[SPECIES_TOXEL] = {
+    PALa(5, 5),    // Purple/pink/magenta body
+    PALb(13, 4),   // Blue/grey shading
+    PALc(17, 1),   // Pink accent
+},
+```
+
+### #849 SPECIES_TOXTRICITY_AMPED
+```c
+[SPECIES_TOXTRICITY_AMPED] = {
+    PALa(5, 3),    // Yellow/orange mohawk
+    PALb(8, 4),    // Purple/pink body
+    PALc(12, 2),   // Grey/white belly
+},
+```
+
+### #850 SPECIES_SIZZLIPEDE
+```c
+[SPECIES_SIZZLIPEDE] = {
+    PALa(5, 4),    // Red/orange body
+    PALb(9, 1),    // Yellow radiator glow
+    PALc(10, 4),   // Orange/red/brown shading
+},
+```
+
+### #851 SPECIES_CENTISKORCH
+```c
+[SPECIES_CENTISKORCH] = {
+    PALa(5, 8),    // Red/orange/yellow body
+    PALb(13, 4),   // Dark red/brown legs
+    PALc(17, 2),   // Yellow/orange flame
+},
+```
+
+### #852 SPECIES_CLOBBOPUS
+```c
+[SPECIES_CLOBBOPUS] = {
+    PALa(5, 6),    // Red/orange/brown body
+    PALb(11, 5),   // Purple/blue/grey spots
+},
+```
+
+### #853 SPECIES_GRAPPLOCT
+```c
+[SPECIES_GRAPPLOCT] = {
+    PALa(5, 5),    // Blue body
+    PALb(10, 4),   // Green/yellow tentacle suckers
+    PALc(14, 3),   // Grey/purple/blue shading
+},
+```
+
+### #854 SPECIES_SINISTEA_PHONY
+```c
+[SPECIES_SINISTEA_PHONY] = {
+    PALa(5, 4),    // Brown/tan tea
+    PALb(9, 5),    // Purple/pink/cyan swirl
+    PALc(14, 6),   // Orange/cyan/blue highlights
+},
+```
+
+### #855 SPECIES_POLTEAGEIST_PHONY
+```c
+[SPECIES_POLTEAGEIST_PHONY] = {
+    PALa(5, 4),    // Brown/tan/white tea
+    PALb(9, 10),   // Purple/pink/cyan elaborate swirls
+},
+```
+
+### #856 SPECIES_HATENNA
+```c
+[SPECIES_HATENNA] = {
+    PALa(5, 4),    // Blue/purple/pink hat
+    PALb(9, 5),    // Pink body
+},
+```
+
+### #857 SPECIES_HATTREM
+```c
+[SPECIES_HATTREM] = {
+    PALa(5, 6),    // Pink body
+    PALb(12, 4),   // Blue/purple hat
+    PALc(16, 2),   // Purple/pink shading
+},
+```
+
+### #858 SPECIES_HATTERENE
+```c
+[SPECIES_HATTERENE] = {
+    PALa(5, 5),    // Blue/purple hat
+    PALb(10, 4),   // Pink/grey body
+    PALc(14, 5),   // Pink/purple shading
+},
+```
+
+### #859 SPECIES_IMPIDIMP
+```c
+[SPECIES_IMPIDIMP] = {
+    PALa(5, 4),    // Pink/purple body
+    PALb(9, 3),    // Purple/blue shading
+    PALc(12, 2),   // Red/pink accent
+},
+```
+
+### #860 SPECIES_MORGREM
+```c
+[SPECIES_MORGREM] = {
+    PALa(5, 3),    // Pink/magenta body
+    PALb(8, 5),    // Purple/blue body
+    PALc(16, 3),   // Green hair
+},
+```
+
+### #861 SPECIES_GRIMMSNARL
+```c
+[SPECIES_GRIMMSNARL] = {
+    PALa(5, 3),    // Green hair
+    PALb(8, 5),    // Purple/blue body
+    PALc(15, 5),   // Purple/pink/magenta accents
+},
+```
+
+### #862 SPECIES_OBSTAGOON
+```c
+[SPECIES_OBSTAGOON] = {
+    PALa(5, 8),    // Black/grey/white body
+    PALb(13, 2),   // Pink tongue
+},
+```
+
+### #863 SPECIES_PERRSERKER
+```c
+[SPECIES_PERRSERKER] = {
+    PALa(5, 7),    // Grey/brown metal body
+    PALb(12, 2),   // Orange/red accents
+},
+```
+
+### #864 SPECIES_CURSOLA
+```c
+[SPECIES_CURSOLA] = {
+    PALa(5, 7),    // Grey/white coral body
+    PALb(12, 3),   // Pink/magenta ectoplasm
+},
+```
+
+### #865 SPECIES_SIRFETCHD
+```c
+[SPECIES_SIRFETCHD] = {
+    PALa(5, 3),    // Green body
+    PALb(9, 4),    // Grey/white armor
+    PALc(15, 4),   // Yellow/orange leek
+},
+```
+
+### #866 SPECIES_MR_RIME
+```c
+[SPECIES_MR_RIME] = {
+    PALa(5, 4),    // Purple/blue outfit
+    PALb(9, 2),    // Pink/red body
+    PALc(11, 3),   // Orange/red/pink shading
+},
+```
+
+### #867 SPECIES_RUNERIGUS
+```c
+[SPECIES_RUNERIGUS] = {
+    PALa(5, 6),    // Grey/brown body
+    PALb(11, 3),   // Red/pink/purple runes
+},
+```
+
+### #868 SPECIES_MILCERY
+```c
+[SPECIES_MILCERY] = {
+    PALa(5, 7),    // Cream body
+},
+```
+
+### #869 SPECIES_ALCREMIE_STRAWBERRY_VANILLA_CREAM
+```c
+[SPECIES_ALCREMIE_STRAWBERRY_VANILLA_CREAM] = {
+    PALa(5, 4),    // Pink/red/brown cream body
+    PALb(10, 6),   // White/red/pink decorations
+},
+```
+
+### #870 SPECIES_FALINKS
+```c
+[SPECIES_FALINKS] = {
+    PALa(5, 5),    // Brown/red/yellow body
+    PALb(10, 5),   // Grey/blue/cyan/yellow accents
+    PALc(15, 3),   // Grey/white/cyan highlights
+},
+```
+
+### #871 SPECIES_PINCURCHIN
+```c
+[SPECIES_PINCURCHIN] = {
+    PALa(5, 4),    // Grey/brown body
+    PALb(9, 4),    // Purple spines
+    PALc(13, 3),   // Yellow/orange electricity
+},
+```
+
+### #872 SPECIES_SNOM
+```c
+[SPECIES_SNOM] = {
+    PALa(5, 4),    // Blue/grey/white body
+    PALb(9, 5),    // Purple/grey shading
+},
+```
+
+### #873 SPECIES_FROSMOTH
+```c
+[SPECIES_FROSMOTH] = {
+    PALa(5, 5),    // Grey/white body
+    PALb(11, 3),   // Green/grey wings
+    PALc(14, 4),   // Blue/yellow accents
+},
+```
+
+### #874 SPECIES_STONJOURNER
+```c
+[SPECIES_STONJOURNER] = {
+    PALa(5, 9),    // Grey/brown stone body
+    PALb(14, 4),   // Brown/orange accents
+},
+```
+
+### #875 SPECIES_EISCUE_ICE
+```c
+[SPECIES_EISCUE_ICE] = {
+    PALa(5, 5),    // Ice/blue/grey head
+    PALb(10, 5),   // Grey/blue body
+    PALc(15, 3),   // Orange/yellow beak
+},
+```
+
+### #876 SPECIES_INDEEDEE_M
+```c
+[SPECIES_INDEEDEE_M] = {
+    PALa(5, 5),    // Purple/blue body
+    PALb(10, 3),   // Pink/white shading
+    PALc(13, 3),   // Brown/red/cyan accents
+},
+```
+
+### #877 SPECIES_MORPEKO_FULL_BELLY
+```c
+[SPECIES_MORPEKO_FULL_BELLY] = {
+    PALa(5, 8),    // Brown/tan/yellow body
+    PALb(15, 2),   // Pink cheeks
+},
+```
+
+### #878 SPECIES_CUFANT
+```c
+[SPECIES_CUFANT] = {
+    PALa(5, 8),    // Green/brown/orange body
+    PALb(13, 5),   // Grey/cyan highlights
+},
+```
+
+### #879 SPECIES_COPPERAJAH
+```c
+[SPECIES_COPPERAJAH] = {
+    PALa(5, 8),    // Green/brown body
+    PALb(13, 5),   // Grey/cyan trunk
+},
+```
+
+### #880 SPECIES_DRACOZOLT
+```c
+[SPECIES_DRACOZOLT] = {
+    PALa(5, 6),    // Yellow/orange/red/brown body
+    PALb(11, 5),   // Pink/red/orange shading
+    PALc(16, 4),   // Green tail
+},
+```
+
 ---
 
 ## Notes for Developers
