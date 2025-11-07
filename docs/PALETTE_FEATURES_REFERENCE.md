@@ -1555,6 +1555,131 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Legendary Pokémon - Gen 1
+
+### #144 SPECIES_ARTICUNO
+```c
+[SPECIES_ARTICUNO] = {
+    PALa(1, 4),    // Blue body (dark to light)
+    PALb(5, 4),    // Black, dark blue, and light blue details
+    PALc(9, 1),    // White highlights
+    PALd(10, 4),   // Red eyes and brown beak
+    PALe(14, 2),   // Light blue/grey shading
+},
+```
+
+### #145 SPECIES_ZAPDOS
+```c
+[SPECIES_ZAPDOS] = {
+    PALa(1, 5),    // Yellow/orange body and beak
+    PALb(6, 3),    // Black outlines
+    PALc(9, 5),    // White and yellow highlights
+    PALd(14, 2),   // Grey shading and red eyes
+},
+```
+
+### #146 SPECIES_MOLTRES
+```c
+[SPECIES_MOLTRES] = {
+    PALa(1, 5),    // Red/orange flames and body
+    PALb(6, 4),    // Yellow/orange flame tips
+    PALc(10, 2),   // Black outlines
+    PALd(12, 4),   // Brown/tan beak and feet
+},
+```
+
+### #150 SPECIES_MEWTWO
+```c
+[SPECIES_MEWTWO] = {
+    PALa(1, 5),    // Purple/grey body
+    PALb(6, 1),    // White highlights
+    PALc(7, 3),    // Purple psychic accents
+    PALd(10, 2),   // White and purple highlights
+    PALe(12, 4),   // Grey/white shading
+},
+```
+
+### #151 SPECIES_MEW
+```c
+[SPECIES_MEW] = {
+    PALa(1, 5),    // Pink body
+    PALb(6, 2),    // Black outlines and white
+    PALc(8, 3),    // Blue eyes
+    PALd(11, 1),   // Brown/tan details
+},
+```
+
+---
+
+## Legendary Pokémon - Gen 2
+
+### #243 SPECIES_RAIKOU
+```c
+[SPECIES_RAIKOU] = {
+    PALa(1, 4),    // Purple mane/accents
+    PALb(5, 4),    // Black, white, and grey body
+    PALc(9, 1),    // White highlights
+    PALd(10, 5),   // Yellow thunder markings
+    PALe(15, 1),   // Grey shading
+},
+```
+
+### #244 SPECIES_ENTEI
+```c
+[SPECIES_ENTEI] = {
+    PALa(1, 5),    // Brown/tan body
+    PALb(6, 2),    // Black outlines and yellow
+    PALc(8, 2),    // Red body and flames
+    PALd(10, 4),   // Grey/white smoke and highlights
+    PALe(14, 2),   // Grey/brown shading
+},
+```
+
+### #245 SPECIES_SUICUNE
+```c
+[SPECIES_SUICUNE] = {
+    PALa(1, 4),    // Blue body
+    PALb(5, 4),    // Purple mane/accents
+    PALc(9, 3),    // Grey/white highlights
+    PALd(12, 2),   // Red eyes and ribbons
+    PALe(14, 2),   // Light blue/white shading
+},
+```
+
+### #249 SPECIES_LUGIA
+```c
+[SPECIES_LUGIA] = {
+    PALa(1, 4),    // Light blue/grey body
+    PALb(5, 7),    // Black, white, and grey details
+    PALc(12, 3),   // Red/pink eyes and blue accents
+    PALd(15, 1),   // Blue shading
+},
+```
+
+### #250 SPECIES_HO_OH
+```c
+[SPECIES_HO_OH] = {
+    PALa(1, 2),    // Green tail feathers
+    PALb(3, 3),    // Red body and wings
+    PALc(6, 2),    // White and green highlights
+    PALd(8, 1),    // Black outlines
+    PALe(9, 7),   // Orange/yellow/brown plumage and details
+},
+```
+
+### #251 SPECIES_CELEBI
+```c
+[SPECIES_CELEBI] = {
+    PALa(1, 6),    // Green body
+    PALb(7, 1),    // Dark green shading
+    PALc(8, 5),    // Blue eyes and grey/white highlights
+    PALd(13, 2),   // Yellow/cream accents
+    PALe(15, 2),   // Grey/white and red details
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
