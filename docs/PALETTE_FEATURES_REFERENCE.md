@@ -1253,6 +1253,308 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Pokémon #650-658 (Gen 6 Starters)
+
+### #650 SPECIES_CHESPIN
+```c
+[SPECIES_CHESPIN] = {
+    PALa(1, 2),    // Green body
+    PALb(3, 3),    // Light green/yellow belly
+    PALc(6, 4),    // Brown shell/quills
+    PALd(10, 2),   // Dark grey/brown details
+    PALe(12, 4),   // Red/orange accents and white
+},
+```
+
+### #651 SPECIES_QUILLADIN
+```c
+[SPECIES_QUILLADIN] = {
+    PALa(1, 3),    // Red/orange shell spikes
+    PALb(4, 2),    // Dark brown/black outlines
+    PALc(6, 4),    // Green body and shell
+    PALd(10, 3),   // Brown/tan details
+    PALe(13, 3),   // Grey and white highlights
+},
+```
+
+### #652 SPECIES_CHESNAUGHT
+```c
+[SPECIES_CHESNAUGHT] = {
+    PALa(1, 3),    // Brown/tan armor
+    PALb(4, 2),    // Black outlines
+    PALc(6, 2),    // Red/pink shell spikes
+    PALd(8, 4),    // Green body and dark brown
+    PALe(12, 4),   // White and grey shading
+},
+```
+
+### #653 SPECIES_FENNEKIN
+```c
+[SPECIES_FENNEKIN] = {
+    PALa(1, 2),    // Orange/yellow fur
+    PALb(3, 2),    // Black outlines
+    PALc(5, 4),    // Red/orange body and ears
+    PALd(9, 3),    // Grey/black details
+    PALe(12, 4),   // White and cream highlights
+},
+```
+
+### #654 SPECIES_BRAIXEN
+```c
+[SPECIES_BRAIXEN] = {
+    PALa(1, 4),    // Orange/yellow fur and stick
+    PALb(5, 4),    // Red/orange body
+    PALc(9, 3),    // White and grey fur
+    PALd(12, 4),   // Black/brown details and yellow accent
+},
+```
+
+### #655 SPECIES_DELPHOX
+```c
+[SPECIES_DELPHOX] = {
+    PALa(1, 4),    // Red/orange body and black
+    PALb(5, 3),    // Orange/yellow fur and stick
+    PALc(8, 4),    // White and grey highlights
+    PALd(12, 2),   // Brown/tan details
+    PALe(14, 2),   // Red/pink eyes and accents
+},
+```
+
+### #656 SPECIES_FROAKIE
+```c
+[SPECIES_FROAKIE] = {
+    PALa(1, 5),    // Blue body (dark to light)
+    PALb(6, 1),    // Yellow bubbles
+    PALc(7, 5),    // Grey/white/black details
+    PALd(12, 1),   // Black outlines
+},
+```
+
+### #657 SPECIES_FROGADIER
+```c
+[SPECIES_FROGADIER] = {
+    PALa(1, 2),    // Dark blue body
+    PALb(3, 4),    // Blue body shading
+    PALc(7, 6),    // Grey/white foam and highlights
+    PALd(13, 1),   // Yellow bubbles
+},
+```
+
+### #658 SPECIES_GRENINJA
+```c
+[SPECIES_GRENINJA] = {
+    PALa(1, 3),    // Dark blue body
+    PALb(4, 2),    // Brown/tan details
+    PALc(6, 3),    // Light blue tongue/scarf
+    PALd(9, 4),    // Grey/white highlights
+    PALe(13, 3),   // Pink/red tongue and black
+},
+```
+
+---
+
+## Pokémon #722-730 (Gen 7 Starters)
+
+### #722 SPECIES_ROWLET
+```c
+[SPECIES_ROWLET] = {
+    PALa(1, 3),    // Brown/tan body
+    PALb(4, 3),    // White/cream belly and face
+    PALc(7, 2),    // Black outlines
+    PALd(9, 3),    // Orange/brown beak and feet
+    PALe(12, 4),   // Green leaves and shading
+},
+```
+
+### #723 SPECIES_DARTRIX
+```c
+[SPECIES_DARTRIX] = {
+    PALa(1, 2),    // Green leaves
+    PALb(3, 2),    // Brown body
+    PALc(5, 2),    // Green body shading
+    PALd(7, 8),    // Black, white, grey feathers and details
+},
+```
+
+### #724 SPECIES_DECIDUEYE
+```c
+[SPECIES_DECIDUEYE] = {
+    PALa(1, 3),    // Brown/tan feathers
+    PALb(4, 1),    // Black outlines
+    PALc(5, 3),    // Red/orange accents
+    PALd(8, 4),    // Green hood and leaves
+    PALe(12, 4),   // White/grey/brown details
+},
+```
+
+### #725 SPECIES_LITTEN
+```c
+[SPECIES_LITTEN] = {
+    PALa(1, 2),    // Dark grey/black fur
+    PALb(3, 3),    // Grey stripes and shading
+    PALc(6, 2),    // Red/cream details
+    PALd(8, 4),    // Red stripes and yellow eyes
+    PALe(12, 4),   // White, grey, and black details
+},
+```
+
+### #726 SPECIES_TORRACAT
+```c
+[SPECIES_TORRACAT] = {
+    PALa(1, 4),    // Black/grey body
+    PALb(5, 2),    // Red stripes
+    PALc(7, 1),    // Orange/brown accent
+    PALd(8, 5),    // Grey/white fur and yellow bell
+},
+```
+
+### #727 SPECIES_INCINEROAR
+```c
+[SPECIES_INCINEROAR] = {
+    PALa(1, 3),    // Black/red body
+    PALb(4, 2),    // Dark grey/black shading
+    PALc(6, 3),    // Red/yellow flame belt
+    PALd(9, 4),    // White, grey, and green accents
+    PALe(13, 3),   // Grey/black details and orange
+},
+```
+
+### #728 SPECIES_POPPLIO
+```c
+[SPECIES_POPPLIO] = {
+    PALa(1, 5),    // Blue body and purple accents
+    PALb(6, 2),    // Pink/purple details
+    PALc(8, 1),    // Light blue shading
+    PALd(9, 4),    // White and grey highlights
+    PALe(13, 3),   // Dark blue/cyan details
+},
+```
+
+### #729 SPECIES_BRIONNE
+```c
+[SPECIES_BRIONNE] = {
+    PALa(1, 5),    // Blue body and grey details
+    PALb(6, 3),    // White and light blue highlights
+    PALc(9, 2),    // Cyan/blue accents
+    PALd(11, 2),   // Black and pink details
+    PALe(13, 3),   // Pink/purple frills and grey
+},
+```
+
+### #730 SPECIES_PRIMARINA
+```c
+[SPECIES_PRIMARINA] = {
+    PALa(1, 2),    // Blue body
+    PALb(3, 5),    // Grey/blue and light blue shading
+    PALc(8, 1),    // Black outlines
+    PALd(9, 4),    // Pink/purple hair and accents
+    PALe(13, 3),   // White and blue details
+},
+```
+
+---
+
+## Pokémon #810-818 (Gen 8 Starters)
+
+### #810 SPECIES_GROOKEY
+```c
+[SPECIES_GROOKEY] = {
+    PALa(1, 2),    // Green body
+    PALb(3, 2),    // Light green/yellow highlights
+    PALc(5, 2),    // Brown/tan details
+    PALd(7, 4),    // Yellow stick and orange/brown accents
+    PALe(11, 5),   // White, grey, and orange details
+},
+```
+
+### #811 SPECIES_THWACKEY
+```c
+[SPECIES_THWACKEY] = {
+    PALa(1, 2),    // Dark green body
+    PALb(3, 3),    // Black, green, and yellow accents
+    PALc(6, 2),    // Yellow/green leaves
+    PALd(8, 6),    // Brown/tan sticks and cream highlights
+    PALe(14, 2),   // Yellow and brown details
+},
+```
+
+### #812 SPECIES_RILLABOOM
+```c
+[SPECIES_RILLABOOM] = {
+    PALa(1, 4),    // Dark green body
+    PALb(5, 5),    // Black, brown, and cream fur
+    PALc(10, 2),   // Orange/red drum details
+    PALd(12, 4),   // White, yellow, and brown highlights
+},
+```
+
+### #813 SPECIES_SCORBUNNY
+```c
+[SPECIES_SCORBUNNY] = {
+    PALa(1, 3),    // Red/orange body
+    PALb(4, 2),    // Black and yellow details
+    PALc(6, 5),    // White/grey/cream fur
+    PALd(11, 2),   // White and orange highlights
+    PALe(13, 1),   // Red/orange accent
+},
+```
+
+### #814 SPECIES_RABOOT
+```c
+[SPECIES_RABOOT] = {
+    PALa(1, 3),    // Grey/tan hoodie
+    PALb(4, 4),    // Black, yellow, and white details
+    PALc(8, 3),    // Red/orange body
+    PALd(11, 1),   // Orange accent
+    PALe(12, 3),   // Black/dark grey shading
+},
+```
+
+### #815 SPECIES_CINDERACE
+```c
+[SPECIES_CINDERACE] = {
+    PALa(1, 3),    // Grey/white fur
+    PALb(4, 2),    // Black and white highlights
+    PALc(6, 5),    // Yellow/red/orange flame markings
+    PALd(11, 2),   // White and blue eyes
+    PALe(13, 3),   // Black, brown, and dark details
+},
+```
+
+### #816 SPECIES_SOBBLE
+```c
+[SPECIES_SOBBLE] = {
+    PALa(1, 2),    // Blue body and yellow details
+    PALb(3, 8),    // Light blue body and grey/white highlights
+    PALc(11, 4),   // White, grey, and light blue shading
+    PALd(15, 1),   // Black outlines
+},
+```
+
+### #817 SPECIES_DRIZZILE
+```c
+[SPECIES_DRIZZILE] = {
+    PALa(1, 4),    // Dark blue and purple details
+    PALb(5, 4),    // Blue/cyan body
+    PALc(9, 2),    // Green/yellow accents
+    PALd(11, 4),   // Black, white, and grey highlights
+    PALe(15, 1),   // Green detail
+},
+```
+
+### #818 SPECIES_INTELEON
+```c
+[SPECIES_INTELEON] = {
+    PALa(1, 2),    // Dark blue body
+    PALb(3, 5),    // Yellow/tan/brown details
+    PALc(8, 3),    // Blue/cyan body shading
+    PALd(11, 1),   // Yellow accent
+    PALe(12, 4),   // White, grey, and black details
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
