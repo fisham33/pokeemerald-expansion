@@ -3303,6 +3303,242 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+### #1343 SPECIES_FLITTLE
+```c
+[SPECIES_FLITTLE] = {
+    PALa(5, 4),    // Grey/white body
+    PALb(8, 4),    // Yellow/tan/brown feathers
+    PALc(12, 5),   // Purple/cyan psychic colors
+    PALd(18, 2),   // Orange/yellow accents
+},
+```
+
+### #1344 SPECIES_ESPATHRA
+```c
+[SPECIES_ESPATHRA] = {
+    PALa(5, 4),    // Purple/grey body
+    PALb(9, 1),    // Cyan/teal accent
+    PALc(10, 5),   // Purple/magenta feathers
+    PALd(12, 4),   // Orange/yellow/brown legs
+    PALe(17, 3),   // Yellow/tan shading
+},
+```
+
+### #1345 SPECIES_TINKATINK
+```c
+[SPECIES_TINKATINK] = {
+    PALa(5, 4),    // Brown/pink/white skin
+    PALb(10, 5),   // Purple/magenta hair and clothes
+    PALc(16, 4),   // Purple/pink/magenta shading
+},
+```
+
+### #1346 SPECIES_TINKATUFF
+```c
+[SPECIES_TINKATUFF] = {
+    PALa(5, 4),    // Brown/pink/white skin
+    PALb(9, 6),    // Purple/magenta hair, clothes, and hammer
+    PALc(18, 2),   // Purple/pink accents
+},
+```
+
+### #1347 SPECIES_TINKATON
+```c
+[SPECIES_TINKATON] = {
+    PALa(5, 5),    // Brown/pink/white skin and hammer
+    PALb(10, 5),   // Purple/magenta hair and clothes
+    PALc(15, 5),   // Purple/pink/magenta shading and details
+},
+```
+
+### #1348 SPECIES_WIGLETT
+```c
+[SPECIES_WIGLETT] = {
+    PALa(5, 5),    // Grey/white body
+    PALb(10, 4),   // Pink/red mouth
+    PALc(14, 4),   // Green/teal/cyan accents
+},
+```
+
+### #1349 SPECIES_WUGTRIO
+```c
+[SPECIES_WUGTRIO] = {
+    PALa(5, 5),    // Pink/red bodies
+    PALb(11, 4),   // Grey/white shading
+    PALc(14, 4),   // Dark grey/blue/teal accents
+},
+```
+
+### #1350 SPECIES_BOMBIRDIER
+```c
+[SPECIES_BOMBIRDIER] = {
+    PALa(5, 9),    // Dark purple/grey/white body (shading progression)
+    PALb(10, 2),   // Red/pink accents
+},
+```
+
+### #1351 SPECIES_FINIZEN
+```c
+[SPECIES_FINIZEN] = {
+    PALa(5, 9),    // Blue/cyan dolphin body (shading progression)
+    PALb(14, 4),   // Pink/magenta belly markings
+},
+```
+
+### #1352 SPECIES_PALAFIN_ZERO
+```c
+[SPECIES_PALAFIN_ZERO] = {
+    PALa(5, 9),    // Blue/cyan dolphin body (shading progression)
+    PALb(14, 4),   // Pink/magenta belly markings
+},
+```
+
+### #1354 SPECIES_VAROOM
+```c
+[SPECIES_VAROOM] = {
+    PALa(5, 9),    // Dark grey/white metal body (shading)
+    PALb(13, 4),   // Purple/yellow engine eyes
+},
+```
+
+### #1355 SPECIES_REVAVROOM
+```c
+[SPECIES_REVAVROOM] = {
+    PALa(5, 10),   // Dark purple/grey/white metal body
+    PALb(18, 2),   // Yellow/orange engine lights
+},
+```
+
+### #1356 SPECIES_CYCLIZAR
+```c
+[SPECIES_CYCLIZAR] = {
+    PALa(5, 5),    // Green/grey body
+    PALb(10, 2),   // Orange wheel
+    PALc(13, 4),   // Green/teal/cyan shading
+    PALd(19, 1),   // White accent
+},
+```
+
+### #1357 SPECIES_ORTHWORM
+```c
+[SPECIES_ORTHWORM] = {
+    PALa(5, 5),    // Red/pink body
+    PALb(10, 4),   // Grey/white metal segments
+    PALc(14, 3),   // Pink/tan shading
+    PALd(18, 2),   // Blue accents
+},
+```
+
+### #1358 SPECIES_GLIMMET
+```c
+[SPECIES_GLIMMET] = {
+    PALa(5, 8),    // Blue/cyan/grey/yellow crystal body
+    PALb(14, 5),   // Purple/magenta/pink shading
+},
+```
+
+### #1359 SPECIES_GLIMMORA
+```c
+[SPECIES_GLIMMORA] = {
+    PALa(5, 9),    // Blue/cyan/purple crystal body
+    PALb(16, 2),   // Purple/grey shading
+    PALc(19, 1),   // Yellow eye
+},
+```
+
+### #1360 SPECIES_GREAVARD
+```c
+[SPECIES_GREAVARD] = {
+    PALa(5, 10),   // Brown/grey/purple ghost dog body
+    PALb(9, 2),    // Orange/yellow candle
+    PALc(10, 2),   // Purple ghost energy
+    PALd(14, 2),   // Pink/grey shading
+},
+```
+
+### #1361 SPECIES_HOUNDSTONE
+```c
+[SPECIES_HOUNDSTONE] = {
+    PALa(5, 11),   // Grey/purple stone body (full shading progression)
+},
+```
+
+### #1362 SPECIES_FLAMIGO
+```c
+[SPECIES_FLAMIGO] = {
+    PALa(5, 5),    // Pink/red body
+    PALb(11, 2),   // Black/grey accents
+    PALc(12, 2),   // Yellow/orange beak
+    PALd(15, 3),   // Pink/red shading
+},
+```
+
+### #1363 SPECIES_CETODDLE
+```c
+[SPECIES_CETODDLE] = {
+    PALa(5, 6),    // Purple/blue/white body
+    PALb(10, 2),   // Pink/purple accents
+},
+```
+
+### #1364 SPECIES_CETITAN
+```c
+[SPECIES_CETITAN] = {
+    PALa(5, 8),    // White/grey/pink body
+    PALb(8, 2),    // Pink/purple horns
+    PALc(10, 2),   // Pink/purple shading
+},
+```
+
+### #1365 SPECIES_VELUZA
+```c
+[SPECIES_VELUZA] = {
+    PALa(5, 5),    // Purple/magenta body
+    PALb(9, 7),    // Grey/white shading
+    PALc(17, 2),   // Red/orange eyes
+},
+```
+
+### #1366 SPECIES_DONDOZO
+```c
+[SPECIES_DONDOZO] = {
+    PALa(5, 10),   // Grey/white/blue fish body
+},
+```
+
+### #1370 SPECIES_ANNIHILAPE
+```c
+[SPECIES_ANNIHILAPE] = {
+    PALa(5, 10),   // Grey/white/red ghost fighting body
+},
+```
+
+### #1371 SPECIES_CLODSIRE
+```c
+[SPECIES_CLODSIRE] = {
+    PALa(5, 10),   // Pink/brown/tan/purple body
+    PALc(17, 3),   // Pink/purple shading
+},
+```
+
+### #1372 SPECIES_FARIGIRAF
+```c
+[SPECIES_FARIGIRAF] = {
+    PALa(5, 5),    // Dark grey/brown body
+    PALb(10, 5),   // Yellow/tan/brown spots and tail
+    PALc(16, 4),   // Pink/orange/brown shading
+},
+```
+
+### #1375 SPECIES_KINGAMBIT
+```c
+[SPECIES_KINGAMBIT] = {
+    PALa(5, 3),    // Grey/white armor
+    PALb(8, 4),   // Yellow/gold/orange details
+    PALc(12, 5),   // Red/pink/dark grey/black body
+},
+```
+
 ---
 
 ## Notes for Developers
