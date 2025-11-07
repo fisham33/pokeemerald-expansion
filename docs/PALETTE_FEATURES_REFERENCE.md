@@ -2507,6 +2507,450 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Pokémon #1289-1297 (Gen 9 Starters)
+
+### #1289 SPECIES_SPRIGATITO
+```c
+[SPECIES_SPRIGATITO] = {
+    PALa(1, 4),    // Green body (dark to light)
+    PALb(5, 4),    // Light green/grey shading
+    PALc(9, 4),    // White, pink/magenta markings
+},
+```
+
+### #1290 SPECIES_FLORAGATO
+```c
+[SPECIES_FLORAGATO] = {
+    PALa(1, 2),    // Green body
+    PALb(3, 6),    // Black, light green/yellow highlights
+    PALc(9, 4),    // White and pink/magenta flower
+},
+```
+
+### #1291 SPECIES_MEOWSCARADA
+```c
+[SPECIES_MEOWSCARADA] = {
+    PALa(1, 6),    // Green body (dark to light)
+    PALb(7, 3),    // Pink/magenta flower markings
+    PALc(10, 4),   // Dark green and light green/yellow details
+},
+```
+
+### #1292 SPECIES_FUECOCO
+```c
+[SPECIES_FUECOCO] = {
+    PALa(1, 3),    // Red/orange body
+    PALb(4, 6),    // Yellow/orange accents and cream belly
+    PALc(10, 6),   // Grey/black details and white highlights
+},
+```
+
+### #1293 SPECIES_CROCALOR
+```c
+[SPECIES_CROCALOR] = {
+    PALa(1, 6),    // Red/orange body and yellow flame
+    PALb(7, 7),    // Black, grey, tan shading
+},
+```
+
+### #1294 SPECIES_SKELEDIRGE
+```c
+[SPECIES_SKELEDIRGE] = {
+    PALa(1, 8),    // Grey/white/red/orange body and flames
+    PALb(9, 7),    // Yellow/orange flames, purple/magenta bird, black/grey details
+},
+```
+
+### #1295 SPECIES_QUAXLY
+```c
+[SPECIES_QUAXLY] = {
+    PALa(1, 6),    // Blue body (dark to light)
+    PALb(7, 7),    // Black, white, grey, and yellow/gold accents
+},
+```
+
+### #1296 SPECIES_QUAXWELL
+```c
+[SPECIES_QUAXWELL] = {
+    PALa(1, 7),    // Blue body (dark to light)
+    PALb(8, 6),    // Black, grey, white, and yellow/gold details
+},
+```
+
+### #1297 SPECIES_QUAQUAVAL
+```c
+[SPECIES_QUAQUAVAL] = {
+    PALa(1, 6),    // Blue body and cyan highlights
+    PALb(7, 10),   // Black, white, grey, purple/blue feathers, and orange/yellow accents
+},
+```
+
+## Pokémon #1391-1434 (Gen 9 Legendary & Mythical)
+
+### #1391 SPECIES_GIMMIGHOUL_CHEST
+```c
+[SPECIES_GIMMIGHOUL_CHEST] = {
+    PALa(5, 5),    // Brown/grey chest body
+    PALb(10, 2),   // Grey/steel parts
+    PALc(12, 2),   // Gold coins
+},
+```
+
+### #1392 SPECIES_GIMMIGHOUL_ROAMING
+```c
+[SPECIES_GIMMIGHOUL_ROAMING] = {
+    PALa(5, 2),    // Brown/tan ghost body
+    PALb(7, 3),    // Grey/steel parts
+    PALc(10, 4),   // Gold progression (coins/body)
+},
+```
+
+### #1393 SPECIES_GHOLDENGO
+```c
+[SPECIES_GHOLDENGO] = {
+    PALa(5, 3),    // Brown/dark red base
+    PALb(9, 7),    // Gold progression (orange to yellow)
+    PALc(13, 3),   // Grey/white accents
+},
+```
+
+### #1394 SPECIES_WO_CHIEN
+```c
+[SPECIES_WO_CHIEN] = {
+    PALa(5, 5),    // Dark brown/grey/green wood body
+    PALb(10, 5),   // Green/brown vines and wood
+    PALc(15, 3),   // Yellow/orange/tan highlights
+},
+```
+
+### #1395 SPECIES_CHIEN_PAO
+```c
+[SPECIES_CHIEN_PAO] = {
+    PALa(5, 3),    // Blue/grey ice body
+    PALb(8, 2),    // White fur/teeth
+    PALc(11, 3),   // Grey/silver shading
+    PALd(14, 1),   // Cyan accent
+},
+```
+
+### #1396 SPECIES_TING_LU
+```c
+[SPECIES_TING_LU] = {
+    PALa(5, 6),    // Brown/tan/red earth body
+    PALb(11, 4),   // More brown/tan shading
+    PALc(15, 4),   // Yellow/tan vessel/bowl
+},
+```
+
+### #1397 SPECIES_CHI_YU
+```c
+[SPECIES_CHI_YU] = {
+    PALa(5, 5),    // Red/orange fire body
+    PALb(10, 3),   // Orange/yellow flames
+    PALc(13, 4),   // Green jade beads
+},
+```
+
+### #1400 SPECIES_KORAIDON
+```c
+[SPECIES_KORAIDON] = {
+    PALa(5, 4),    // Dark red/purple/blue body
+    PALb(9, 3),    // Orange/red feathers
+    PALc(12, 2),   // Yellow throat/belly
+    PALd(13, 3),   // Blue scales
+    PALe(15, 2),   // Purple/magenta accents
+},
+```
+
+### #1401 SPECIES_MIRAIDON
+```c
+[SPECIES_MIRAIDON] = {
+    PALa(5, 3),    // Dark blue/purple body
+    PALb(8, 1),    // Yellow eyes
+    PALc(9, 4),    // Blue/purple scales and lights
+    PALd(13, 4),   // Grey/white accents
+},
+```
+
+### #1416 SPECIES_OGERPON_TEAL
+```c
+[SPECIES_OGERPON_TEAL] = {
+    PALa(6, 3),    // Green body (dark to bright)
+    PALb(9, 3),    // Brown/tan club and details
+    PALc(12, 3),   // Green/yellow mask and vines
+    PALd(16, 1),   // Cyan accent
+},
+```
+
+### #1431 SPECIES_TERAPAGOS_NORMAL
+```c
+[SPECIES_TERAPAGOS_NORMAL] = {
+    PALa(5, 4),    // Blue/purple shell
+    PALb(9, 2),    // Pink/purple accents
+    PALc(11, 5),   // Cyan/aqua/green crystalline colors
+},
+```
+
+### #1434 SPECIES_PECHARUNT
+```c
+[SPECIES_PECHARUNT] = {
+    PALa(5, 6),    // Dark purple body
+    PALb(11, 5),   // Purple/magenta/pink progression
+    PALc(16, 2),   // White/grey
+},
+```
+
+## Pokémon #1388-1390 (Gen 9 Pseudo-Legendary)
+
+### #1388 SPECIES_FRIGIBAX
+```c
+[SPECIES_FRIGIBAX] = {
+    PALa(5, 1),    // Dark grey/blue base
+    PALb(6, 4),    // Yellow/gold crest and spikes
+    PALc(10, 6),   // Blue/grey body (light progression)
+    PALd(18, 2),   // Darker blue accents
+},
+```
+
+### #1389 SPECIES_ARCTIBAX
+```c
+[SPECIES_ARCTIBAX] = {
+    PALa(6, 4),    // Dark blue/purple body
+    PALb(10, 2),   // Yellow/gold crest
+    PALc(12, 3),   // Blue body shading
+    PALd(16, 3),   // Light blue/cyan/white highlights
+},
+```
+
+### #1390 SPECIES_BAXCALIBUR
+```c
+[SPECIES_BAXCALIBUR] = {
+    PALa(6, 3),    // White/cyan ice body
+    PALb(9, 3),    // Dark grey/blue shading
+    PALc(12, 2),   // Yellow/gold axe blade
+    PALd(16, 3),   // Red/pink spikes and claws
+},
+```
+
+## Pokémon #1376-1428 (Gen 9 Past Paradox)
+
+### #1376 SPECIES_GREAT_TUSK
+```c
+[SPECIES_GREAT_TUSK] = {
+    PALa(5, 4),    // Dark purple/red body
+    PALb(9, 2),    // Red/pink tusks
+    PALc(13, 2),   // Yellow accent
+    PALd(14, 3),   // Purple/grey shading
+    PALe(18, 2),   // Grey/white highlights
+},
+```
+
+### #1377 SPECIES_SCREAM_TAIL
+```c
+[SPECIES_SCREAM_TAIL] = {
+    PALa(5, 6),    // Pink body (dark to light)
+    PALb(12, 2),   // Dark pink/purple and grey
+    PALc(15, 3),   // Yellow/orange/tan accents
+},
+```
+
+### #1378 SPECIES_BRUTE_BONNET
+```c
+[SPECIES_BRUTE_BONNET] = {
+    PALa(6, 2),    // Brown/grey stem
+    PALb(8, 2),    // Red/pink/beige
+    PALc(10, 2),   // Brown shading
+    PALd(12, 3),   // Green mushroom cap
+    PALe(15, 4),   // Pink/yellow/brown spots
+},
+```
+
+### #1379 SPECIES_FLUTTER_MANE
+```c
+[SPECIES_FLUTTER_MANE] = {
+    PALa(5, 4),    // Purple/magenta body
+    PALb(9, 2),    // Red eyes/accents
+    PALc(11, 4),   // Teal/cyan hair
+    PALd(16, 2),   // Cyan highlights
+    PALe(18, 2),   // Orange/yellow details
+},
+```
+
+### #1380 SPECIES_SLITHER_WING
+```c
+[SPECIES_SLITHER_WING] = {
+    PALa(5, 1),    // Brown/red body
+    PALb(6, 3),    // Yellow/orange/green wing scales
+    PALc(10, 2),   // Red/orange accents
+    PALd(12, 3),   // Grey/white shading
+    PALe(15, 2),   // Blue/purple eyes
+},
+```
+
+### #1381 SPECIES_SANDY_SHOCKS
+```c
+[SPECIES_SANDY_SHOCKS] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 2),    // Red magnets
+    PALc(10, 4),   // White/grey/blue sand body
+    PALd(15, 3),   // Blue/cyan electricity
+    PALe(18, 2),   // Yellow/green accents
+},
+```
+
+### #1398 SPECIES_ROARING_MOON
+```c
+[SPECIES_ROARING_MOON] = {
+    PALa(5, 2),    // Dark grey/red body
+    PALb(9, 2),    // Red/pink accents
+    PALc(11, 2),   // Yellow/purple
+    PALd(13, 3),   // Cyan/teal wings
+    PALe(17, 3),   // Cyan/white highlights
+},
+```
+
+### #1406 SPECIES_WALKING_WAKE
+```c
+[SPECIES_WALKING_WAKE] = {
+    PALa(5, 3),    // Purple/blue body
+    PALb(8, 3),    // Red/orange/yellow feathers
+    PALc(11, 2),   // Purple shading
+    PALd(13, 3),   // Blue/cyan body highlights
+    PALe(18, 2),   // Cyan/white accents
+},
+```
+
+### #1427 SPECIES_GOUGING_FIRE
+```c
+[SPECIES_GOUGING_FIRE] = {
+    PALa(5, 1),    // Brown
+    PALb(6, 4),    // Yellow/orange/gold body
+    PALc(10, 3),   // Grey/white shading
+    PALd(13, 2),   // Green leaf/plant accents
+    PALe(15, 2),   // Red fire
+},
+```
+
+### #1428 SPECIES_RAGING_BOLT
+```c
+[SPECIES_RAGING_BOLT] = {
+    PALa(5, 3),    // Dark grey/black
+    PALb(8, 2),    // Purple body/brown
+    PALc(11, 2),   // Purple shading
+    PALd(13, 2),   // Yellow/gold lightning
+    PALe(15, 2),   // Grey/white
+},
+```
+
+## Pokémon #1382-1430 (Gen 9 Future Paradox)
+
+### #1382 SPECIES_IRON_TREADS
+```c
+[SPECIES_IRON_TREADS] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 1),    // Red accent
+    PALc(9, 3),    // Grey/blue metal shading
+    PALd(12, 3),   // Red energy (dark to bright)
+    PALe(15, 4),   // Grey/silver highlights
+},
+```
+
+### #1383 SPECIES_IRON_BUNDLE
+```c
+[SPECIES_IRON_BUNDLE] = {
+    PALa(5, 5),    // Grey/red beak
+    PALb(11, 2),   // Orange/yellow accent
+    PALc(13, 2),   // Blue ice/energy
+    PALd(15, 5),   // Grey/white metal body
+},
+```
+
+### #1384 SPECIES_IRON_HANDS
+```c
+[SPECIES_IRON_HANDS] = {
+    PALa(5, 5),    // Grey/blue/purple metal body
+    PALb(10, 3),   // Yellow/gold engine parts
+    PALc(13, 2),   // Blue/grey shading
+    PALd(16, 3),   // White/grey highlights
+},
+```
+
+### #1385 SPECIES_IRON_JUGULIS
+```c
+[SPECIES_IRON_JUGULIS] = {
+    PALa(5, 3),    // Dark grey/purple body
+    PALb(8, 4),    // Blue/purple/grey accents
+    PALc(12, 3),   // Blue lights/eyes
+    PALd(15, 3),   // Purple/magenta/pink heads
+    PALe(19, 1),   // Light blue
+},
+```
+
+### #1386 SPECIES_IRON_MOTH
+```c
+[SPECIES_IRON_MOTH] = {
+    PALa(5, 4),    // Dark grey/black body
+    PALb(9, 3),    // Orange/red accents
+    PALc(12, 3),   // Orange/yellow flames
+    PALd(15, 2),   // Blue/grey wings
+    PALe(18, 2),   // Blue/white highlights
+},
+```
+
+### #1387 SPECIES_IRON_THORNS
+```c
+[SPECIES_IRON_THORNS] = {
+    PALa(5, 7),    // Dark grey/black body
+    PALb(12, 5),   // Green energy (dark to bright)
+    PALc(18, 1),   // Bright green highlight
+},
+```
+
+### #1399 SPECIES_IRON_VALIANT
+```c
+[SPECIES_IRON_VALIANT] = {
+    PALa(5, 3),    // Dark grey/teal body
+    PALb(8, 1),    // Red/pink accent
+    PALc(9, 3),    // Green energy blades
+    PALd(12, 4),   // Pink/blue/cyan/teal shading
+    PALe(18, 2),   // Blue/white highlights
+},
+```
+
+### #1407 SPECIES_IRON_LEAVES
+```c
+[SPECIES_IRON_LEAVES] = {
+    PALa(5, 3),    // Green body
+    PALb(8, 2),    // Grey metal
+    PALc(10, 2),   // Red/pink energy
+    PALd(12, 2),   // Green blades
+    PALe(17, 2),   // White/pink highlights
+},
+```
+
+### #1429 SPECIES_IRON_BOULDER
+```c
+[SPECIES_IRON_BOULDER] = {
+    PALa(5, 5),    // Brown/grey rock body
+    PALb(10, 3),   // White/grey metal
+    PALc(13, 4),   // Orange/yellow energy
+    PALd(17, 3),   // Brown/orange accents
+},
+```
+
+### #1430 SPECIES_IRON_CROWN
+```c
+[SPECIES_IRON_CROWN] = {
+    PALa(5, 3),    // Cyan/turquoise body
+    PALb(9, 2),    // Brown/gold accents
+    PALc(11, 2),   // Grey/gold
+    PALd(13, 4),   // Teal/cyan/turquoise energy
+    PALe(17, 3),   // Grey/white highlights
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
