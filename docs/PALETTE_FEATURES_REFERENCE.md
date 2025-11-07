@@ -2047,6 +2047,240 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Legendary Pokémon - Gen 6
+
+### #716 SPECIES_XERNEAS
+```c
+[SPECIES_XERNEAS] = {
+    PALa(1, 4),    // Blue/cyan antlers and body
+    PALb(5, 4),    // Black and dark blue details
+    PALc(9, 4),    // White and grey shading
+},
+```
+
+### #717 SPECIES_YVELTAL
+```c
+[SPECIES_YVELTAL] = {
+    PALa(1, 7),    // Black/grey body
+    PALb(8, 4),    // Red wings and accents
+    PALc(12, 4),   // Blue/cyan eyes and white highlights
+},
+```
+
+### #718 SPECIES_ZYGARDE
+```c
+[SPECIES_ZYGARDE] = {
+    PALa(1, 4),    // Black/grey body
+    PALb(5, 5),    // Green cells and hexagons
+    PALc(10, 3),   // White and grey highlights
+},
+```
+
+### #719 SPECIES_DIANCIE
+```c
+[SPECIES_DIANCIE] = {
+    PALa(1, 6),    // Pink body and diamonds
+    PALb(7, 3),    // Purple/blue dress
+    PALc(10, 6),   // Black, yellow/gold, white/grey highlights
+},
+```
+
+### #720 SPECIES_HOOPA
+```c
+[SPECIES_HOOPA] = {
+    PALa(1, 4),    // Pink/purple body
+    PALb(5, 7),    // Black, grey, yellow/gold rings
+    PALc(12, 4),   // Green/yellow energy and white
+},
+```
+
+### #721 SPECIES_VOLCANION
+```c
+[SPECIES_VOLCANION] = {
+    PALa(1, 6),    // Brown/red body
+    PALb(7, 5),    // Cyan/blue water accents
+    PALc(12, 4),   // Yellow/orange cannons and white steam
+},
+```
+
+---
+
+## Legendary Pokémon - Gen 7
+
+### #785 SPECIES_TAPU_KOKO
+```c
+[SPECIES_TAPU_KOKO] = {
+    PALa(1, 5),    // Brown/tan mask and yellow crest
+    PALb(6, 6),    // Orange/brown shell details
+    PALc(12, 4),   // White, grey, cyan, and yellow accents
+},
+```
+
+### #786 SPECIES_TAPU_LELE
+```c
+[SPECIES_TAPU_LELE] = {
+    PALa(1, 8),    // Pink/magenta body and shell
+    PALb(9, 7),   // Black, white, grey, cyan accents
+},
+```
+
+### #787 SPECIES_TAPU_BULU
+```c
+[SPECIES_TAPU_BULU] = {
+    PALa(1, 8),    // Black, grey, yellow/gold horns
+    PALb(9, 7),   // Red eyes, white, grey, cyan, brown accents
+},
+```
+
+### #788 SPECIES_TAPU_FINI
+```c
+[SPECIES_TAPU_FINI] = {
+    PALa(1, 7),    // Purple/blue body
+    PALb(8, 8),   // Black, blue water, grey, white, cyan accents
+},
+```
+
+### #791 SPECIES_SOLGALEO
+```c
+[SPECIES_SOLGALEO] = {
+    PALa(1, 7),    // Orange/brown body and yellow sun disc
+    PALb(8, 8),   // Grey/white mane, blue accents, and white highlights
+},
+```
+
+### #792 SPECIES_LUNALA
+```c
+[SPECIES_LUNALA] = {
+    PALa(1, 7),    // Orange/brown skeleton and yellow moon
+    PALb(8, 8),   // Black, purple wings, white highlights, and pink/cyan accents
+},
+```
+
+### #800 SPECIES_NECROZMA
+```c
+[SPECIES_NECROZMA] = {
+    PALa(1, 6),    // Black/grey prism body
+    PALb(7, 9),   // Yellow/orange energy, green/red/blue accents, white highlights
+},
+```
+
+### #802 SPECIES_MARSHADOW
+```c
+[SPECIES_MARSHADOW] = {
+    PALa(1, 9),    // Green/grey body and yellow/orange accents
+    PALb(10, 6),   // Brown/tan details, cyan/teal highlights
+},
+```
+
+### #807 SPECIES_ZERAORA
+```c
+[SPECIES_ZERAORA] = {
+    PALa(1, 8),    // Yellow/orange fur and blue electric accents
+    PALb(9, 7),   // White, grey, and cream highlights
+},
+```
+
+### #809 SPECIES_MELMETAL
+```c
+[SPECIES_MELMETAL] = {
+    PALa(1, 9),    // Grey/brown/orange metal body
+    PALb(10, 6),   // Black, white, grey, and red hex nut details
+},
+```
+
+---
+
+## Legendary Pokémon - Gen 8
+
+### #888 SPECIES_ZACIAN
+```c
+[SPECIES_ZACIAN] = {
+    PALa(1, 7),    // Blue body and cyan mane
+    PALb(8, 8),   // Red/pink accents, tan/cream, white highlights
+},
+```
+
+### #889 SPECIES_ZAMAZENTA
+```c
+[SPECIES_ZAMAZENTA] = {
+    PALa(1, 7),    // Blue/purple body
+    PALb(8, 5),   // Red/pink accents, grey shield, white highlights
+},
+```
+
+### #890 SPECIES_ETERNATUS
+```c
+[SPECIES_ETERNATUS] = {
+    PALa(1, 8),    // Purple/magenta body
+    PALb(9, 7),   // Red core, pink/magenta accents, white highlights
+},
+```
+
+### #891 SPECIES_KUBFU
+```c
+[SPECIES_KUBFU] = {
+    PALa(1, 10),  // Grey/white fur and yellow headband
+    PALb(11, 5),  // Black details, dark grey/brown accents
+},
+```
+
+### #892 SPECIES_URSHIFU
+```c
+[SPECIES_URSHIFU] = {
+    PALa(1, 10),  // Black/grey body and yellow/white accents
+},
+```
+
+### #893 SPECIES_ZARUDE
+```c
+[SPECIES_ZARUDE] = {
+    PALa(1, 9),    // Black, grey, green vines
+    PALb(10, 6),  // Red eyes, cyan/teal accents, white highlights
+},
+```
+
+### #894 SPECIES_REGIELEKI
+```c
+[SPECIES_REGIELEKI] = {
+    PALa(1, 7),    // Brown/tan body and yellow electricity
+    PALb(8, 5),   // Blue/cyan accents and white highlights
+},
+```
+
+### #895 SPECIES_REGIDRAGO
+```c
+[SPECIES_REGIDRAGO] = {
+    PALa(1, 10),  // Grey/teal body and red/pink dragon energy
+    PALb(11, 5),  // Blue/cyan eyes and brown details
+},
+```
+
+### #896 SPECIES_GLASTRIER
+```c
+[SPECIES_GLASTRIER] = {
+    PALa(1, 6),    // Grey/white ice body
+    PALb(7, 3),   // Blue ice crystals and black details
+},
+```
+
+### #897 SPECIES_SPECTRIER
+```c
+[SPECIES_SPECTRIER] = {
+    PALa(1, 6),    // Black/grey ghost body
+    PALb(7, 3),   // Purple mane and blue/white accents
+},
+```
+
+### #898 SPECIES_CALYREX
+```c
+[SPECIES_CALYREX] = {
+    PALa(1, 8),    // Grey/white body and green/teal accents
+    PALb(9, 7),   // Purple details, white/cream/grey highlights
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
