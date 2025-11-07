@@ -3539,6 +3539,35 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+### #1316 SPECIES_SQUAWKABILLY_GREEN
+```c
+[SPECIES_SQUAWKABILLY_GREEN] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 4),    // Green feathers (dark to bright)
+    PALc(12, 5),   // Grey/white/brown/yellow/orange accents
+},
+```
+
+### #1367 SPECIES_TATSUGIRI_CURLY
+```c
+[SPECIES_TATSUGIRI_CURLY] = {
+    PALa(5, 6),    // Orange/red/pink body
+    PALb(11, 4),   // Brown/tan/grey/white shading
+    PALc(17, 2),   // Tan/beige accents
+},
+```
+
+### #1373 SPECIES_DUDUNSPARCE_TWO_SEGMENT
+```c
+[SPECIES_DUDUNSPARCE_TWO_SEGMENT] = {
+    PALa(5, 3),    // Grey/white body
+    PALb(8, 5),    // Yellow/tan/brown stripes
+    PALc(9, 2),    // Teal/cyan accents
+    PALd(12, 2),   // Teal/cyan shading
+    PALe(17, 3),   // Red/pink/purple details
+},
+```
+
 ---
 
 ## Notes for Developers
