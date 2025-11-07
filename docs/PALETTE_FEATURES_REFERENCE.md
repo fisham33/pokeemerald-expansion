@@ -3568,6 +3568,238 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 },
 ```
 
+## Pokémon #1402-1434 (Gen 9 Paldean Variants & DLC)
+
+### #1402 SPECIES_TAUROS_PALDEA_COMBAT
+```c
+[SPECIES_TAUROS_PALDEA_COMBAT] = {
+    PALa(5, 9),    // Black/grey body (full shading progression)
+},
+```
+
+### #1403 SPECIES_TAUROS_PALDEA_BLAZE
+```c
+[SPECIES_TAUROS_PALDEA_BLAZE] = {
+    PALa(5, 4),    // Black/grey body
+    PALb(9, 2),    // Red fire horns
+    PALc(12, 5),   // Grey/white shading
+},
+```
+
+### #1404 SPECIES_TAUROS_PALDEA_AQUA
+```c
+[SPECIES_TAUROS_PALDEA_AQUA] = {
+    PALa(5, 9),    // Black/grey/green body
+    PALc(17, 2),   // Blue water horns
+},
+```
+
+### #1405 SPECIES_WOOPER_PALDEA
+```c
+[SPECIES_WOOPER_PALDEA] = {
+    PALa(5, 5),    // Purple/brown body
+    PALb(10, 3),   // Brown/tan/grey shading
+    PALc(14, 3),   // Red/pink gills
+},
+```
+
+### #1408 SPECIES_DIPPLIN
+```c
+[SPECIES_DIPPLIN] = {
+    PALa(5, 6),    // Red/brown apple body
+    PALb(11, 4),   // Green/yellow apple highlights
+    PALc(17, 2),   // White/grey accents
+},
+```
+
+### #1409 SPECIES_POLTCHAGEIST_COUNTERFEIT
+```c
+[SPECIES_POLTCHAGEIST_COUNTERFEIT] = {
+    PALa(5, 5),    // Brown/green tea leaves
+    PALb(10, 4),   // Yellow/white/grey tea bowl
+    PALc(14, 3),   // Green leaves and accents
+},
+```
+
+### #1411 SPECIES_SINISTCHA_UNREMARKABLE
+```c
+[SPECIES_SINISTCHA_UNREMARKABLE] = {
+    PALa(5, 7),    // Brown/green matcha tea body
+    PALb(12, 5),   // Green/yellow/tan tea
+    PALc(18, 2),   // Grey/white accents
+},
+```
+
+### #1413 SPECIES_OKIDOGI
+```c
+[SPECIES_OKIDOGI] = {
+    PALa(5, 7),    // Dark grey/green/pink/tan body
+    PALb(12, 2),   // Yellow chain
+    PALc(16, 2),   // Grey/white accents
+},
+```
+
+### #1414 SPECIES_MUNKIDORI
+```c
+[SPECIES_MUNKIDORI] = {
+    PALa(5, 4),    // Dark grey/black/purple body
+    PALb(9, 4),    // Blue/purple/pink shading
+    PALc(14, 3),   // Yellow chain and eyes
+},
+```
+
+### #1415 SPECIES_FEZANDIPITI
+```c
+[SPECIES_FEZANDIPITI] = {
+    PALa(5, 7),    // Dark grey/brown/orange/purple body
+    PALb(13, 3),   // Yellow/orange plumage
+    PALc(17, 2),   // Grey/white accents
+},
+```
+
+### #1424 SPECIES_URSALUNA_BLOODMOON
+```c
+[SPECIES_URSALUNA_BLOODMOON] = {
+    PALa(5, 8),    // Brown/tan/grey/green body
+    PALb(13, 3),   // Pink/red/green moon marking
+    PALc(17, 3),   // Grey/white/pink accents
+},
+```
+
+### #1425 SPECIES_ARCHALUDON
+```c
+[SPECIES_ARCHALUDON] = {
+    PALa(5, 5),    // Brown/red/yellow metal body
+    PALb(10, 5),   // Blue/purple/grey metal
+    PALc(15, 4),   // Blue/purple accents
+},
+```
+
+### #1426 SPECIES_HYDRAPPLE
+```c
+[SPECIES_HYDRAPPLE] = {
+    PALa(5, 10),   // Red/brown/green/yellow apple body (multi-headed)
+    PALc(19, 1),   // Dark red accent
+},
+```
+
+## Pokémon Alternate Forms (Gen 9)
+
+### #1300 SPECIES_OINKOLOGNE_F
+```c
+[SPECIES_OINKOLOGNE_F] = {
+    PALa(5, 9),    // Dark brown/red/pink body (shading)
+    PALc(17, 2),   // Yellow/white accents
+},
+```
+
+### #1310 SPECIES_MAUSHOLD_FOUR
+```c
+[SPECIES_MAUSHOLD_FOUR] = {
+    PALa(5, 7),    // Grey/white body (shading progression) - Same as Three
+    PALb(11, 4),   // Blue details/accents - Same as Three
+},
+```
+
+### #1317 SPECIES_SQUAWKABILLY_BLUE
+```c
+[SPECIES_SQUAWKABILLY_BLUE] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 4),    // Blue feathers (dark to bright)
+    PALc(12, 5),   // Grey/white/brown/yellow/orange accents
+},
+```
+
+### #1318 SPECIES_SQUAWKABILLY_YELLOW
+```c
+[SPECIES_SQUAWKABILLY_YELLOW] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 4),    // Yellow feathers (dark to bright)
+    PALc(12, 5),   // Grey/white/brown/yellow/orange accents
+},
+```
+
+### #1319 SPECIES_SQUAWKABILLY_WHITE
+```c
+[SPECIES_SQUAWKABILLY_WHITE] = {
+    PALa(5, 3),    // Dark grey/black body
+    PALb(8, 4),    // White/grey feathers
+    PALc(12, 5),   // Grey/white/brown/yellow/orange accents
+},
+```
+
+### #1353 SPECIES_PALAFIN_HERO
+```c
+[SPECIES_PALAFIN_HERO] = {
+    PALa(5, 9),    // Blue dolphin body (dark to bright)
+    PALb(16, 3),   // White/grey/pink hero markings
+    PALc(17, 2),   // Pink/magenta accents
+},
+```
+
+### #1368 SPECIES_TATSUGIRI_DROOPY
+```c
+[SPECIES_TATSUGIRI_DROOPY] = {
+    PALa(5, 5),    // Pink/red body
+    PALb(11, 5),   // Brown/tan/grey/white shading
+},
+```
+
+### #1369 SPECIES_TATSUGIRI_STRETCHY
+```c
+[SPECIES_TATSUGIRI_STRETCHY] = {
+    PALa(5, 6),    // Yellow/gold body
+    PALb(11, 6),   // White/grey/brown/tan shading
+},
+```
+
+### #1374 SPECIES_DUDUNSPARCE_THREE_SEGMENT
+```c
+[SPECIES_DUDUNSPARCE_THREE_SEGMENT] = {
+    PALa(5, 3),    // Grey/white body - Same as Two Segment
+    PALb(8, 5),    // Yellow/tan/brown stripes - Same as Two Segment
+    PALc(9, 2),    // Teal/cyan accents - Same as Two Segment
+    PALd(12, 2),   // Teal/cyan shading - Same as Two Segment
+    PALe(17, 3),   // Red/pink/purple details - Same as Two Segment
+},
+```
+
+### #1417 SPECIES_OGERPON_WELLSPRING
+```c
+[SPECIES_OGERPON_WELLSPRING] = {
+    PALa(6, 3),    // Green body (dark to bright)
+    PALb(9, 3),    // Brown/tan club and details
+    PALc(12, 7),   // Blue/cyan water mask and accents
+},
+```
+
+### #1418 SPECIES_OGERPON_HEARTHFLAME
+```c
+[SPECIES_OGERPON_HEARTHFLAME] = {
+    PALa(5, 4),    // Dark grey/red body
+    PALb(9, 3),    // Red/orange fire
+    PALc(12, 5),   // Brown/tan/orange/yellow flame mask and details
+},
+```
+
+### #1419 SPECIES_OGERPON_CORNERSTONE
+```c
+[SPECIES_OGERPON_CORNERSTONE] = {
+    PALa(5, 2),    // Dark grey body
+    PALb(7, 4),    // Grey/green shading
+    PALc(11, 3),   // Brown/tan club
+    PALd(15, 4),   // Cyan/teal rock mask and accents
+},
+```
+
+### #1432 SPECIES_TERAPAGOS_TERASTAL
+```c
+[SPECIES_TERAPAGOS_TERASTAL] = {
+    PALa(5, 6),    // Dark/purple/red/yellow/blue rainbow shell
+    PALb(11, 7),   // Pink/purple/cyan/teal/blue/green crystalline colors
+},
+```
+
 ---
 
 ## Notes for Developers
