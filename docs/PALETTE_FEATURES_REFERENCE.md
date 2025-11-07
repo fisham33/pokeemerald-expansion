@@ -2281,6 +2281,232 @@ And you want to vary the body color and cheeks, you would add to `variant_colour
 
 ---
 
+## Pseudo-Legendary Pokémon (600 BST Evolution Lines)
+
+### #147 SPECIES_DRATINI
+```c
+[SPECIES_DRATINI] = {
+    PALa(1, 4),    // Grey/white body
+    PALb(5, 5),    // Blue body shading
+    PALc(10, 3),   // Purple/pink ear wings
+},
+```
+
+### #148 SPECIES_DRAGONAIR
+```c
+[SPECIES_DRAGONAIR] = {
+    PALa(1, 5),    // Grey/white body
+    PALb(6, 6),    // Blue body shading and orbs
+    PALc(12, 4),   // Purple/pink wings and accents
+},
+```
+
+### #149 SPECIES_DRAGONITE
+```c
+[SPECIES_DRAGONITE] = {
+    PALa(1, 7),    // Orange/tan body
+    PALb(8, 4),    // White, grey, and black details
+    PALc(12, 4),   // Green/cyan wings and accents
+},
+```
+
+### #246 SPECIES_LARVITAR
+```c
+[SPECIES_LARVITAR] = {
+    PALa(1, 4),    // Green body
+    PALb(5, 8),    // Black, white, and red accents
+},
+```
+
+### #247 SPECIES_PUPITAR
+```c
+[SPECIES_PUPITAR] = {
+    PALa(1, 6),    // Blue/grey shell
+    PALb(7, 3),    // White, grey, and orange accents
+},
+```
+
+### #248 SPECIES_TYRANITAR
+```c
+[SPECIES_TYRANITAR] = {
+    PALa(1, 6),    // Green body and armor
+    PALb(7, 6),    // White, grey, and orange/red accents
+},
+```
+
+### #371 SPECIES_BAGON
+```c
+[SPECIES_BAGON] = {
+    PALa(1, 7),    // Grey/white body and blue head
+    PALb(8, 4),    // Yellow/tan belly
+    PALc(12, 4),   // Blue accents, grey, and pink details
+},
+```
+
+### #372 SPECIES_SHELGON
+```c
+[SPECIES_SHELGON] = {
+    PALa(1, 8),    // Grey/white shell
+    PALb(9, 7),    // Yellow/tan body, red eyes, and grey accents
+},
+```
+
+### #373 SPECIES_SALAMENCE
+```c
+[SPECIES_SALAMENCE] = {
+    PALa(1, 5),    // Red body
+    PALb(6, 6),    // Blue wings and grey/black accents
+    PALc(12, 4),   // White, grey, and tan details
+},
+```
+
+### #374 SPECIES_BELDUM
+```c
+[SPECIES_BELDUM] = {
+    PALa(1, 7),    // Blue metal body
+    PALb(8, 8),    // Red eye, white, grey, and black details
+},
+```
+
+### #375 SPECIES_METANG
+```c
+[SPECIES_METANG] = {
+    PALa(1, 7),    // Grey/white/blue metal body
+    PALb(8, 8),    // Blue accents and red eyes
+},
+```
+
+### #376 SPECIES_METAGROSS
+```c
+[SPECIES_METAGROSS] = {
+    PALa(1, 7),    // Blue/grey metal body
+    PALb(8, 5),    // Grey/white shading
+    PALc(13, 3),   // Red eyes and grey details
+},
+```
+
+### #443 SPECIES_GIBLE
+```c
+[SPECIES_GIBLE] = {
+    PALa(1, 8),    // Blue/cyan body
+    PALb(9, 7),    // Red/orange accents, white, and grey details
+},
+```
+
+### #444 SPECIES_GABITE
+```c
+[SPECIES_GABITE] = {
+    PALa(1, 8),    // Blue/purple body
+    PALb(9, 7),    // Yellow/orange fins, white, and grey details
+},
+```
+
+### #445 SPECIES_GARCHOMP
+```c
+[SPECIES_GARCHOMP] = {
+    PALa(1, 7),    // Blue/purple body and yellow spikes
+    PALb(8, 8),    // White, grey, red/pink accents
+},
+```
+
+### #633 SPECIES_DEINO
+```c
+[SPECIES_DEINO] = {
+    PALa(1, 5),    // Black/grey body
+    PALb(6, 7),    // Blue fur and purple/pink accents
+},
+```
+
+### #634 SPECIES_ZWEILOUS
+```c
+[SPECIES_ZWEILOUS] = {
+    PALa(1, 5),    // Black/grey body
+    PALb(6, 9),    // Blue manes and purple/pink accents with white
+},
+```
+
+### #635 SPECIES_HYDREIGON
+```c
+[SPECIES_HYDREIGON] = {
+    PALa(1, 5),    // Black/grey body
+    PALb(6, 9),    // Purple/blue wings, pink accents, and white
+},
+```
+
+### #704 SPECIES_GOOMY
+```c
+[SPECIES_GOOMY] = {
+    PALa(1, 5),    // Purple/pink slime body
+    PALb(6, 7),    // Green spots and pink/purple details
+},
+```
+
+### #705 SPECIES_SLIGGOO
+```c
+[SPECIES_SLIGGOO] = {
+    PALa(1, 7),    // Purple/pink slime body
+    PALb(8, 8),    // Green spots, yellow/tan shell, and purple details
+},
+```
+
+### #706 SPECIES_GOODRA
+```c
+[SPECIES_GOODRA] = {
+    PALa(1, 7),    // Purple/pink slime body
+    PALb(8, 9),    // Green spots, white, yellow/tan, and grey accents
+},
+```
+
+### #782 SPECIES_JANGMO_O
+```c
+[SPECIES_JANGMO_O] = {
+    PALa(1, 8),    // Yellow/gold scales and grey body
+    PALb(9, 7),   // Red eyes, white, grey, and brown details
+},
+```
+
+### #783 SPECIES_HAKAMO_O
+```c
+[SPECIES_HAKAMO_O] = {
+    PALa(1, 9),    // Yellow/gold scales and grey body
+    PALb(10, 6),  // Red eyes, white, and brown details
+},
+```
+
+### #784 SPECIES_KOMMO_O
+```c
+[SPECIES_KOMMO_O] = {
+    PALa(1, 9),    // Yellow/gold scales and grey body
+    PALb(10, 6),  // Red/orange accents, white, and brown/grey details
+},
+```
+
+### #885 SPECIES_DREEPY
+```c
+[SPECIES_DREEPY] = {
+    PALa(1, 8),    // Green body and pink/magenta accents
+    PALb(9, 7),   // Yellow/tan details, grey, and cyan highlights
+},
+```
+
+### #886 SPECIES_DRAKLOAK
+```c
+[SPECIES_DRAKLOAK] = {
+    PALa(1, 9),    // Green/grey body and pink/magenta accents
+    PALb(10, 6),  // Yellow/tan details, grey, and cyan highlights
+},
+```
+
+### #887 SPECIES_DRAGAPULT
+```c
+[SPECIES_DRAGAPULT] = {
+    PALa(1, 9),    // Blue/grey body and pink/magenta accents
+    PALb(10, 6),  // Yellow/tan details, cyan/teal highlights, and grey
+},
+```
+
+---
+
 ## Notes for Developers
 
 ### Tips for Choosing Palette Features
