@@ -53,6 +53,7 @@
 #include "constants/songs.h"
 #include "nuzlocke.h"
 #include "variant_colours.h"
+#include "config/nuzlocke.h"
 
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
@@ -4429,8 +4430,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         {
             u16 tag = summary->species2;
             const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(summary->species2, summary->isShiny, summary->pid);
-        
-            if (IsNuzlockeActive() && GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_IS_DEAD, NULL))
+
+#ifdef PALETTE_SYSTEM_AVAILABLE
+            if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_IS_DEAD, NULL))
             {
                 static u16 sGreyPal[16];
                 CpuCopy16(pal, sGreyPal, sizeof(sGreyPal));
@@ -4438,7 +4440,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                 pal = sGreyPal;
                 tag = 0x2800 + sMonSummaryScreen->curMonIndex;
             }
-        
+#endif
+
             LoadSpritePaletteWithTag(pal, tag);
             SetMultiuseSpriteTemplateToPokemon(tag, B_POSITION_OPPONENT_LEFT);    
         

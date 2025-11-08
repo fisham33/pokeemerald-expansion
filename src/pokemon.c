@@ -67,6 +67,7 @@
 #include "constants/union_room.h"
 #include "constants/weather.h"
 #include "wild_encounter.h"
+#include "config/nuzlocke.h"
 
 #define FRIENDSHIP_EVO_THRESHOLD ((P_FRIENDSHIP_EVO_THRESHOLD >= GEN_8) ? 160 : 220)
 
@@ -6002,13 +6003,15 @@ const u16 *GetMonFrontSpritePal(struct Pokemon *mon)
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
 
-    if (IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
+#ifdef PALETTE_SYSTEM_AVAILABLE
+    if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
     {
         static u16 sGreyPal[16];
         CpuCopy16(pal, sGreyPal, sizeof(sGreyPal));
         ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sGreyPal);
         return sGreyPal;
     }
+#endif
 
     return pal;
 }

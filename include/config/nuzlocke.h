@@ -36,7 +36,9 @@
 
 // Visual indicators - If TRUE, dead Pokémon display with a grey palette everywhere
 // (party menu, PC, summary screen, battle).
-// Note: Also requires ApplyCustomRestrictionToPaletteBuffer from variant_colours
+// Note: Requires the palette modification system (PALETTE_SYSTEM_AVAILABLE) from the
+// variant_colours branch. If that system is not present, this feature will be disabled
+// at compile-time regardless of this setting.
 #define I_NUZLOCKE_VISUAL_DEATH       TRUE
 
 // Location merging - If TRUE, related locations share encounter slots

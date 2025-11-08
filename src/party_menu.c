@@ -4306,6 +4306,7 @@ static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *m
     u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
 
+#ifdef PALETTE_SYSTEM_AVAILABLE
     if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
     {
         // Create grey palette for dead pokemon icon
@@ -4326,6 +4327,7 @@ static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *m
         gSprites[menuBox->monSpriteId].oam.priority = 1;
     }
     else
+#endif
     {
         CreatePartyMonIconSpriteParameterized(species, personality, menuBox, 1);
     }

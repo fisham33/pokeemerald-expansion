@@ -45,6 +45,7 @@
 #include "constants/pokemon_icon.h"
 #include "nuzlocke.h"
 #include "variant_colours.h"
+#include "config/nuzlocke.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -5179,8 +5180,9 @@ static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s
         template.paletteTag = PALTAG_MON_ICON_0 + gSpeciesInfo[species].iconPalIndex;
     }
 
+#ifdef PALETTE_SYSTEM_AVAILABLE
     // Apply grey palette for dead pokemon in Nuzlocke mode
-    if (IsNuzlockeActive() && isDead)
+    if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && isDead)
     {
         static u16 sGreyIconPal[16];
         const u16 *originalPal = GetValidMonIconPalettePtr(species);
@@ -5194,6 +5196,7 @@ static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s
         LoadSpritePalette(&greyPalette);
         template.paletteTag = greyPalette.tag;
     }
+#endif
 
     tileNum = TryLoadMonIconTiles(species, personality);
     if (tileNum == 0xFFFF)
@@ -6971,8 +6974,9 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonMarkings = GetMonData(mon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
 
+#ifdef PALETTE_SYSTEM_AVAILABLE
             // Apply grey palette for dead pokemon in Nuzlocke mode
-            if (IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
+            if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
             {
                 u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL);
                 bool32 isShiny = GetMonData(mon, MON_DATA_IS_SHINY, NULL);
@@ -6983,6 +6987,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
                 sStorage->displayMonPalette = sStorage->displayMonGreyPalette;
             }
             else
+#endif
             {
                 sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
             }
@@ -7011,10 +7016,11 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
-            
+
+#ifdef PALETTE_SYSTEM_AVAILABLE
             // Apply grey palette for dead pokemon in Nuzlocke mode
             const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, isShiny, sStorage->displayMonPersonality);
-            if (IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
+            if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
             {
                 CpuCopy16(pal, sStorage->displayMonGreyPalette, sizeof(sStorage->displayMonGreyPalette));
                 ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sStorage->displayMonGreyPalette);
@@ -7024,6 +7030,9 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             {
                 sStorage->displayMonPalette = pal;
             }
+#else
+            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, isShiny, sStorage->displayMonPersonality);
+#endif
 
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
@@ -10117,11 +10126,11 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
 
     // Update front sprite
     sStorage->displayMonSpecies = species;
-    
 
+#ifdef PALETTE_SYSTEM_AVAILABLE
     // Apply grey palette for dead pokemon in Nuzlocke mode
     const u16 *pal = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, pid);
-    if (IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
+    if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetBoxMonData(boxMon, MON_DATA_IS_DEAD))
     {
         CpuCopy16(pal, sStorage->displayMonGreyPalette, sizeof(sStorage->displayMonGreyPalette));
         ApplyCustomRestrictionToPaletteBuffer(0, 255, 0, 100, 0, 150, sStorage->displayMonGreyPalette);
@@ -10131,6 +10140,9 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
     {
         sStorage->displayMonPalette = pal;
     }
+#else
+    sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, pid);
+#endif
     if (!sJustOpenedBag)
     {
         if (sRefreshDisplayMonGfx)

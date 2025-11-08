@@ -1,6 +1,11 @@
 #include "global.h"
 #include "constants/species.h"
 
+// Feature detection flag - Indicates that the palette modification system is available.
+// This allows other features (like Nuzlocke visual death) to conditionally compile
+// their palette modification code only when this system is present.
+#define PALETTE_SYSTEM_AVAILABLE
+
 struct PaletteVariant
 {
   u8 start : 4;        // Start index of palette customisation range
