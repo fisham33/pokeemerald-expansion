@@ -11,12 +11,28 @@
 #include "battle_interface.h"
 #include "overworld.h"
 #include "config/battle.h"
+#include "config/nuzlocke.h"
 #include "save.h"
 
 // Check if Nuzlocke mode is active
 bool8 IsNuzlockeActive(void)
 {
     return FlagGet(FLAG_NUZLOCKE);
+}
+
+// Check if Nuzlocke rules should be enforced
+// (Nuzlocke is active AND activation flag requirement is met)
+static bool8 IsNuzlockeRulesActive(void)
+{
+    if (!IsNuzlockeActive())
+        return FALSE;
+
+    // If no activation flag is configured (set to 0), rules apply immediately
+    if (I_NUZLOCKE_ACTIVATION_FLAG == 0)
+        return TRUE;
+
+    // Otherwise, check if the activation flag is set
+    return FlagGet(I_NUZLOCKE_ACTIVATION_FLAG);
 }
 
 // Location conversion for Nuzlocke tracking
@@ -102,29 +118,29 @@ static u8 GetNuzlockeLocationId(u8 currLocation)
     case MAPSEC_SCORCHED_SLAB:
         return currLocation;
         
-    // Underwater areas consolidated with their surface counterparts
+    // Underwater areas consolidated with their surface counterparts (if config enabled)
     case MAPSEC_UNDERWATER_124:
-        return MAPSEC_ROUTE_124;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_ROUTE_124 : currLocation;
     case MAPSEC_UNDERWATER_126:
-        return MAPSEC_ROUTE_126;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_ROUTE_126 : currLocation;
     case MAPSEC_UNDERWATER_127:
-        return MAPSEC_ROUTE_127;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_ROUTE_127 : currLocation;
     case MAPSEC_UNDERWATER_128:
-        return MAPSEC_ROUTE_128;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_ROUTE_128 : currLocation;
     case MAPSEC_UNDERWATER_SOOTOPOLIS:
-        return MAPSEC_SOOTOPOLIS_CITY;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_SOOTOPOLIS_CITY : currLocation;
     case MAPSEC_UNDERWATER_SEAFLOOR_CAVERN:
-        return MAPSEC_SEAFLOOR_CAVERN;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_SEAFLOOR_CAVERN : currLocation;
     case MAPSEC_UNDERWATER_SEALED_CHAMBER:
-        return MAPSEC_SEALED_CHAMBER;
-    
-    // Multiple areas consolidated
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_SEALED_CHAMBER : currLocation;
+
+    // Multiple areas consolidated (if config enabled)
     case MAPSEC_METEOR_FALLS2:
-        return MAPSEC_METEOR_FALLS;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_METEOR_FALLS : currLocation;
     case MAPSEC_FIERY_PATH2:
-        return MAPSEC_FIERY_PATH;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_FIERY_PATH : currLocation;
     case MAPSEC_JAGGED_PASS2:
-        return MAPSEC_JAGGED_PASS;
+        return I_NUZLOCKE_LOCATION_MERGE ? MAPSEC_JAGGED_PASS : currLocation;
         
     // Default to the location itself if not handled above
     default:
@@ -145,10 +161,10 @@ bool8 HasWildPokemonBeenSeenInLocation(u8 location, bool8 setEncounteredIfFirst)
     };
     
     location = GetNuzlockeLocationId(location);
-    
-    if (!FlagGet(FLAG_NUZLOCKE) || !FlagGet(FLAG_SYS_POKEDEX_GET))
+
+    if (!IsNuzlockeRulesActive())
     {
-        // Clear all encounter tracking if Nuzlocke not active
+        // Clear all encounter tracking if Nuzlocke rules not active
         VarSet(VAR_NUZLOCKE_ENCOUNTERS_1, 0);
         VarSet(VAR_NUZLOCKE_ENCOUNTERS_2, 0);
         VarSet(VAR_NUZLOCKE_ENCOUNTERS_3, 0);
@@ -195,8 +211,8 @@ bool8 HasWildPokemonBeenCaughtInLocation(u8 location, bool8 setCaughtIfCaught)
     };
     
     location = GetNuzlockeLocationId(location);
-    
-    if (!FlagGet(FLAG_NUZLOCKE) || !FlagGet(FLAG_SYS_POKEDEX_GET))
+
+    if (!IsNuzlockeRulesActive())
         return 0;
     
     // Map location to variable index and bit position
@@ -312,13 +328,9 @@ bool8 PlayerOwnsSpecies(u16 species)
 // Handle Pokemon fainting (mark as dead in Nuzlocke mode)
 void NuzlockeHandleFaint(struct Pokemon *mon)
 {
-    if (!IsNuzlockeActive())
+    if (!IsNuzlockeRulesActive() || !I_NUZLOCKE_PERMADEATH)
         return;
-    
-    // Don't mark as dead until player receives Pokédex
-    if (!FlagGet(FLAG_SYS_POKEDEX_GET))
-        return;
-    
+
     // Check if the Pokemon's HP is 0 (just fainted)
     if (GetMonData(mon, MON_DATA_HP) == 0)
     {
@@ -328,20 +340,16 @@ void NuzlockeHandleFaint(struct Pokemon *mon)
 
 void NuzlockeHandleWhiteout(void)
 {
-    if (!IsNuzlockeActive())
+    if (!IsNuzlockeRulesActive() || !I_NUZLOCKE_PERMADEATH)
         return;
-    
-    // Don't mark as dead until player receives Pokédex
-    if (!FlagGet(FLAG_SYS_POKEDEX_GET))
-        return;
-    
+
     int i;
-    
+
     // Mark all party Pokemon as dead
     for (i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gPlayerParty[i];
-        if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE && 
+        if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE &&
             !GetMonData(mon, MON_DATA_SANITY_IS_EGG))
         {
             SetMonDead(mon, TRUE);
@@ -352,21 +360,24 @@ void NuzlockeHandleWhiteout(void)
 bool8 NuzlockeCanCatchPokemon(u16 species, u32 personality, u32 otId)
 {
     u8 currentLocation;
-    
-    if (!IsNuzlockeActive())
+
+    if (!IsNuzlockeRulesActive())
     {
-        return TRUE; // Not in Nuzlocke mode - always allow catching
+        return TRUE; // Nuzlocke rules not active - always allow catching
     }
-    
+
     currentLocation = GetCurrentRegionMapSectionId();
-    
+
     // Shiny clause: always allow shiny Pokemon regardless of other rules
-    u32 shinyValue = ((personality >> 16) ^ (personality & 0xFFFF)) ^ ((otId >> 16) ^ (otId & 0xFFFF));
-    bool8 isShiny = (shinyValue < 8);
-    
-    if (isShiny)
+    if (I_NUZLOCKE_SHINY_CLAUSE)
     {
-        return TRUE;
+        u32 shinyValue = ((personality >> 16) ^ (personality & 0xFFFF)) ^ ((otId >> 16) ^ (otId & 0xFFFF));
+        bool8 isShiny = (shinyValue < 8);
+
+        if (isShiny)
+        {
+            return TRUE;
+        }
     }
     
     // Check if we've already had our "real" first encounter in this location
@@ -377,11 +388,14 @@ bool8 NuzlockeCanCatchPokemon(u16 species, u32 personality, u32 otId)
     }
     
     // This is a potential first encounter - check duplicate clause
-    if (PlayerOwnsSpecies(species))
+    if (I_NUZLOCKE_DUPLICATE_CLAUSE)
     {
-        return FALSE; // Don't catch, but this encounter doesn't count - keep hunting
+        if (PlayerOwnsSpecies(species))
+        {
+            return FALSE; // Don't catch, but this encounter doesn't count - keep hunting
+        }
     }
-    
+
     // We don't own this species - this is our "real" first encounter for this area
     return TRUE;
 }
@@ -389,7 +403,7 @@ bool8 NuzlockeCanCatchPokemon(u16 species, u32 personality, u32 otId)
 void NuzlockeOnBattleEnd(void)
 {
     // Mark the current location as encountered when certain wild battles end
-    if (IsNuzlockeActive() && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+    if (IsNuzlockeRulesActive() && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
     {
         u8 currentLocation = GetCurrentRegionMapSectionId();
         
@@ -404,20 +418,26 @@ void NuzlockeOnBattleEnd(void)
             u32 wildOtId = GetMonData(&gEnemyParty[0], MON_DATA_OT_ID);
             
             // Check if it's a shiny - shiny clause means it doesn't consume the encounter
-            u32 shinyValue = ((wildPersonality >> 16) ^ (wildPersonality & 0xFFFF)) ^ ((wildOtId >> 16) ^ (wildOtId & 0xFFFF));
-            bool8 isShiny = (shinyValue < 8);
-            
-            if (isShiny)
+            if (I_NUZLOCKE_SHINY_CLAUSE)
             {
-                // Shiny clause: don't mark area as used, even if caught/defeated/ran
-                return;
+                u32 shinyValue = ((wildPersonality >> 16) ^ (wildPersonality & 0xFFFF)) ^ ((wildOtId >> 16) ^ (wildOtId & 0xFFFF));
+                bool8 isShiny = (shinyValue < 8);
+
+                if (isShiny)
+                {
+                    // Shiny clause: don't mark area as used, even if caught/defeated/ran
+                    return;
+                }
             }
-            
+
             // Check if it's a duplicate species - duplicate clause means can keep trying
-            if (PlayerOwnsSpecies(wildSpecies))
+            if (I_NUZLOCKE_DUPLICATE_CLAUSE)
             {
-                // Duplicate clause: don't mark area as used, player can keep trying
-                return;
+                if (PlayerOwnsSpecies(wildSpecies))
+                {
+                    // Duplicate clause: don't mark area as used, player can keep trying
+                    return;
+                }
             }
             
             // This was a catchable (non-duplicate, non-shiny) encounter
@@ -430,37 +450,50 @@ void NuzlockeOnBattleEnd(void)
 u8 GetNuzlockeEncounterStatus(u16 species, u32 personality, u32 otId)
 {
     u8 currentLocation;
-    
-    if (!IsNuzlockeActive())
+
+    if (!IsNuzlockeRulesActive())
     {
         return NUZLOCKE_ENCOUNTER_NORMAL;
     }
-    
+
     currentLocation = GetCurrentRegionMapSectionId();
-    
+
     // Check shiny clause first (highest priority)
-    u32 shinyValue = ((personality >> 16) ^ (personality & 0xFFFF)) ^ ((otId >> 16) ^ (otId & 0xFFFF));
-    bool8 isShiny = (shinyValue < 8);
-    
-    if (isShiny)
+    if (I_NUZLOCKE_SHINY_CLAUSE)
     {
-        return NUZLOCKE_ENCOUNTER_SHINY;
+        u32 shinyValue = ((personality >> 16) ^ (personality & 0xFFFF)) ^ ((otId >> 16) ^ (otId & 0xFFFF));
+        bool8 isShiny = (shinyValue < 8);
+
+        if (isShiny)
+        {
+            return NUZLOCKE_ENCOUNTER_SHINY;
+        }
     }
-    
+
     // Check if location already used
     if (HasWildPokemonBeenSeenInLocation(currentLocation, FALSE))
     {
         return NUZLOCKE_ENCOUNTER_NORMAL;
     }
-    
+
     // Check duplicate clause
-    if (PlayerOwnsSpecies(species))
+    if (I_NUZLOCKE_DUPLICATE_CLAUSE)
     {
-        return NUZLOCKE_ENCOUNTER_DUPLICATE;
+        if (PlayerOwnsSpecies(species))
+        {
+            return NUZLOCKE_ENCOUNTER_DUPLICATE;
+        }
     }
     
     // New species, first encounter - catchable!
     return NUZLOCKE_ENCOUNTER_CATCHABLE;
+}
+
+// Check if whiteout option dialog should be shown
+// Called by event scripts to determine which path to take
+bool8 NuzlockeShowWhiteoutOption(void)
+{
+    return I_NUZLOCKE_WHITEOUT_OPTION;
 }
 
 // Silent save for Nuzlocke mode (no confirmation prompt)
