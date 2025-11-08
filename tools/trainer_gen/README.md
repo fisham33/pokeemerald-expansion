@@ -4,24 +4,38 @@ Convert Pokemon Showdown's Random Doubles Battle data into `trainers.party` form
 
 ## Features
 
-✅ **Convert 600+ Pokemon movesets** from Showdown's Random Doubles format
+✅ **Convert 600+ Pokemon movesets** from Showdown's Random Battle formats
+✅ **Multi-File Support** - processes Doubles, Singles, and Baby Random Battles
+✅ **Set Variants** - generates 2 variants when Pokemon have multiple abilities/items/5+ moves
 ✅ **Automatic Tag Assignment** based on roles and abilities
 ✅ **Trainer Party Pool Support** with configurable pool sizes
 ✅ **Weather/Terrain Detection** automatically tags weather setters and abusers
 ✅ **Multiple Output Modes** for different use cases
 ✅ **Smart Role Mapping** converts Showdown roles to TPP tags
+✅ **No Level Required** - levels are optional in trainers.party format
 
 ## Quick Start
 
 ### 1. Get the JSON Data
 
-Download the Random Doubles Battle data:
+Download one or more Random Battle data files:
+
 ```bash
 cd tools/trainer_gen
+
+# Random Doubles Battle (recommended for doubles)
 curl -o gen9randomdoublesbattle.json https://pkmn.github.io/randbats/data/gen9randomdoublesbattle.json
+
+# Random Singles Battle (for singles battles)
+curl -o gen9randombattle.json https://pkmn.github.io/randbats/data/gen9randombattle.json
+
+# Baby Random Battle (LC/lower level Pokemon)
+curl -o gen9babyrandombattle.json https://pkmn.github.io/randbats/data/gen9babyrandombattle.json
 ```
 
-Or save the file manually from your browser to `tools/trainer_gen/gen9randomdoublesbattle.json`
+Or save the files manually from your browser to `tools/trainer_gen/`
+
+**Note:** The script will automatically detect and process ALL available JSON files in the directory!
 
 ### 2. Run the Converter
 
@@ -29,6 +43,8 @@ Or save the file manually from your browser to `tools/trainer_gen/gen9randomdoub
 cd tools/trainer_gen
 python3 convert_randbats_to_party.py --mode pool
 ```
+
+The script will merge Pokemon from all available files into one `converted_movesets.txt`!
 
 ## Usage Modes
 
@@ -62,7 +78,6 @@ python3 convert_randbats_to_party.py --mode pool
 **Example Output:**
 ```
 Ninetales-Alola @ Light Clay
-Level: 75
 Ability: Snow Warning
 Tera Type: Ice
 Tags: Weather Setter
@@ -71,8 +86,7 @@ Tags: Weather Setter
 - Moonblast
 - Protect
 
-Arctozolt
-Level: 85
+Arctozolt @ Life Orb
 Ability: Slush Rush
 Tera Type: Ice
 Tags: Weather Abuser
@@ -105,7 +119,6 @@ Party Size: 4
 Pool Rules: Weather Doubles
 
 Torkoal @ Sitrus Berry
-Level: 86
 Ability: Drought
 Tags: Weather Setter
 - Heat Wave
@@ -114,7 +127,6 @@ Tags: Weather Setter
 - Will-O-Wisp
 
 Venusaur @ Life Orb
-Level: 86
 Ability: Chlorophyll
 Tags: Weather Abuser
 - Giga Drain
@@ -149,6 +161,50 @@ python3 convert_randbats_to_party.py --mode trainer-pool --pool-size 16 --party-
 # Process custom JSON file
 python3 convert_randbats_to_party.py --mode pool -i custom_data.json
 ```
+
+## Set Variants
+
+When a Pokemon has **multiple abilities**, **multiple items**, or **5+ moves**, the converter automatically creates **2 variants**:
+
+**Example - Charizard with 2 abilities:**
+```
+Charizard @ Life Orb
+Ability: Blaze
+Tera Type: Dragon
+- Heat Wave
+- Hurricane
+- Protect
+- Scorching Sands
+
+Charizard @ Life Orb
+Ability: Solar Power
+Tera Type: Fire
+- Heat Wave
+- Hurricane
+- Will-O-Wisp
+- Protect
+```
+
+**Example - Gholdengo with multiple items:**
+```
+Gholdengo @ Choice Scarf
+Ability: Good as Gold
+Tera Type: Fairy
+- Make It Rain
+- Shadow Ball
+- Focus Blast
+- Dazzling Gleam
+
+Gholdengo @ Life Orb
+Ability: Good as Gold
+Tera Type: Steel
+- Make It Rain
+- Shadow Ball
+- Protect
+- Thunderbolt
+```
+
+This gives you more variety in your trainer pools!
 
 ## Tag Assignment
 
@@ -196,7 +252,6 @@ Party Size: 4
 Pool Rules: Weather Doubles
 
 Torkoal @ Sitrus Berry
-Level: 86
 Ability: Drought
 Tags: Weather Setter
 - Heat Wave

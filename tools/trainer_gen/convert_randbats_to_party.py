@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Convert Pokemon Showdown Random Doubles Battle JSON to trainers.party format
+Convert Pokemon Showdown Random Battle JSON to trainers.party format
 Enhanced with Trainer Party Pool (TPP) support
 """
 
@@ -10,9 +10,14 @@ import random
 import argparse
 from typing import Dict, List, Any, Set
 from pathlib import Path
+import os
 
-# URL to fetch the JSON from
-RANDBATS_URL = "https://pkmn.github.io/randbats/data/gen9randomdoublesbattle.json"
+# URLs to fetch JSON from
+RANDBATS_URLS = {
+    "gen9randomdoublesbattle.json": "https://pkmn.github.io/randbats/data/gen9randomdoublesbattle.json",
+    "gen9randombattle.json": "https://pkmn.github.io/randbats/data/gen9randombattle.json",
+    "gen9babyrandombattle.json": "https://pkmn.github.io/randbats/data/gen9babyrandombattle.json",
+}
 
 # Role to Tag mapping for TPP
 ROLE_TO_TAGS = {
@@ -53,23 +58,44 @@ WEATHER_ABUSER_ABILITIES = {
     "Protosynthesis", "Quark Drive"
 }
 
-def fetch_json(url: str, local_file: str = "gen9randomdoublesbattle.json") -> Dict:
+def fetch_json(url: str, local_file: str) -> Dict:
     """Fetch JSON from URL or use local file as fallback"""
     try:
-        print(f"Fetching data from {url}...")
+        print(f"  Fetching {local_file} from URL...")
         with urllib.request.urlopen(url, timeout=10) as response:
             data = response.read()
-        print("Successfully fetched data!")
+        print(f"  ✓ Successfully fetched {local_file}")
         return json.loads(data)
     except Exception as e:
-        print(f"Error fetching from URL: {e}")
-        print(f"Trying to read from local file '{local_file}'...")
+        print(f"  ✗ Error fetching from URL: {e}")
+        print(f"  Trying local file '{local_file}'...")
         try:
             with open(local_file, 'r') as f:
-                return json.load(f)
+                data = json.load(f)
+            print(f"  ✓ Loaded {local_file} from disk")
+            return data
         except Exception as e2:
-            print(f"Error reading local file: {e2}")
+            print(f"  ✗ Error reading local file: {e2}")
             return None
+
+def load_all_json_files() -> Dict[str, Dict]:
+    """Load all available random battle JSON files"""
+    all_data = {}
+
+    print("Loading Random Battle data files...")
+    print("=" * 70)
+
+    for filename, url in RANDBATS_URLS.items():
+        # Check if file exists locally
+        if os.path.exists(filename):
+            print(f"\nProcessing {filename}:")
+            data = fetch_json(url, filename)
+            if data:
+                all_data[filename] = data
+        else:
+            print(f"\n{filename} not found, skipping...")
+
+    return all_data
 
 def format_evs_ivs(values: Dict[str, int], all_value: int) -> str:
     """Format EVs or IVs to trainers.party format"""
@@ -109,49 +135,52 @@ def determine_tags(role_name: str, role_data: Dict, pokemon_data: Dict) -> List[
 
     return tags
 
-def convert_pokemon_to_party_format(
+def create_set_variants(
     pokemon_name: str,
+    role_name: str,
+    role_data: Dict,
     pokemon_data: Dict,
-    role_name: str = None,
-    include_tags: bool = False,
+    include_tags: bool,
     max_moves: int = 4
 ) -> List[Dict[str, Any]]:
     """
-    Convert a single Pokemon's data to trainers.party format
-
-    Returns list of dicts with 'text' and 'tags' keys
+    Create multiple variants of a set if it has multiple abilities/items/moves
+    Returns list of set variants
     """
-    results = []
+    variants = []
 
-    level = pokemon_data.get('level', 100)
-    roles = pokemon_data.get('roles', {})
-    if not roles:
-        return results
+    # Get all possible values
+    abilities = role_data.get('abilities', pokemon_data.get('abilities', []))
+    items = role_data.get('items', pokemon_data.get('items', []))
+    moves = role_data.get('moves', [])
 
-    if role_name and role_name in roles:
-        roles_to_process = {role_name: roles[role_name]}
-    else:
-        roles_to_process = roles
+    # Determine how many variants to create
+    num_variants = 1
+    if len(abilities) > 1 or len(items) > 1 or len(moves) > 5:
+        num_variants = 2
 
-    for role, role_data in roles_to_process.items():
+    # Create variants
+    for variant_num in range(num_variants):
         lines = []
-        tags = []
 
         # Pokemon name @ Item
-        items = role_data.get('items', pokemon_data.get('items', []))
-        item = items[0] if items else None
-        if item:
+        if items:
+            # Pick different items for each variant if possible
+            if variant_num < len(items):
+                item = items[variant_num]
+            else:
+                item = random.choice(items)
             lines.append(f"{pokemon_name} @ {item}")
         else:
             lines.append(pokemon_name)
 
-        # Level
-        lines.append(f"Level: {level}")
-
         # Ability
-        abilities = role_data.get('abilities', pokemon_data.get('abilities', []))
         if abilities:
-            ability = abilities[0]
+            # Pick different abilities for each variant if possible
+            if variant_num < len(abilities):
+                ability = abilities[variant_num]
+            else:
+                ability = random.choice(abilities)
             lines.append(f"Ability: {ability}")
 
         # EVs
@@ -169,27 +198,76 @@ def convert_pokemon_to_party_format(
         # Tera Type
         tera_types = role_data.get('teraTypes', [])
         if tera_types:
-            tera_type = tera_types[0]
+            # Pick different tera types for variants if possible
+            if variant_num < len(tera_types):
+                tera_type = tera_types[variant_num]
+            else:
+                tera_type = random.choice(tera_types)
             lines.append(f"Tera Type: {tera_type}")
 
         # Determine tags for TPP
+        tags = []
         if include_tags:
-            tags = determine_tags(role, role_data, pokemon_data)
+            tags = determine_tags(role_name, role_data, pokemon_data)
             if tags:
                 lines.append(f"Tags: {' / '.join(tags)}")
 
-        # Moves
-        moves = role_data.get('moves', [])
+        # Moves - ensure different combinations for each variant
         if moves:
-            selected_moves = random.sample(moves, min(max_moves, len(moves)))
+            if len(moves) <= max_moves:
+                selected_moves = moves
+            else:
+                # For variants, try to pick different combinations
+                random.seed(variant_num)  # Use variant number for reproducibility
+                selected_moves = random.sample(moves, max_moves)
+                random.seed()  # Reset seed
+
             for move in selected_moves:
                 lines.append(f"- {move}")
 
-        results.append({
+        variants.append({
             'text': '\n'.join(lines),
-            'role': role,
-            'tags': tags
+            'role': role_name,
+            'tags': tags,
+            'variant': variant_num + 1
         })
+
+    return variants
+
+def convert_pokemon_to_party_format(
+    pokemon_name: str,
+    pokemon_data: Dict,
+    role_name: str = None,
+    include_tags: bool = False,
+    max_moves: int = 4
+) -> List[Dict[str, Any]]:
+    """
+    Convert a single Pokemon's data to trainers.party format
+    Returns list of dicts with 'text' and 'tags' keys
+    """
+    results = []
+
+    roles = pokemon_data.get('roles', {})
+    if not roles:
+        return results
+
+    if role_name and role_name in roles:
+        roles_to_process = {role_name: roles[role_name]}
+    else:
+        roles_to_process = roles
+
+    for role, role_data in roles_to_process.items():
+        # Create set variants (1 or 2 depending on options)
+        variants = create_set_variants(
+            pokemon_name,
+            role,
+            role_data,
+            pokemon_data,
+            include_tags,
+            max_moves
+        )
+
+        results.extend(variants)
 
     return results
 
@@ -222,13 +300,6 @@ def generate_trainer_pool(
 
     # Collect Pokemon entries
     pokemon_entries = []
-    tag_counts = {
-        'Lead': 0,
-        'Ace': 0,
-        'Weather Setter': 0,
-        'Weather Abuser': 0,
-        'Support': 0
-    }
 
     # Randomly select Pokemon from the dataset
     all_pokemon = list(data.keys())
@@ -254,7 +325,7 @@ def generate_trainer_pool(
         )
 
         if entries:
-            # Pick the first role for simplicity
+            # Pick the first variant
             entry = entries[0]
             pokemon_entries.append(entry['text'])
 
@@ -264,12 +335,7 @@ def generate_trainer_pool(
 def main():
     """Main conversion function"""
     parser = argparse.ArgumentParser(
-        description='Convert Random Doubles Battle JSON to trainers.party format'
-    )
-    parser.add_argument(
-        '--input', '-i',
-        default='gen9randomdoublesbattle.json',
-        help='Input JSON file (default: gen9randomdoublesbattle.json)'
+        description='Convert Random Battle JSON to trainers.party format'
     )
     parser.add_argument(
         '--output', '-o',
@@ -279,8 +345,8 @@ def main():
     parser.add_argument(
         '--mode',
         choices=['single', 'all-roles', 'pool', 'trainer-pool'],
-        default='single',
-        help='Conversion mode'
+        default='pool',
+        help='Conversion mode (default: pool)'
     )
     parser.add_argument(
         '--pool-size',
@@ -297,83 +363,103 @@ def main():
 
     args = parser.parse_args()
 
-    print("Pokemon Showdown Random Doubles Battle to trainers.party Converter")
+    print("Pokemon Showdown Random Battle to trainers.party Converter")
     print("Enhanced with Trainer Party Pool (TPP) Support")
     print("=" * 70)
 
-    # Fetch the JSON data
-    data = fetch_json(RANDBATS_URL, args.input)
-    if not data:
-        print("Failed to load data. Exiting.")
+    # Load all available JSON files
+    all_data_files = load_all_json_files()
+
+    if not all_data_files:
+        print("\n✗ No data files found! Please download at least one of:")
+        for filename in RANDBATS_URLS.keys():
+            print(f"  - {filename}")
+        print("\nPlace them in the tools/trainer_gen/ directory.")
         return
 
-    print(f"\nLoaded data for {len(data)} Pokemon!")
+    print(f"\n{'=' * 70}")
+    print(f"Loaded {len(all_data_files)} data file(s)")
+    total_pokemon = sum(len(data) for data in all_data_files.values())
+    print(f"Total Pokemon: {total_pokemon}")
     print(f"\nMode: {args.mode}")
-    print(f"Conversion in progress...\n")
+    print("Converting...\n")
 
     all_entries = []
 
-    if args.mode == "single":
-        # One entry per Pokemon (first role)
-        for pokemon_name in sorted(data.keys()):
-            pokemon_data = data[pokemon_name]
-            entries = convert_pokemon_to_party_format(
-                pokemon_name,
-                pokemon_data,
-                include_tags=False
-            )
-            if entries:
-                all_entries.append(entries[0]['text'])
+    # Process each data file
+    for filename, data in all_data_files.items():
+        source_tag = filename.replace('.json', '').replace('gen9', 'Gen9 ')
+        print(f"Processing {filename} ({len(data)} Pokemon)...")
 
-    elif args.mode == "all-roles":
-        # All roles with tags
-        for pokemon_name in sorted(data.keys()):
-            pokemon_data = data[pokemon_name]
-            entries = convert_pokemon_to_party_format(
-                pokemon_name,
-                pokemon_data,
-                include_tags=True
-            )
-            for entry in entries:
-                role_name = entry['role']
-                if len(entries) > 1:
-                    all_entries.append(f"/* {pokemon_name} - {role_name} */\n{entry['text']}")
-                else:
+        if args.mode == "single":
+            # One entry per Pokemon (first role, first variant)
+            for pokemon_name in sorted(data.keys()):
+                pokemon_data = data[pokemon_name]
+                entries = convert_pokemon_to_party_format(
+                    pokemon_name,
+                    pokemon_data,
+                    include_tags=False
+                )
+                if entries:
+                    all_entries.append(entries[0]['text'])
+
+        elif args.mode == "all-roles":
+            # All roles with all variants
+            for pokemon_name in sorted(data.keys()):
+                pokemon_data = data[pokemon_name]
+                entries = convert_pokemon_to_party_format(
+                    pokemon_name,
+                    pokemon_data,
+                    include_tags=True
+                )
+                for entry in entries:
+                    role_name = entry['role']
+                    variant_num = entry.get('variant', 1)
+
+                    if len(entries) > 1:
+                        header = f"/* {pokemon_name} - {role_name}"
+                        if entry.get('variant', 1) > 1:
+                            header += f" (Variant {variant_num})"
+                        header += f" - {source_tag} */"
+                        all_entries.append(f"{header}\n{entry['text']}")
+                    else:
+                        all_entries.append(entry['text'])
+
+        elif args.mode == "pool":
+            # Generate Pokemon with tags for manual pool creation
+            for pokemon_name in sorted(data.keys()):
+                pokemon_data = data[pokemon_name]
+                entries = convert_pokemon_to_party_format(
+                    pokemon_name,
+                    pokemon_data,
+                    include_tags=True
+                )
+                # Add all variants
+                for entry in entries:
                     all_entries.append(entry['text'])
 
-    elif args.mode == "pool":
-        # Generate Pokemon with tags for manual pool creation
-        for pokemon_name in sorted(data.keys()):
-            pokemon_data = data[pokemon_name]
-            entries = convert_pokemon_to_party_format(
-                pokemon_name,
-                pokemon_data,
-                include_tags=True
+        elif args.mode == "trainer-pool":
+            # Generate a complete trainer with pool from this file
+            trainer_pool = generate_trainer_pool(
+                f"TRAINER_EXAMPLE_{filename.split('.')[0].upper()}",
+                "Ace Trainer",
+                party_size=args.party_size,
+                pool_size=args.pool_size,
+                data=data,
+                pool_rules="Weather Doubles",
+                level_range=(75, 85),
+                double_battle=True
             )
-            if entries:
-                all_entries.append(entries[0]['text'])
-
-    elif args.mode == "trainer-pool":
-        # Generate a complete trainer with pool
-        trainer_pool = generate_trainer_pool(
-            "TRAINER_EXAMPLE_DOUBLES",
-            "Ace Trainer",
-            party_size=args.party_size,
-            pool_size=args.pool_size,
-            data=data,
-            pool_rules="Weather Doubles",
-            level_range=(75, 85),
-            double_battle=True
-        )
-        all_entries.append(trainer_pool)
+            all_entries.append(f"/* From {filename} */\n{trainer_pool}")
 
     # Output results
     with open(args.output, 'w') as f:
         f.write('\n\n'.join(all_entries))
 
     print(f"\n{'=' * 70}")
-    print(f"Conversion complete! Generated {len(all_entries)} entries.")
-    print(f"Output saved to: {args.output}")
+    print(f"✓ Conversion complete!")
+    print(f"✓ Generated {len(all_entries)} entries")
+    print(f"✓ Output saved to: {args.output}")
     print(f"\nYou can now copy and paste from {args.output} into your trainers.party file!")
 
     # Show preview
@@ -381,9 +467,9 @@ def main():
     print("Preview (first entry):")
     print('=' * 70)
     if all_entries:
-        preview = all_entries[0][:1000]  # First 1000 chars
+        preview = all_entries[0][:800]  # First 800 chars
         print(preview)
-        if len(all_entries[0]) > 1000:
+        if len(all_entries[0]) > 800:
             print("\n... (truncated)")
 
 if __name__ == "__main__":
