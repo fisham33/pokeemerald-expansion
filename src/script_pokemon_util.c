@@ -10,6 +10,7 @@
 #include "item.h"
 #include "link.h"
 #include "link_rfu.h"
+#include "load_save.h"
 #include "main.h"
 #include "menu.h"
 #include "overworld.h"
@@ -32,7 +33,13 @@
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
+static void CB2_ReturnFromChoosingParty(void);
 static void HealPlayerBoxes(void);
+
+// Temporary party backup for select-mons battles (separate from gSaveBlock1Ptr->playerParty)
+static struct Pokemon sSelectMonsBackupParty[PARTY_SIZE];
+static u8 sSelectMonsBackupCount;
+static bool8 sNeedRestorePartyAfterBattle = FALSE;
 
 void HealPlayerParty(void)
 {
@@ -226,7 +233,7 @@ void ReducePlayerPartyToSelectedMons(void)
 
     // copy the selected Pokémon according to the order.
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
-        if (gSelectedOrderFromParty[i]) // as long as the order keeps going (did the player select 1 mon? 2? 3?), do not stop
+        if (gSelectedOrderFromParty[i]) // as long as the order keeps going (did the player select 1 mon? 2? 3?),
             party[i] = gPlayerParty[gSelectedOrderFromParty[i] - 1]; // index is 0 based, not literal
 
     CpuFill32(0, gPlayerParty, sizeof gPlayerParty);
@@ -237,6 +244,101 @@ void ReducePlayerPartyToSelectedMons(void)
 
     CalculatePlayerPartyCount();
 }
+
+// Save party to temporary backup (won't be affected by battle auto-save)
+void SaveSelectMonsParty(void)
+{
+    u32 i;
+    sSelectMonsBackupCount = gPlayerPartyCount;
+    for (i = 0; i < PARTY_SIZE; i++)
+        sSelectMonsBackupParty[i] = gPlayerParty[i];
+    sNeedRestorePartyAfterBattle = TRUE;
+}
+
+// Restore party from temporary backup
+void LoadSelectMonsParty(void)
+{
+    u32 i;
+
+    // First, save which battle mons are dead (before we overwrite gPlayerParty)
+    bool8 battleMonIsDead[MAX_FRONTIER_PARTY_SIZE];
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        if (gSelectedOrderFromParty[i] && i < gPlayerPartyCount)
+            battleMonIsDead[i] = GetMonData(&gPlayerParty[i], MON_DATA_IS_DEAD, NULL);
+        else
+            battleMonIsDead[i] = FALSE;
+    }
+
+    // Restore full party from backup
+    gPlayerPartyCount = sSelectMonsBackupCount;
+    for (i = 0; i < PARTY_SIZE; i++)
+        gPlayerParty[i] = sSelectMonsBackupParty[i];
+
+    // Transfer dead status from battle mons to restored party
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        if (gSelectedOrderFromParty[i] && battleMonIsDead[i])
+        {
+            // gSelectedOrderFromParty is 1-indexed, so subtract 1
+            u8 partyIndex = gSelectedOrderFromParty[i] - 1;
+            u32 deadFlag = TRUE;
+            SetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_DEAD, &deadFlag);
+        }
+    }
+
+    // Also update the save block so it persists through whiteout warps
+    SavePlayerParty();
+    sNeedRestorePartyAfterBattle = FALSE;
+}
+
+// Check and restore party after battle if needed (called from CB2_EndTrainerBattle)
+void RestoreSelectMonsPartyAfterBattle(void)
+{
+    if (sNeedRestorePartyAfterBattle)
+    {
+        LoadSelectMonsParty();
+    }
+}
+
+// Check if we're in a select-mons battle (for Nuzlocke whiteout handling)
+bool8 IsSelectMonsBattleActive(void)
+{
+    return sNeedRestorePartyAfterBattle;
+}
+
+// Note: When control returns to the event script, gSpecialVar_Result will be
+// TRUE if the party selection was successful.
+// gSpecialVar_0x8004 should contain the number of Pokemon to select (1-6)
+void ChoosePartyForStandardBattle(void)
+{
+    u8 partyLimit = gSpecialVar_0x8004;
+
+    // Clamp to valid range
+    if (partyLimit < 1 || partyLimit > PARTY_SIZE)
+        partyLimit = 1;
+
+    SetPartySelectionLimit(partyLimit);
+    gMain.savedCallback = CB2_ReturnFromChoosingParty;
+    InitChooseHalfPartyForBattle(0);
+}
+
+static void CB2_ReturnFromChoosingParty(void)
+{
+    switch (gSelectedOrderFromParty[0])
+    {
+    case 0:
+        gSpecialVar_Result = FALSE;
+        break;
+    default:
+        gSpecialVar_Result = TRUE;
+        break;
+    }
+
+    ClearPartySelectionLimit();
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
 
 void CanHyperTrain(struct ScriptContext *ctx)
 {
