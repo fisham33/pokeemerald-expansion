@@ -29,6 +29,7 @@
 #include "constants/weather.h"
 #include "constants/pokemon.h"
 #include "nuzlocke.h"
+#include "config/nuzlocke.h"
 
 // Global variable to track if current wild Pokemon is catchable in Nuzlocke
 static bool8 gWildPokemonIsCatchableInNuzlocke = FALSE;
@@ -1269,7 +1270,7 @@ static void ApplyCleanseTagEncounterRateMod(u32 *encRate)
 bool8 TryDoDoubleWildBattle(void)
 {
     // Prevent double battles on first encounters in Nuzlocke mode
-    if (IsNuzlockeActive())
+    if (I_NUZLOCKE_PREVENT_DOUBLES && IsNuzlockeActive())
     {
         u16 mapGroup = gSaveBlock1Ptr->location.mapGroup;
         u16 mapNum = gSaveBlock1Ptr->location.mapNum;

@@ -81,6 +81,7 @@
 #include "constants/songs.h"
 #include "nuzlocke.h"
 #include "variant_colours.h"
+#include "config/nuzlocke.h"
 
 enum {
     MENU_SUMMARY,
@@ -4305,7 +4306,7 @@ static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *m
     u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
 
-    if (IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
+    if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive() && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
     {
         // Create grey palette for dead pokemon icon
         static u16 sGreyIconPal[16];

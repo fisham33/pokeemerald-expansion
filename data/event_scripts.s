@@ -599,6 +599,9 @@ EventScript_AfterWhiteOutHeal::
 	@ Check if Nuzlocke is enabled and player has Pokédex
 	goto_if_unset FLAG_NUZLOCKE, EventScript_AfterWhiteOutHeal_Normal
 	goto_if_unset FLAG_SYS_POKEDEX_GET, EventScript_AfterWhiteOutHeal_Normal
+	@ Check if whiteout option is enabled in config
+	specialvar VAR_RESULT, NuzlockeShowWhiteoutOption
+	goto_if_eq VAR_RESULT, FALSE, EventScript_AfterWhiteOutHeal_ContinueNuzlocke
 	@ Nuzlocke whiteout - show special message and ask if they want to disable
 	msgbox gText_NuzlockeWhiteOut, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, EventScript_AfterWhiteOutHeal_AskDisableConfirm
@@ -665,6 +668,9 @@ EventScript_AfterWhiteOutMomHeal::
 	@ Check if Nuzlocke is enabled and player has Pokédex
 	goto_if_unset FLAG_NUZLOCKE, EventScript_AfterWhiteOutMomHeal_Normal
 	goto_if_unset FLAG_SYS_POKEDEX_GET, EventScript_AfterWhiteOutMomHeal_Normal
+	@ Check if whiteout option is enabled in config
+	specialvar VAR_RESULT, NuzlockeShowWhiteoutOption
+	goto_if_eq VAR_RESULT, FALSE, EventScript_AfterWhiteOutMomHeal_ContinueNuzlocke
 	@ Nuzlocke whiteout - show special message and ask if they want to disable
 	msgbox gText_NuzlockeWhiteOut, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, EventScript_AfterWhiteOutMomHeal_AskDisableConfirm
