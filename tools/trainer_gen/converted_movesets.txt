@@ -1,0 +1,270 @@
+/* Doubles */
+=== TRAINER_EXAMPLE_GEN9RANDOMDOUBLESBATTLE ===
+
+Name: Example Gen9Randomdoublesbattle
+
+Class: Ace Trainer
+
+Pic: Ace Trainer
+
+Gender: Male
+
+Music: Male
+
+Double Battle: Yes
+
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Party Size: 4
+
+Pool Rules: Weather Doubles
+
+Heracross @ Choice Band
+Ability: Moxie
+Tera Type: Bug
+- Close Combat
+- Knock Off
+- Megahorn
+- Rock Slide
+
+Toxicroak @ Clear Amulet
+Ability: Dry Skin
+Tera Type: Dark
+Tags: Lead
+- Protect
+- Swords Dance
+- Close Combat
+- Fake Out
+
+Ursaluna-Bloodmoon @ Assault Vest
+Ability: Mind's Eye
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Normal
+- Blood Moon
+- Earth Power
+- Hyper Voice
+- Vacuum Wave
+
+Hawlucha @ White Herb
+Ability: Unburden
+Tera Type: Fighting
+Tags: Ace
+- Brave Bird
+- Close Combat
+- Protect
+- Swords Dance
+
+Glimmora @ Power Herb
+Ability: Toxic Debris
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Ground
+- Earth Power
+- Meteor Beam
+- Sludge Bomb
+- Spiky Shield
+
+Lycanroc-Dusk @ Life Orb
+Ability: Tough Claws
+Tera Type: Fighting
+- Psychic Fangs
+- Swords Dance
+- Accelerock
+- Close Combat
+
+Scrafty @ Assault Vest
+Ability: Intimidate
+Tera Type: Poison
+Tags: Support
+- Knock Off
+- Snarl
+- Close Combat
+- Coaching
+
+Drednaw @ White Herb
+Ability: Shell Armor
+Tera Type: Water
+Tags: Ace / Weather Abuser
+- Liquidation
+- Protect
+- Rock Slide
+- Shell Smash
+
+Urshifu-Rapid-Strike @ Choice Band
+Ability: Unseen Fist
+Tera Type: Water
+Tags: Ace
+- Protect
+- U-turn
+- Aqua Jet
+- Close Combat
+
+Iron Hands @ Leftovers
+Ability: Quark Drive
+Tera Type: Fire
+Tags: Weather Abuser
+- Drain Punch
+- Protect
+- Swords Dance
+- Thunder Punch
+
+Arcanine-Hisui @ Heavy-Duty Boots
+Ability: Intimidate
+Tera Type: Fairy
+- Rock Slide
+- Will-O-Wisp
+- Flare Blitz
+- Morning Sun
+
+Ting-Lu @ Sitrus Berry
+Ability: Vessel of Ruin
+Tera Type: Poison
+Tags: Support
+- Throat Chop
+- Whirlwind
+- Spikes
+- Stealth Rock
+
+/* Singles */
+=== TRAINER_EXAMPLE_GEN9RANDOMBATTLE ===
+
+Name: Example Gen9Randombattle
+
+Class: Ace Trainer
+
+Pic: Ace Trainer
+
+Gender: Male
+
+Music: Male
+
+Double Battle: Yes
+
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Party Size: 4
+
+Pool Rules: Weather Doubles
+
+Landorus-Therian @ Leftovers
+Ability: Intimidate
+Tera Type: Ground
+- Taunt
+- U-turn
+- Earthquake
+- Stealth Rock
+
+Falinks @ Life Orb
+Ability: Defiant
+Tera Type: Dark
+- Close Combat
+- Iron Head
+- Knock Off
+- No Retreat
+
+Infernape @ Choice Band
+Ability: Blaze
+Tera Type: Dark
+- Swords Dance
+- U-turn
+- Knock Off
+- Close Combat
+
+Donphan @ Assault Vest
+Ability: Sturdy
+Tera Type: Dragon
+- Knock Off
+- Stealth Rock
+- Earthquake
+- Ice Shard
+
+Gurdurr @ Eviolite
+Ability: Guts
+Tera Type: Steel
+- Knock Off
+- Mach Punch
+- Bulk Up
+- Defog
+
+Excadrill @ Assault Vest
+Ability: Mold Breaker
+Tera Type: Grass
+Tags: Weather Abuser
+- Earthquake
+- Iron Head
+- Rapid Spin
+- Rock Slide
+
+Tyranitar @ Leftovers
+Ability: Sand Stream
+Tera Type: Ghost
+Tags: Weather Setter
+- Knock Off
+- Stone Edge
+- Dragon Dance
+- Earthquake
+
+Garganacl @ Leftovers
+Ability: Purifying Salt
+Tera Type: Dragon
+- Salt Cure
+- Stealth Rock
+- Body Press
+- Protect
+
+Zapdos-Galar @ Choice Band
+Ability: Defiant
+Tera Type: Dark
+- Knock Off
+- U-turn
+- Brave Bird
+- Bulk Up
+
+Terrakion @ Life Orb
+Ability: Justified
+Tera Type: Fighting
+- Close Combat
+- Earthquake
+- Stone Edge
+- Swords Dance
+
+Keldeo-Resolute @ Leftovers
+Ability: Justified
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Steel
+- Substitute
+- Surf
+- Calm Mind
+- Hydro Pump
+
+Heracross @ Flame Orb
+Ability: Guts
+Tera Type: Normal
+- Close Combat
+- Facade
+- Knock Off
+- Trailblaze
+
+/* Babies */
+=== TRAINER_EXAMPLE_GEN9BABYRANDOMBATTLE ===
+
+Name: Example Gen9Babyrandombattle
+
+Class: Ace Trainer
+
+Pic: Ace Trainer
+
+Gender: Male
+
+Music: Male
+
+Double Battle: Yes
+
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Party Size: 4
+
+Pool Rules: Weather Doubles
+
