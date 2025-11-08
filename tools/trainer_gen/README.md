@@ -4,9 +4,10 @@ Convert Pokemon Showdown's Random Doubles Battle data into `trainers.party` form
 
 ## Features
 
+✅ **Graphical User Interface (GUI)** - easy-to-use GUI for all conversion options (NEW!)
 ✅ **Convert 1000+ Pokemon movesets** from Showdown's Random Battle formats
 ✅ **Multi-File Support** - processes Doubles, Singles, and Baby Random Battles
-✅ **Archetype Filtering** - filter by Pokemon type or trainer class (NEW!)
+✅ **Archetype Filtering** - filter by Pokemon type or trainer class
 ✅ **Pokemon Database** - integrated Pokemon data with types and base stats
 ✅ **Set Variants** - generates 2 variants when Pokemon have multiple abilities/items/5+ moves
 ✅ **Automatic Tag Assignment** based on roles and abilities
@@ -17,6 +18,39 @@ Convert Pokemon Showdown's Random Doubles Battle data into `trainers.party` form
 ✅ **No Level Required** - levels are optional in trainers.party format
 
 ## Quick Start
+
+### Using the GUI (Recommended)
+
+The easiest way to use the converter is through the graphical user interface:
+
+**Linux/Mac:**
+```bash
+cd tools/trainer_gen
+./launch_gui.sh
+```
+
+**Windows:**
+```bash
+cd tools/trainer_gen
+launch_gui.bat
+```
+
+**Or directly:**
+```bash
+cd tools/trainer_gen
+python3 gui_converter.py
+```
+
+The GUI provides:
+- Easy file selection for input JSON files
+- Visual mode selection with descriptions
+- Archetype filtering with dropdown for trainer classes
+- Pool and party size controls
+- Output file selection
+- Real-time progress display
+- Error handling with clear messages
+
+### Using the Command Line
 
 ### 1. Get the JSON Data
 
@@ -440,10 +474,59 @@ ROLE_TO_TAGS = {
 }
 ```
 
+## GUI Guide
+
+### Main Features
+
+The GUI application (`gui_converter.py`) provides a user-friendly interface for all converter features:
+
+#### Input Files
+- Select specific JSON files or use all available files in the directory
+- File picker dialog for easy selection
+- Supports: gen9randomdoublesbattle.json, gen9randombattle.json, gen9babyrandombattle.json
+
+#### Conversion Modes
+1. **Single entry per Pokemon (Basic)** - One moveset per Pokemon, no tags
+2. **All roles (Complete Sets)** - All roles with tags for each Pokemon
+3. **Pool format with tags (Recommended)** - Pokemon with TPP tags for manual pool creation
+4. **Complete trainer pool (Auto-Generated)** - Full trainer with configured pool
+
+#### Archetype Filtering
+- **None** - Process all Pokemon
+- **Types** - Filter by Pokemon types (e.g., "Water,Electric")
+- **Trainer Class** - Select from 50+ predefined trainer archetypes (dropdown menu)
+
+#### Pool Settings
+- Configure pool size (4-20 Pokemon)
+- Configure party size (1-6 Pokemon)
+- Only used in "trainer-pool" mode
+
+#### Output Options
+- Choose output filename
+- Option to split output into separate files by format
+- "Open Output Folder" button for quick access to results
+
+#### Progress Display
+- Real-time output from the converter
+- Status bar showing current operation
+- Success/error notifications
+- Clear output button for multiple runs
+
+### Screenshots & Tips
+
+**Tip:** The GUI automatically streams the converter's output in real-time, so you can see exactly what's happening during conversion.
+
+**Tip:** Use "Open Output Folder" after conversion to quickly access your generated files.
+
+**Tip:** The trainer class dropdown is populated from `trainer_archetypes.json`, making it easy to create themed trainers.
+
 ## Files Created
 
 - `converted_movesets.txt` - The output file with converted Pokemon
 - `gen9randomdoublesbattle.json` - Downloaded Showdown data (not tracked by git)
+- `gui_converter.py` - GUI application for the converter
+- `launch_gui.sh` - Linux/Mac launcher for the GUI
+- `launch_gui.bat` - Windows launcher for the GUI
 
 ## See Also
 
