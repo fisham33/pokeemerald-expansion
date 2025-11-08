@@ -34,6 +34,13 @@
 // after whiting out. If FALSE, whiteout in Nuzlocke = traditional game over
 #define I_NUZLOCKE_WHITEOUT_OPTION    TRUE
 
+// Visual indicators - If TRUE, dead Pokémon display with a grey palette everywhere
+// (party menu, PC, summary screen, battle).
+// Note: Requires the palette modification system (PALETTE_SYSTEM_AVAILABLE) from the
+// variant_colours branch. If that system is not present, this feature will be disabled
+// at compile-time regardless of this setting.
+#define I_NUZLOCKE_VISUAL_DEATH       TRUE
+
 // Location merging - If TRUE, related locations share encounter slots
 // Example: Underwater Route 124 = Route 124 surface
 // If FALSE, they're treated as separate locations with separate encounters

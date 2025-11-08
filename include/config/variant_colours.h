@@ -1,7 +1,8 @@
-#ifndef GUARD_CONFIG_VARIANT_COLOURS_H
-#define GUARD_CONFIG_VARIANT_COLOURS_H
+  #ifndef GUARD_VARIANT_COLOURS_H
+  #define GUARD_VARIANT_COLOURS_H
 
-// Variant Colours
-#define P_ENABLE_VARIANT_COLOURS TRUE // Enables the variant colours feature, including random variations and custom palettes.
+  // Stub file for nuzlocke branch - no palette system available
+  // When merged with fisham33's variant_colours branch, this file will be replaced
+  // This feature enables fainted Pokemon to appear with a grey tint
 
-#endif // GUARD_CONFIG_VARIANT_COLOURS_H
+  #endif // GUARD_VARIANT_COLOURS_H
