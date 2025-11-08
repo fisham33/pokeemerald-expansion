@@ -7,3 +7,6 @@ converted_movesets_*.txt
 gen9randomdoublesbattle.json
 gen9randombattle.json
 gen9babyrandombattle.json
+
+# Pokemon data database (generated file)
+pokemon_data.json

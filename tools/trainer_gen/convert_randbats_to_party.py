@@ -8,7 +8,7 @@ import json
 import urllib.request
 import random
 import argparse
-from typing import Dict, List, Any, Set
+from typing import Dict, List, Any, Set, Optional
 from pathlib import Path
 import os
 
@@ -78,14 +78,24 @@ def fetch_json(url: str, local_file: str) -> Dict:
             print(f"  ✗ Error reading local file: {e2}")
             return None
 
-def load_all_json_files() -> Dict[str, Dict]:
-    """Load all available random battle JSON files"""
+def load_all_json_files(file_filter: Optional[List[str]] = None) -> Dict[str, Dict]:
+    """
+    Load all available random battle JSON files
+
+    Args:
+        file_filter: Optional list of filenames to load. If None, loads all available files.
+    """
     all_data = {}
 
     print("Loading Random Battle data files...")
     print("=" * 70)
 
-    for filename, url in RANDBATS_URLS.items():
+    # Determine which files to load
+    files_to_load = RANDBATS_URLS if file_filter is None else {
+        f: RANDBATS_URLS[f] for f in file_filter if f in RANDBATS_URLS
+    }
+
+    for filename, url in files_to_load.items():
         # Check if file exists locally
         if os.path.exists(filename):
             print(f"\nProcessing {filename}:")
@@ -96,6 +106,62 @@ def load_all_json_files() -> Dict[str, Dict]:
             print(f"\n{filename} not found, skipping...")
 
     return all_data
+
+def load_pokemon_database() -> Optional[Dict]:
+    """Load the Pokemon database from pokemon_data.json"""
+    db_path = Path(__file__).parent / 'pokemon_data.json'
+
+    if not db_path.exists():
+        return None
+
+    with open(db_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def load_trainer_archetypes() -> Optional[Dict]:
+    """Load trainer archetype mappings"""
+    archetypes_path = Path(__file__).parent / 'trainer_archetypes.json'
+
+    if not archetypes_path.exists():
+        return None
+
+    with open(archetypes_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        return data.get('archetypes', {})
+
+def get_pokemon_types(pokemon_name: str, pokemon_db: Dict) -> List[str]:
+    """Get types for a Pokemon from the database"""
+    if not pokemon_db or 'pokemon' not in pokemon_db:
+        return []
+
+    # Normalize name for comparison (remove hyphens, spaces, make uppercase)
+    normalized_search = pokemon_name.upper().replace('-', '').replace(' ', '')
+
+    for poke in pokemon_db['pokemon']:
+        poke_name = poke['name'].upper().replace('-', '').replace(' ', '')
+        if poke_name == normalized_search:
+            return poke.get('types', [])
+
+    return []
+
+def matches_archetype(pokemon_name: str, archetype_types: List[str], pokemon_db: Dict) -> bool:
+    """
+    Check if a Pokemon matches the archetype type requirements
+
+    Args:
+        pokemon_name: Name of the Pokemon
+        archetype_types: List of type names the archetype uses
+        pokemon_db: Pokemon database
+
+    Returns:
+        True if Pokemon has at least one matching type
+    """
+    if not archetype_types or 'Any' in archetype_types:
+        return True
+
+    pokemon_types = get_pokemon_types(pokemon_name, pokemon_db)
+
+    # Check if any of the Pokemon's types match the archetype
+    return any(ptype in archetype_types for ptype in pokemon_types)
 
 def format_evs_ivs(values: Dict[str, int], all_value: int) -> str:
     """Format EVs or IVs to trainers.party format"""
@@ -338,6 +404,11 @@ def main():
         description='Convert Random Battle JSON to trainers.party format'
     )
     parser.add_argument(
+        '--input', '-i',
+        help='Input JSON files (comma-separated). Leave blank to use all available files. '
+             'Example: -i gen9randomdoublesbattle.json,gen9randombattle.json'
+    )
+    parser.add_argument(
         '--output', '-o',
         default='converted_movesets.txt',
         help='Output file (default: converted_movesets.txt)'
@@ -347,6 +418,11 @@ def main():
         choices=['single', 'all-roles', 'pool', 'trainer-pool'],
         default='pool',
         help='Conversion mode (default: pool)'
+    )
+    parser.add_argument(
+        '--archetype',
+        help='Filter Pokemon by type or trainer class. '
+             'Examples: --archetype Water,Electric  or  --archetype Hiker'
     )
     parser.add_argument(
         '--pool-size',
@@ -372,8 +448,47 @@ def main():
     print("Enhanced with Trainer Party Pool (TPP) Support")
     print("=" * 70)
 
+    # Parse input file filter
+    input_files = None
+    if args.input:
+        input_files = [f.strip() for f in args.input.split(',')]
+        print(f"\nInput file filter: {', '.join(input_files)}")
+
+    # Parse archetype
+    archetype_types = None
+    pokemon_db = None
+    trainer_archetypes = None
+
+    if args.archetype:
+        # Load Pokemon database for type checking
+        print("\nLoading Pokemon database...")
+        pokemon_db = load_pokemon_database()
+
+        if not pokemon_db:
+            print("  Warning: Pokemon database not found. Run extract_pokemon_data.py first.")
+            print("  Archetype filtering will be disabled.")
+        else:
+            print(f"  ✓ Loaded database with {pokemon_db['metadata']['total_pokemon']} Pokemon")
+
+            # Load trainer archetypes
+            trainer_archetypes = load_trainer_archetypes()
+
+            # Determine if archetype is a trainer class or types
+            archetype_value = args.archetype.strip()
+
+            if trainer_archetypes and archetype_value in trainer_archetypes:
+                # It's a trainer class
+                archetype_types = trainer_archetypes[archetype_value]
+                print(f"\nArchetype: {archetype_value} (Trainer Class)")
+                print(f"  Preferred types: {', '.join(archetype_types)}")
+            else:
+                # Treat as comma-separated types
+                archetype_types = [t.strip() for t in archetype_value.split(',')]
+                print(f"\nArchetype: Custom types")
+                print(f"  Types: {', '.join(archetype_types)}")
+
     # Load all available JSON files
-    all_data_files = load_all_json_files()
+    all_data_files = load_all_json_files(input_files)
 
     if not all_data_files:
         print("\n✗ No data files found! Please download at least one of:")
@@ -408,7 +523,22 @@ def main():
     # Process each data file
     for filename, data in all_data_files.items():
         source_type = get_source_type(filename)
-        print(f"Processing {filename} ({len(data)} Pokemon) - {source_type}...")
+
+        # Apply archetype filtering if specified
+        if archetype_types and pokemon_db:
+            filtered_data = {
+                name: pdata for name, pdata in data.items()
+                if matches_archetype(name, archetype_types, pokemon_db)
+            }
+            print(f"Processing {filename} - {source_type} "
+                  f"({len(filtered_data)}/{len(data)} Pokemon match archetype)...")
+            data = filtered_data
+        else:
+            print(f"Processing {filename} ({len(data)} Pokemon) - {source_type}...")
+
+        if not data:
+            print(f"  Skipping {filename} (no Pokemon match archetype)")
+            continue
 
         if args.mode == "single":
             # One entry per Pokemon (first role, first variant)

@@ -4,8 +4,10 @@ Convert Pokemon Showdown's Random Doubles Battle data into `trainers.party` form
 
 ## Features
 
-✅ **Convert 600+ Pokemon movesets** from Showdown's Random Battle formats
+✅ **Convert 1000+ Pokemon movesets** from Showdown's Random Battle formats
 ✅ **Multi-File Support** - processes Doubles, Singles, and Baby Random Battles
+✅ **Archetype Filtering** - filter by Pokemon type or trainer class (NEW!)
+✅ **Pokemon Database** - integrated Pokemon data with types and base stats
 ✅ **Set Variants** - generates 2 variants when Pokemon have multiple abilities/items/5+ moves
 ✅ **Automatic Tag Assignment** based on roles and abilities
 ✅ **Trainer Party Pool Support** with configurable pool sizes
@@ -45,6 +47,71 @@ python3 convert_randbats_to_party.py --mode pool
 ```
 
 The script will merge Pokemon from all available files into one `converted_movesets.txt`!
+
+### 3. Generate Pokemon Database (Required for Archetype Filtering)
+
+To use archetype filtering, first generate the Pokemon database:
+
+```bash
+cd tools/trainer_gen
+python3 extract_pokemon_data.py
+```
+
+This creates `pokemon_data.json` with data for 1000+ Pokemon including types, base stats, and dex numbers extracted from your pokeemerald-expansion codebase.
+
+## Archetype Filtering
+
+Filter Pokemon by type or trainer class to create themed trainers!
+
+### Filter by Type(s)
+
+```bash
+# Water-type Pokemon only
+python3 convert_randbats_to_party.py --mode pool --archetype Water
+
+# Multiple types (Water OR Electric)
+python3 convert_randbats_to_party.py --mode pool --archetype Water,Electric
+
+# Fire OR Ground OR Rock
+python3 convert_randbats_to_party.py --mode pool --archetype Fire,Ground,Rock
+```
+
+### Filter by Trainer Class
+
+The script includes 50+ predefined trainer archetypes:
+
+```bash
+# Hiker (Rock/Ground/Fighting types)
+python3 convert_randbats_to_party.py --mode pool --archetype Hiker
+
+# Swimmer (Water types)
+python3 convert_randbats_to_party.py --mode pool --archetype Swimmer
+
+# Hex Maniac (Ghost/Dark/Poison types)
+python3 convert_randbats_to_party.py --mode pool --archetype "Hex Maniac"
+```
+
+**Available Trainer Classes:**
+- **Type Specialists:** Swimmer (Water), Bird Keeper (Flying), Bug Catcher (Bug), Kindler (Fire), Psychic (Psychic), Dragon Tamer (Dragon), etc.
+- **Multi-Type:** Hiker (Rock/Ground/Fighting), Scientist (Poison/Electric/Steel), Ninja (Poison/Dark), Hex Maniac (Ghost/Dark/Poison)
+- **Generalists:** Ace Trainer, Cooltrainer, Pokemon Breeder (accepts any type)
+
+See `trainer_archetypes.json` for the full list and their type preferences.
+
+### Select Specific Input Files
+
+Use `-i` to specify which JSON files to process:
+
+```bash
+# Only Doubles format
+python3 convert_randbats_to_party.py --mode pool -i gen9randomdoublesbattle.json
+
+# Doubles and Singles (comma-separated)
+python3 convert_randbats_to_party.py --mode pool -i gen9randomdoublesbattle.json,gen9randombattle.json
+
+# Combine archetype with file selection
+python3 convert_randbats_to_party.py --mode pool --archetype Hiker -i gen9randomdoublesbattle.json
+```
 
 ## Usage Modes
 
@@ -144,7 +211,9 @@ python3 convert_randbats_to_party.py [OPTIONS]
 ```
 
 ### Options:
+- `--input`, `-i` - Input JSON files (comma-separated). Leave blank to use all available files
 - `--mode {single|all-roles|pool|trainer-pool}` - Conversion mode (default: pool)
+- `--archetype` - Filter Pokemon by type or trainer class (e.g., "Water,Electric" or "Hiker")
 - `--output`, `-o` - Output file (default: converted_movesets.txt)
 - `--pool-size` - Pool size for trainer-pool mode (default: 8)
 - `--party-size` - Party size for trainer-pool mode (default: 4)
