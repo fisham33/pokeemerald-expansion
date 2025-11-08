@@ -1,4 +1,9 @@
 
 # Converter script output files
 converted_movesets.txt
+converted_movesets_*.txt
+
+# Random Battle JSON data files
 gen9randomdoublesbattle.json
+gen9randombattle.json
+gen9babyrandombattle.json

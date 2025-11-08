@@ -144,11 +144,11 @@ python3 convert_randbats_to_party.py [OPTIONS]
 ```
 
 ### Options:
-- `--mode {single|all-roles|pool|trainer-pool}` - Conversion mode (default: single)
-- `--input`, `-i` - Input JSON file (default: gen9randomdoublesbattle.json)
+- `--mode {single|all-roles|pool|trainer-pool}` - Conversion mode (default: pool)
 - `--output`, `-o` - Output file (default: converted_movesets.txt)
 - `--pool-size` - Pool size for trainer-pool mode (default: 8)
 - `--party-size` - Party size for trainer-pool mode (default: 4)
+- `--split-output` - Split output into separate files by format (singles/doubles/babies)
 
 ### Examples:
 ```bash
@@ -158,8 +158,12 @@ python3 convert_randbats_to_party.py --mode pool -o my_pool.txt
 # Generate trainer with larger pool
 python3 convert_randbats_to_party.py --mode trainer-pool --pool-size 16 --party-size 6
 
-# Process custom JSON file
-python3 convert_randbats_to_party.py --mode pool -i custom_data.json
+# Split output into separate files by format
+python3 convert_randbats_to_party.py --mode pool --split-output
+# Creates: converted_movesets_doubles.txt, converted_movesets_singles.txt, converted_movesets_babies.txt
+
+# Generate all roles with split output
+python3 convert_randbats_to_party.py --mode all-roles --split-output
 ```
 
 ## Set Variants
@@ -205,6 +209,50 @@ Tera Type: Steel
 ```
 
 This gives you more variety in your trainer pools!
+
+## Set Comments
+
+The converter automatically adds **helpful comments** above each Pokemon set to identify the role and source format:
+
+**Combined Output (default):**
+```
+/* Doubles */
+/* Doubles Bulky Attacker */
+Torkoal @ Sitrus Berry
+Ability: Drought
+Tera Type: Dragon
+Tags: Weather Setter
+- Heat Wave
+- Body Press
+- Protect
+- Will-O-Wisp
+
+/* Singles */
+/* Setup Sweeper */
+Dragonite @ Weakness Policy
+Ability: Multiscale
+Tera Type: Normal
+Tags: Ace
+- Dragon Dance
+- Extreme Speed
+- Earthquake
+- Outrage
+```
+
+**Split Output (--split-output flag):**
+```
+/* Doubles Bulky Attacker */
+Torkoal @ Sitrus Berry
+Ability: Drought
+Tera Type: Dragon
+Tags: Weather Setter
+- Heat Wave
+- Body Press
+- Protect
+- Will-O-Wisp
+```
+
+The format identifier comment (`/* Doubles */`, `/* Singles */`, `/* Babies */`) is only added when combining all formats into one file. When using `--split-output`, only the role comment is included since each file contains only one format.
 
 ## Tag Assignment
 

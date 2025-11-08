@@ -360,6 +360,11 @@ def main():
         default=4,
         help='Party size for trainer pools (default: 4)'
     )
+    parser.add_argument(
+        '--split-output',
+        action='store_true',
+        help='Split output into separate files by format (singles/doubles/babies)'
+    )
 
     args = parser.parse_args()
 
@@ -382,14 +387,28 @@ def main():
     total_pokemon = sum(len(data) for data in all_data_files.values())
     print(f"Total Pokemon: {total_pokemon}")
     print(f"\nMode: {args.mode}")
+    print(f"Output: {'Split by format' if args.split_output else 'Combined'}")
     print("Converting...\n")
 
-    all_entries = []
+    # Determine source type from filename
+    def get_source_type(filename):
+        if 'double' in filename.lower():
+            return 'Doubles'
+        elif 'baby' in filename.lower():
+            return 'Babies'
+        else:
+            return 'Singles'
+
+    # Storage for entries - either combined or split by format
+    if args.split_output:
+        file_entries = {filename: [] for filename in all_data_files.keys()}
+    else:
+        all_entries = []
 
     # Process each data file
     for filename, data in all_data_files.items():
-        source_tag = filename.replace('.json', '').replace('gen9', 'Gen9 ')
-        print(f"Processing {filename} ({len(data)} Pokemon)...")
+        source_type = get_source_type(filename)
+        print(f"Processing {filename} ({len(data)} Pokemon) - {source_type}...")
 
         if args.mode == "single":
             # One entry per Pokemon (first role, first variant)
@@ -401,7 +420,22 @@ def main():
                     include_tags=False
                 )
                 if entries:
-                    all_entries.append(entries[0]['text'])
+                    entry = entries[0]
+                    role_name = entry['role']
+
+                    # Build the entry with comments
+                    entry_lines = []
+                    if not args.split_output:
+                        entry_lines.append(f"/* {source_type} */")
+                    entry_lines.append(f"/* {role_name} */")
+                    entry_lines.append(entry['text'])
+
+                    formatted_entry = '\n'.join(entry_lines)
+
+                    if args.split_output:
+                        file_entries[filename].append(formatted_entry)
+                    else:
+                        all_entries.append(formatted_entry)
 
         elif args.mode == "all-roles":
             # All roles with all variants
@@ -416,14 +450,24 @@ def main():
                     role_name = entry['role']
                     variant_num = entry.get('variant', 1)
 
-                    if len(entries) > 1:
-                        header = f"/* {pokemon_name} - {role_name}"
-                        if entry.get('variant', 1) > 1:
-                            header += f" (Variant {variant_num})"
-                        header += f" - {source_tag} */"
-                        all_entries.append(f"{header}\n{entry['text']}")
+                    # Build the entry with comments
+                    entry_lines = []
+                    if not args.split_output:
+                        entry_lines.append(f"/* {source_type} */")
+
+                    role_comment = f"/* {role_name}"
+                    if entry.get('variant', 1) > 1:
+                        role_comment += f" (Variant {variant_num})"
+                    role_comment += " */"
+                    entry_lines.append(role_comment)
+                    entry_lines.append(entry['text'])
+
+                    formatted_entry = '\n'.join(entry_lines)
+
+                    if args.split_output:
+                        file_entries[filename].append(formatted_entry)
                     else:
-                        all_entries.append(entry['text'])
+                        all_entries.append(formatted_entry)
 
         elif args.mode == "pool":
             # Generate Pokemon with tags for manual pool creation
@@ -436,7 +480,27 @@ def main():
                 )
                 # Add all variants
                 for entry in entries:
-                    all_entries.append(entry['text'])
+                    role_name = entry['role']
+                    variant_num = entry.get('variant', 1)
+
+                    # Build the entry with comments
+                    entry_lines = []
+                    if not args.split_output:
+                        entry_lines.append(f"/* {source_type} */")
+
+                    role_comment = f"/* {role_name}"
+                    if entry.get('variant', 1) > 1:
+                        role_comment += f" (Variant {variant_num})"
+                    role_comment += " */"
+                    entry_lines.append(role_comment)
+                    entry_lines.append(entry['text'])
+
+                    formatted_entry = '\n'.join(entry_lines)
+
+                    if args.split_output:
+                        file_entries[filename].append(formatted_entry)
+                    else:
+                        all_entries.append(formatted_entry)
 
         elif args.mode == "trainer-pool":
             # Generate a complete trainer with pool from this file
@@ -450,27 +514,68 @@ def main():
                 level_range=(75, 85),
                 double_battle=True
             )
-            all_entries.append(f"/* From {filename} */\n{trainer_pool}")
+
+            formatted_entry = f"/* {source_type} */\n{trainer_pool}"
+
+            if args.split_output:
+                file_entries[filename].append(formatted_entry)
+            else:
+                all_entries.append(formatted_entry)
 
     # Output results
-    with open(args.output, 'w') as f:
-        f.write('\n\n'.join(all_entries))
+    if args.split_output:
+        # Create separate files for each format
+        output_files = []
+        for filename, entries in file_entries.items():
+            if not entries:
+                continue
 
-    print(f"\n{'=' * 70}")
-    print(f"✓ Conversion complete!")
-    print(f"✓ Generated {len(all_entries)} entries")
-    print(f"✓ Output saved to: {args.output}")
-    print(f"\nYou can now copy and paste from {args.output} into your trainers.party file!")
+            source_type = get_source_type(filename).lower()
+            output_filename = f"converted_movesets_{source_type}.txt"
+
+            with open(output_filename, 'w') as f:
+                f.write('\n\n'.join(entries))
+
+            output_files.append(output_filename)
+            print(f"  ✓ Wrote {len(entries)} entries to {output_filename}")
+
+        print(f"\n{'=' * 70}")
+        print(f"✓ Conversion complete!")
+        print(f"✓ Generated {len(output_files)} output files:")
+        for output_file in output_files:
+            print(f"  - {output_file}")
+    else:
+        # Write combined file
+        with open(args.output, 'w') as f:
+            f.write('\n\n'.join(all_entries))
+
+        print(f"\n{'=' * 70}")
+        print(f"✓ Conversion complete!")
+        print(f"✓ Generated {len(all_entries)} entries")
+        print(f"✓ Output saved to: {args.output}")
+
+    print(f"\nYou can now copy and paste from the output file(s) into your trainers.party file!")
 
     # Show preview
     print(f"\n{'=' * 70}")
     print("Preview (first entry):")
     print('=' * 70)
-    if all_entries:
-        preview = all_entries[0][:800]  # First 800 chars
-        print(preview)
-        if len(all_entries[0]) > 800:
-            print("\n... (truncated)")
+
+    if args.split_output:
+        # Show preview from first file with entries
+        for filename, entries in file_entries.items():
+            if entries:
+                preview = entries[0][:800]  # First 800 chars
+                print(preview)
+                if len(entries[0]) > 800:
+                    print("\n... (truncated)")
+                break
+    else:
+        if all_entries:
+            preview = all_entries[0][:800]  # First 800 chars
+            print(preview)
+            if len(all_entries[0]) > 800:
+                print("\n... (truncated)")
 
 if __name__ == "__main__":
     main()
