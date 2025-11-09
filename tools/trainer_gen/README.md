@@ -251,7 +251,14 @@ python3 convert_randbats_to_party.py [OPTIONS]
 - `--output`, `-o` - Output file (default: converted_movesets.txt)
 - `--pool-size` - Pool size for trainer-pool mode (default: 8)
 - `--party-size` - Party size for trainer-pool mode (default: 4)
+- `--level-min` - Minimum level for trainer-pool mode (default: auto-detect)
+- `--level-max` - Maximum level for trainer-pool mode (default: auto-detect)
 - `--split-output` - Split output into separate files by format (singles/doubles/babies)
+
+**Level Range Auto-Detection (trainer-pool mode):**
+- Baby Random Battles: levels 5-15
+- Doubles/Singles Random Battles: levels 75-85
+- Other files: levels 1-100
 
 ### Examples:
 ```bash
@@ -260,6 +267,12 @@ python3 convert_randbats_to_party.py --mode pool -o my_pool.txt
 
 # Generate trainer with larger pool
 python3 convert_randbats_to_party.py --mode trainer-pool --pool-size 16 --party-size 6
+
+# Generate trainer pool from baby battles with Rock types (auto-detects levels 5-15)
+python3 convert_randbats_to_party.py --mode trainer-pool --archetype Rock -i gen9babyrandombattle.json
+
+# Generate trainer pool with custom level range
+python3 convert_randbats_to_party.py --mode trainer-pool --level-min 50 --level-max 60
 
 # Split output into separate files by format
 python3 convert_randbats_to_party.py --mode pool --split-output

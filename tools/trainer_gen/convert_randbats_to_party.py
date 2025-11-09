@@ -441,6 +441,16 @@ def main():
         action='store_true',
         help='Split output into separate files by format (singles/doubles/babies)'
     )
+    parser.add_argument(
+        '--level-min',
+        type=int,
+        help='Minimum level for trainer-pool mode (default: auto-detect based on input file)'
+    )
+    parser.add_argument(
+        '--level-max',
+        type=int,
+        help='Maximum level for trainer-pool mode (default: auto-detect based on input file)'
+    )
 
     args = parser.parse_args()
 
@@ -633,6 +643,19 @@ def main():
                         all_entries.append(formatted_entry)
 
         elif args.mode == "trainer-pool":
+            # Determine appropriate level range
+            if args.level_min is not None and args.level_max is not None:
+                # User specified level range
+                level_range = (args.level_min, args.level_max)
+            else:
+                # Auto-detect based on source type
+                if 'baby' in filename.lower():
+                    level_range = (5, 15)
+                elif 'double' in filename.lower() or 'single' in filename.lower():
+                    level_range = (75, 85)
+                else:
+                    level_range = (1, 100)  # Accept all levels by default
+
             # Generate a complete trainer with pool from this file
             trainer_pool = generate_trainer_pool(
                 f"TRAINER_EXAMPLE_{filename.split('.')[0].upper()}",
@@ -641,7 +664,7 @@ def main():
                 pool_size=args.pool_size,
                 data=data,
                 pool_rules="Weather Doubles",
-                level_range=(75, 85),
+                level_range=level_range,
                 double_battle=True
             )
 
