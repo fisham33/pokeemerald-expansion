@@ -209,33 +209,36 @@ static const struct DungeonTrainer sDungeonTrainers[DUNGEON_MAX_TRAINERS_PER_ROO
         .arrayElement = 0,
         .gfxIdVar = VAR_OBJ_GFX_ID_0,
         .trainerFlag = FLAG_DUNGEON_TRAINER_0,
-        .trainerId = TRAINER_DUNGEON_RANDOM_0,
+        .trainerId = TRAINER_WINSTON_1,  // Placeholder
     },
     [1] = {
         .arrayElement = 1,
         .gfxIdVar = VAR_OBJ_GFX_ID_1,
         .trainerFlag = FLAG_DUNGEON_TRAINER_1,
-        .trainerId = TRAINER_DUNGEON_RANDOM_1,
+        .trainerId = TRAINER_IVAN,  // Placeholder
     },
     [2] = {
         .arrayElement = 2,
         .gfxIdVar = VAR_OBJ_GFX_ID_2,
         .trainerFlag = FLAG_DUNGEON_TRAINER_2,
-        .trainerId = TRAINER_DUNGEON_RANDOM_2,
+        .trainerId = TRAINER_JOEY,  // Placeholder
     },
     [3] = {
         .arrayElement = 3,
         .gfxIdVar = VAR_OBJ_GFX_ID_3,
         .trainerFlag = FLAG_DUNGEON_TRAINER_3,
-        .trainerId = TRAINER_DUNGEON_RANDOM_3,
+        .trainerId = TRAINER_JOSE,  // Placeholder
     },
 };
 
 void Dungeon_SpawnTrainers(void)
 {
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
-    if (dungeonId == 0xFF)
-        return;
+
+    // TEMPORARY: Allow spawning even when dungeon isn't active (for debug testing)
+    // In production, this should return if dungeonId == 0xFF
+    // if (dungeonId == 0xFF)
+    //     return;
 
     // TODO: Implement trainer spawning
     // 1. Determine how many trainers to spawn (based on current room definition)

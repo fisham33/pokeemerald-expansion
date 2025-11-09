@@ -1,6 +1,6 @@
 DungeonRoom_Trainer_0::
 # 11 "data/scripts/dungeon_rooms.pory"
-	trainerbattle_single TRAINER_MARCEL, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0
+	trainerbattle_single TRAINER_WINSTON_1, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0
 # 12 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -8,7 +8,7 @@ DungeonRoom_Trainer_0::
 
 DungeonRoom_Trainer_1::
 # 17 "data/scripts/dungeon_rooms.pory"
-	trainerbattle_single TRAINER_ALBERTO, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1
+	trainerbattle_single TRAINER_IVAN, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1
 # 18 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -16,7 +16,7 @@ DungeonRoom_Trainer_1::
 
 DungeonRoom_Trainer_2::
 # 23 "data/scripts/dungeon_rooms.pory"
-	trainerbattle_single TRAINER_MARCEL, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2
+	trainerbattle_single TRAINER_JOEY, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2
 # 24 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -24,7 +24,7 @@ DungeonRoom_Trainer_2::
 
 DungeonRoom_Trainer_3::
 # 29 "data/scripts/dungeon_rooms.pory"
-	trainerbattle_single TRAINER_MARCEL, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3
+	trainerbattle_single TRAINER_JOSE, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3
 # 30 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE
 	end

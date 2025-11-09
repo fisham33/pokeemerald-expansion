@@ -4,7 +4,10 @@
       "Bash(make:*)",
       "Bash(find:*)",
       "Bash(./tools/trainerproc/trainerproc:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(python3:*)",
+      "Bash(arm-none-eabi-objdump:*)",
+      "Bash(xxd:*)"
     ],
     "deny": [],
     "ask": []
