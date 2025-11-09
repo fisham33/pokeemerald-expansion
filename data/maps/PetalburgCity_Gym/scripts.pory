@@ -369,8 +369,17 @@ PetalburgCity_Gym_EventScript_GiveEnigmaBerry::
 	end
 
 PetalburgCity_Gym_EventScript_NormanBattle::
-	msgbox PetalburgCity_Gym_Text_NormanIntro, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanDefeat
+	trainerbattle_selectmons TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanIntro, PetalburgCity_Gym_Text_NormanDefeat, PetalburgCity_Gym_EventScript_PostBattleHandler, 4
+	end
+
+PetalburgCity_Gym_EventScript_PostBattleHandler::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+	switch VAR_RESULT
+	case 1, PetalburgCity_Gym_EventScript_NormanWon
+	case 0, PetalburgCity_Gym_EventScript_WhiteOut
+	end
+
+PetalburgCity_Gym_EventScript_NormanWon::
 	message PetalburgCity_Gym_Text_ReceivedBalanceBadge
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
@@ -399,6 +408,12 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	case DIR_NORTH, PetalburgCity_Gym_EventScript_WallysDadArrivesNorth
 	case DIR_WEST, PetalburgCity_Gym_EventScript_WallysDadArrivesWest
 	case DIR_EAST, PetalburgCity_Gym_EventScript_WallysDadArrivesEast
+	end
+
+PetalburgCity_Gym_EventScript_WhiteOut::
+	fadescreen FADE_TO_BLACK
+	special SetCB2WhiteOut
+	waitstate
 	end
 
 PetalburgCity_Gym_EventScript_GiveFacade::
