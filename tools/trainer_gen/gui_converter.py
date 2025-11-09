@@ -265,6 +265,15 @@ class ConverterGUI:
         try:
             # Build command
             script_path = Path(__file__).parent / "convert_randbats_to_party.py"
+
+            # Check if script exists
+            if not script_path.exists():
+                error_msg = f"ERROR: Converter script not found at: {script_path}"
+                self.log_output(error_msg)
+                self.status_var.set("Error occurred!")
+                self.root.after(100, lambda: messagebox.showerror("Error", error_msg))
+                return
+
             cmd = ["python3", str(script_path)]
 
             # Add mode
@@ -296,20 +305,36 @@ class ConverterGUI:
 
             # Log command
             self.log_output(f"Running command: {' '.join(cmd)}\n")
+            self.log_output(f"Working directory: {Path(__file__).parent}\n")
             self.log_output("=" * 70)
 
             # Run the command
             process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
+                stderr=subprocess.PIPE,
                 text=True,
                 cwd=Path(__file__).parent
             )
 
-            # Stream output
+            # Stream output (both stdout and stderr)
+            stdout_lines = []
+            stderr_lines = []
+
+            # Read stdout
             for line in process.stdout:
-                self.log_output(line.rstrip())
+                line = line.rstrip()
+                stdout_lines.append(line)
+                self.log_output(line)
+
+            # Get any stderr
+            stderr_output = process.stderr.read()
+            if stderr_output:
+                stderr_lines = stderr_output.strip().split('\n')
+                self.log_output("\n=== ERROR OUTPUT ===")
+                for line in stderr_lines:
+                    self.log_output(line)
+                self.log_output("===================")
 
             process.wait()
 
@@ -323,18 +348,25 @@ class ConverterGUI:
                 ))
             else:
                 self.log_output("\n" + "=" * 70)
-                self.log_output("✗ Conversion failed!")
+                self.log_output(f"✗ Conversion failed with return code: {process.returncode}")
+
+                # Create detailed error message
+                error_summary = f"Conversion failed with return code {process.returncode}."
+                if stderr_lines:
+                    error_summary += f"\n\nError details:\n" + "\n".join(stderr_lines[-5:])  # Last 5 lines
+
                 self.status_var.set("Conversion failed!")
-                self.root.after(100, lambda: messagebox.showerror(
-                    "Error",
-                    "Conversion failed! Check the output for details."
+                self.root.after(100, lambda msg=error_summary: messagebox.showerror(
+                    "Conversion Failed",
+                    msg
                 ))
 
         except Exception as e:
-            error_msg = f"Error during conversion: {e}"
+            import traceback
+            error_msg = f"Error during conversion: {e}\n\nTraceback:\n{traceback.format_exc()}"
             self.log_output(error_msg)
             self.status_var.set("Error occurred!")
-            self.root.after(100, lambda: messagebox.showerror("Error", error_msg))
+            self.root.after(100, lambda msg=str(e): messagebox.showerror("Error", f"Exception occurred:\n{msg}\n\nCheck output for full details."))
 
         finally:
             # Re-enable convert button
