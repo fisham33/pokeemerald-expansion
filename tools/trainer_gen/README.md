@@ -254,11 +254,35 @@ python3 convert_randbats_to_party.py [OPTIONS]
 - `--level-min` - Minimum level for trainer-pool mode (default: auto-detect)
 - `--level-max` - Maximum level for trainer-pool mode (default: auto-detect)
 - `--split-output` - Split output into separate files by format (singles/doubles/babies)
+- `--use-species-enabled` - Filter Pokemon based on species_enabled.h configuration
 
 **Level Range Auto-Detection (trainer-pool mode):**
 - Baby Random Battles: levels 5-15
 - Doubles/Singles Random Battles: levels 75-85
 - Other files: levels 1-100
+
+**Species Filtering (--use-species-enabled):**
+
+This feature respects your `include/config/species_enabled.h` configuration, only including Pokemon from enabled families and generations. This is useful if you've disabled certain Pokemon families or entire generations in your ROM hack.
+
+Requirements:
+- Run `python3 extract_pokemon_data.py` first to generate `pokemon_data.json` with family information
+- The converter will read your `species_enabled.h` file automatically
+
+Example:
+```c
+// In species_enabled.h:
+#define P_GEN_1_POKEMON                  TRUE
+#define P_GEN_2_POKEMON                  FALSE  // Gen 2 disabled
+#define P_FAMILY_CHARMANDER              FALSE  // Charmander family disabled
+```
+
+Then run:
+```bash
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled
+```
+
+This will exclude all Gen 2 Pokemon and the Charmander family from the output, matching your ROM hack's configuration.
 
 ### Examples:
 ```bash
@@ -273,6 +297,12 @@ python3 convert_randbats_to_party.py --mode trainer-pool --archetype Rock -i gen
 
 # Generate trainer pool with custom level range
 python3 convert_randbats_to_party.py --mode trainer-pool --level-min 50 --level-max 60
+
+# Filter by enabled species only (respects species_enabled.h)
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled
+
+# Combine species filtering with archetype filtering
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled --archetype Water
 
 # Split output into separate files by format
 python3 convert_randbats_to_party.py --mode pool --split-output
