@@ -1,0 +1,93 @@
+// ============================================
+// Shared Dungeon Room Scripts
+// Used by all dungeon room maps
+// ============================================
+
+// ============================================
+// TRAINER BATTLES
+// ============================================
+
+script DungeonRoom_Trainer_0 {
+    trainerbattle_single(TRAINER_DUNGEON_RANDOM_0, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script DungeonRoom_Trainer_1 {
+    trainerbattle_single(TRAINER_DUNGEON_RANDOM_1, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script DungeonRoom_Trainer_2 {
+    trainerbattle_single(TRAINER_DUNGEON_RANDOM_2, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script DungeonRoom_Trainer_3 {
+    trainerbattle_single(TRAINER_DUNGEON_RANDOM_3, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// ============================================
+// TRAINER DEFEAT HANDLERS
+// ============================================
+
+script DungeonRoom_OnDefeat_0 {
+    callnative(Script_Dungeon_OnTrainerDefeated)
+}
+
+script DungeonRoom_OnDefeat_1 {
+    callnative(Script_Dungeon_OnTrainerDefeated)
+}
+
+script DungeonRoom_OnDefeat_2 {
+    callnative(Script_Dungeon_OnTrainerDefeated)
+}
+
+script DungeonRoom_OnDefeat_3 {
+    callnative(Script_Dungeon_OnTrainerDefeated)
+}
+
+// ============================================
+// EXIT TRIGGER
+// ============================================
+
+script DungeonRoom_ExitTrigger {
+    lock
+    callnative(Script_Dungeon_CheckRoomCleared)
+    if (var(VAR_RESULT) == TRUE) {
+        goto(DungeonRoom_DoAdvance)
+    }
+    msgbox(DungeonRoom_Text_NotCleared, MSGBOX_DEFAULT)
+    release
+}
+
+script DungeonRoom_DoAdvance {
+    callnative(Script_Dungeon_AdvanceToNextRoom)
+    waitstate
+    release
+}
+
+// ============================================
+// TEXT STRINGS
+// ============================================
+
+text DungeonRoom_Intro {
+    "Let's battle!"
+}
+
+text DungeonRoom_Defeated {
+    "I lost!"
+}
+
+text DungeonRoom_PostBattle {
+    "That was a good fight."
+}
+
+text DungeonRoom_Text_NotCleared {
+    "You must defeat all the trainers\n"
+    "in this room before proceeding!"
+}

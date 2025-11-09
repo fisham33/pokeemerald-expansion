@@ -583,8 +583,12 @@ struct SaveBlock2
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
              u16 battleMode:2;
-             //u16 padding1:4;
-             //u16 padding2;
+             u16 dungeonActive:1;           // Dungeon system: Is a dungeon run currently active?
+             u16 dungeonCurrentRoom:3;      // Dungeon system: Current room (0-7)
+             //u16 padding1:0;
+    /*0x16*/ u16 dungeonTrainersDefeated:3; // Dungeon system: Trainers defeated this room (0-7)
+             u16 dungeonRewardScore:9;      // Dungeon system: Total reward points (0-511)
+             u16 padding2:4;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u8 filler_90[0x8];
     /*0x98*/ struct Time localTimeOffset;

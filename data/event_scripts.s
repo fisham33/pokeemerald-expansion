@@ -21,6 +21,7 @@
 #include "constants/daycare.h"
 #include "constants/decorations.h"
 #include "constants/difficulty.h"
+#include "constants/dungeons.h"
 #include "constants/easy_chat.h"
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
@@ -588,6 +589,7 @@ gStdScripts_End::
 
 	.include "data/scripts/config.inc"
 	.include "data/scripts/debug.inc"
+	.include "data/scripts/dungeon_rooms.inc"
 
 EventScript_WhiteOut::
 	call EverGrandeCity_HallOfFame_EventScript_ResetEliteFour
@@ -1311,3 +1313,19 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
 	.include "data/scripts/dexnav.inc"
+
+	.include "data/maps/Dungeon1_Entrance/scripts.inc"
+
+	.include "data/maps/Dungeon1_Room1/scripts.inc"
+
+	.include "data/maps/Dungeon1_Room2/scripts.inc"
+
+	.include "data/maps/Dungeon1_Room3/scripts.inc"
+
+	.include "data/maps/Dungeon1_Room4/scripts.inc"
+
+	.include "data/maps/Dungeon1_Room5/scripts.inc"
+
+	.include "data/maps/Dungeon1_RoomBoss/scripts.inc"
+
+	.include "data/maps/Dungeon1_RoomEnd/scripts.inc"

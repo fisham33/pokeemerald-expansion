@@ -4410,6 +4410,86 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ENTRANCE",
+      "name": "Dungeon1_Entrance_Layout",
+      "width": 12,
+      "height": 10,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Entrance/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Entrance/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM1",
+      "name": "Dungeon1_Room1_Layout",
+      "width": 15,
+      "height": 15,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Room1/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Room1/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM2",
+      "name": "Dungeon1_Room2_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Room2/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Room2/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM3",
+      "name": "Dungeon1_Room3_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Room3/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Room3/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM4",
+      "name": "Dungeon1_Room4_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Room4/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Room4/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM5",
+      "name": "Dungeon1_Room5_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_Room5/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_Room5/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM_BOSS",
+      "name": "Dungeon1_RoomBoss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_RoomBoss/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_RoomBoss/map.bin"
+    },
+    {
+      "id": "LAYOUT_DUNGEON1_ROOM_END",
+      "name": "Dungeon1_RoomEnd_Layout",
+      "width": 20,
+      "height": 10,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Dungeon1_RoomEnd/border.bin",
+      "blockdata_filepath": "data/layouts/Dungeon1_RoomEnd/map.bin"
     }
   ]
 }

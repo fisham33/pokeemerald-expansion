@@ -33,7 +33,8 @@
     "gMapGroup_IndoorRoute113",
     "gMapGroup_IndoorRoute123",
     "gMapGroup_IndoorRoute119",
-    "gMapGroup_IndoorRoute124"
+    "gMapGroup_IndoorRoute124",
+    "gMapGroup_ProcGen"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -620,5 +621,15 @@
   ],
   "gMapGroup_IndoorRoute124": [
     "Route124_DivingTreasureHuntersHouse"
+  ],
+  "gMapGroup_ProcGen": [
+    "Dungeon1_Entrance",
+    "Dungeon1_Room1",
+    "Dungeon1_Room2",
+    "Dungeon1_Room3",
+    "Dungeon1_Room4",
+    "Dungeon1_Room5",
+    "Dungeon1_RoomBoss",
+    "Dungeon1_RoomEnd"
   ]
 }

@@ -1387,13 +1387,13 @@
 #define FLAG_IS_CHAMPION                            (SYSTEM_FLAGS + 0x1F) // Seems to be related to linking.
 #define FLAG_NURSE_UNION_ROOM_REMINDER              (SYSTEM_FLAGS + 0x20)
 
-#define FLAG_UNUSED_0x881                           (SYSTEM_FLAGS + 0x21) // Unused Flag
-#define FLAG_UNUSED_0x882                           (SYSTEM_FLAGS + 0x22) // Unused Flag
-#define FLAG_UNUSED_0x883                           (SYSTEM_FLAGS + 0x23) // Unused Flag
-#define FLAG_UNUSED_0x884                           (SYSTEM_FLAGS + 0x24) // Unused Flag
-#define FLAG_UNUSED_0x885                           (SYSTEM_FLAGS + 0x25) // Unused Flag
-#define FLAG_UNUSED_0x886                           (SYSTEM_FLAGS + 0x26) // Unused Flag
-#define FLAG_UNUSED_0x887                           (SYSTEM_FLAGS + 0x27) // Unused Flag
+#define FLAG_DUNGEON_TRAINER_0                      (SYSTEM_FLAGS + 0x21) // Dungeon system: Trainer 0 visibility
+#define FLAG_DUNGEON_TRAINER_1                      (SYSTEM_FLAGS + 0x22) // Dungeon system: Trainer 1 visibility
+#define FLAG_DUNGEON_TRAINER_2                      (SYSTEM_FLAGS + 0x23) // Dungeon system: Trainer 2 visibility
+#define FLAG_DUNGEON_TRAINER_3                      (SYSTEM_FLAGS + 0x24) // Dungeon system: Trainer 3 visibility
+#define FLAG_DUNGEON_CAVE_COMPLETED                 (SYSTEM_FLAGS + 0x25) // Dungeon system: Early Cave completed
+#define FLAG_DUNGEON_FOREST_COMPLETED               (SYSTEM_FLAGS + 0x26) // Dungeon system: Mid Forest completed
+#define FLAG_DUNGEON_MOUNTAIN_COMPLETED             (SYSTEM_FLAGS + 0x27) // Dungeon system: Late Mountain completed
 
 #define FLAG_SYS_USE_FLASH                          (SYSTEM_FLAGS + 0x28)
 #define FLAG_SYS_USE_STRENGTH                       (SYSTEM_FLAGS + 0x29)
