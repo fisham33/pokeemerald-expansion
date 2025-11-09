@@ -6005,8 +6005,10 @@ const u16 *GetMonFrontSpritePal(struct Pokemon *mon)
 
 #ifdef PALETTE_SYSTEM_AVAILABLE
     // Only apply visual death to player's Pokemon, not wild/enemy Pokemon
+    // Also verify the Pokemon has a valid species (not uninitialized)
     if (I_NUZLOCKE_VISUAL_DEATH && IsNuzlockeActive()
         && mon >= gPlayerParty && mon < gPlayerParty + PARTY_SIZE
+        && species != SPECIES_NONE
         && GetMonData(mon, MON_DATA_IS_DEAD, NULL))
     {
         static u16 sGreyPal[16];
