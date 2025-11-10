@@ -262,9 +262,22 @@ def propagate_egg_moves_to_families(egg_moves_learnsets: Dict[str, List[str]], s
             species_to_family[species] = family
 
     # Collect all egg moves for each family
+    # Need to handle species name variants (e.g., BASCULIN vs BASCULIN_RED_STRIPED)
     family_egg_moves = {}
     for species, moves in egg_moves_learnsets.items():
         family = species_to_family.get(species)
+
+        # If exact match not found, try to find species that start with this name
+        if not family:
+            # Remove underscores for matching (BASCULINWHITESTRIPED -> BASCULIN_WHITE_STRIPED)
+            species_normalized = species.replace('_', '')
+            for actual_species, actual_family in species_to_family.items():
+                actual_normalized = actual_species.replace('_', '')
+                # Check if this is a variant (e.g., BASCULIN matches BASCULIN_RED_STRIPED)
+                if actual_normalized.startswith(species_normalized) or species_normalized.startswith(actual_normalized):
+                    family = actual_family
+                    break
+
         if family:
             if family not in family_egg_moves:
                 family_egg_moves[family] = set()
@@ -385,6 +398,23 @@ def main():
 
     # Sort by species name
     combined_data = dict(sorted(combined_data.items()))
+
+    # Copy egg moves from gender variants to generic forms
+    # (e.g., BASCULEGION should get egg moves from BASCULEGION_M/BASCULEGION_F)
+    generic_forms_updated = 0
+    for species in list(combined_data.keys()):
+        for suffix in ['_M', '_F', '_MALE', '_FEMALE']:
+            if species.endswith(suffix):
+                # This is a gender variant, check if generic form exists
+                generic_species = species[:-len(suffix)]
+                if generic_species in combined_data:
+                    # If generic has no egg moves but variant does, copy them
+                    if not combined_data[generic_species]['egg_moves'] and combined_data[species]['egg_moves']:
+                        combined_data[generic_species]['egg_moves'] = combined_data[species]['egg_moves'].copy()
+                        generic_forms_updated += 1
+
+    if generic_forms_updated > 0:
+        print(f"  ✓ Copied egg moves to {generic_forms_updated} generic forms from gender variants")
 
     # Create output
     output = {

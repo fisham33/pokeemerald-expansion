@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "total_pokemon": 1337,
+    "total_pokemon": 1488,
     "with_level_up_moves": 1103,
     "with_teachable_moves": 1088,
-    "with_egg_moves": 1053,
+    "with_egg_moves": 1209,
     "with_randbats_movesets": 751,
     "source": "pokeemerald-expansion"
   },
@@ -8894,7 +8894,20 @@
         "Waterfall",
         "Zen Headbutt"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
+      ],
       "randbats_movesets": {
         "Choice Item user": {
           "abilities": [
@@ -8931,6 +8944,100 @@
           ]
         }
       }
+    },
+    "BASCULEGION_F": {
+      "species": "BASCULEGION_F",
+      "name": "Basculegion-F",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {
+        "Choice Item user": {
+          "abilities": [
+            "Adaptability"
+          ],
+          "items": [
+            "Choice Scarf"
+          ],
+          "teraTypes": [
+            "Ghost"
+          ],
+          "moves": [
+            "Flip Turn",
+            "Last Respects",
+            "Muddy Water",
+            "Wave Crash"
+          ]
+        },
+        "AV Pivot": {
+          "abilities": [
+            "Adaptability"
+          ],
+          "items": [
+            "Assault Vest"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Flip Turn",
+            "Hydro Pump",
+            "Shadow Ball",
+            "Wave Crash"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Adaptability"
+          ],
+          "items": [
+            "Choice Specs"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Flip Turn",
+            "Hydro Pump",
+            "Ice Beam",
+            "Shadow Ball"
+          ]
+        }
+      }
+    },
+    "BASCULEGION_M": {
+      "species": "BASCULEGION_M",
+      "name": "Basculegion M",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {}
     },
     "BASCULIN": {
       "species": "BASCULIN",
@@ -9185,6 +9292,104 @@
       "egg_moves": [
         "Endeavor",
         "Last Respects"
+      ],
+      "randbats_movesets": {
+        "Fast Attacker": {
+          "abilities": [
+            "Adaptability"
+          ],
+          "items": [
+            "Choice Scarf"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Flip Turn",
+            "Hydro Pump",
+            "Ice Beam",
+            "Wave Crash"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Adaptability"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Aqua Jet",
+            "Flip Turn",
+            "Ice Beam",
+            "Wave Crash"
+          ]
+        }
+      }
+    },
+    "BASCULIN_BLUE_STRIPED": {
+      "species": "BASCULIN_BLUE_STRIPED",
+      "name": "Basculin Blue Striped",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {}
+    },
+    "BASCULIN_RED_STRIPED": {
+      "species": "BASCULIN_RED_STRIPED",
+      "name": "Basculin Red Striped",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {}
+    },
+    "BASCULIN_WHITE_STRIPED": {
+      "species": "BASCULIN_WHITE_STRIPED",
+      "name": "Basculin-White-Striped",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Brine",
+        "Bubble Beam",
+        "Endeavor",
+        "Head Smash",
+        "Last Respects",
+        "Mud Shot",
+        "Muddy Water",
+        "Rage",
+        "Revenge",
+        "Swift",
+        "Whirlpool"
       ],
       "randbats_movesets": {
         "Fast Attacker": {
@@ -17495,6 +17700,82 @@
       ],
       "randbats_movesets": {}
     },
+    "CASTFORM_NORMAL": {
+      "species": "CASTFORM_NORMAL",
+      "name": "Castform Normal",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Clear Smog",
+        "Cosmic Power",
+        "Disable",
+        "Future Sight",
+        "Guard Swap",
+        "Hex",
+        "Lucky Chant",
+        "Ominous Wind",
+        "Reflect Type"
+      ],
+      "randbats_movesets": {}
+    },
+    "CASTFORM_RAINY": {
+      "species": "CASTFORM_RAINY",
+      "name": "Castform Rainy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Clear Smog",
+        "Cosmic Power",
+        "Disable",
+        "Future Sight",
+        "Guard Swap",
+        "Hex",
+        "Lucky Chant",
+        "Ominous Wind",
+        "Reflect Type"
+      ],
+      "randbats_movesets": {}
+    },
+    "CASTFORM_SNOWY": {
+      "species": "CASTFORM_SNOWY",
+      "name": "Castform Snowy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Clear Smog",
+        "Cosmic Power",
+        "Disable",
+        "Future Sight",
+        "Guard Swap",
+        "Hex",
+        "Lucky Chant",
+        "Ominous Wind",
+        "Reflect Type"
+      ],
+      "randbats_movesets": {}
+    },
+    "CASTFORM_SUNNY": {
+      "species": "CASTFORM_SUNNY",
+      "name": "Castform Sunny",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Clear Smog",
+        "Cosmic Power",
+        "Disable",
+        "Future Sight",
+        "Guard Swap",
+        "Hex",
+        "Lucky Chant",
+        "Ominous Wind",
+        "Reflect Type"
+      ],
+      "randbats_movesets": {}
+    },
     "CATERPIE": {
       "species": "CATERPIE",
       "name": "Caterpie",
@@ -22919,6 +23200,8 @@
         "Eerie Impulse",
         "Encore",
         "Guard Swap",
+        "Haze",
+        "Mist",
         "Mud Sport",
         "Power Up Punch",
         "Recover",
@@ -24588,21 +24871,23 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Screech",
-        "Mist",
         "Amnesia",
-        "Barrier",
-        "Ingrain",
-        "Confuse Ray",
-        "Icicle Spear",
-        "Nature Power",
         "Aqua Ring",
-        "Curse",
+        "Barrier",
         "Bide",
-        "Water Pulse",
-        "Head Smash",
         "Camouflage",
-        "Liquidation"
+        "Confuse Ray",
+        "Curse",
+        "Destiny Bond",
+        "Haze",
+        "Head Smash",
+        "Icicle Spear",
+        "Ingrain",
+        "Liquidation",
+        "Mist",
+        "Nature Power",
+        "Screech",
+        "Water Pulse"
       ],
       "randbats_movesets": {}
     },
@@ -24719,6 +25004,8 @@
         "Camouflage",
         "Confuse Ray",
         "Curse",
+        "Destiny Bond",
+        "Haze",
         "Head Smash",
         "Icicle Spear",
         "Ingrain",
@@ -27392,6 +27679,8 @@
         "Camouflage",
         "Confuse Ray",
         "Curse",
+        "Destiny Bond",
+        "Haze",
         "Head Smash",
         "Icicle Spear",
         "Ingrain",
@@ -28325,7 +28614,10 @@
         "Flame Wheel",
         "Focus Energy",
         "Focus Punch",
+        "Freeze Dry",
         "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
         "Sleep Talk",
         "Snatch",
         "Take Down",
@@ -28345,7 +28637,10 @@
         "Flame Wheel",
         "Focus Energy",
         "Focus Punch",
+        "Freeze Dry",
         "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
         "Sleep Talk",
         "Snatch",
         "Take Down",
@@ -28365,7 +28660,10 @@
         "Flame Wheel",
         "Focus Energy",
         "Focus Punch",
+        "Freeze Dry",
         "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
         "Sleep Talk",
         "Snatch",
         "Take Down",
@@ -28385,7 +28683,10 @@
         "Flame Wheel",
         "Focus Energy",
         "Focus Punch",
+        "Freeze Dry",
         "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
         "Sleep Talk",
         "Snatch",
         "Take Down",
@@ -28578,17 +28879,20 @@
         "Zen Headbutt"
       ],
       "egg_moves": [
-        "Sleep Talk",
-        "Focus Punch",
-        "Focus Energy",
-        "Endure",
-        "Hammer Arm",
-        "Take Down",
-        "Flame Wheel",
         "Encore",
-        "Yawn",
+        "Endure",
+        "Extrasensory",
+        "Flame Wheel",
+        "Focus Energy",
+        "Focus Punch",
+        "Freeze Dry",
+        "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
+        "Sleep Talk",
         "Snatch",
-        "Extrasensory"
+        "Take Down",
+        "Yawn"
       ],
       "randbats_movesets": {}
     },
@@ -28705,7 +29009,10 @@
         "Flame Wheel",
         "Focus Energy",
         "Focus Punch",
+        "Freeze Dry",
         "Hammer Arm",
+        "Incinerate",
+        "Power Up Punch",
         "Sleep Talk",
         "Snatch",
         "Take Down",
@@ -29339,6 +29646,82 @@
           ]
         }
       }
+    },
+    "DEERLING_AUTUMN": {
+      "species": "DEERLING_AUTUMN",
+      "name": "Deerling Autumn",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "DEERLING_SPRING": {
+      "species": "DEERLING_SPRING",
+      "name": "Deerling Spring",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "DEERLING_SUMMER": {
+      "species": "DEERLING_SUMMER",
+      "name": "Deerling Summer",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "DEERLING_WINTER": {
+      "species": "DEERLING_WINTER",
+      "name": "Deerling Winter",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
     },
     "DEINO": {
       "species": "DEINO",
@@ -31703,19 +32086,21 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Feint Attack",
-        "Screech",
         "Ancient Power",
-        "Pursuit",
-        "Beat Up",
-        "Uproar",
-        "Mud Bomb",
         "Astonish",
-        "Reversal",
-        "Headbutt",
+        "Beat Up",
         "Endure",
+        "Feint Attack",
         "Final Gambit",
-        "Memento"
+        "Headbutt",
+        "Memento",
+        "Metal Sound",
+        "Mud Bomb",
+        "Pursuit",
+        "Reversal",
+        "Screech",
+        "Thrash",
+        "Uproar"
       ],
       "randbats_movesets": {
         "Wallbreaker": {
@@ -31878,10 +32263,12 @@
         "Final Gambit",
         "Headbutt",
         "Memento",
+        "Metal Sound",
         "Mud Bomb",
         "Pursuit",
         "Reversal",
         "Screech",
+        "Thrash",
         "Uproar"
       ],
       "randbats_movesets": {
@@ -35932,10 +36319,12 @@
         "Final Gambit",
         "Headbutt",
         "Memento",
+        "Metal Sound",
         "Mud Bomb",
         "Pursuit",
         "Reversal",
         "Screech",
+        "Thrash",
         "Uproar"
       ],
       "randbats_movesets": {
@@ -36158,10 +36547,12 @@
         "Final Gambit",
         "Headbutt",
         "Memento",
+        "Metal Sound",
         "Mud Bomb",
         "Pursuit",
         "Reversal",
         "Screech",
+        "Thrash",
         "Uproar"
       ],
       "randbats_movesets": {
@@ -38134,6 +38525,36 @@
           }
         }
       }
+    },
+    "EISCUE_ICE": {
+      "species": "EISCUE_ICE",
+      "name": "Eiscue Ice",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Aqua Ring",
+        "Belly Drum",
+        "Double Edge",
+        "Head Smash",
+        "Icicle Crash",
+        "Soak"
+      ],
+      "randbats_movesets": {}
+    },
+    "EISCUE_NOICE": {
+      "species": "EISCUE_NOICE",
+      "name": "Eiscue Noice",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Aqua Ring",
+        "Belly Drum",
+        "Double Edge",
+        "Head Smash",
+        "Icicle Crash",
+        "Soak"
+      ],
+      "randbats_movesets": {}
     },
     "EKANS": {
       "species": "EKANS",
@@ -42449,24 +42870,29 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Steel Wing",
-        "Foresight",
-        "Mirror Move",
-        "Gust",
-        "Quick Attack",
-        "Flail",
-        "Feather Dance",
-        "Curse",
+        "Counter",
         "Covet",
+        "Curse",
+        "Double Edge",
+        "Feather Dance",
+        "Feint",
+        "Final Gambit",
+        "First Impression",
+        "Flail",
+        "Foresight",
+        "Gust",
+        "Leaf Blade",
+        "Mirror Move",
         "Mud Slap",
         "Night Slash",
-        "Leaf Blade",
+        "Quick Attack",
+        "Quick Guard",
         "Revenge",
         "Roost",
-        "Trump Card",
         "Simple Beam",
-        "First Impression",
-        "Final Gambit"
+        "Sky Attack",
+        "Steel Wing",
+        "Trump Card"
       ],
       "randbats_movesets": {}
     },
@@ -42576,9 +43002,12 @@
       "level_up_moves": [],
       "teachable_moves": [],
       "egg_moves": [
+        "Counter",
         "Covet",
         "Curse",
+        "Double Edge",
         "Feather Dance",
+        "Feint",
         "Final Gambit",
         "First Impression",
         "Flail",
@@ -42589,9 +43018,11 @@
         "Mud Slap",
         "Night Slash",
         "Quick Attack",
+        "Quick Guard",
         "Revenge",
         "Roost",
         "Simple Beam",
+        "Sky Attack",
         "Steel Wing",
         "Trump Card"
       ],
@@ -44235,6 +44666,71 @@
       ],
       "randbats_movesets": {}
     },
+    "FLABEBE_BLUE": {
+      "species": "FLABEBE_BLUE",
+      "name": "Flabebe Blue",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLABEBE_ORANGE": {
+      "species": "FLABEBE_ORANGE",
+      "name": "Flabebe Orange",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLABEBE_RED": {
+      "species": "FLABEBE_RED",
+      "name": "Flabebe Red",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLABEBE_WHITE": {
+      "species": "FLABEBE_WHITE",
+      "name": "Flabebe White",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLABEBE_YELLOW": {
+      "species": "FLABEBE_YELLOW",
+      "name": "Flabebe Yellow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
     "FLAMIGO": {
       "species": "FLAMIGO",
       "name": "Flamigo",
@@ -45448,6 +45944,84 @@
       "egg_moves": [],
       "randbats_movesets": {}
     },
+    "FLOETTE_BLUE": {
+      "species": "FLOETTE_BLUE",
+      "name": "Floette Blue",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLOETTE_ETERNAL": {
+      "species": "FLOETTE_ETERNAL",
+      "name": "Floette Eternal",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLOETTE_ORANGE": {
+      "species": "FLOETTE_ORANGE",
+      "name": "Floette Orange",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLOETTE_RED": {
+      "species": "FLOETTE_RED",
+      "name": "Floette Red",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLOETTE_WHITE": {
+      "species": "FLOETTE_WHITE",
+      "name": "Floette White",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLOETTE_YELLOW": {
+      "species": "FLOETTE_YELLOW",
+      "name": "Floette Yellow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
     "FLORAGATO": {
       "species": "FLORAGATO",
       "name": "Floragato",
@@ -45687,6 +46261,71 @@
           }
         }
       }
+    },
+    "FLORGES_BLUE": {
+      "species": "FLORGES_BLUE",
+      "name": "Florges Blue",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLORGES_ORANGE": {
+      "species": "FLORGES_ORANGE",
+      "name": "Florges Orange",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLORGES_RED": {
+      "species": "FLORGES_RED",
+      "name": "Florges Red",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLORGES_WHITE": {
+      "species": "FLORGES_WHITE",
+      "name": "Florges White",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
+    },
+    "FLORGES_YELLOW": {
+      "species": "FLORGES_YELLOW",
+      "name": "Florges Yellow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Camouflage",
+        "Captivate",
+        "Copycat",
+        "Tearful Look"
+      ],
+      "randbats_movesets": {}
     },
     "FLUTTERMANE": {
       "species": "FLUTTERMANE",
@@ -47650,6 +48289,146 @@
       ],
       "randbats_movesets": {}
     },
+    "FURFROU_DANDY": {
+      "species": "FURFROU_DANDY",
+      "name": "Furfrou Dandy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_DEBUTANTE": {
+      "species": "FURFROU_DEBUTANTE",
+      "name": "Furfrou Debutante",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_DIAMOND": {
+      "species": "FURFROU_DIAMOND",
+      "name": "Furfrou Diamond",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_HEART": {
+      "species": "FURFROU_HEART",
+      "name": "Furfrou Heart",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_KABUKI": {
+      "species": "FURFROU_KABUKI",
+      "name": "Furfrou Kabuki",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_LA_REINE": {
+      "species": "FURFROU_LA_REINE",
+      "name": "Furfrou La Reine",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_MATRON": {
+      "species": "FURFROU_MATRON",
+      "name": "Furfrou Matron",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_NATURAL": {
+      "species": "FURFROU_NATURAL",
+      "name": "Furfrou Natural",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_PHARAOH": {
+      "species": "FURFROU_PHARAOH",
+      "name": "Furfrou Pharaoh",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
+    "FURFROU_STAR": {
+      "species": "FURFROU_STAR",
+      "name": "Furfrou Star",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Mimic",
+        "Refresh",
+        "Role Play",
+        "Work Up"
+      ],
+      "randbats_movesets": {}
+    },
     "FURRET": {
       "species": "FURRET",
       "name": "Furret",
@@ -49528,6 +50307,56 @@
         }
       }
     },
+    "GASTRODON_EAST": {
+      "species": "GASTRODON_EAST",
+      "name": "Gastrodon East",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Acid Armor",
+        "Amnesia",
+        "Brine",
+        "Clear Smog",
+        "Counter",
+        "Curse",
+        "Fissure",
+        "Memento",
+        "Mirror Coat",
+        "Mist",
+        "Sludge",
+        "Spit Up",
+        "Stockpile",
+        "Swallow",
+        "Trump Card",
+        "Yawn"
+      ],
+      "randbats_movesets": {}
+    },
+    "GASTRODON_WEST": {
+      "species": "GASTRODON_WEST",
+      "name": "Gastrodon West",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Acid Armor",
+        "Amnesia",
+        "Brine",
+        "Clear Smog",
+        "Counter",
+        "Curse",
+        "Fissure",
+        "Memento",
+        "Mirror Coat",
+        "Mist",
+        "Sludge",
+        "Spit Up",
+        "Stockpile",
+        "Swallow",
+        "Trump Card",
+        "Yawn"
+      ],
+      "randbats_movesets": {}
+    },
     "GENESECT": {
       "species": "GENESECT",
       "name": "Genesect",
@@ -50007,15 +50836,18 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Mega Punch",
-        "Block",
-        "Hammer Arm",
-        "Flail",
-        "Curse",
-        "Focus Punch",
-        "Rock Climb",
-        "Endure",
         "Autotomize",
+        "Block",
+        "Counter",
+        "Curse",
+        "Endure",
+        "Flail",
+        "Focus Punch",
+        "Hammer Arm",
+        "Magnet Rise",
+        "Mega Punch",
+        "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {
@@ -50189,13 +51021,16 @@
       "egg_moves": [
         "Autotomize",
         "Block",
+        "Counter",
         "Curse",
         "Endure",
         "Flail",
         "Focus Punch",
         "Hammer Arm",
+        "Magnet Rise",
         "Mega Punch",
         "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {
@@ -53240,13 +54075,16 @@
       "egg_moves": [
         "Autotomize",
         "Block",
+        "Counter",
         "Curse",
         "Endure",
         "Flail",
         "Focus Punch",
         "Hammer Arm",
+        "Magnet Rise",
         "Mega Punch",
         "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {
@@ -53503,13 +54341,16 @@
       "egg_moves": [
         "Autotomize",
         "Block",
+        "Counter",
         "Curse",
         "Endure",
         "Flail",
         "Focus Punch",
         "Hammer Arm",
+        "Magnet Rise",
         "Mega Punch",
         "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {
@@ -55457,6 +56298,58 @@
       "egg_moves": [],
       "randbats_movesets": {}
     },
+    "GOURGEIST_AVERAGE": {
+      "species": "GOURGEIST_AVERAGE",
+      "name": "Gourgeist Average",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "GOURGEIST_LARGE": {
+      "species": "GOURGEIST_LARGE",
+      "name": "Gourgeist Large",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "GOURGEIST_SMALL": {
+      "species": "GOURGEIST_SMALL",
+      "name": "Gourgeist Small",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "GOURGEIST_SUPER": {
+      "species": "GOURGEIST_SUPER",
+      "name": "Gourgeist Super",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
     "GRAFAIAI": {
       "species": "GRAFAIAI",
       "name": "Grafaiai",
@@ -56043,13 +56936,16 @@
       "egg_moves": [
         "Autotomize",
         "Block",
+        "Counter",
         "Curse",
         "Endure",
         "Flail",
         "Focus Punch",
         "Hammer Arm",
+        "Magnet Rise",
         "Mega Punch",
         "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {}
@@ -56170,13 +57066,16 @@
       "egg_moves": [
         "Autotomize",
         "Block",
+        "Counter",
         "Curse",
         "Endure",
         "Flail",
         "Focus Punch",
         "Hammer Arm",
+        "Magnet Rise",
         "Mega Punch",
         "Rock Climb",
+        "Screech",
         "Wide Guard"
       ],
       "randbats_movesets": {}
@@ -56923,19 +57822,23 @@
         "Zen Headbutt"
       ],
       "egg_moves": [
-        "Haze",
-        "Mean Look",
-        "Lick",
-        "Imprison",
+        "Acid Spray",
+        "Assurance",
+        "Clear Smog",
         "Curse",
+        "Haze",
+        "Imprison",
+        "Lick",
+        "Mean Look",
+        "Power Up Punch",
+        "Pursuit",
+        "Scary Face",
         "Shadow Punch",
         "Shadow Sneak",
-        "Stockpile",
-        "Swallow",
         "Spit Up",
-        "Scary Face",
-        "Acid Spray",
-        "Power Up Punch"
+        "Spite",
+        "Stockpile",
+        "Swallow"
       ],
       "randbats_movesets": {
         "Bulky Setup": {
@@ -57108,16 +58011,20 @@
       "teachable_moves": [],
       "egg_moves": [
         "Acid Spray",
+        "Assurance",
+        "Clear Smog",
         "Curse",
         "Haze",
         "Imprison",
         "Lick",
         "Mean Look",
         "Power Up Punch",
+        "Pursuit",
         "Scary Face",
         "Shadow Punch",
         "Shadow Sneak",
         "Spit Up",
+        "Spite",
         "Stockpile",
         "Swallow"
       ],
@@ -59356,6 +60263,18 @@
         "Toxic"
       ],
       "egg_moves": [],
+      "randbats_movesets": {}
+    },
+    "HAKAMO_O": {
+      "species": "HAKAMO_O",
+      "name": "Hakamo O",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Counter",
+        "Dragon Breath",
+        "Reversal"
+      ],
       "randbats_movesets": {}
     },
     "HAPPINY": {
@@ -65681,6 +66600,88 @@
       "egg_moves": [],
       "randbats_movesets": {}
     },
+    "INDEEDEE_F": {
+      "species": "INDEEDEE_F",
+      "name": "Indeedee-F",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Extrasensory",
+        "Fake Out",
+        "Heal Pulse",
+        "Psych Up",
+        "Psycho Shift"
+      ],
+      "randbats_movesets": {
+        "Doubles Support": {
+          "abilities": [
+            "Psychic Surge"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Fairy"
+          ],
+          "moves": [
+            "Follow Me",
+            "Heal Pulse",
+            "Helping Hand",
+            "Protect",
+            "Psychic"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Fast Attacker": {
+          "abilities": [
+            "Psychic Surge"
+          ],
+          "items": [
+            "Choice Scarf",
+            "Choice Specs",
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Fairy",
+            "Psychic"
+          ],
+          "moves": [
+            "Calm Mind",
+            "Dazzling Gleam",
+            "Healing Wish",
+            "Hyper Voice",
+            "Psychic",
+            "Psyshock",
+            "Shadow Ball"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        }
+      }
+    },
+    "INDEEDEE_M": {
+      "species": "INDEEDEE_M",
+      "name": "Indeedee M",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Extrasensory",
+        "Fake Out",
+        "Heal Pulse",
+        "Psych Up",
+        "Psycho Shift"
+      ],
+      "randbats_movesets": {}
+    },
     "INFERNAPE": {
       "species": "INFERNAPE",
       "name": "Infernape",
@@ -68180,6 +69181,55 @@
         "Counter",
         "Reversal",
         "Dragon Breath"
+      ],
+      "randbats_movesets": {
+        "Setup Sweeper": {
+          "abilities": [
+            "Bulletproof"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Ground",
+            "Steel"
+          ],
+          "moves": [
+            "Dragon Dance",
+            "Earthquake",
+            "Iron Head",
+            "Outrage"
+          ]
+        },
+        "Bulky Setup": {
+          "abilities": [
+            "Bulletproof"
+          ],
+          "items": [
+            "Eviolite"
+          ],
+          "teraTypes": [
+            "Ground",
+            "Steel"
+          ],
+          "moves": [
+            "Earthquake",
+            "Iron Head",
+            "Scale Shot",
+            "Swords Dance"
+          ]
+        }
+      }
+    },
+    "JANGMO_O": {
+      "species": "JANGMO_O",
+      "name": "Jangmo-o",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Counter",
+        "Dragon Breath",
+        "Reversal"
       ],
       "randbats_movesets": {
         "Setup Sweeper": {
@@ -72348,6 +73398,118 @@
           ]
         }
       }
+    },
+    "KOMMO_O": {
+      "species": "KOMMO_O",
+      "name": "Kommo-o",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Counter",
+        "Dragon Breath",
+        "Reversal"
+      ],
+      "randbats_movesets": {
+        "Bulky Protect": {
+          "abilities": [
+            "Bulletproof"
+          ],
+          "items": [
+            "Leftovers"
+          ],
+          "teraTypes": [
+            "Steel"
+          ],
+          "moves": [
+            "Body Press",
+            "Iron Defense",
+            "Protect",
+            "Throat Chop"
+          ]
+        },
+        "Doubles Bulky Setup": {
+          "abilities": [
+            "Soundproof"
+          ],
+          "items": [
+            "Throat Spray"
+          ],
+          "teraTypes": [
+            "Steel"
+          ],
+          "moves": [
+            "Clanging Scales",
+            "Clangorous Soul",
+            "Iron Head",
+            "Protect"
+          ]
+        },
+        "Doubles Setup Sweeper": {
+          "abilities": [
+            "Soundproof"
+          ],
+          "items": [
+            "Throat Spray"
+          ],
+          "teraTypes": [
+            "Steel"
+          ],
+          "moves": [
+            "Clanging Scales",
+            "Clangorous Soul",
+            "Drain Punch",
+            "Iron Head"
+          ]
+        },
+        "Setup Sweeper": {
+          "abilities": [
+            "Soundproof"
+          ],
+          "items": [
+            "Loaded Dice"
+          ],
+          "teraTypes": [
+            "Steel"
+          ],
+          "moves": [
+            "Close Combat",
+            "Iron Head",
+            "Scale Shot",
+            "Swords Dance"
+          ]
+        },
+        "Fast Bulky Setup": {
+          "abilities": [
+            "Soundproof"
+          ],
+          "items": [
+            "Throat Spray"
+          ],
+          "teraTypes": [
+            "Normal",
+            "Steel"
+          ],
+          "moves": [
+            "Boomburst",
+            "Clanging Scales",
+            "Clangorous Soul",
+            "Close Combat",
+            "Iron Head"
+          ]
+        }
+      }
+    },
+    "KOMMO_O_TOTEM": {
+      "species": "KOMMO_O_TOTEM",
+      "name": "Kommo O Totem",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Counter",
+        "Dragon Breath",
+        "Reversal"
+      ],
+      "randbats_movesets": {}
     },
     "KORAIDON": {
       "species": "KORAIDON",
@@ -77170,8 +78332,11 @@
         "Charm",
         "Extreme Speed",
         "Helping Hand",
+        "Knock Off",
         "Mud Slap",
+        "Parting Shot",
         "Pursuit",
+        "Quick Guard",
         "Rock Climb",
         "Simple Beam",
         "Sleep Talk",
@@ -77306,8 +78471,11 @@
         "Charm",
         "Extreme Speed",
         "Helping Hand",
+        "Knock Off",
         "Mud Slap",
+        "Parting Shot",
         "Pursuit",
+        "Quick Guard",
         "Rock Climb",
         "Simple Beam",
         "Sleep Talk",
@@ -87535,19 +88703,25 @@
         "Trailblaze"
       ],
       "egg_moves": [
-        "Spite",
-        "Charm",
-        "Hypnosis",
         "Amnesia",
         "Assist",
-        "Odor Sleuth",
+        "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
-        "Last Resort",
-        "Punishment",
-        "Tail Whip",
-        "Snatch",
+        "Flatter",
+        "Foul Play",
+        "Hypnosis",
         "Iron Tail",
-        "Foul Play"
+        "Last Resort",
+        "Night Slash",
+        "Odor Sleuth",
+        "Parting Shot",
+        "Punishment",
+        "Snatch",
+        "Spite",
+        "Tail Whip"
       ],
       "randbats_movesets": {
         "Wallbreaker": {
@@ -87866,12 +89040,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -87933,12 +89113,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -87993,12 +89179,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -90099,6 +91291,31 @@
       ],
       "randbats_movesets": {}
     },
+    "MIME_JR": {
+      "species": "MIME_JR",
+      "name": "Mime Jr",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charm",
+        "Confuse Ray",
+        "Fake Out",
+        "Future Sight",
+        "Healing Wish",
+        "Hypnosis",
+        "Icy Wind",
+        "Magic Room",
+        "Mimic",
+        "Nasty Plot",
+        "Power Split",
+        "Psychic Terrain",
+        "Teeter Dance",
+        "Tickle",
+        "Trick",
+        "Wake Up Slap"
+      ],
+      "randbats_movesets": {}
+    },
     "MIMIKYU": {
       "species": "MIMIKYU",
       "name": "Mimikyu",
@@ -90261,6 +91478,58 @@
           ]
         }
       }
+    },
+    "MIMIKYU_BUSTED": {
+      "species": "MIMIKYU_BUSTED",
+      "name": "Mimikyu Busted",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Destiny Bond",
+        "Grudge",
+        "Nightmare"
+      ],
+      "randbats_movesets": {}
+    },
+    "MIMIKYU_BUSTED_TOTEM": {
+      "species": "MIMIKYU_BUSTED_TOTEM",
+      "name": "Mimikyu Busted Totem",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Destiny Bond",
+        "Grudge",
+        "Nightmare"
+      ],
+      "randbats_movesets": {}
+    },
+    "MIMIKYU_DISGUISED": {
+      "species": "MIMIKYU_DISGUISED",
+      "name": "Mimikyu Disguised",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Destiny Bond",
+        "Grudge",
+        "Nightmare"
+      ],
+      "randbats_movesets": {}
+    },
+    "MIMIKYU_TOTEM_DISGUISED": {
+      "species": "MIMIKYU_TOTEM_DISGUISED",
+      "name": "Mimikyu Totem Disguised",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Destiny Bond",
+        "Grudge",
+        "Nightmare"
+      ],
+      "randbats_movesets": {}
     },
     "MINCCINO": {
       "species": "MINCCINO",
@@ -91987,6 +93256,40 @@
         }
       }
     },
+    "MORPEKO_FULL_BELLY": {
+      "species": "MORPEKO_FULL_BELLY",
+      "name": "Morpeko Full Belly",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charge",
+        "Fake Out",
+        "Parting Shot",
+        "Quash",
+        "Rapid Spin",
+        "Super Fang",
+        "Swagger",
+        "Tickle"
+      ],
+      "randbats_movesets": {}
+    },
+    "MORPEKO_HANGRY": {
+      "species": "MORPEKO_HANGRY",
+      "name": "Morpeko Hangry",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charge",
+        "Fake Out",
+        "Parting Shot",
+        "Quash",
+        "Rapid Spin",
+        "Super Fang",
+        "Swagger",
+        "Tickle"
+      ],
+      "randbats_movesets": {}
+    },
     "MOTHIM": {
       "species": "MOTHIM",
       "name": "Mothim",
@@ -92575,6 +93878,81 @@
       "egg_moves": [],
       "randbats_movesets": {}
     },
+    "MR_MIME": {
+      "species": "MR_MIME",
+      "name": "Mr Mime",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charm",
+        "Confuse Ray",
+        "Fake Out",
+        "Future Sight",
+        "Healing Wish",
+        "Hypnosis",
+        "Icy Wind",
+        "Magic Room",
+        "Mimic",
+        "Nasty Plot",
+        "Power Split",
+        "Psychic Terrain",
+        "Teeter Dance",
+        "Tickle",
+        "Trick",
+        "Wake Up Slap"
+      ],
+      "randbats_movesets": {}
+    },
+    "MR_MIME_GALAR": {
+      "species": "MR_MIME_GALAR",
+      "name": "Mr Mime Galar",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charm",
+        "Confuse Ray",
+        "Fake Out",
+        "Future Sight",
+        "Healing Wish",
+        "Hypnosis",
+        "Icy Wind",
+        "Magic Room",
+        "Mimic",
+        "Nasty Plot",
+        "Power Split",
+        "Psychic Terrain",
+        "Teeter Dance",
+        "Tickle",
+        "Trick",
+        "Wake Up Slap"
+      ],
+      "randbats_movesets": {}
+    },
+    "MR_RIME": {
+      "species": "MR_RIME",
+      "name": "Mr Rime",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Charm",
+        "Confuse Ray",
+        "Fake Out",
+        "Future Sight",
+        "Healing Wish",
+        "Hypnosis",
+        "Icy Wind",
+        "Magic Room",
+        "Mimic",
+        "Nasty Plot",
+        "Power Split",
+        "Psychic Terrain",
+        "Teeter Dance",
+        "Tickle",
+        "Trick",
+        "Wake Up Slap"
+      ],
+      "randbats_movesets": {}
+    },
     "MUDBRAY": {
       "species": "MUDBRAY",
       "name": "Mudbray",
@@ -93062,16 +94440,20 @@
       ],
       "egg_moves": [
         "Acid Spray",
+        "Assurance",
+        "Clear Smog",
         "Curse",
         "Haze",
         "Imprison",
         "Lick",
         "Mean Look",
         "Power Up Punch",
+        "Pursuit",
         "Scary Face",
         "Shadow Punch",
         "Shadow Sneak",
         "Spit Up",
+        "Spite",
         "Stockpile",
         "Swallow"
       ],
@@ -93300,16 +94682,20 @@
       "teachable_moves": [],
       "egg_moves": [
         "Acid Spray",
+        "Assurance",
+        "Clear Smog",
         "Curse",
         "Haze",
         "Imprison",
         "Lick",
         "Mean Look",
         "Power Up Punch",
+        "Pursuit",
         "Scary Face",
         "Shadow Punch",
         "Shadow Sneak",
         "Spit Up",
+        "Spite",
         "Stockpile",
         "Swallow"
       ],
@@ -94918,7 +96304,26 @@
         "Thunder Punch",
         "Toxic"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
       "randbats_movesets": {}
     },
     "NIDOQUEEN": {
@@ -95044,7 +96449,26 @@
         "Thunder Punch",
         "Toxic"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
       "randbats_movesets": {}
     },
     "NIDORANF": {
@@ -95257,6 +96681,60 @@
       ],
       "randbats_movesets": {}
     },
+    "NIDORAN_F": {
+      "species": "NIDORAN_F",
+      "name": "Nidoran F",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
+      "randbats_movesets": {}
+    },
+    "NIDORAN_M": {
+      "species": "NIDORAN_M",
+      "name": "Nidoran M",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
+      "randbats_movesets": {}
+    },
     "NIDORINA": {
       "species": "NIDORINA",
       "name": "Nidorina",
@@ -95344,7 +96822,26 @@
         "Thunderbolt",
         "Toxic"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
       "randbats_movesets": {}
     },
     "NIDORINO": {
@@ -95434,7 +96931,26 @@
         "Thunderbolt",
         "Toxic"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Amnesia",
+        "Beat Up",
+        "Charm",
+        "Chip Away",
+        "Confusion",
+        "Counter",
+        "Disable",
+        "Endure",
+        "Focus Energy",
+        "Head Smash",
+        "Iron Tail",
+        "Poison Tail",
+        "Pursuit",
+        "Skull Bash",
+        "Sucker Punch",
+        "Supersonic",
+        "Take Down",
+        "Venom Drench"
+      ],
       "randbats_movesets": {}
     },
     "NIHILEGO": {
@@ -95718,16 +97234,21 @@
         "Zen Headbutt"
       ],
       "egg_moves": [
+        "Agility",
         "Captivate",
+        "Charm",
         "Disable",
+        "Encore",
         "Extrasensory",
         "Feint Attack",
         "Flail",
         "Flare Blitz",
+        "Freeze Dry",
         "Heat Wave",
         "Hex",
         "Howl",
         "Hypnosis",
+        "Moonblast",
         "Power Swap",
         "Secret Power",
         "Spite",
@@ -95978,16 +97499,21 @@
       "level_up_moves": [],
       "teachable_moves": [],
       "egg_moves": [
+        "Agility",
         "Captivate",
+        "Charm",
         "Disable",
+        "Encore",
         "Extrasensory",
         "Feint Attack",
         "Flail",
         "Flare Blitz",
+        "Freeze Dry",
         "Heat Wave",
         "Hex",
         "Howl",
         "Hypnosis",
+        "Moonblast",
         "Power Swap",
         "Secret Power",
         "Spite",
@@ -97378,8 +98904,11 @@
         "Charm",
         "Extreme Speed",
         "Helping Hand",
+        "Knock Off",
         "Mud Slap",
+        "Parting Shot",
         "Pursuit",
+        "Quick Guard",
         "Rock Climb",
         "Simple Beam",
         "Sleep Talk",
@@ -97851,7 +99380,13 @@
         "Trailblaze",
         "Zen Headbutt"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Endeavor",
+        "Spit Up",
+        "Stockpile",
+        "Stuff Cheeks",
+        "Swallow"
+      ],
       "randbats_movesets": {
         "Doubles Wallbreaker": {
           "abilities": [
@@ -99179,6 +100714,274 @@
           ],
           "teraTypes": [
             "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Quiver Dance",
+            "Revelation Dance",
+            "Roost"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        }
+      }
+    },
+    "ORICORIO_BAILE": {
+      "species": "ORICORIO_BAILE",
+      "name": "Oricorio Baile",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Pluck",
+        "Safeguard",
+        "Tailwind"
+      ],
+      "randbats_movesets": {}
+    },
+    "ORICORIO_PAU": {
+      "species": "ORICORIO_PAU",
+      "name": "Oricorio-Pa'u",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Pluck",
+        "Safeguard",
+        "Tailwind"
+      ],
+      "randbats_movesets": {
+        "Bulky Protect": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Protect",
+            "Revelation Dance",
+            "Tailwind"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Doubles Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ground"
+          ],
+          "moves": [
+            "Air Slash",
+            "Protect",
+            "Quiver Dance",
+            "Revelation Dance"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Heavy-Duty Boots"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Quiver Dance",
+            "Revelation Dance",
+            "Roost"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        }
+      }
+    },
+    "ORICORIO_POM_POM": {
+      "species": "ORICORIO_POM_POM",
+      "name": "Oricorio-Pom-Pom",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Pluck",
+        "Safeguard",
+        "Tailwind"
+      ],
+      "randbats_movesets": {
+        "Bulky Protect": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Protect",
+            "Revelation Dance",
+            "Tailwind"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Doubles Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Ground"
+          ],
+          "moves": [
+            "Air Slash",
+            "Protect",
+            "Quiver Dance",
+            "Revelation Dance"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Heavy-Duty Boots"
+          ],
+          "teraTypes": [
+            "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Quiver Dance",
+            "Revelation Dance",
+            "Roost"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        }
+      }
+    },
+    "ORICORIO_SENSU": {
+      "species": "ORICORIO_SENSU",
+      "name": "Oricorio-Sensu",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Captivate",
+        "Pluck",
+        "Safeguard",
+        "Tailwind"
+      ],
+      "randbats_movesets": {
+        "Bulky Protect": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ground"
+          ],
+          "moves": [
+            "Hurricane",
+            "Protect",
+            "Revelation Dance",
+            "Tailwind"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Doubles Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ground"
+          ],
+          "moves": [
+            "Air Slash",
+            "Protect",
+            "Quiver Dance",
+            "Revelation Dance"
+          ],
+          "evs": {
+            "atk": 0
+          },
+          "ivs": {
+            "atk": 0
+          }
+        },
+        "Setup Sweeper": {
+          "abilities": [
+            "Dancer"
+          ],
+          "items": [
+            "Heavy-Duty Boots"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Ghost"
           ],
           "moves": [
             "Hurricane",
@@ -102506,12 +104309,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -102704,12 +104513,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -102981,12 +104796,18 @@
         "Amnesia",
         "Assist",
         "Charm",
+        "Covet",
+        "Curse",
+        "Double Edge",
         "Flail",
+        "Flatter",
         "Foul Play",
         "Hypnosis",
         "Iron Tail",
         "Last Resort",
+        "Night Slash",
         "Odor Sleuth",
+        "Parting Shot",
         "Punishment",
         "Snatch",
         "Spite",
@@ -108898,6 +110719,58 @@
       ],
       "randbats_movesets": {}
     },
+    "PUMPKABOO_AVERAGE": {
+      "species": "PUMPKABOO_AVERAGE",
+      "name": "Pumpkaboo Average",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "PUMPKABOO_LARGE": {
+      "species": "PUMPKABOO_LARGE",
+      "name": "Pumpkaboo Large",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "PUMPKABOO_SMALL": {
+      "species": "PUMPKABOO_SMALL",
+      "name": "Pumpkaboo Small",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
+    "PUMPKABOO_SUPER": {
+      "species": "PUMPKABOO_SUPER",
+      "name": "Pumpkaboo Super",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Bestow",
+        "Curse",
+        "Destiny Bond",
+        "Disable"
+      ],
+      "randbats_movesets": {}
+    },
     "PUPITAR": {
       "species": "PUPITAR",
       "name": "Pupitar",
@@ -109612,6 +111485,8 @@
         "Eerie Impulse",
         "Encore",
         "Guard Swap",
+        "Haze",
+        "Mist",
         "Mud Sport",
         "Power Up Punch",
         "Recover",
@@ -112775,6 +114650,10 @@
         "Revenge",
         "Reversal",
         "Screech",
+        "Snatch",
+        "Stockpile",
+        "Swallow",
+        "Switcheroo",
         "Uproar"
       ],
       "randbats_movesets": {}
@@ -112901,6 +114780,10 @@
         "Revenge",
         "Reversal",
         "Screech",
+        "Snatch",
+        "Stockpile",
+        "Swallow",
+        "Switcheroo",
         "Uproar"
       ],
       "randbats_movesets": {}
@@ -112921,6 +114804,10 @@
         "Revenge",
         "Reversal",
         "Screech",
+        "Snatch",
+        "Stockpile",
+        "Swallow",
+        "Switcheroo",
         "Uproar"
       ],
       "randbats_movesets": {}
@@ -113015,17 +114902,21 @@
         "Zen Headbutt"
       ],
       "egg_moves": [
-        "Screech",
-        "Flame Wheel",
-        "Fury Swipes",
         "Bite",
         "Counter",
-        "Reversal",
-        "Uproar",
+        "Final Gambit",
+        "Flame Wheel",
+        "Fury Swipes",
         "Last Resort",
         "Me First",
         "Revenge",
-        "Final Gambit"
+        "Reversal",
+        "Screech",
+        "Snatch",
+        "Stockpile",
+        "Swallow",
+        "Switcheroo",
+        "Uproar"
       ],
       "randbats_movesets": {}
     },
@@ -113140,6 +115031,10 @@
         "Revenge",
         "Reversal",
         "Screech",
+        "Snatch",
+        "Stockpile",
+        "Swallow",
+        "Switcheroo",
         "Uproar"
       ],
       "randbats_movesets": {}
@@ -119312,18 +121207,22 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Flail",
-        "Counter",
-        "Rapid Spin",
-        "Metal Claw",
-        "Crush Claw",
-        "Night Slash",
-        "Mud Shot",
-        "Endure",
+        "Amnesia",
         "Chip Away",
+        "Counter",
+        "Crush Claw",
+        "Curse",
+        "Endure",
+        "Flail",
+        "Hone Claws",
+        "Icicle Crash",
+        "Icicle Spear",
+        "Metal Claw",
+        "Mud Shot",
+        "Night Slash",
+        "Rapid Spin",
         "Rock Climb",
-        "Rototiller",
-        "Hone Claws"
+        "Rototiller"
       ],
       "randbats_movesets": {
         "Bulky Support": {
@@ -119521,12 +121420,16 @@
       "level_up_moves": [],
       "teachable_moves": [],
       "egg_moves": [
+        "Amnesia",
         "Chip Away",
         "Counter",
         "Crush Claw",
+        "Curse",
         "Endure",
         "Flail",
         "Hone Claws",
+        "Icicle Crash",
+        "Icicle Spear",
         "Metal Claw",
         "Mud Shot",
         "Night Slash",
@@ -119690,12 +121593,16 @@
         "Toxic"
       ],
       "egg_moves": [
+        "Amnesia",
         "Chip Away",
         "Counter",
         "Crush Claw",
+        "Curse",
         "Endure",
         "Flail",
         "Hone Claws",
+        "Icicle Crash",
+        "Icicle Spear",
         "Metal Claw",
         "Mud Shot",
         "Night Slash",
@@ -119982,12 +121889,16 @@
       "level_up_moves": [],
       "teachable_moves": [],
       "egg_moves": [
+        "Amnesia",
         "Chip Away",
         "Counter",
         "Crush Claw",
+        "Curse",
         "Endure",
         "Flail",
         "Hone Claws",
+        "Icicle Crash",
+        "Icicle Spear",
         "Metal Claw",
         "Mud Shot",
         "Night Slash",
@@ -120627,6 +122538,82 @@
         }
       }
     },
+    "SAWSBUCK_AUTUMN": {
+      "species": "SAWSBUCK_AUTUMN",
+      "name": "Sawsbuck Autumn",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "SAWSBUCK_SPRING": {
+      "species": "SAWSBUCK_SPRING",
+      "name": "Sawsbuck Spring",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "SAWSBUCK_SUMMER": {
+      "species": "SAWSBUCK_SUMMER",
+      "name": "Sawsbuck Summer",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
+    "SAWSBUCK_WINTER": {
+      "species": "SAWSBUCK_WINTER",
+      "name": "Sawsbuck Winter",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Agility",
+        "Baton Pass",
+        "Fake Tears",
+        "Grass Whistle",
+        "Headbutt",
+        "Natural Gift",
+        "Odor Sleuth",
+        "Sleep Talk",
+        "Synthesis",
+        "Worry Seed"
+      ],
+      "randbats_movesets": {}
+    },
     "SCATTERBUG": {
       "species": "SCATTERBUG",
       "name": "Scatterbug",
@@ -120655,6 +122642,246 @@
         "Stun Spore",
         "Poison Powder",
         "Rage Powder"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_ARCHIPELAGO": {
+      "species": "SCATTERBUG_ARCHIPELAGO",
+      "name": "Scatterbug Archipelago",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_CONTINENTAL": {
+      "species": "SCATTERBUG_CONTINENTAL",
+      "name": "Scatterbug Continental",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_ELEGANT": {
+      "species": "SCATTERBUG_ELEGANT",
+      "name": "Scatterbug Elegant",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_FANCY": {
+      "species": "SCATTERBUG_FANCY",
+      "name": "Scatterbug Fancy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_GARDEN": {
+      "species": "SCATTERBUG_GARDEN",
+      "name": "Scatterbug Garden",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_HIGH_PLAINS": {
+      "species": "SCATTERBUG_HIGH_PLAINS",
+      "name": "Scatterbug High Plains",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_ICY_SNOW": {
+      "species": "SCATTERBUG_ICY_SNOW",
+      "name": "Scatterbug Icy Snow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_JUNGLE": {
+      "species": "SCATTERBUG_JUNGLE",
+      "name": "Scatterbug Jungle",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_MARINE": {
+      "species": "SCATTERBUG_MARINE",
+      "name": "Scatterbug Marine",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_MEADOW": {
+      "species": "SCATTERBUG_MEADOW",
+      "name": "Scatterbug Meadow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_MODERN": {
+      "species": "SCATTERBUG_MODERN",
+      "name": "Scatterbug Modern",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_MONSOON": {
+      "species": "SCATTERBUG_MONSOON",
+      "name": "Scatterbug Monsoon",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_OCEAN": {
+      "species": "SCATTERBUG_OCEAN",
+      "name": "Scatterbug Ocean",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_POKEBALL": {
+      "species": "SCATTERBUG_POKEBALL",
+      "name": "Scatterbug Pokeball",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_POLAR": {
+      "species": "SCATTERBUG_POLAR",
+      "name": "Scatterbug Polar",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_RIVER": {
+      "species": "SCATTERBUG_RIVER",
+      "name": "Scatterbug River",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_SANDSTORM": {
+      "species": "SCATTERBUG_SANDSTORM",
+      "name": "Scatterbug Sandstorm",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_SAVANNA": {
+      "species": "SCATTERBUG_SAVANNA",
+      "name": "Scatterbug Savanna",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_SUN": {
+      "species": "SCATTERBUG_SUN",
+      "name": "Scatterbug Sun",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SCATTERBUG_TUNDRA": {
+      "species": "SCATTERBUG_TUNDRA",
+      "name": "Scatterbug Tundra",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
       ],
       "randbats_movesets": {}
     },
@@ -124586,6 +126813,56 @@
         }
       }
     },
+    "SHELLOS_EAST": {
+      "species": "SHELLOS_EAST",
+      "name": "Shellos East",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Acid Armor",
+        "Amnesia",
+        "Brine",
+        "Clear Smog",
+        "Counter",
+        "Curse",
+        "Fissure",
+        "Memento",
+        "Mirror Coat",
+        "Mist",
+        "Sludge",
+        "Spit Up",
+        "Stockpile",
+        "Swallow",
+        "Trump Card",
+        "Yawn"
+      ],
+      "randbats_movesets": {}
+    },
+    "SHELLOS_WEST": {
+      "species": "SHELLOS_WEST",
+      "name": "Shellos West",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Acid Armor",
+        "Amnesia",
+        "Brine",
+        "Clear Smog",
+        "Counter",
+        "Curse",
+        "Fissure",
+        "Memento",
+        "Mirror Coat",
+        "Mist",
+        "Sludge",
+        "Spit Up",
+        "Stockpile",
+        "Swallow",
+        "Trump Card",
+        "Yawn"
+      ],
+      "randbats_movesets": {}
+    },
     "SHELMET": {
       "species": "SHELMET",
       "name": "Shelmet",
@@ -126716,9 +128993,12 @@
         "Throat Chop"
       ],
       "egg_moves": [
+        "Counter",
         "Covet",
         "Curse",
+        "Double Edge",
         "Feather Dance",
+        "Feint",
         "Final Gambit",
         "First Impression",
         "Flail",
@@ -126729,9 +129009,11 @@
         "Mud Slap",
         "Night Slash",
         "Quick Attack",
+        "Quick Guard",
         "Revenge",
         "Roost",
         "Simple Beam",
+        "Sky Attack",
         "Steel Wing",
         "Trump Card"
       ],
@@ -133238,6 +135520,246 @@
       "egg_moves": [],
       "randbats_movesets": {}
     },
+    "SPEWPA_ARCHIPELAGO": {
+      "species": "SPEWPA_ARCHIPELAGO",
+      "name": "Spewpa Archipelago",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_CONTINENTAL": {
+      "species": "SPEWPA_CONTINENTAL",
+      "name": "Spewpa Continental",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_ELEGANT": {
+      "species": "SPEWPA_ELEGANT",
+      "name": "Spewpa Elegant",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_FANCY": {
+      "species": "SPEWPA_FANCY",
+      "name": "Spewpa Fancy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_GARDEN": {
+      "species": "SPEWPA_GARDEN",
+      "name": "Spewpa Garden",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_HIGH_PLAINS": {
+      "species": "SPEWPA_HIGH_PLAINS",
+      "name": "Spewpa High Plains",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_ICY_SNOW": {
+      "species": "SPEWPA_ICY_SNOW",
+      "name": "Spewpa Icy Snow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_JUNGLE": {
+      "species": "SPEWPA_JUNGLE",
+      "name": "Spewpa Jungle",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_MARINE": {
+      "species": "SPEWPA_MARINE",
+      "name": "Spewpa Marine",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_MEADOW": {
+      "species": "SPEWPA_MEADOW",
+      "name": "Spewpa Meadow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_MODERN": {
+      "species": "SPEWPA_MODERN",
+      "name": "Spewpa Modern",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_MONSOON": {
+      "species": "SPEWPA_MONSOON",
+      "name": "Spewpa Monsoon",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_OCEAN": {
+      "species": "SPEWPA_OCEAN",
+      "name": "Spewpa Ocean",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_POKEBALL": {
+      "species": "SPEWPA_POKEBALL",
+      "name": "Spewpa Pokeball",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_POLAR": {
+      "species": "SPEWPA_POLAR",
+      "name": "Spewpa Polar",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_RIVER": {
+      "species": "SPEWPA_RIVER",
+      "name": "Spewpa River",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_SANDSTORM": {
+      "species": "SPEWPA_SANDSTORM",
+      "name": "Spewpa Sandstorm",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_SAVANNA": {
+      "species": "SPEWPA_SAVANNA",
+      "name": "Spewpa Savanna",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_SUN": {
+      "species": "SPEWPA_SUN",
+      "name": "Spewpa Sun",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "SPEWPA_TUNDRA": {
+      "species": "SPEWPA_TUNDRA",
+      "name": "Spewpa Tundra",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
     "SPHEAL": {
       "species": "SPHEAL",
       "name": "Spheal",
@@ -134378,6 +136900,179 @@
             "Protect",
             "Quick Attack",
             "U-turn"
+          ]
+        }
+      }
+    },
+    "SQUAWKABILLY_BLUE": {
+      "species": "SQUAWKABILLY_BLUE",
+      "name": "Squawkabilly-Blue",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Double Edge",
+        "Final Gambit",
+        "Flatter",
+        "Parting Shot"
+      ],
+      "randbats_movesets": {
+        "Offensive Protect": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Flying",
+            "Normal",
+            "Steel"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Parting Shot",
+            "Protect",
+            "Quick Attack"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Guts"
+          ],
+          "items": [
+            "Flame Orb"
+          ],
+          "teraTypes": [
+            "Normal"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Facade",
+            "Protect",
+            "Quick Attack",
+            "U-turn"
+          ]
+        }
+      }
+    },
+    "SQUAWKABILLY_GREEN": {
+      "species": "SQUAWKABILLY_GREEN",
+      "name": "Squawkabilly Green",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Double Edge",
+        "Final Gambit",
+        "Flatter",
+        "Parting Shot"
+      ],
+      "randbats_movesets": {}
+    },
+    "SQUAWKABILLY_WHITE": {
+      "species": "SQUAWKABILLY_WHITE",
+      "name": "Squawkabilly-White",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Double Edge",
+        "Final Gambit",
+        "Flatter",
+        "Parting Shot"
+      ],
+      "randbats_movesets": {
+        "Offensive Protect": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Flying",
+            "Normal",
+            "Steel"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Parting Shot",
+            "Protect",
+            "Quick Attack"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Hustle"
+          ],
+          "items": [
+            "Choice Band",
+            "Heavy-Duty Boots"
+          ],
+          "teraTypes": [
+            "Flying",
+            "Normal"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Foul Play",
+            "Parting Shot",
+            "Quick Attack"
+          ]
+        }
+      }
+    },
+    "SQUAWKABILLY_YELLOW": {
+      "species": "SQUAWKABILLY_YELLOW",
+      "name": "Squawkabilly-Yellow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Double Edge",
+        "Final Gambit",
+        "Flatter",
+        "Parting Shot"
+      ],
+      "randbats_movesets": {
+        "Offensive Protect": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Flying",
+            "Normal",
+            "Steel"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Parting Shot",
+            "Protect",
+            "Quick Attack"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Hustle"
+          ],
+          "items": [
+            "Choice Band",
+            "Heavy-Duty Boots"
+          ],
+          "teraTypes": [
+            "Flying",
+            "Normal"
+          ],
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Foul Play",
+            "Parting Shot",
+            "Quick Attack"
           ]
         }
       }
@@ -136058,18 +138753,20 @@
         "Toxic"
       ],
       "egg_moves": [
-        "Shock Wave",
-        "Earth Power",
-        "Yawn",
-        "Sleep Talk",
         "Astonish",
+        "Bind",
+        "Counter",
         "Curse",
-        "Spite",
-        "Spark",
-        "Pain Split",
+        "Earth Power",
         "Eerie Impulse",
+        "Me First",
+        "Pain Split",
         "Reflect Type",
-        "Me First"
+        "Shock Wave",
+        "Sleep Talk",
+        "Spark",
+        "Spite",
+        "Yawn"
       ],
       "randbats_movesets": {}
     },
@@ -136181,6 +138878,8 @@
       "teachable_moves": [],
       "egg_moves": [
         "Astonish",
+        "Bind",
+        "Counter",
         "Curse",
         "Earth Power",
         "Eerie Impulse",
@@ -140008,6 +142707,42 @@
         }
       }
     },
+    "TATSUGIRI_CURLY": {
+      "species": "TATSUGIRI_CURLY",
+      "name": "Tatsugiri Curly",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Baton Pass",
+        "Counter",
+        "Rapid Spin"
+      ],
+      "randbats_movesets": {}
+    },
+    "TATSUGIRI_DROOPY": {
+      "species": "TATSUGIRI_DROOPY",
+      "name": "Tatsugiri Droopy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Baton Pass",
+        "Counter",
+        "Rapid Spin"
+      ],
+      "randbats_movesets": {}
+    },
+    "TATSUGIRI_STRETCHY": {
+      "species": "TATSUGIRI_STRETCHY",
+      "name": "Tatsugiri Stretchy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Baton Pass",
+        "Counter",
+        "Rapid Spin"
+      ],
+      "randbats_movesets": {}
+    },
     "TAUROS": {
       "species": "TAUROS",
       "name": "Tauros",
@@ -140106,7 +142841,10 @@
         "Trailblaze",
         "Zen Headbutt"
       ],
-      "egg_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Endeavor"
+      ],
       "randbats_movesets": {
         "Choice Item user": {
           "abilities": [
@@ -140620,6 +143358,274 @@
         "Trailblaze",
         "Zen Headbutt"
       ],
+      "egg_moves": [
+        "Curse",
+        "Endeavor"
+      ],
+      "randbats_movesets": {
+        "Doubles Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band"
+          ],
+          "teraTypes": [
+            "Dark",
+            "Fighting",
+            "Steel"
+          ],
+          "moves": [
+            "Close Combat",
+            "High Horsepower",
+            "Iron Head",
+            "Rock Slide",
+            "Stone Edge",
+            "Throat Chop"
+          ]
+        },
+        "Doubles Bulky Attacker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Steel"
+          ],
+          "moves": [
+            "Bulk Up",
+            "Protect",
+            "Raging Bull",
+            "Stone Edge"
+          ]
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band",
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Dark",
+            "Fighting",
+            "Steel"
+          ],
+          "moves": [
+            "Bulk Up",
+            "Close Combat",
+            "Earthquake",
+            "Iron Head",
+            "Stone Edge",
+            "Throat Chop"
+          ]
+        }
+      }
+    },
+    "TAUROS_PALDEA_AQUA": {
+      "species": "TAUROS_PALDEA_AQUA",
+      "name": "Tauros-Paldea-Aqua",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Endeavor"
+      ],
+      "randbats_movesets": {
+        "Doubles Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band"
+          ],
+          "teraTypes": [
+            "Fire",
+            "Steel",
+            "Water"
+          ],
+          "moves": [
+            "Aqua Jet",
+            "Close Combat",
+            "Wave Crash",
+            "Wild Charge",
+            "Zen Headbutt"
+          ]
+        },
+        "Doubles Bulky Attacker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Fire",
+            "Steel",
+            "Water"
+          ],
+          "moves": [
+            "Aqua Jet",
+            "Bulk Up",
+            "Close Combat",
+            "Liquidation",
+            "Protect"
+          ]
+        },
+        "Setup Sweeper": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Life Orb"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Aqua Jet",
+            "Bulk Up",
+            "Close Combat",
+            "Liquidation"
+          ]
+        },
+        "Fast Bulky Setup": {
+          "abilities": [
+            "Cud Chew"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Steel",
+            "Water"
+          ],
+          "moves": [
+            "Bulk Up",
+            "Close Combat",
+            "Liquidation",
+            "Substitute"
+          ],
+          "evs": {
+            "hp": 73
+          }
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Aqua Jet",
+            "Close Combat",
+            "Stone Edge",
+            "Wave Crash"
+          ]
+        }
+      }
+    },
+    "TAUROS_PALDEA_BLAZE": {
+      "species": "TAUROS_PALDEA_BLAZE",
+      "name": "Tauros-Paldea-Blaze",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Curse",
+        "Endeavor"
+      ],
+      "randbats_movesets": {
+        "Doubles Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Fire",
+            "Water"
+          ],
+          "moves": [
+            "Close Combat",
+            "Flare Blitz",
+            "Rock Slide",
+            "Stone Edge",
+            "Wild Charge"
+          ]
+        },
+        "Doubles Bulky Attacker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Fighting",
+            "Fire",
+            "Water"
+          ],
+          "moves": [
+            "Bulk Up",
+            "Close Combat",
+            "Protect",
+            "Raging Bull",
+            "Will-O-Wisp"
+          ]
+        },
+        "Fast Bulky Setup": {
+          "abilities": [
+            "Cud Chew"
+          ],
+          "items": [
+            "Sitrus Berry"
+          ],
+          "teraTypes": [
+            "Water"
+          ],
+          "moves": [
+            "Bulk Up",
+            "Close Combat",
+            "Raging Bull",
+            "Substitute"
+          ],
+          "evs": {
+            "hp": 73
+          }
+        },
+        "Wallbreaker": {
+          "abilities": [
+            "Intimidate"
+          ],
+          "items": [
+            "Choice Band"
+          ],
+          "teraTypes": [
+            "Fighting"
+          ],
+          "moves": [
+            "Close Combat",
+            "Flare Blitz",
+            "Stone Edge",
+            "Wild Charge"
+          ]
+        }
+      }
+    },
+    "TAUROS_PALDEA_COMBAT": {
+      "species": "TAUROS_PALDEA_COMBAT",
+      "name": "Tauros-Paldea-Combat",
+      "level_up_moves": [],
+      "teachable_moves": [],
       "egg_moves": [
         "Curse",
         "Endeavor"
@@ -152392,6 +155398,246 @@
         }
       }
     },
+    "VIVILLON_ARCHIPELAGO": {
+      "species": "VIVILLON_ARCHIPELAGO",
+      "name": "Vivillon Archipelago",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_CONTINENTAL": {
+      "species": "VIVILLON_CONTINENTAL",
+      "name": "Vivillon Continental",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_ELEGANT": {
+      "species": "VIVILLON_ELEGANT",
+      "name": "Vivillon Elegant",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_FANCY": {
+      "species": "VIVILLON_FANCY",
+      "name": "Vivillon Fancy",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_GARDEN": {
+      "species": "VIVILLON_GARDEN",
+      "name": "Vivillon Garden",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_HIGH_PLAINS": {
+      "species": "VIVILLON_HIGH_PLAINS",
+      "name": "Vivillon High Plains",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_ICY_SNOW": {
+      "species": "VIVILLON_ICY_SNOW",
+      "name": "Vivillon Icy Snow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_JUNGLE": {
+      "species": "VIVILLON_JUNGLE",
+      "name": "Vivillon Jungle",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_MARINE": {
+      "species": "VIVILLON_MARINE",
+      "name": "Vivillon Marine",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_MEADOW": {
+      "species": "VIVILLON_MEADOW",
+      "name": "Vivillon Meadow",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_MODERN": {
+      "species": "VIVILLON_MODERN",
+      "name": "Vivillon Modern",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_MONSOON": {
+      "species": "VIVILLON_MONSOON",
+      "name": "Vivillon Monsoon",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_OCEAN": {
+      "species": "VIVILLON_OCEAN",
+      "name": "Vivillon Ocean",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_POKEBALL": {
+      "species": "VIVILLON_POKEBALL",
+      "name": "Vivillon Pokeball",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_POLAR": {
+      "species": "VIVILLON_POLAR",
+      "name": "Vivillon Polar",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_RIVER": {
+      "species": "VIVILLON_RIVER",
+      "name": "Vivillon River",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_SANDSTORM": {
+      "species": "VIVILLON_SANDSTORM",
+      "name": "Vivillon Sandstorm",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_SAVANNA": {
+      "species": "VIVILLON_SAVANNA",
+      "name": "Vivillon Savanna",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_SUN": {
+      "species": "VIVILLON_SUN",
+      "name": "Vivillon Sun",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
+    "VIVILLON_TUNDRA": {
+      "species": "VIVILLON_TUNDRA",
+      "name": "Vivillon Tundra",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Poison Powder",
+        "Rage Powder",
+        "Stun Spore"
+      ],
+      "randbats_movesets": {}
+    },
     "VOLBEAT": {
       "species": "VOLBEAT",
       "name": "Volbeat",
@@ -153473,20 +156719,25 @@
         "Zen Headbutt"
       ],
       "egg_moves": [
-        "Feint Attack",
-        "Hypnosis",
-        "Flail",
-        "Spite",
+        "Agility",
+        "Captivate",
+        "Charm",
         "Disable",
-        "Howl",
-        "Heat Wave",
-        "Flare Blitz",
+        "Encore",
         "Extrasensory",
+        "Feint Attack",
+        "Flail",
+        "Flare Blitz",
+        "Freeze Dry",
+        "Heat Wave",
+        "Hex",
+        "Howl",
+        "Hypnosis",
+        "Moonblast",
         "Power Swap",
         "Secret Power",
-        "Hex",
-        "Tail Slap",
-        "Captivate"
+        "Spite",
+        "Tail Slap"
       ],
       "randbats_movesets": {
         "Fast Attacker": {
@@ -153705,16 +156956,21 @@
       "level_up_moves": [],
       "teachable_moves": [],
       "egg_moves": [
+        "Agility",
         "Captivate",
+        "Charm",
         "Disable",
+        "Encore",
         "Extrasensory",
         "Feint Attack",
         "Flail",
         "Flare Blitz",
+        "Freeze Dry",
         "Heat Wave",
         "Hex",
         "Howl",
         "Hypnosis",
+        "Moonblast",
         "Power Swap",
         "Secret Power",
         "Spite",
@@ -156546,6 +159802,34 @@
       ],
       "randbats_movesets": {}
     },
+    "WISHIWASHI_SCHOOL": {
+      "species": "WISHIWASHI_SCHOOL",
+      "name": "Wishiwashi School",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Mist",
+        "Muddy Water",
+        "Water Pulse",
+        "Water Sport",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {}
+    },
+    "WISHIWASHI_SOLO": {
+      "species": "WISHIWASHI_SOLO",
+      "name": "Wishiwashi Solo",
+      "level_up_moves": [],
+      "teachable_moves": [],
+      "egg_moves": [
+        "Mist",
+        "Muddy Water",
+        "Water Pulse",
+        "Water Sport",
+        "Whirlpool"
+      ],
+      "randbats_movesets": {}
+    },
     "WOBBUFFET": {
       "species": "WOBBUFFET",
       "name": "Wobbuffet",
@@ -157023,23 +160307,25 @@
         "Waterfall"
       ],
       "egg_moves": [
-        "Body Slam",
-        "Ancient Power",
-        "Curse",
-        "Mud Sport",
-        "Stockpile",
-        "Swallow",
-        "Spit Up",
-        "Counter",
-        "Encore",
-        "Double Kick",
-        "Recover",
-        "After You",
-        "Sleep Talk",
         "Acid Spray",
-        "Guard Swap",
+        "After You",
+        "Ancient Power",
+        "Body Slam",
+        "Counter",
+        "Curse",
+        "Double Kick",
         "Eerie Impulse",
-        "Power Up Punch"
+        "Encore",
+        "Guard Swap",
+        "Haze",
+        "Mist",
+        "Mud Sport",
+        "Power Up Punch",
+        "Recover",
+        "Sleep Talk",
+        "Spit Up",
+        "Stockpile",
+        "Swallow"
       ],
       "randbats_movesets": {
         "Bulky Attacker": {
@@ -157202,6 +160488,8 @@
         "Eerie Impulse",
         "Encore",
         "Guard Swap",
+        "Haze",
+        "Mist",
         "Mud Sport",
         "Power Up Punch",
         "Recover",
@@ -160630,15 +163918,18 @@
       ],
       "egg_moves": [
         "Charm",
-        "Pursuit",
-        "Tickle",
-        "Trick",
+        "Extreme Speed",
         "Helping Hand",
+        "Knock Off",
         "Mud Slap",
-        "Sleep Talk",
+        "Parting Shot",
+        "Pursuit",
+        "Quick Guard",
         "Rock Climb",
         "Simple Beam",
-        "Extreme Speed"
+        "Sleep Talk",
+        "Tickle",
+        "Trick"
       ],
       "randbats_movesets": {}
     },
@@ -160748,8 +164039,11 @@
         "Charm",
         "Extreme Speed",
         "Helping Hand",
+        "Knock Off",
         "Mud Slap",
+        "Parting Shot",
         "Pursuit",
+        "Quick Guard",
         "Rock Climb",
         "Simple Beam",
         "Sleep Talk",
