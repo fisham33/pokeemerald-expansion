@@ -8,5 +8,6 @@ gen9randomdoublesbattle.json
 gen9randombattle.json
 gen9babyrandombattle.json
 
-# Pokemon data database (generated file)
+# Pokemon data database (generated files)
 pokemon_data.json
+move_data.json

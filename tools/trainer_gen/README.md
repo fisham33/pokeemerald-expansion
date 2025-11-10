@@ -82,16 +82,84 @@ python3 convert_randbats_to_party.py --mode pool
 
 The script will merge Pokemon from all available files into one `converted_movesets.txt`!
 
-### 3. Generate Pokemon Database (Required for Archetype Filtering)
+### 3. Generate Pokemon Databases (Optional but Recommended)
 
-To use archetype filtering, first generate the Pokemon database:
+#### Pokemon Stats Database (for archetype filtering and species filtering)
 
 ```bash
 cd tools/trainer_gen
 python3 extract_pokemon_data.py
 ```
 
-This creates `pokemon_data.json` with data for 1000+ Pokemon including types, base stats, and dex numbers extracted from your pokeemerald-expansion codebase.
+This creates `pokemon_data.json` with data for 1000+ Pokemon including types, base stats, families, and dex numbers.
+
+#### Move Database (for querying all available moves)
+
+```bash
+cd tools/trainer_gen
+python3 extract_move_data.py
+```
+
+This creates `move_data.json` with comprehensive move data:
+- All level-up moves (with levels learned)
+- All teachable moves (TMs/HMs/Tutor)
+- Random Battles movesets (if JSON files available)
+
+Extracted from your pokeemerald-expansion codebase files:
+- `src/data/pokemon/level_up_learnsets/gen_*.h`
+- `src/data/pokemon/teachable_learnsets.h`
+
+## Querying Pokemon Moves
+
+Use the `query_moves.py` tool to look up all moves available to any Pokemon:
+
+```bash
+# Query all moves for a Pokemon
+python3 query_moves.py Bulbasaur
+
+# Query with space in name
+python3 query_moves.py "Tapu Koko"
+
+# Show only level-up moves
+python3 query_moves.py Charizard --level-only
+
+# Show only teachable moves (TMs/HMs/Tutor)
+python3 query_moves.py Pikachu --teachable-only
+
+# Hide Random Battles movesets
+python3 query_moves.py Mewtwo --no-randbats
+```
+
+**Output includes:**
+- 📈 **Level-up moves** - All moves learned by leveling up, with levels
+- 🎓 **Teachable moves** - All TM/HM/Tutor moves available
+- 🎮 **Random Battles movesets** - Competitive movesets from Showdown (if available)
+- 💡 **Total unique moves** - Count of all available moves
+
+**Example output:**
+```
+================================================================================
+Bulbasaur (BULBASAUR)
+================================================================================
+
+📈 LEVEL-UP MOVES (15 total)
+--------------------------------------------------------------------------------
+  Lv.  1  Tackle
+  Lv.  1  Growl
+  Lv.  3  Vine Whip
+  Lv.  6  Growth
+  ...
+
+🎓 TEACHABLE MOVES (TMs/HMs/Tutor) - 25 total
+--------------------------------------------------------------------------------
+  Body Slam                Cut                      Defense Curl
+  Double Edge              Endure                   Energy Ball
+  ...
+
+💡 Total unique moves available: 39
+```
+
+This is especially useful for Pokemon that don't have movesets defined in the Random Battles data!
 
 ## Archetype Filtering
 
@@ -565,11 +633,26 @@ The GUI application (`gui_converter.py`) provides a user-friendly interface for 
 
 ## Files Created
 
-- `converted_movesets.txt` - The output file with converted Pokemon
-- `gen9randomdoublesbattle.json` - Downloaded Showdown data (not tracked by git)
+**Core Scripts:**
+- `convert_randbats_to_party.py` - Main conversion script (CLI)
 - `gui_converter.py` - GUI application for the converter
+- `extract_pokemon_data.py` - Generate Pokemon stats database
+- `extract_move_data.py` - Generate comprehensive move database
+- `query_moves.py` - Query tool to look up Pokemon moves
+- `parse_species_enabled.py` - Parser for species_enabled.h
+
+**Launchers:**
 - `launch_gui.sh` - Linux/Mac launcher for the GUI
 - `launch_gui.bat` - Windows launcher for the GUI
+
+**Generated Data (not tracked by git):**
+- `pokemon_data.json` - Pokemon stats, types, families database
+- `move_data.json` - Comprehensive move database
+- `converted_movesets.txt` - Output file with converted Pokemon
+- `gen9randomdoublesbattle.json` - Downloaded Showdown data
+
+**Configuration:**
+- `trainer_archetypes.json` - Predefined trainer class type mappings
 
 ## See Also
 
