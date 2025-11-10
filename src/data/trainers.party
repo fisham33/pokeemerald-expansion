@@ -5827,42 +5827,94 @@ Gender: Male
 Music: Male
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+Party Size: 4
+Pool Rules: POOL_RULESET_BASIC
 
-Clobbopus @ Oran Berry
-Ability: Limber  
-Level: 19
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Rock Smash  
-- Detect  
-- Bulk Up  
-- Circle Throw
-
-Mankey @ Oran Berry
-Ability: Vital Spirit
-Level: 19
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Low Kick  
-- Dig  
-- Seismic Toss  
-- Covet
-
-Pawmo @ Sitrus Berry
-Ability: Volt Absorb
-Level: 19
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Bulk Up  
-- Arm Thrust  
-- Nuzzle  
-- Spark
-
-Farfetch'd-Galar @ Sitrus Berry
+Farfetch'd-Galar @ Oran Berry
 Ability: Steadfast
 Level: 19
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Bulk Up  
-- Rock Smash  
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
 - Fury Cutter
+- Bulk Up
+- Rock Smash
 - Quick Attack
+
+Farfetch'd-Galar @ Oran Berry
+Ability: Steadfast
+Level: 19
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+- Counter
+- Covet
+- Helping Hand
+- Quick Attack
+
+Pawmo @ Oran Berry
+Ability: Natural Cure
+Level: 19
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+Tags: Support
+- Helping Hand
+- Nuzzle
+- Fake Out
+- Arm Thrust
+
+Pawmo @ Oran Berry
+Ability: Natural Cure
+Level: 19
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+- Thunder Shock
+- Dig
+- Bite
+- Arm Thrust
+
+Clobbopus @ Oran Berry
+Ability: Limber
+Level: 19
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+Tags: Support
+- Soak
+- Bind
+- Detect
+- Rock Smash
+
+Falinks @ Sitrus Berry
+Ability: Battle Armor
+Level: 19
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+Tags: Ace
+- Bulk Up
+- Rock Tomb
+- Reversal
+- Protect
+
+Falinks @ Sitrus Berry
+Ability: Battle Armor
+Level: 19
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+Tags: Ace
+- Bulk Up
+- Headbutt
+- Brick Break
+
+Sneasel-Hisui @ Sitrus Berry
+Ability: Inner Focus
+Level: 19
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+Tags: Ace
+- Coaching
+- Metal Claw
+- Rock Smash
+- Thief
+
+Sneasel-Hisui @ Sitrus Berry
+Ability: Inner Focus
+Level: 19
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+Tags: Ace
+- Bulk Up
+- Taunt
+- Rock Smash
+- Poison Tail
 
 === TRAINER_WATTSON_1 ===
 Name: WATTSON

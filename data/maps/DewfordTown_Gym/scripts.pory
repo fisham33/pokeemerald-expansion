@@ -136,7 +136,7 @@ DewfordTown_Gym_EventScript_StopCountingTrainers::
 DewfordTown_Gym_EventScript_Brawly::
 	lock
 	faceplayer
-	trainerbattle_selectmons TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_PostBattleHandler, 3
+	trainerbattle_selectmons TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_PostBattleHandler, 4
 	end
 
 DewfordTown_Gym_EventScript_PostBattleHandler::
