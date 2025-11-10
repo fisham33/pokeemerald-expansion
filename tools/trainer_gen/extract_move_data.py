@@ -201,6 +201,91 @@ def normalize_species_name(name: str) -> str:
     return name.upper().replace('-', '').replace(' ', '').replace('_', '').replace("'", "")
 
 
+def parse_families_from_source(species_info_dir: Path) -> Dict[str, List[str]]:
+    """
+    Parse family information directly from gen_X_families.h files
+
+    Returns:
+        Dict mapping family name to list of species in that family
+    """
+    family_to_species = {}
+
+    # Find all gen_X_families.h files
+    gen_files = sorted(species_info_dir.glob('gen_*_families.h'))
+
+    for gen_file in gen_files:
+        with open(gen_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Pattern: #if P_FAMILY_XXX ... #endif //P_FAMILY_XXX
+        family_pattern = r'#if\s+(P_FAMILY_\w+)\s*\n(.*?)#endif\s*//\1'
+
+        for match in re.finditer(family_pattern, content, re.DOTALL):
+            family_name = match.group(1)
+            family_content = match.group(2)
+
+            # Extract all [SPECIES_XXX] entries within this family
+            species_pattern = r'\[SPECIES_(\w+)\]\s*='
+            species_list = re.findall(species_pattern, family_content)
+
+            if species_list and family_name not in family_to_species:
+                family_to_species[family_name] = [s.upper() for s in species_list]
+
+    return family_to_species
+
+
+def propagate_egg_moves_to_families(egg_moves_learnsets: Dict[str, List[str]], species_info_dir: Path) -> Dict[str, List[str]]:
+    """
+    Propagate egg moves to all members of the same family
+
+    Args:
+        egg_moves_learnsets: Dict mapping species to egg moves
+        species_info_dir: Path to species_info directory with family information
+
+    Returns:
+        Updated egg moves dict with moves propagated to all family members
+    """
+    if not species_info_dir.exists():
+        print(f"  Warning: species_info directory not found at {species_info_dir}, skipping family propagation")
+        return egg_moves_learnsets
+
+    # Parse family information from source files
+    family_to_species = parse_families_from_source(species_info_dir)
+
+    # Build a mapping of species -> family for quick lookup
+    species_to_family = {}
+    for family, species_list in family_to_species.items():
+        for species in species_list:
+            species_to_family[species] = family
+
+    # Collect all egg moves for each family
+    family_egg_moves = {}
+    for species, moves in egg_moves_learnsets.items():
+        family = species_to_family.get(species)
+        if family:
+            if family not in family_egg_moves:
+                family_egg_moves[family] = set()
+            family_egg_moves[family].update(moves)
+
+    # Propagate egg moves to all family members
+    updated_learnsets = dict(egg_moves_learnsets)  # Start with original
+    propagated_count = 0
+
+    for family, all_moves in family_egg_moves.items():
+        move_list = sorted(list(all_moves))  # Convert to sorted list
+        for species in family_to_species[family]:
+            if species not in updated_learnsets:
+                updated_learnsets[species] = move_list
+                propagated_count += 1
+            elif set(updated_learnsets[species]) != all_moves:
+                # Update with all family moves
+                updated_learnsets[species] = move_list
+
+    print(f"  ✓ Propagated egg moves to {propagated_count} additional Pokemon across families")
+
+    return updated_learnsets
+
+
 def main():
     """Main extraction function"""
     print("Pokemon Move Data Extraction Tool")
@@ -214,6 +299,7 @@ def main():
     learnset_dir = root_dir / 'src' / 'data' / 'pokemon' / 'level_up_learnsets'
     teachable_file = root_dir / 'src' / 'data' / 'pokemon' / 'teachable_learnsets.h'
     egg_moves_file = root_dir / 'src' / 'data' / 'pokemon' / 'egg_moves.h'
+    species_info_dir = root_dir / 'src' / 'data' / 'pokemon' / 'species_info'
 
     if not learnset_dir.exists():
         print(f"Error: Level-up learnsets directory not found at {learnset_dir}")
@@ -230,6 +316,10 @@ def main():
         print(f"\nExtracting egg moves from: {egg_moves_file}")
         egg_moves_learnsets = parse_egg_moves(egg_moves_file)
         print(f"  ✓ Found {len(egg_moves_learnsets)} Pokemon with egg moves")
+
+        # Propagate egg moves to entire families
+        print(f"\nPropagating egg moves to evolutionary families...")
+        egg_moves_learnsets = propagate_egg_moves_to_families(egg_moves_learnsets, species_info_dir)
 
     print(f"\nExtracting level-up learnsets from: {learnset_dir}")
     level_up_learnsets = parse_level_up_learnsets(learnset_dir)
