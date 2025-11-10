@@ -1,0 +1,971 @@
+/* Doubles */
+/* Choice Item user */
+Annihilape @ Choice Scarf
+Ability: Defiant
+Tera Type: Fighting
+- Close Combat
+- Final Gambit
+- Rage Fist
+- U-turn
+
+/* Doubles */
+/* Bulky Protect */
+Annihilape @ Leftovers
+Ability: Defiant
+Tera Type: Fire
+- Bulk Up
+- Drain Punch
+- Protect
+- Rage Fist
+
+/* Doubles */
+/* Offensive Protect */
+Blaziken @ Life Orb
+Ability: Speed Boost
+Tera Type: Stellar
+- Protect
+- Stone Edge
+- Close Combat
+- Knock Off
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Blaziken @ Life Orb
+Ability: Speed Boost
+Tera Type: Fighting
+Tags: Ace
+- Close Combat
+- Heat Wave
+- Protect
+- Vacuum Wave
+
+/* Doubles */
+/* Doubles Fast Attacker */
+Breloom @ Life Orb
+Ability: Technician
+Tera Type: Fighting
+Tags: Lead
+- Protect
+- Spore
+- Bullet Seed
+- Close Combat
+
+/* Doubles */
+/* Doubles Fast Attacker (Variant 2) */
+Breloom @ Life Orb
+Ability: Technician
+Tera Type: Fighting
+Tags: Lead
+- Close Combat
+- Rock Tomb
+- Bullet Seed
+- Spore
+
+/* Doubles */
+/* Bulky Protect */
+Chesnaught @ Sitrus Berry
+Ability: Bulletproof
+Tera Type: Fire
+- Leech Seed
+- Wood Hammer
+- Body Press
+- Coaching
+
+/* Doubles */
+/* Bulky Protect (Variant 2) */
+Chesnaught @ Sitrus Berry
+Ability: Bulletproof
+Tera Type: Rock
+- Coaching
+- Spiky Shield
+- Body Press
+- Wood Hammer
+
+/* Doubles */
+/* Doubles Bulky Setup */
+Chesnaught @ Leftovers
+Ability: Bulletproof
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Fire
+Tags: Ace
+- Body Press
+- Iron Defense
+- Leech Seed
+- Spiky Shield
+
+/* Doubles */
+/* Doubles Support */
+Cobalion @ Sitrus Berry
+Ability: Justified
+Tera Type: Flying
+Tags: Support
+- Thunder Wave
+- Volt Switch
+- Body Press
+- Coaching
+
+/* Doubles */
+/* Bulky Protect */
+Cobalion @ Leftovers
+Ability: Justified
+Tera Type: Flying
+- Body Press
+- Heavy Slam
+- Iron Defense
+- Protect
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Conkeldurr @ Assault Vest
+Ability: Iron Fist
+Tera Type: Dark
+- Drain Punch
+- Ice Punch
+- Knock Off
+- Mach Punch
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Conkeldurr @ Flame Orb
+Ability: Guts
+Tera Type: Dark
+Tags: Ace
+- Close Combat
+- Knock Off
+- Mach Punch
+- Protect
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Crabominable @ Life Orb
+Ability: Iron Fist
+Tera Type: Fire
+Tags: Ace
+- Protect
+- Wide Guard
+- Drain Punch
+- Gunk Shot
+
+/* Doubles */
+/* Doubles Support */
+Decidueye-Hisui @ Sitrus Berry
+Ability: Scrappy
+Tera Type: Dark
+Tags: Support
+- Tailwind
+- Triple Arrows
+- Knock Off
+- Leaf Blade
+
+/* Doubles */
+/* Choice Item user */
+Emboar @ Choice Band
+Ability: Reckless
+Tera Type: Dark
+- Knock Off
+- Wild Charge
+- Close Combat
+- Flare Blitz
+
+/* Doubles */
+/* Choice Item user (Variant 2) */
+Emboar @ Choice Scarf
+Ability: Reckless
+Tera Type: Electric
+- Flare Blitz
+- Close Combat
+- Wild Charge
+- Knock Off
+
+/* Doubles */
+/* Doubles Setup Sweeper */
+Falinks @ Life Orb
+Ability: Defiant
+Tera Type: Dark
+Tags: Ace
+- No Retreat
+- Rock Slide
+- Close Combat
+- Iron Head
+
+/* Doubles */
+/* Doubles Setup Sweeper (Variant 2) */
+Falinks @ Life Orb
+Ability: Defiant
+Tera Type: Steel
+Tags: Ace
+- Iron Head
+- Protect
+- Close Combat
+- Rock Slide
+
+/* Doubles */
+/* Choice Item user */
+Flamigo @ Choice Band
+Ability: Scrappy
+Tera Type: Fighting
+- Brave Bird
+- Close Combat
+- Throat Chop
+- U-turn
+
+/* Doubles */
+/* Choice Item user (Variant 2) */
+Flamigo @ Choice Scarf
+Ability: Scrappy
+Tera Type: Fire
+- Brave Bird
+- Close Combat
+- Throat Chop
+- U-turn
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Gallade @ Choice Band
+Ability: Sharpness
+Tera Type: Dark
+Tags: Ace
+- Psycho Cut
+- Swords Dance
+- Leaf Blade
+- Night Slash
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Gallade @ Life Orb
+Ability: Sharpness
+Tera Type: Fighting
+Tags: Ace
+- Night Slash
+- Sacred Sword
+- Leaf Blade
+- Swords Dance
+
+/* Doubles */
+/* Choice Item user */
+Gallade @ Choice Scarf
+Ability: Sharpness
+Tera Type: Dark
+- Night Slash
+- Psycho Cut
+- Sacred Sword
+- Trick
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Great Tusk @ Assault Vest
+Ability: Protosynthesis
+Tera Type: Fire
+Tags: Weather Abuser
+- Rock Slide
+- Knock Off
+- Rapid Spin
+- Close Combat
+
+/* Doubles */
+/* Doubles Bulky Attacker (Variant 2) */
+Great Tusk @ Sitrus Berry
+Ability: Protosynthesis
+Tera Type: Ground
+Tags: Weather Abuser
+- Headlong Rush
+- Protect
+- Close Combat
+- Ice Spinner
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Hariyama @ Assault Vest
+Ability: Thick Fat
+Tera Type: Steel
+- Feint
+- Knock Off
+- Bullet Punch
+- Close Combat
+
+/* Doubles */
+/* Doubles Bulky Attacker (Variant 2) */
+Hariyama @ Assault Vest
+Ability: Thick Fat
+Tera Type: Steel
+- Close Combat
+- Heavy Slam
+- Bullet Punch
+- Knock Off
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Hariyama @ Flame Orb
+Ability: Guts
+Tera Type: Normal
+Tags: Ace
+- Fake Out
+- Knock Off
+- Bullet Punch
+- Close Combat
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Hariyama @ Flame Orb
+Ability: Guts
+Tera Type: Normal
+Tags: Ace
+- Close Combat
+- Headlong Rush
+- Bullet Punch
+- Knock Off
+
+/* Doubles */
+/* Doubles Setup Sweeper */
+Hawlucha @ White Herb
+Ability: Unburden
+Tera Type: Fighting
+Tags: Ace
+- Brave Bird
+- Close Combat
+- Protect
+- Swords Dance
+
+/* Doubles */
+/* Choice Item user */
+Heracross @ Choice Band
+Ability: Moxie
+Tera Type: Bug
+- Close Combat
+- Knock Off
+- Megahorn
+- Rock Slide
+
+/* Doubles */
+/* Choice Item user (Variant 2) */
+Heracross @ Choice Scarf
+Ability: Moxie
+Tera Type: Fighting
+- Close Combat
+- Knock Off
+- Megahorn
+- Rock Slide
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Heracross @ Flame Orb
+Ability: Guts
+Tera Type: Normal
+Tags: Ace
+- Close Combat
+- Facade
+- Knock Off
+- Protect
+
+/* Doubles */
+/* Doubles Support */
+Hitmontop @ Assault Vest
+Ability: Intimidate
+Tera Type: Steel
+Tags: Support
+- Wide Guard
+- Helping Hand
+- Triple Axel
+- Close Combat
+
+/* Doubles */
+/* Doubles Support (Variant 2) */
+Hitmontop @ Sitrus Berry
+Ability: Intimidate
+Tera Type: Steel
+Tags: Support
+- Coaching
+- Sucker Punch
+- Close Combat
+- Fake Out
+
+/* Doubles */
+/* Doubles Fast Attacker */
+Infernape @ Clear Amulet
+Ability: Blaze
+Tera Type: Dark
+Tags: Lead
+- Overheat
+- Protect
+- Close Combat
+- Fake Out
+
+/* Doubles */
+/* Doubles Fast Attacker (Variant 2) */
+Infernape @ Focus Sash
+Ability: Blaze
+Tera Type: Fighting
+Tags: Lead
+- Fake Out
+- Close Combat
+- Protect
+- Overheat
+
+/* Doubles */
+/* Bulky Protect */
+Iron Hands @ Leftovers
+Ability: Quark Drive
+Tera Type: Fire
+Tags: Weather Abuser
+- Drain Punch
+- Protect
+- Swords Dance
+- Thunder Punch
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Iron Hands @ Assault Vest
+Ability: Quark Drive
+Tera Type: Electric
+Tags: Weather Abuser
+- Ice Punch
+- Wild Charge
+- Close Combat
+- Drain Punch
+
+/* Doubles */
+/* Doubles Bulky Attacker (Variant 2) */
+Iron Hands @ Assault Vest
+Ability: Quark Drive
+Tera Type: Fire
+Tags: Weather Abuser
+- Drain Punch
+- Volt Switch
+- Close Combat
+- Wild Charge
+
+/* Doubles */
+/* Offensive Protect */
+Iron Valiant @ Life Orb
+Ability: Quark Drive
+Tera Type: Dark
+Tags: Weather Abuser
+- Knock Off
+- Protect
+- Close Combat
+- Dazzling Gleam
+
+/* Doubles */
+/* Offensive Protect (Variant 2) */
+Iron Valiant @ Life Orb
+Ability: Quark Drive
+Tera Type: Fairy
+Tags: Weather Abuser
+- Dazzling Gleam
+- Moonblast
+- Close Combat
+- Protect
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Keldeo-Resolute @ Choice Specs
+Ability: Justified
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Fighting
+Tags: Ace
+- Hydro Pump
+- Muddy Water
+- Secret Sword
+- Vacuum Wave
+
+/* Doubles */
+/* Offensive Protect */
+Keldeo-Resolute @ Life Orb
+Ability: Justified
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Tera Type: Fighting
+- Secret Sword
+- Vacuum Wave
+- Hydro Pump
+- Muddy Water
+
+/* Doubles */
+/* Bulky Protect */
+Kommo-o @ Leftovers
+Ability: Bulletproof
+Tera Type: Steel
+- Body Press
+- Iron Defense
+- Protect
+- Throat Chop
+
+/* Doubles */
+/* Doubles Bulky Setup */
+Kommo-o @ Throat Spray
+Ability: Soundproof
+Tera Type: Steel
+Tags: Ace
+- Clanging Scales
+- Clangorous Soul
+- Iron Head
+- Protect
+
+/* Doubles */
+/* Doubles Setup Sweeper */
+Kommo-o @ Throat Spray
+Ability: Soundproof
+Tera Type: Steel
+Tags: Ace
+- Clanging Scales
+- Clangorous Soul
+- Drain Punch
+- Iron Head
+
+/* Doubles */
+/* Choice Item user */
+Koraidon @ Choice Band
+Ability: Orichalcum Pulse
+Tera Type: Fire
+- Collision Course
+- Dragon Claw
+- Flare Blitz
+- U-turn
+
+/* Doubles */
+/* Offensive Protect */
+Koraidon @ Life Orb
+Ability: Orichalcum Pulse
+Tera Type: Fire
+- Collision Course
+- Dragon Claw
+- Flare Blitz
+- Protect
+
+/* Doubles */
+/* Doubles Setup Sweeper */
+Lilligant-Hisui @ Life Orb
+Ability: Hustle
+Tera Type: Fighting
+Tags: Ace
+- Sleep Powder
+- Victory Dance
+- Close Combat
+- Leaf Blade
+
+/* Doubles */
+/* Offensive Protect */
+Lucario @ Life Orb
+Ability: Inner Focus
+Tera Type: Normal
+- Close Combat
+- Extreme Speed
+- Flash Cannon
+- Protect
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Lucario @ Choice Band
+Ability: Inner Focus
+Tera Type: Normal
+Tags: Ace
+- Close Combat
+- Extreme Speed
+- Meteor Mash
+- Rock Slide
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Medicham @ Clear Amulet
+Ability: Pure Power
+Tera Type: Fighting
+Tags: Ace
+- Close Combat
+- Fake Out
+- Ice Punch
+- Zen Headbutt
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Medicham @ Focus Sash
+Ability: Pure Power
+Tera Type: Fighting
+Tags: Ace
+- Close Combat
+- Fake Out
+- Ice Punch
+- Zen Headbutt
+
+/* Doubles */
+/* Offensive Protect */
+Medicham @ Life Orb
+Ability: Pure Power
+Tera Type: Fighting
+- Protect
+- Zen Headbutt
+- Bullet Punch
+- Close Combat
+
+/* Doubles */
+/* Choice Item user */
+Medicham @ Choice Band
+Ability: Pure Power
+Tera Type: Fighting
+- Poison Jab
+- Zen Headbutt
+- Bullet Punch
+- Close Combat
+
+/* Doubles */
+/* Choice Item user (Variant 2) */
+Medicham @ Choice Scarf
+Ability: Pure Power
+Tera Type: Fire
+- Close Combat
+- Bullet Punch
+- Zen Headbutt
+- Poison Jab
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Mienshao @ Assault Vest
+Ability: Regenerator
+Tera Type: Dark
+- Close Combat
+- Fake Out
+- Knock Off
+- U-turn
+
+/* Doubles */
+/* Doubles Fast Attacker */
+Mienshao @ Choice Band
+Ability: Regenerator
+Tera Type: Dark
+Tags: Lead
+- Triple Axel
+- U-turn
+- Close Combat
+- Fake Out
+
+/* Doubles */
+/* Doubles Fast Attacker (Variant 2) */
+Mienshao @ Choice Scarf
+Ability: Regenerator
+Tera Type: Dark
+Tags: Lead
+- Fake Out
+- Close Combat
+- U-turn
+- Triple Axel
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Okidogi @ Assault Vest
+Ability: Toxic Chain
+Tera Type: Dark
+- Knock Off
+- Snarl
+- Bulk Up
+- Drain Punch
+
+/* Doubles */
+/* Doubles Bulky Attacker (Variant 2) */
+Okidogi @ Sitrus Berry
+Ability: Toxic Chain
+Tera Type: Dark
+- Drain Punch
+- Bulk Up
+- Snarl
+- Knock Off
+
+/* Doubles */
+/* Choice Item user */
+Passimian @ Choice Band
+Ability: Defiant
+Tera Type: Dark
+- Rock Slide
+- U-turn
+- Close Combat
+- Gunk Shot
+
+/* Doubles */
+/* Choice Item user (Variant 2) */
+Passimian @ Choice Scarf
+Ability: Defiant
+Tera Type: Poison
+- Gunk Shot
+- Close Combat
+- U-turn
+- Rock Slide
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Pawmot @ Clear Amulet
+Ability: Volt Absorb
+Tera Type: Electric
+Tags: Ace
+- Protect
+- Revival Blessing
+- Close Combat
+- Double Shock
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Pawmot @ Focus Sash
+Ability: Volt Absorb
+Tera Type: Electric
+Tags: Ace
+- Double Shock
+- Close Combat
+- Revival Blessing
+- Protect
+
+/* Doubles */
+/* Offensive Protect */
+Quaquaval @ Life Orb
+Ability: Moxie
+Tera Type: Fire
+- Knock Off
+- Triple Axel
+- Aqua Jet
+- Aqua Step
+
+/* Doubles */
+/* Offensive Protect (Variant 2) */
+Quaquaval @ Life Orb
+Ability: Moxie
+Tera Type: Steel
+- Aqua Step
+- Protect
+- Aqua Jet
+- Triple Axel
+
+/* Doubles */
+/* Doubles Support */
+Scrafty @ Assault Vest
+Ability: Intimidate
+Tera Type: Poison
+Tags: Support
+- Knock Off
+- Snarl
+- Close Combat
+- Coaching
+
+/* Doubles */
+/* Doubles Support (Variant 2) */
+Scrafty @ Sitrus Berry
+Ability: Intimidate
+Tera Type: Poison
+Tags: Support
+- Coaching
+- Poison Jab
+- Close Combat
+- Snarl
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Slither Wing @ Life Orb
+Ability: Protosynthesis
+Tera Type: Bug
+Tags: Ace / Weather Abuser
+- U-turn
+- Wild Charge
+- Close Combat
+- First Impression
+
+/* Doubles */
+/* Doubles Setup Sweeper */
+Sneasler @ White Herb
+Ability: Unburden
+Tera Type: Dark
+Tags: Ace
+- Close Combat
+- Dire Claw
+- Protect
+- Swords Dance
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Sneasler @ Choice Band
+Ability: Poison Touch
+Tera Type: Dark
+Tags: Ace
+- Throat Chop
+- U-turn
+- Close Combat
+- Dire Claw
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Sneasler @ Clear Amulet
+Ability: Poison Touch
+Tera Type: Fighting
+Tags: Ace
+- Dire Claw
+- Close Combat
+- U-turn
+- Throat Chop
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Tauros-Paldea-Aqua @ Choice Band
+Ability: Intimidate
+Tera Type: Fire
+Tags: Ace
+- Wild Charge
+- Zen Headbutt
+- Aqua Jet
+- Close Combat
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Tauros-Paldea-Aqua @ Sitrus Berry
+Ability: Intimidate
+Tera Type: Fire
+- Liquidation
+- Protect
+- Aqua Jet
+- Bulk Up
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Tauros-Paldea-Blaze @ Choice Band
+Ability: Intimidate
+Tera Type: Fighting
+Tags: Ace
+- Stone Edge
+- Wild Charge
+- Close Combat
+- Flare Blitz
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Tauros-Paldea-Blaze @ Sitrus Berry
+Ability: Intimidate
+Tera Type: Fighting
+- Raging Bull
+- Will-O-Wisp
+- Bulk Up
+- Close Combat
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Tauros-Paldea-Combat @ Choice Band
+Ability: Intimidate
+Tera Type: Dark
+Tags: Ace
+- Rock Slide
+- Throat Chop
+- Close Combat
+- High Horsepower
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Tauros-Paldea-Combat @ Choice Band
+Ability: Intimidate
+Tera Type: Fighting
+Tags: Ace
+- High Horsepower
+- Stone Edge
+- Close Combat
+- Throat Chop
+
+/* Doubles */
+/* Doubles Bulky Attacker */
+Tauros-Paldea-Combat @ Sitrus Berry
+Ability: Intimidate
+Tera Type: Steel
+- Bulk Up
+- Protect
+- Raging Bull
+- Stone Edge
+
+/* Doubles */
+/* Offensive Protect */
+Terrakion @ Life Orb
+Ability: Justified
+Tera Type: Fighting
+- Close Combat
+- Protect
+- Rock Slide
+- Stone Edge
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Terrakion @ Choice Band
+Ability: Justified
+Tera Type: Fighting
+Tags: Ace
+- Close Combat
+- High Horsepower
+- Rock Slide
+- Stone Edge
+
+/* Doubles */
+/* Doubles Fast Attacker */
+Toxicroak @ Clear Amulet
+Ability: Dry Skin
+Tera Type: Dark
+Tags: Lead
+- Protect
+- Swords Dance
+- Close Combat
+- Fake Out
+
+/* Doubles */
+/* Doubles Fast Attacker (Variant 2) */
+Toxicroak @ Focus Sash
+Ability: Dry Skin
+Tera Type: Fighting
+Tags: Lead
+- Fake Out
+- Sucker Punch
+- Close Combat
+- Swords Dance
+
+/* Doubles */
+/* Doubles Wallbreaker */
+Urshifu-Rapid-Strike @ Choice Band
+Ability: Unseen Fist
+Tera Type: Water
+Tags: Ace
+- Protect
+- U-turn
+- Aqua Jet
+- Close Combat
+
+/* Doubles */
+/* Doubles Wallbreaker (Variant 2) */
+Urshifu-Rapid-Strike @ Life Orb
+Ability: Unseen Fist
+Tera Type: Water
+Tags: Ace
+- Close Combat
+- Surging Strikes
+- Aqua Jet
+- U-turn
+
+/* Doubles */
+/* Doubles Support */
+Virizion @ Sitrus Berry
+Ability: Justified
+Tera Type: Fire
+Tags: Support
+- Protect
+- Stone Edge
+- Close Combat
+- Coaching
+
+/* Doubles */
+/* Doubles Fast Attacker */
+Zapdos-Galar @ Choice Band
+Ability: Defiant
+Tera Type: Fighting
+Tags: Lead
+- U-turn
+- Protect
+- Thunderous Kick
+- Brave Bird
+
+/* Doubles */
+/* Doubles Fast Attacker (Variant 2) */
+Zapdos-Galar @ Choice Scarf
+Ability: Defiant
+Tera Type: Fighting
+Tags: Lead
+- Close Combat
+- Tailwind
+- Brave Bird
+- Knock Off
