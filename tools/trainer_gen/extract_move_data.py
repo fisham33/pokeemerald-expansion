@@ -120,6 +120,50 @@ def parse_teachable_learnsets(teachable_file: Path) -> Dict[str, List[str]]:
     return learnsets
 
 
+def parse_egg_moves(egg_moves_file: Path) -> Dict[str, List[str]]:
+    """
+    Parse egg moves from egg_moves.h
+
+    Returns:
+        Dict mapping species name to list of move names
+    """
+    learnsets = {}
+
+    with open(egg_moves_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Pattern: static const u16 sSpeciesEggMoveLearnset[] = {
+    learnset_pattern = r'static\s+const\s+u16\s+s(\w+)EggMoveLearnset\[\]\s*=\s*\{([^}]+)\}'
+
+    for match in re.finditer(learnset_pattern, content, re.DOTALL):
+        species_name = match.group(1).upper()
+        learnset_content = match.group(2)
+
+        # Skip special entries
+        if species_name in ['NONE']:
+            continue
+
+        moves = []
+
+        # Extract MOVE_ constants
+        move_pattern = r'MOVE_(\w+)'
+
+        for move_match in re.finditer(move_pattern, learnset_content):
+            move_constant = move_match.group(1)
+
+            # Skip special markers
+            if move_constant in ['UNAVAILABLE']:
+                continue
+
+            move_name = clean_move_name(f'MOVE_{move_constant}')
+            moves.append(move_name)
+
+        if moves:
+            learnsets[species_name] = moves
+
+    return learnsets
+
+
 def load_randbats_movesets(randbats_files: List[Path]) -> Dict[str, Dict]:
     """
     Load movesets from randbats JSON files
@@ -169,6 +213,7 @@ def main():
     # Paths
     learnset_dir = root_dir / 'src' / 'data' / 'pokemon' / 'level_up_learnsets'
     teachable_file = root_dir / 'src' / 'data' / 'pokemon' / 'teachable_learnsets.h'
+    egg_moves_file = root_dir / 'src' / 'data' / 'pokemon' / 'egg_moves.h'
 
     if not learnset_dir.exists():
         print(f"Error: Level-up learnsets directory not found at {learnset_dir}")
@@ -177,6 +222,14 @@ def main():
     if not teachable_file.exists():
         print(f"Error: Teachable learnsets file not found at {teachable_file}")
         return
+
+    if not egg_moves_file.exists():
+        print(f"Warning: Egg moves file not found at {egg_moves_file}")
+        egg_moves_learnsets = {}
+    else:
+        print(f"\nExtracting egg moves from: {egg_moves_file}")
+        egg_moves_learnsets = parse_egg_moves(egg_moves_file)
+        print(f"  ✓ Found {len(egg_moves_learnsets)} Pokemon with egg moves")
 
     print(f"\nExtracting level-up learnsets from: {learnset_dir}")
     level_up_learnsets = parse_level_up_learnsets(learnset_dir)
@@ -200,8 +253,8 @@ def main():
     print(f"\nCombining move data...")
     combined_data = {}
 
-    # Start with all Pokemon that have level-up or teachable moves
-    all_species = set(level_up_learnsets.keys()) | set(teachable_learnsets.keys())
+    # Start with all Pokemon that have level-up, teachable, or egg moves
+    all_species = set(level_up_learnsets.keys()) | set(teachable_learnsets.keys()) | set(egg_moves_learnsets.keys())
 
     for species in all_species:
         normalized = normalize_species_name(species)
@@ -211,6 +264,7 @@ def main():
             'name': species.replace('_', ' ').title(),
             'level_up_moves': [],
             'teachable_moves': [],
+            'egg_moves': [],
             'randbats_movesets': {}
         }
 
@@ -224,6 +278,10 @@ def main():
         # Add teachable moves
         if species in teachable_learnsets:
             pokemon_entry['teachable_moves'] = teachable_learnsets[species]
+
+        # Add egg moves
+        if species in egg_moves_learnsets:
+            pokemon_entry['egg_moves'] = egg_moves_learnsets[species]
 
         # Try to match with randbats data
         if normalized in randbats_movesets:
@@ -241,6 +299,7 @@ def main():
             'total_pokemon': len(combined_data),
             'with_level_up_moves': len(level_up_learnsets),
             'with_teachable_moves': len(teachable_learnsets),
+            'with_egg_moves': len(egg_moves_learnsets),
             'with_randbats_movesets': len(randbats_movesets),
             'source': 'pokeemerald-expansion'
         },
@@ -262,14 +321,17 @@ def main():
     print("Statistics:")
     print(f"  Pokemon with level-up moves: {len(level_up_learnsets)}")
     print(f"  Pokemon with teachable moves: {len(teachable_learnsets)}")
+    print(f"  Pokemon with egg moves: {len(egg_moves_learnsets)}")
     print(f"  Pokemon with randbats movesets: {len(randbats_movesets)}")
 
     # Count total moves
     total_level_up = sum(len(moves) for moves in level_up_learnsets.values())
     total_teachable = sum(len(moves) for moves in teachable_learnsets.values())
+    total_egg = sum(len(moves) for moves in egg_moves_learnsets.values())
 
     print(f"\n  Total level-up move entries: {total_level_up}")
     print(f"  Total teachable move entries: {total_teachable}")
+    print(f"  Total egg move entries: {total_egg}")
 
     # Show preview
     print(f"\n{'=' * 70}")
@@ -291,6 +353,12 @@ def main():
             print(f"    {', '.join(data['teachable_moves'][:8])}")
             if len(data['teachable_moves']) > 8:
                 print(f"    ... and {len(data['teachable_moves']) - 8} more")
+
+        if data['egg_moves']:
+            print(f"  Egg moves ({len(data['egg_moves'])}):")
+            print(f"    {', '.join(data['egg_moves'][:8])}")
+            if len(data['egg_moves']) > 8:
+                print(f"    ... and {len(data['egg_moves']) - 8} more")
 
         if data['randbats_movesets']:
             print(f"  Randbats roles: {', '.join(data['randbats_movesets'].keys())}")

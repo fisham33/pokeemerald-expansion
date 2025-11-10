@@ -81,6 +81,22 @@ def display_pokemon_moves(species: str, data: dict, show_randbats: bool = True):
     else:
         print(f"\n🎓 TEACHABLE MOVES: None defined")
 
+    # Egg moves
+    if data.get('egg_moves'):
+        print(f"\n🥚 EGG MOVES (Breeding) - {len(data['egg_moves'])} total")
+        print("-" * 80)
+
+        # Display in columns
+        moves = data['egg_moves']
+        col_width = 25
+        cols = 3
+
+        for i in range(0, len(moves), cols):
+            row_moves = moves[i:i+cols]
+            print("  " + "".join(f"{move:<{col_width}}" for move in row_moves))
+    else:
+        print(f"\n🥚 EGG MOVES: None defined")
+
     # Randbats movesets
     if show_randbats and data['randbats_movesets']:
         print(f"\n🎮 RANDOM BATTLES MOVESETS ({len(data['randbats_movesets'])} roles)")
