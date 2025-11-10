@@ -259,31 +259,32 @@ void SaveSelectMonsParty(void)
 void LoadSelectMonsParty(void)
 {
     u32 i;
+    struct Pokemon battleAffectedMons[MAX_FRONTIER_PARTY_SIZE];
 
-    // First, save which battle mons are dead (before we overwrite gPlayerParty)
-    bool8 battleMonIsDead[MAX_FRONTIER_PARTY_SIZE];
-    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    // Save the complete battle-affected Pokemon (includes exp, level, evolution, HP, status, PP, etc.)
+    // These are in the compacted battle party order (positions 0, 1, 2... up to selected count)
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE && i < gPlayerPartyCount; i++)
     {
-        if (gSelectedOrderFromParty[i] && i < gPlayerPartyCount)
-            battleMonIsDead[i] = GetMonData(&gPlayerParty[i], MON_DATA_IS_DEAD, NULL);
-        else
-            battleMonIsDead[i] = FALSE;
+        if (gSelectedOrderFromParty[i])
+            battleAffectedMons[i] = gPlayerParty[i];
     }
 
-    // Restore full party from backup
+    // Restore full party from backup (gets non-selected mons back)
     gPlayerPartyCount = sSelectMonsBackupCount;
     for (i = 0; i < PARTY_SIZE; i++)
         gPlayerParty[i] = sSelectMonsBackupParty[i];
 
-    // Transfer dead status from battle mons to restored party
+    // Put battle-affected mons back in their ORIGINAL positions
+    // This preserves exp, level, evolution, stats, moves, HP, status, PP, death - everything!
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
     {
-        if (gSelectedOrderFromParty[i] && battleMonIsDead[i])
+        if (gSelectedOrderFromParty[i])
         {
-            // gSelectedOrderFromParty is 1-indexed, so subtract 1
-            u8 partyIndex = gSelectedOrderFromParty[i] - 1;
-            u32 deadFlag = TRUE;
-            SetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_DEAD, &deadFlag);
+            // gSelectedOrderFromParty is 1-indexed, so subtract 1 to get original position
+            u8 originalPartyIndex = gSelectedOrderFromParty[i] - 1;
+
+            // Replace with battle-affected version (has all changes from battle)
+            gPlayerParty[originalPartyIndex] = battleAffectedMons[i];
         }
     }
 
