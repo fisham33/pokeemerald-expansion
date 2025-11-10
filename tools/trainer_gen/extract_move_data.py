@@ -188,8 +188,11 @@ def load_randbats_movesets(randbats_files: List[Path]) -> Dict[str, Dict]:
                 if normalized_name not in all_movesets:
                     all_movesets[normalized_name] = {
                         'name': pokemon_name,
-                        'roles': pokemon_data.get('roles', {})
+                        'roles': {}
                     }
+
+                # Merge roles from all files
+                all_movesets[normalized_name]['roles'].update(pokemon_data.get('roles', {}))
         except Exception as e:
             print(f"  Warning: Could not load {randbats_file.name}: {e}")
 
