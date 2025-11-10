@@ -92,6 +92,9 @@ SootopolisCity_Gym_1F_EventScript_PostBattleHandler::
 	end
 
 SootopolisCity_Gym_1F_EventScript_JuanWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE08_GET, SootopolisCity_Gym_1F_EventScript_JuanDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, SootopolisCity_Gym_1F_EventScript_JuanRematch
 	goto_if_unset FLAG_RECEIVED_TM_WATER_PULSE, SootopolisCity_Gym_1F_EventScript_GiveWaterPulse2

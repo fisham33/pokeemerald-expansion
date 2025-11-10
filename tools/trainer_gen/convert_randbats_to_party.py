@@ -641,7 +641,7 @@ def main():
                 pool_size=args.pool_size,
                 data=data,
                 pool_rules="Weather Doubles",
-                level_range=(75, 85),
+                level_range=(1, 100),
                 double_battle=True
             )
 

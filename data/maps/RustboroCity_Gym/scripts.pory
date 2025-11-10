@@ -14,8 +14,12 @@ RustboroCity_Gym_EventScript_PostBattleHandler::
 	end
 
 RustboroCity_Gym_EventScript_RoxanneWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE01_GET, RustboroCity_Gym_EventScript_RoxanneDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_RoxanneRematch
+	@ Normal post-battle dialogue
 	goto_if_unset FLAG_RECEIVED_TM_ROCK_TOMB, RustboroCity_Gym_EventScript_GiveRockTomb
 	msgbox RustboroCity_Gym_Text_RoxannePostBattle, MSGBOX_DEFAULT
 	release

@@ -86,6 +86,9 @@ MauvilleCity_Gym_EventScript_PostBattleHandler::
 	end
 
 MauvilleCity_Gym_EventScript_WattsonWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE03_GET, MauvilleCity_Gym_EventScript_WattsonDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_Gym_EventScript_WattsonRematch
 	goto_if_unset FLAG_RECEIVED_TM_SHOCK_WAVE, MauvilleCity_Gym_EventScript_GiveShockWave2

@@ -56,6 +56,9 @@ LavaridgeTown_Gym_1F_EventScript_PostBattleHandler::
 	end
 
 LavaridgeTown_Gym_1F_EventScript_FlanneryWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
 	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2

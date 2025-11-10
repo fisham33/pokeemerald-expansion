@@ -30,6 +30,9 @@ FortreeCity_Gym_EventScript_PostBattleHandler::
 	end
 
 FortreeCity_Gym_EventScript_WinonaWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE06_GET, FortreeCity_Gym_EventScript_WinonaDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, FortreeCity_Gym_EventScript_WinonaRematch
 	goto_if_unset FLAG_RECEIVED_TM_AERIAL_ACE, FortreeCity_Gym_EventScript_GiveAerialAce2

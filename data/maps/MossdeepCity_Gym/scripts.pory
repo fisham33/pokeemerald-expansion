@@ -66,6 +66,9 @@ MossdeepCity_Gym_EventScript_PostBattleHandler::
 	end
 
 MossdeepCity_Gym_EventScript_TateAndLizaWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE07_GET, MossdeepCity_Gym_EventScript_TateAndLizaDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, MossdeepCity_Gym_EventScript_TateAndLizaRematch
 	goto_if_unset FLAG_RECEIVED_TM_CALM_MIND, MossdeepCity_Gym_EventScript_GiveCalmMind2
