@@ -26,6 +26,7 @@ class ConverterGUI:
         self.pool_size_var = tk.IntVar(value=8)
         self.party_size_var = tk.IntVar(value=4)
         self.split_output_var = tk.BooleanVar(value=False)
+        self.use_species_enabled_var = tk.BooleanVar(value=False)
 
         # Load available trainer archetypes
         self.trainer_archetypes = self.load_trainer_archetypes()
@@ -45,6 +46,18 @@ class ConverterGUI:
         return []
 
     def create_widgets(self):
+        # Create menu bar
+        menubar = tk.Menu(self.root)
+        self.root.config(menu=menubar)
+
+        # Tools menu
+        tools_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Tools", menu=tools_menu)
+        tools_menu.add_command(label="Query Pokemon Moves", command=self.open_move_query)
+        tools_menu.add_separator()
+        tools_menu.add_command(label="Generate Pokemon Database", command=self.run_extract_pokemon_data)
+        tools_menu.add_command(label="Generate Move Database", command=self.run_extract_move_data)
+
         # Main container
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -120,6 +133,13 @@ class ConverterGUI:
 
         ttk.Label(archetype_frame, text="Examples: Water,Electric or Fire,Ground,Rock",
                  font=('Arial', 8), foreground='gray').grid(row=2, column=0, columnspan=2, sticky=tk.W, padx=5)
+
+        # Species filtering checkbox
+        ttk.Checkbutton(archetype_frame, text="Only include Pokemon enabled in species_enabled.h",
+                       variable=self.use_species_enabled_var).grid(row=3, column=0, columnspan=2, sticky=tk.W, padx=5, pady=(10, 0))
+
+        ttk.Label(archetype_frame, text="Requires pokemon_data.json (run extract_pokemon_data.py first)",
+                 font=('Arial', 8), foreground='gray').grid(row=4, column=0, columnspan=2, sticky=tk.W, padx=5)
 
         # Pool/Party Size Section
         size_frame = ttk.LabelFrame(main_frame, text="Pool Settings (for trainer-pool mode)", padding="10")
@@ -303,6 +323,10 @@ class ConverterGUI:
             if self.split_output_var.get():
                 cmd.append("--split-output")
 
+            # Add species filtering option
+            if self.use_species_enabled_var.get():
+                cmd.append("--use-species-enabled")
+
             # Log command
             self.log_output(f"Running command: {' '.join(cmd)}\n")
             self.log_output(f"Working directory: {Path(__file__).parent}\n")
@@ -373,6 +397,154 @@ class ConverterGUI:
             self.root.after(100, lambda: self.convert_btn.config(state='normal'))
             if self.status_var.get().startswith("Converting"):
                 self.status_var.set("Ready")
+
+    def open_move_query(self):
+        """Open the move query window"""
+        query_window = tk.Toplevel(self.root)
+        query_window.title("Query Pokemon Moves")
+        query_window.geometry("800x600")
+
+        # Main frame
+        frame = ttk.Frame(query_window, padding="10")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        query_window.columnconfigure(0, weight=1)
+        query_window.rowconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        frame.rowconfigure(2, weight=1)
+
+        # Title
+        ttk.Label(frame, text="Query Pokemon Moves", font=('Arial', 14, 'bold')).grid(
+            row=0, column=0, columnspan=3, pady=10)
+
+        # Input section
+        input_frame = ttk.Frame(frame)
+        input_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=5)
+        input_frame.columnconfigure(1, weight=1)
+
+        ttk.Label(input_frame, text="Pokemon Name:").grid(row=0, column=0, sticky=tk.W, padx=5)
+        pokemon_entry = ttk.Entry(input_frame)
+        pokemon_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=5)
+        pokemon_entry.focus()
+
+        # Options
+        show_level_only = tk.BooleanVar(value=False)
+        show_teachable_only = tk.BooleanVar(value=False)
+        hide_randbats = tk.BooleanVar(value=False)
+
+        options_frame = ttk.Frame(input_frame)
+        options_frame.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
+
+        ttk.Checkbutton(options_frame, text="Level-up only", variable=show_level_only).pack(side=tk.LEFT, padx=5)
+        ttk.Checkbutton(options_frame, text="Teachable only", variable=show_teachable_only).pack(side=tk.LEFT, padx=5)
+        ttk.Checkbutton(options_frame, text="Hide Randbats", variable=hide_randbats).pack(side=tk.LEFT, padx=5)
+
+        # Query button
+        def run_query():
+            pokemon_name = pokemon_entry.get().strip()
+            if not pokemon_name:
+                messagebox.showwarning("Input Required", "Please enter a Pokemon name")
+                return
+
+            # Build command
+            cmd = ["python3", str(Path(__file__).parent / "query_moves.py"), pokemon_name]
+
+            if show_level_only.get():
+                cmd.append("--level-only")
+            if show_teachable_only.get():
+                cmd.append("--teachable-only")
+            if hide_randbats.get():
+                cmd.append("--no-randbats")
+
+            # Run query
+            try:
+                result = subprocess.run(cmd, capture_output=True, text=True, cwd=Path(__file__).parent)
+
+                # Display results
+                output_text.delete(1.0, tk.END)
+                if result.returncode == 0:
+                    output_text.insert(1.0, result.stdout)
+                else:
+                    output_text.insert(1.0, f"Error:\n{result.stdout}\n{result.stderr}")
+            except Exception as e:
+                output_text.delete(1.0, tk.END)
+                output_text.insert(1.0, f"Error running query: {e}")
+
+        # Bind Enter key to run query
+        pokemon_entry.bind('<Return>', lambda e: run_query())
+
+        ttk.Button(input_frame, text="Query", command=run_query).grid(row=0, column=2, padx=5)
+
+        # Output text area
+        output_frame = ttk.LabelFrame(frame, text="Results", padding="5")
+        output_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=5)
+        output_frame.columnconfigure(0, weight=1)
+        output_frame.rowconfigure(0, weight=1)
+
+        output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, font=('Courier', 9))
+        output_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+        # Initial message
+        output_text.insert(1.0, "Enter a Pokemon name and click Query to see all available moves.\n\n" +
+                          "Examples: Bulbasaur, \"Tapu Koko\", Charizard\n\n" +
+                          "Make sure you've run 'extract_move_data.py' first to generate the move database.")
+
+    def run_extract_pokemon_data(self):
+        """Run extract_pokemon_data.py"""
+        if messagebox.askyesno("Generate Pokemon Database",
+                              "This will generate pokemon_data.json with Pokemon stats, types, and families.\n\n" +
+                              "This may take a minute. Continue?"):
+            def run():
+                try:
+                    cmd = ["python3", str(Path(__file__).parent / "extract_pokemon_data.py")]
+                    result = subprocess.run(cmd, capture_output=True, text=True, cwd=Path(__file__).parent)
+
+                    if result.returncode == 0:
+                        self.root.after(100, lambda: messagebox.showinfo(
+                            "Success",
+                            "Pokemon database generated successfully!\n\n" +
+                            "Created: pokemon_data.json\n\n" +
+                            result.stdout[-500:] if len(result.stdout) > 500 else result.stdout
+                        ))
+                    else:
+                        self.root.after(100, lambda: messagebox.showerror(
+                            "Error",
+                            f"Failed to generate database:\n\n{result.stderr}"
+                        ))
+                except Exception as e:
+                    self.root.after(100, lambda: messagebox.showerror("Error", f"Error: {e}"))
+
+            thread = threading.Thread(target=run)
+            thread.daemon = True
+            thread.start()
+
+    def run_extract_move_data(self):
+        """Run extract_move_data.py"""
+        if messagebox.askyesno("Generate Move Database",
+                              "This will generate move_data.json with all Pokemon moves.\n\n" +
+                              "This may take a minute. Continue?"):
+            def run():
+                try:
+                    cmd = ["python3", str(Path(__file__).parent / "extract_move_data.py")]
+                    result = subprocess.run(cmd, capture_output=True, text=True, cwd=Path(__file__).parent)
+
+                    if result.returncode == 0:
+                        self.root.after(100, lambda: messagebox.showinfo(
+                            "Success",
+                            "Move database generated successfully!\n\n" +
+                            "Created: move_data.json\n\n" +
+                            result.stdout[-500:] if len(result.stdout) > 500 else result.stdout
+                        ))
+                    else:
+                        self.root.after(100, lambda: messagebox.showerror(
+                            "Error",
+                            f"Failed to generate database:\n\n{result.stderr}"
+                        ))
+                except Exception as e:
+                    self.root.after(100, lambda: messagebox.showerror("Error", f"Error: {e}"))
+
+            thread = threading.Thread(target=run)
+            thread.daemon = True
+            thread.start()
 
 
 def main():
