@@ -133,8 +133,53 @@ python3 query_moves.py Mewtwo --no-randbats
 **Output includes:**
 - 📈 **Level-up moves** - All moves learned by leveling up, with levels
 - 🎓 **Teachable moves** - All TM/HM/Tutor moves available
+- 🥚 **Egg moves** - Breeding moves available to entire evolutionary family
 - 🎮 **Random Battles movesets** - Competitive movesets from Showdown (if available)
 - 💡 **Total unique moves** - Count of all available moves
+
+**Example output:**
+
+## Filtering Pokemon by Stats
+
+Use the `filter_pokemon.py` tool to find Pokemon matching specific stat criteria:
+
+```bash
+# Filter Pokemon with BST between 300 and 400
+python3 filter_pokemon.py --min-bst 300 --max-bst 400
+
+# Filter Pokemon with Attack between 90 and 110
+python3 filter_pokemon.py --min-atk 90 --max-atk 110
+
+# Filter Generation 9 Pokemon only
+python3 filter_pokemon.py --gen 9
+
+# Filter Generation 8 Pokemon with high speed
+python3 filter_pokemon.py --gen 8 --min-spe 100
+
+# Filter fast Pokemon (Speed >= 100) with high attack (>= 100)
+python3 filter_pokemon.py --min-spe 100 --min-atk 100
+
+# Filter bulky Pokemon (HP >= 90, Defense >= 90)
+python3 filter_pokemon.py --min-hp 90 --min-def 90
+
+# Compact list output
+python3 filter_pokemon.py --min-bst 500 --compact
+
+# Count only (don't show list)
+python3 filter_pokemon.py --gen 1 --count
+```
+
+**Available filters:**
+- `--gen` - Filter by generation (1-9)
+- `--min-bst` / `--max-bst` - Base Stat Total range
+- `--min-hp` / `--max-hp` - HP stat range
+- `--min-atk` / `--max-atk` - Attack stat range
+- `--min-def` / `--max-def` - Defense stat range
+- `--min-spa` / `--max-spa` - Special Attack stat range
+- `--min-spd` / `--max-spd` - Special Defense stat range
+- `--min-spe` / `--max-spe` - Speed stat range
+- `--compact` - Show compact list without detailed stats
+- `--count` - Show only the count of matching Pokemon
 
 **Example output:**
 ```
