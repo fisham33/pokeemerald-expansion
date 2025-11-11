@@ -27,6 +27,8 @@ def filter_pokemon(
     min_spe: Optional[int] = None,
     max_spe: Optional[int] = None,
     generation: Optional[int] = None,
+    types: Optional[List[str]] = None,
+    ability: Optional[str] = None,
 ) -> List[Dict]:
     """
     Filter Pokemon based on stat criteria
@@ -44,6 +46,26 @@ def filter_pokemon(
         # Check generation filter
         if generation is not None and gen != generation:
             continue
+
+        # Check type filter
+        if types is not None and len(types) > 0:
+            pokemon_types = [t.lower() for t in pokemon.get('types', [])]
+            # Check if Pokemon has ANY of the specified types
+            has_type = any(t.lower() in pokemon_types for t in types)
+            if not has_type:
+                continue
+
+        # Check ability filter
+        if ability is not None and ability.strip():
+            ability_lower = ability.lower()
+            pokemon_abilities = [a.lower() for a in pokemon.get('abilities', [])]
+            hidden_ability = pokemon.get('hiddenAbility', '')
+            if hidden_ability:
+                pokemon_abilities.append(hidden_ability.lower())
+            # Check if Pokemon has the specified ability
+            has_ability = any(ability_lower in a for a in pokemon_abilities)
+            if not has_ability:
+                continue
 
         # Check BST filter
         if min_bst is not None and bst < min_bst:
@@ -155,6 +177,14 @@ Examples:
     parser.add_argument('--gen', '--generation', type=int, dest='generation',
                         help='Filter by generation (1-9)', choices=range(1, 10), metavar='GEN')
 
+    # Type filter
+    parser.add_argument('--type', '--types', action='append', dest='types',
+                        help='Filter by type (can specify multiple times, e.g., --type Fire --type Dragon)')
+
+    # Ability filter
+    parser.add_argument('--ability', type=str,
+                        help='Filter by ability (partial match, e.g., "Intimidate" or "Levitate")')
+
     # BST filters
     parser.add_argument('--min-bst', type=int, help='Minimum Base Stat Total')
     parser.add_argument('--max-bst', type=int, help='Maximum Base Stat Total')
@@ -187,6 +217,8 @@ Examples:
     # Check if at least one filter is provided
     filters = [
         args.generation,
+        args.types,
+        args.ability,
         args.min_bst, args.max_bst,
         args.min_hp, args.max_hp,
         args.min_atk, args.max_atk,
@@ -217,6 +249,8 @@ Examples:
     results = filter_pokemon(
         pokemon_data,
         generation=args.generation,
+        types=args.types,
+        ability=args.ability,
         min_bst=args.min_bst,
         max_bst=args.max_bst,
         min_hp=args.min_hp,

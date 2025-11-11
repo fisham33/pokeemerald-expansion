@@ -56,13 +56,28 @@ def parse_species_file(file_path: Path, generation: int) -> List[Dict]:
         for species in species_in_block:
             family_blocks[species] = f"P_FAMILY_{family_name}"
 
-    # Find all SPECIES_ entries
-    # Pattern: [SPECIES_NAME] = { ... }
-    species_pattern = r'\[SPECIES_(\w+)\]\s*=\s*\{([^}]*(?:\{[^}]*\}[^}]*)*)\}'
+    # Find all SPECIES_ entries using brace counting for proper nesting
+    species_starts = []
+    for match in re.finditer(r'\[SPECIES_(\w+)\]\s*=\s*\{', content):
+        species_starts.append((match.group(1), match.end()))
 
-    for match in re.finditer(species_pattern, content, re.DOTALL):
-        species_name = match.group(1)
-        species_data = match.group(2)
+    species_entries = []
+    for species_name, start_pos in species_starts:
+        # Count braces to find matching closing brace
+        brace_count = 1
+        pos = start_pos
+        while pos < len(content) and brace_count > 0:
+            if content[pos] == '{':
+                brace_count += 1
+            elif content[pos] == '}':
+                brace_count -= 1
+            pos += 1
+
+        if brace_count == 0:
+            species_data = content[start_pos:pos-1]
+            species_entries.append((species_name, species_data))
+
+    for species_name, species_data in species_entries:
 
         # Skip special entries
         if species_name in ['NONE', 'EGG']:
@@ -77,6 +92,8 @@ def parse_species_file(file_path: Path, generation: int) -> List[Dict]:
             'natDexNum': None,
             'baseStats': {},
             'types': [],
+            'abilities': [],
+            'hiddenAbility': None,
             'bst': 0,
             'generation': generation,
             'family': family
@@ -131,6 +148,25 @@ def parse_species_file(file_path: Path, generation: int) -> List[Dict]:
             # Extract TYPE_ constants
             type_constants = re.findall(r'TYPE_\w+', types_str)
             pokemon['types'] = [TYPE_MAP.get(t, t) for t in type_constants if t in TYPE_MAP]
+
+        # Extract abilities
+        # Format: .abilities = { ABILITY_X, ABILITY_Y, ABILITY_Z }
+        # First two are normal abilities, third is hidden ability
+        abilities_match = re.search(r'\.abilities\s*=\s*\{\s*([^}]+)\s*\}', species_data)
+        if abilities_match:
+            abilities_str = abilities_match.group(1)
+            ability_constants = re.findall(r'ABILITY_(\w+)', abilities_str)
+
+            # Process normal abilities (first two slots)
+            normal_abilities = []
+            for i in range(min(2, len(ability_constants))):
+                if ability_constants[i] != 'NONE':
+                    normal_abilities.append(ability_constants[i].replace('_', ' ').title())
+            pokemon['abilities'] = normal_abilities
+
+            # Process hidden ability (third slot)
+            if len(ability_constants) >= 3 and ability_constants[2] != 'NONE':
+                pokemon['hiddenAbility'] = ability_constants[2].replace('_', ' ').title()
 
         # Only add Pokemon with valid data
         if pokemon['name'] and pokemon['types'] and pokemon['baseStats']:
