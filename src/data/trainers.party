@@ -8893,7 +8893,11 @@ Clobbopus
 Level: 16
 IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
-Pawmi
+Farfetch'd-Galar
+Level: 16
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Mankey
 Level: 16
 IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
@@ -11759,7 +11763,7 @@ Music: Male
 Double Battle: No
 AI: Check Bad Move
 
-Mankey
+Sneasel-Hisui
 Level: 16
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -11784,6 +11788,10 @@ Farfetch'd-Galar
 Level: 15
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
+Mankey
+Level: 17
+IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+
 === TRAINER_CRISTIAN ===
 Name: CRISTIAN
 Class: Black Belt
@@ -11794,7 +11802,7 @@ Double Battle: No
 AI: Check Bad Move
 
 Clobbopus
-Level: 17
+Level: 18
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 Farfetch'd-Galar
