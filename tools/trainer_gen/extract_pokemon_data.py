@@ -33,12 +33,28 @@ TYPE_MAP = {
     'TYPE_FAIRY': 'Fairy',
 }
 
-def parse_species_file(file_path: Path) -> List[Dict]:
+def parse_species_file(file_path: Path, generation: int) -> List[Dict]:
     """Parse a species info file and extract Pokemon data"""
     pokemon_list = []
 
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
+
+    # Track current family context
+    current_family = None
+
+    # First, find all P_FAMILY_ blocks to map species to families
+    family_pattern = r'#if\s+P_FAMILY_(\w+)\s*\n(.*?)(?=#(?:if|endif|else)|$)'
+    family_blocks = {}
+
+    for family_match in re.finditer(family_pattern, content, re.DOTALL):
+        family_name = family_match.group(1)
+        block_content = family_match.group(2)
+
+        # Find all SPECIES in this block
+        species_in_block = re.findall(r'\[SPECIES_(\w+)\]', block_content)
+        for species in species_in_block:
+            family_blocks[species] = f"P_FAMILY_{family_name}"
 
     # Find all SPECIES_ entries
     # Pattern: [SPECIES_NAME] = { ... }
@@ -52,13 +68,18 @@ def parse_species_file(file_path: Path) -> List[Dict]:
         if species_name in ['NONE', 'EGG']:
             continue
 
+        # Get family for this species
+        family = family_blocks.get(species_name, None)
+
         pokemon = {
             'species': species_name,
             'name': None,
             'natDexNum': None,
             'baseStats': {},
             'types': [],
-            'bst': 0
+            'bst': 0,
+            'generation': generation,
+            'family': family
         }
 
         # Extract species name
@@ -194,8 +215,12 @@ def main():
 
     print("\nExtracting Pokemon data...")
     for gen_file in gen_files:
-        print(f"  Processing {gen_file.name}...")
-        pokemon_list = parse_species_file(gen_file)
+        # Extract generation number from filename (gen_X_families.h)
+        gen_match = re.search(r'gen_(\d+)_families', gen_file.name)
+        generation = int(gen_match.group(1)) if gen_match else 0
+
+        print(f"  Processing {gen_file.name} (Generation {generation})...")
+        pokemon_list = parse_species_file(gen_file, generation)
         print(f"    Found {len(pokemon_list)} Pokemon")
         all_pokemon.extend(pokemon_list)
 
