@@ -141,6 +141,39 @@ python3 query_moves.py Mewtwo --no-randbats
 
 ## Filtering Pokemon by Stats
 
+### GUI Filter Tool (Recommended)
+
+Launch the graphical Pokemon filter tool:
+
+**Linux/Mac:**
+```bash
+./launch_filter_gui.sh
+```
+
+**Windows:**
+```bash
+launch_filter_gui.bat
+```
+
+**Or directly:**
+```bash
+python3 gui_filter.py
+```
+
+The GUI provides:
+- Text input fields for all filter criteria
+- Generation filter (1-9)
+- Type filtering (comma-separated: Fire, Dragon)
+- Ability filtering (partial match: Intimidate, Levitate)
+- BST range (min/max)
+- Individual stat ranges (HP, Atk, Def, SpA, SpD, Spe)
+- Filter button to execute search
+- Clear button to reset all filters
+- Show All button to display all Pokemon
+- Scrollable results with full stats and abilities
+
+### Command-Line Filter Tool
+
 Use the `filter_pokemon.py` tool to find Pokemon matching specific stat criteria:
 
 ```bash
@@ -162,6 +195,17 @@ python3 filter_pokemon.py --min-spe 100 --min-atk 100
 # Filter bulky Pokemon (HP >= 90, Defense >= 90)
 python3 filter_pokemon.py --min-hp 90 --min-def 90
 
+# Filter by type
+python3 filter_pokemon.py --type Fire
+python3 filter_pokemon.py --type Dragon --type Fire
+
+# Filter by ability
+python3 filter_pokemon.py --ability Intimidate
+python3 filter_pokemon.py --ability Levitate
+
+# Combined filters: Fire/Dragon types with Intimidate
+python3 filter_pokemon.py --type Fire --type Dragon --ability Intimidate
+
 # Compact list output
 python3 filter_pokemon.py --min-bst 500 --compact
 
@@ -171,6 +215,8 @@ python3 filter_pokemon.py --gen 1 --count
 
 **Available filters:**
 - `--gen` - Filter by generation (1-9)
+- `--type` - Filter by type (can specify multiple times)
+- `--ability` - Filter by ability (partial match)
 - `--min-bst` / `--max-bst` - Base Stat Total range
 - `--min-hp` / `--max-hp` - HP stat range
 - `--min-atk` / `--max-atk` - Attack stat range
