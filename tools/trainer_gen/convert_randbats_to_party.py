@@ -12,6 +12,16 @@ from typing import Dict, List, Any, Set, Optional
 from pathlib import Path
 import os
 
+# Import species enabled parser
+try:
+    from parse_species_enabled import parse_species_enabled, get_enabled_families
+except ImportError:
+    # If import fails, provide stub functions
+    def parse_species_enabled(*args, **kwargs):
+        return {}
+    def get_enabled_families(*args, **kwargs):
+        return set()
+
 # URLs to fetch JSON from
 RANDBATS_URLS = {
     "gen9randomdoublesbattle.json": "https://pkmn.github.io/randbats/data/gen9randomdoublesbattle.json",
@@ -162,6 +172,41 @@ def matches_archetype(pokemon_name: str, archetype_types: List[str], pokemon_db:
 
     # Check if any of the Pokemon's types match the archetype
     return any(ptype in archetype_types for ptype in pokemon_types)
+
+def is_pokemon_enabled(pokemon_name: str, pokemon_db: Dict, enabled_families: Set[str]) -> bool:
+    """
+    Check if a Pokemon is enabled based on species_enabled.h configuration
+
+    Args:
+        pokemon_name: Name of the Pokemon (from Showdown data)
+        pokemon_db: Pokemon database with family information
+        enabled_families: Set of enabled family names from species_enabled.h
+
+    Returns:
+        True if Pokemon is enabled (or if no filtering is active)
+    """
+    if not enabled_families or not pokemon_db:
+        # No filtering - allow all Pokemon
+        return True
+
+    # Normalize name for comparison
+    normalized_search = pokemon_name.upper().replace('-', '').replace(' ', '').replace("'", "")
+
+    # Find the Pokemon in the database
+    for poke in pokemon_db.get('pokemon', []):
+        poke_name = poke['name'].upper().replace('-', '').replace(' ', '').replace("'", "")
+
+        if poke_name == normalized_search:
+            # Check if this Pokemon's family is enabled
+            family = poke.get('family')
+            if family:
+                return family in enabled_families
+
+            # If no family info, default to enabled
+            return True
+
+    # Pokemon not found in database - default to enabled
+    return True
 
 def format_evs_ivs(values: Dict[str, int], all_value: int) -> str:
     """Format EVs or IVs to trainers.party format"""
@@ -441,6 +486,21 @@ def main():
         action='store_true',
         help='Split output into separate files by format (singles/doubles/babies)'
     )
+    parser.add_argument(
+        '--level-min',
+        type=int,
+        help='Minimum level for trainer-pool mode (default: auto-detect based on input file)'
+    )
+    parser.add_argument(
+        '--level-max',
+        type=int,
+        help='Maximum level for trainer-pool mode (default: auto-detect based on input file)'
+    )
+    parser.add_argument(
+        '--use-species-enabled',
+        action='store_true',
+        help='Filter Pokemon based on species_enabled.h configuration (requires pokemon_data.json)'
+    )
 
     args = parser.parse_args()
 
@@ -454,38 +514,57 @@ def main():
         input_files = [f.strip() for f in args.input.split(',')]
         print(f"\nInput file filter: {', '.join(input_files)}")
 
-    # Parse archetype
+    # Parse archetype and species filtering
     archetype_types = None
     pokemon_db = None
     trainer_archetypes = None
+    enabled_families = set()
 
-    if args.archetype:
-        # Load Pokemon database for type checking
+    # Load Pokemon database if needed for archetype or species filtering
+    if args.archetype or args.use_species_enabled:
         print("\nLoading Pokemon database...")
         pokemon_db = load_pokemon_database()
 
         if not pokemon_db:
             print("  Warning: Pokemon database not found. Run extract_pokemon_data.py first.")
-            print("  Archetype filtering will be disabled.")
+            if args.archetype:
+                print("  Archetype filtering will be disabled.")
+            if args.use_species_enabled:
+                print("  Species filtering will be disabled.")
         else:
             print(f"  ✓ Loaded database with {pokemon_db['metadata']['total_pokemon']} Pokemon")
 
-            # Load trainer archetypes
-            trainer_archetypes = load_trainer_archetypes()
+    if args.archetype and pokemon_db:
+        # Load trainer archetypes
+        trainer_archetypes = load_trainer_archetypes()
 
-            # Determine if archetype is a trainer class or types
-            archetype_value = args.archetype.strip()
+        # Determine if archetype is a trainer class or types
+        archetype_value = args.archetype.strip()
 
-            if trainer_archetypes and archetype_value in trainer_archetypes:
-                # It's a trainer class
-                archetype_types = trainer_archetypes[archetype_value]
-                print(f"\nArchetype: {archetype_value} (Trainer Class)")
-                print(f"  Preferred types: {', '.join(archetype_types)}")
+        if trainer_archetypes and archetype_value in trainer_archetypes:
+            # It's a trainer class
+            archetype_types = trainer_archetypes[archetype_value]
+            print(f"\nArchetype: {archetype_value} (Trainer Class)")
+            print(f"  Preferred types: {', '.join(archetype_types)}")
+        else:
+            # Treat as comma-separated types
+            archetype_types = [t.strip() for t in archetype_value.split(',')]
+            print(f"\nArchetype: Custom types")
+            print(f"  Types: {', '.join(archetype_types)}")
+
+    if args.use_species_enabled:
+        print("\nLoading species_enabled.h configuration...")
+        try:
+            enabled_families = get_enabled_families()
+            if enabled_families:
+                print(f"  ✓ Loaded {len(enabled_families)} enabled Pokemon families")
+                print(f"  Species filtering is ACTIVE - only enabled Pokemon will be included")
             else:
-                # Treat as comma-separated types
-                archetype_types = [t.strip() for t in archetype_value.split(',')]
-                print(f"\nArchetype: Custom types")
-                print(f"  Types: {', '.join(archetype_types)}")
+                print("  Warning: Could not load species_enabled.h")
+                print("  All Pokemon will be included")
+        except Exception as e:
+            print(f"  Error loading species_enabled.h: {e}")
+            print("  All Pokemon will be included")
 
     # Load all available JSON files
     all_data_files = load_all_json_files(input_files)
@@ -524,20 +603,41 @@ def main():
     for filename, data in all_data_files.items():
         source_type = get_source_type(filename)
 
+        original_count = len(data)
+        filter_messages = []
+
         # Apply archetype filtering if specified
         if archetype_types and pokemon_db:
             filtered_data = {
                 name: pdata for name, pdata in data.items()
                 if matches_archetype(name, archetype_types, pokemon_db)
             }
-            print(f"Processing {filename} - {source_type} "
-                  f"({len(filtered_data)}/{len(data)} Pokemon match archetype)...")
+            archetype_match_count = len(filtered_data)
+            filter_messages.append(f"archetype: {archetype_match_count}/{original_count}")
             data = filtered_data
+
+        # Apply species filtering if specified
+        if enabled_families and pokemon_db:
+            filtered_data = {
+                name: pdata for name, pdata in data.items()
+                if is_pokemon_enabled(name, pokemon_db, enabled_families)
+            }
+            species_match_count = len(filtered_data)
+            if filter_messages:
+                # Show both filters
+                filter_messages.append(f"enabled species: {species_match_count}/{len(data)}")
+            else:
+                filter_messages.append(f"enabled species: {species_match_count}/{original_count}")
+            data = filtered_data
+
+        # Print processing status
+        if filter_messages:
+            print(f"Processing {filename} - {source_type} ({', '.join(filter_messages)})...")
         else:
             print(f"Processing {filename} ({len(data)} Pokemon) - {source_type}...")
 
         if not data:
-            print(f"  Skipping {filename} (no Pokemon match archetype)")
+            print(f"  Skipping {filename} (no Pokemon match filters)")
             continue
 
         if args.mode == "single":
@@ -633,6 +733,19 @@ def main():
                         all_entries.append(formatted_entry)
 
         elif args.mode == "trainer-pool":
+            # Determine appropriate level range
+            if args.level_min is not None and args.level_max is not None:
+                # User specified level range
+                level_range = (args.level_min, args.level_max)
+            else:
+                # Auto-detect based on source type
+                if 'baby' in filename.lower():
+                    level_range = (5, 15)
+                elif 'double' in filename.lower() or 'single' in filename.lower():
+                    level_range = (75, 85)
+                else:
+                    level_range = (1, 100)  # Accept all levels by default
+
             # Generate a complete trainer with pool from this file
             trainer_pool = generate_trainer_pool(
                 f"TRAINER_EXAMPLE_{filename.split('.')[0].upper()}",
@@ -641,7 +754,7 @@ def main():
                 pool_size=args.pool_size,
                 data=data,
                 pool_rules="Weather Doubles",
-                level_range=(1, 100),
+                level_range=level_range,
                 double_battle=True
             )
 

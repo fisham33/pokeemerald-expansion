@@ -82,16 +82,175 @@ python3 convert_randbats_to_party.py --mode pool
 
 The script will merge Pokemon from all available files into one `converted_movesets.txt`!
 
-### 3. Generate Pokemon Database (Required for Archetype Filtering)
+### 3. Generate Pokemon Databases (Optional but Recommended)
 
-To use archetype filtering, first generate the Pokemon database:
+#### Pokemon Stats Database (for archetype filtering and species filtering)
 
 ```bash
 cd tools/trainer_gen
 python3 extract_pokemon_data.py
 ```
 
-This creates `pokemon_data.json` with data for 1000+ Pokemon including types, base stats, and dex numbers extracted from your pokeemerald-expansion codebase.
+This creates `pokemon_data.json` with data for 1000+ Pokemon including types, base stats, families, and dex numbers.
+
+#### Move Database (for querying all available moves)
+
+```bash
+cd tools/trainer_gen
+python3 extract_move_data.py
+```
+
+This creates `move_data.json` with comprehensive move data:
+- All level-up moves (with levels learned)
+- All teachable moves (TMs/HMs/Tutor)
+- Random Battles movesets (if JSON files available)
+
+Extracted from your pokeemerald-expansion codebase files:
+- `src/data/pokemon/level_up_learnsets/gen_*.h`
+- `src/data/pokemon/teachable_learnsets.h`
+
+## Querying Pokemon Moves
+
+Use the `query_moves.py` tool to look up all moves available to any Pokemon:
+
+```bash
+# Query all moves for a Pokemon
+python3 query_moves.py Bulbasaur
+
+# Query with space in name
+python3 query_moves.py "Tapu Koko"
+
+# Show only level-up moves
+python3 query_moves.py Charizard --level-only
+
+# Show only teachable moves (TMs/HMs/Tutor)
+python3 query_moves.py Pikachu --teachable-only
+
+# Hide Random Battles movesets
+python3 query_moves.py Mewtwo --no-randbats
+```
+
+**Output includes:**
+- 📈 **Level-up moves** - All moves learned by leveling up, with levels
+- 🎓 **Teachable moves** - All TM/HM/Tutor moves available
+- 🥚 **Egg moves** - Breeding moves available to entire evolutionary family
+- 🎮 **Random Battles movesets** - Competitive movesets from Showdown (if available)
+- 💡 **Total unique moves** - Count of all available moves
+
+**Example output:**
+
+## Filtering Pokemon by Stats
+
+### GUI Filter Tool (Recommended)
+
+Launch the graphical Pokemon filter tool:
+
+**Linux/Mac:**
+```bash
+./launch_filter_gui.sh
+```
+
+**Windows:**
+```bash
+launch_filter_gui.bat
+```
+
+**Or directly:**
+```bash
+python3 gui_filter.py
+```
+
+The GUI provides:
+- Text input fields for all filter criteria
+- Generation filter (1-9)
+- Type filtering (comma-separated: Fire, Dragon)
+- Ability filtering (partial match: Intimidate, Levitate)
+- BST range (min/max)
+- Individual stat ranges (HP, Atk, Def, SpA, SpD, Spe)
+- Filter button to execute search
+- Clear button to reset all filters
+- Show All button to display all Pokemon
+- Scrollable results with full stats and abilities
+
+### Command-Line Filter Tool
+
+Use the `filter_pokemon.py` tool to find Pokemon matching specific stat criteria:
+
+```bash
+# Filter Pokemon with BST between 300 and 400
+python3 filter_pokemon.py --min-bst 300 --max-bst 400
+
+# Filter Pokemon with Attack between 90 and 110
+python3 filter_pokemon.py --min-atk 90 --max-atk 110
+
+# Filter Generation 9 Pokemon only
+python3 filter_pokemon.py --gen 9
+
+# Filter Generation 8 Pokemon with high speed
+python3 filter_pokemon.py --gen 8 --min-spe 100
+
+# Filter fast Pokemon (Speed >= 100) with high attack (>= 100)
+python3 filter_pokemon.py --min-spe 100 --min-atk 100
+
+# Filter bulky Pokemon (HP >= 90, Defense >= 90)
+python3 filter_pokemon.py --min-hp 90 --min-def 90
+
+# Filter by type
+python3 filter_pokemon.py --type Fire
+python3 filter_pokemon.py --type Dragon --type Fire
+
+# Filter by ability
+python3 filter_pokemon.py --ability Intimidate
+python3 filter_pokemon.py --ability Levitate
+
+# Combined filters: Fire/Dragon types with Intimidate
+python3 filter_pokemon.py --type Fire --type Dragon --ability Intimidate
+
+# Compact list output
+python3 filter_pokemon.py --min-bst 500 --compact
+
+# Count only (don't show list)
+python3 filter_pokemon.py --gen 1 --count
+```
+
+**Available filters:**
+- `--gen` - Filter by generation (1-9)
+- `--type` - Filter by type (can specify multiple times)
+- `--ability` - Filter by ability (partial match)
+- `--min-bst` / `--max-bst` - Base Stat Total range
+- `--min-hp` / `--max-hp` - HP stat range
+- `--min-atk` / `--max-atk` - Attack stat range
+- `--min-def` / `--max-def` - Defense stat range
+- `--min-spa` / `--max-spa` - Special Attack stat range
+- `--min-spd` / `--max-spd` - Special Defense stat range
+- `--min-spe` / `--max-spe` - Speed stat range
+- `--compact` - Show compact list without detailed stats
+- `--count` - Show only the count of matching Pokemon
+
+**Example output:**
+```
+================================================================================
+Bulbasaur (BULBASAUR)
+================================================================================
+
+📈 LEVEL-UP MOVES (15 total)
+--------------------------------------------------------------------------------
+  Lv.  1  Tackle
+  Lv.  1  Growl
+  Lv.  3  Vine Whip
+  Lv.  6  Growth
+  ...
+
+🎓 TEACHABLE MOVES (TMs/HMs/Tutor) - 25 total
+--------------------------------------------------------------------------------
+  Body Slam                Cut                      Defense Curl
+  Double Edge              Endure                   Energy Ball
+  ...
+
+💡 Total unique moves available: 39
+```
+
+This is especially useful for Pokemon that don't have movesets defined in the Random Battles data!
 
 ## Archetype Filtering
 
@@ -251,7 +410,38 @@ python3 convert_randbats_to_party.py [OPTIONS]
 - `--output`, `-o` - Output file (default: converted_movesets.txt)
 - `--pool-size` - Pool size for trainer-pool mode (default: 8)
 - `--party-size` - Party size for trainer-pool mode (default: 4)
+- `--level-min` - Minimum level for trainer-pool mode (default: auto-detect)
+- `--level-max` - Maximum level for trainer-pool mode (default: auto-detect)
 - `--split-output` - Split output into separate files by format (singles/doubles/babies)
+- `--use-species-enabled` - Filter Pokemon based on species_enabled.h configuration
+
+**Level Range Auto-Detection (trainer-pool mode):**
+- Baby Random Battles: levels 5-15
+- Doubles/Singles Random Battles: levels 75-85
+- Other files: levels 1-100
+
+**Species Filtering (--use-species-enabled):**
+
+This feature respects your `include/config/species_enabled.h` configuration, only including Pokemon from enabled families and generations. This is useful if you've disabled certain Pokemon families or entire generations in your ROM hack.
+
+Requirements:
+- Run `python3 extract_pokemon_data.py` first to generate `pokemon_data.json` with family information
+- The converter will read your `species_enabled.h` file automatically
+
+Example:
+```c
+// In species_enabled.h:
+#define P_GEN_1_POKEMON                  TRUE
+#define P_GEN_2_POKEMON                  FALSE  // Gen 2 disabled
+#define P_FAMILY_CHARMANDER              FALSE  // Charmander family disabled
+```
+
+Then run:
+```bash
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled
+```
+
+This will exclude all Gen 2 Pokemon and the Charmander family from the output, matching your ROM hack's configuration.
 
 ### Examples:
 ```bash
@@ -260,6 +450,18 @@ python3 convert_randbats_to_party.py --mode pool -o my_pool.txt
 
 # Generate trainer with larger pool
 python3 convert_randbats_to_party.py --mode trainer-pool --pool-size 16 --party-size 6
+
+# Generate trainer pool from baby battles with Rock types (auto-detects levels 5-15)
+python3 convert_randbats_to_party.py --mode trainer-pool --archetype Rock -i gen9babyrandombattle.json
+
+# Generate trainer pool with custom level range
+python3 convert_randbats_to_party.py --mode trainer-pool --level-min 50 --level-max 60
+
+# Filter by enabled species only (respects species_enabled.h)
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled
+
+# Combine species filtering with archetype filtering
+python3 convert_randbats_to_party.py --mode pool --use-species-enabled --archetype Water
 
 # Split output into separate files by format
 python3 convert_randbats_to_party.py --mode pool --split-output
@@ -522,11 +724,26 @@ The GUI application (`gui_converter.py`) provides a user-friendly interface for 
 
 ## Files Created
 
-- `converted_movesets.txt` - The output file with converted Pokemon
-- `gen9randomdoublesbattle.json` - Downloaded Showdown data (not tracked by git)
+**Core Scripts:**
+- `convert_randbats_to_party.py` - Main conversion script (CLI)
 - `gui_converter.py` - GUI application for the converter
+- `extract_pokemon_data.py` - Generate Pokemon stats database
+- `extract_move_data.py` - Generate comprehensive move database
+- `query_moves.py` - Query tool to look up Pokemon moves
+- `parse_species_enabled.py` - Parser for species_enabled.h
+
+**Launchers:**
 - `launch_gui.sh` - Linux/Mac launcher for the GUI
 - `launch_gui.bat` - Windows launcher for the GUI
+
+**Generated Data (not tracked by git):**
+- `pokemon_data.json` - Pokemon stats, types, families database
+- `move_data.json` - Comprehensive move database
+- `converted_movesets.txt` - Output file with converted Pokemon
+- `gen9randomdoublesbattle.json` - Downloaded Showdown data
+
+**Configuration:**
+- `trainer_archetypes.json` - Predefined trainer class type mappings
 
 ## See Also
 

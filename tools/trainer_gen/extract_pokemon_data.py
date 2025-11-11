@@ -33,24 +33,58 @@ TYPE_MAP = {
     'TYPE_FAIRY': 'Fairy',
 }
 
-def parse_species_file(file_path: Path) -> List[Dict]:
+def parse_species_file(file_path: Path, generation: int) -> List[Dict]:
     """Parse a species info file and extract Pokemon data"""
     pokemon_list = []
 
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # Find all SPECIES_ entries
-    # Pattern: [SPECIES_NAME] = { ... }
-    species_pattern = r'\[SPECIES_(\w+)\]\s*=\s*\{([^}]*(?:\{[^}]*\}[^}]*)*)\}'
+    # Track current family context
+    current_family = None
 
-    for match in re.finditer(species_pattern, content, re.DOTALL):
-        species_name = match.group(1)
-        species_data = match.group(2)
+    # First, find all P_FAMILY_ blocks to map species to families
+    family_pattern = r'#if\s+P_FAMILY_(\w+)\s*\n(.*?)(?=#(?:if|endif|else)|$)'
+    family_blocks = {}
+
+    for family_match in re.finditer(family_pattern, content, re.DOTALL):
+        family_name = family_match.group(1)
+        block_content = family_match.group(2)
+
+        # Find all SPECIES in this block
+        species_in_block = re.findall(r'\[SPECIES_(\w+)\]', block_content)
+        for species in species_in_block:
+            family_blocks[species] = f"P_FAMILY_{family_name}"
+
+    # Find all SPECIES_ entries using brace counting for proper nesting
+    species_starts = []
+    for match in re.finditer(r'\[SPECIES_(\w+)\]\s*=\s*\{', content):
+        species_starts.append((match.group(1), match.end()))
+
+    species_entries = []
+    for species_name, start_pos in species_starts:
+        # Count braces to find matching closing brace
+        brace_count = 1
+        pos = start_pos
+        while pos < len(content) and brace_count > 0:
+            if content[pos] == '{':
+                brace_count += 1
+            elif content[pos] == '}':
+                brace_count -= 1
+            pos += 1
+
+        if brace_count == 0:
+            species_data = content[start_pos:pos-1]
+            species_entries.append((species_name, species_data))
+
+    for species_name, species_data in species_entries:
 
         # Skip special entries
         if species_name in ['NONE', 'EGG']:
             continue
+
+        # Get family for this species
+        family = family_blocks.get(species_name, None)
 
         pokemon = {
             'species': species_name,
@@ -58,7 +92,11 @@ def parse_species_file(file_path: Path) -> List[Dict]:
             'natDexNum': None,
             'baseStats': {},
             'types': [],
-            'bst': 0
+            'abilities': [],
+            'hiddenAbility': None,
+            'bst': 0,
+            'generation': generation,
+            'family': family
         }
 
         # Extract species name
@@ -110,6 +148,25 @@ def parse_species_file(file_path: Path) -> List[Dict]:
             # Extract TYPE_ constants
             type_constants = re.findall(r'TYPE_\w+', types_str)
             pokemon['types'] = [TYPE_MAP.get(t, t) for t in type_constants if t in TYPE_MAP]
+
+        # Extract abilities
+        # Format: .abilities = { ABILITY_X, ABILITY_Y, ABILITY_Z }
+        # First two are normal abilities, third is hidden ability
+        abilities_match = re.search(r'\.abilities\s*=\s*\{\s*([^}]+)\s*\}', species_data)
+        if abilities_match:
+            abilities_str = abilities_match.group(1)
+            ability_constants = re.findall(r'ABILITY_(\w+)', abilities_str)
+
+            # Process normal abilities (first two slots)
+            normal_abilities = []
+            for i in range(min(2, len(ability_constants))):
+                if ability_constants[i] != 'NONE':
+                    normal_abilities.append(ability_constants[i].replace('_', ' ').title())
+            pokemon['abilities'] = normal_abilities
+
+            # Process hidden ability (third slot)
+            if len(ability_constants) >= 3 and ability_constants[2] != 'NONE':
+                pokemon['hiddenAbility'] = ability_constants[2].replace('_', ' ').title()
 
         # Only add Pokemon with valid data
         if pokemon['name'] and pokemon['types'] and pokemon['baseStats']:
@@ -194,8 +251,12 @@ def main():
 
     print("\nExtracting Pokemon data...")
     for gen_file in gen_files:
-        print(f"  Processing {gen_file.name}...")
-        pokemon_list = parse_species_file(gen_file)
+        # Extract generation number from filename (gen_X_families.h)
+        gen_match = re.search(r'gen_(\d+)_families', gen_file.name)
+        generation = int(gen_match.group(1)) if gen_match else 0
+
+        print(f"  Processing {gen_file.name} (Generation {generation})...")
+        pokemon_list = parse_species_file(gen_file, generation)
         print(f"    Found {len(pokemon_list)} Pokemon")
         all_pokemon.extend(pokemon_list)
 
