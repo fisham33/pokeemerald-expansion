@@ -737,7 +737,7 @@ Pic: Leader Roxanne
 Gender: Female
 Music: Female
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Party Size: 3
 Pool Rules: POOL_RULESET_BASIC
 
@@ -814,7 +814,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 15
@@ -831,7 +831,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Arrokuda
 Level: 15
@@ -848,7 +848,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Charcadet
 Level: 15
@@ -865,7 +865,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Arrokuda
 Level: 15
@@ -882,7 +882,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 15
@@ -899,7 +899,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Charcadet
 Level: 15
@@ -1437,7 +1437,7 @@ Pic: Aqua Admin F
 Gender: Female
 Music: Aqua
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Drednaw
 Level: 42
@@ -1462,7 +1462,7 @@ Pic: Aqua Admin F
 Gender: Female
 Music: Aqua
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Drednaw @ Focus Sash  
 Ability: Swift Swim  
@@ -1507,7 +1507,7 @@ Pic: Aqua Leader Archie
 Gender: Male
 Music: Aqua
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Perrserker @ Assault Vest  
 Ability: Tough Claws  
@@ -4323,11 +4323,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Toxel
-Level: 23
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 Pawmo
-Level: 23
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_7 ===
@@ -4374,11 +4374,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Voltorb-Hisui
-Level: 23
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 Pawmo
-Level: 24
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_FERNANDO_1 ===
@@ -5606,7 +5606,7 @@ Pic: Elite Four Sidney
 Gender: Male
 Music: Elite Four
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status / AI_FLAG_ACE_POKEMON
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Mugshot: Purple
 
 Lokix @ Life Orb
@@ -5661,7 +5661,7 @@ Pic: Elite Four Phoebe
 Gender: Female
 Music: Elite Four
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Mugshot: Green
 
 Zoroark-Hisui @ Focus Sash
@@ -5716,7 +5716,7 @@ Pic: Elite Four Glacia
 Gender: Female
 Music: Elite Four
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Mugshot: Pink
 
 Cetitan @ Sitrus Berry
@@ -5771,7 +5771,7 @@ Pic: Elite Four Drake
 Gender: Male
 Music: Elite Four
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Mugshot: Blue
 
 Cyclizar @ Sitrus Berry
@@ -5826,7 +5826,7 @@ Pic: Leader Brawly
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Party Size: 4
 Pool Rules: POOL_RULESET_BASIC
 
@@ -5923,43 +5923,85 @@ Pic: Leader Wattson
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
+Party Size: 4
+Pool Rules: POOL_RULESET_BASIC
 
-Wattrel @ Sitrus Berry
-Ability: Wind Power 
-Level: 26
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Tailwind  
-- Uproar  
-- Charge Beam  
-- Pluck
+Pincurchin @ Sitrus Berry
+Ability: Electric Surge
+Level: 28
+IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+Tags: Lead
+- Fury Attack
+- Spark
+- Toxic Spikes
+- Protect
 
-Pawmo  @ Sitrus Berry
-Ability: Volt Absorb 
-Level: 26
-IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 26 Spe
-- Fake Out  
-- Spark  
-- Bite  
-- Mach Punch
+Bellibolt @ Sitrus Berry
+Ability: Static
+Level: 28
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+- Muddy Water
+- Charge Beam
+- Light Screen
+- Soak
+
+Kilowattrel @ Sitrus Berry
+Ability: Volt Absorb
+Level: 28
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Roost
+- Charge Beam
+- Air Cutter
+- Swift
+
+Morpeko @ Sitrus Berry
+Ability: Hunger Switch
+Level: 28
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Fake Out
+- Parting Shot
+- Super Fang
+- Spark
 
 Voltorb-Hisui  @ Sitrus Berry
 Ability: Static 
-Level: 26
+Level: 28
 IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 26 Spe
 - Charge Beam  
 - Energy Ball  
 - Protect  
 - Leech Seed
 
-Morpeko  @ Sitrus Berry
-Ability: Hunger Switch  
-Level: 26
-IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Psychic Fangs  
-- Super Fang  
-- Bite  
-- Thunder Fang
+Kilowattrel @ Sitrus Berry
+Ability: Wind Power
+Level: 28
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+Tags: Ace
+- Tailwind
+- Electro Ball
+- Protect
+- Air Cutter
+
+Morpeko @ Sitrus Berry
+Ability: Hunger Switch
+Level: 28
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+Tags: Ace
+- Spark
+- Knock Off
+- Protect
+- Brick Break
+
+Boltund @ Sitrus Berry
+Ability: Competitive
+Level: 28
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+Tags: Ace
+- Hyper Voice
+- Snarl
+- Roar
+- Thunderbolt
 
 === TRAINER_FLANNERY_1 ===
 Name: FLANNERY
@@ -5968,7 +6010,7 @@ Pic: Leader Flannery
 Gender: Female
 Music: Female
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Skeledirge @ Sitrus Berry  
 Ability: Blaze  
@@ -6013,7 +6055,7 @@ Pic: Leader Norman
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Obstagoon @ Sitrus Berry  
 Ability: Reckless  
@@ -6067,7 +6109,7 @@ Pic: Leader Winona
 Gender: Female
 Music: Female
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Squawkabilly-Blue @ Sitrus Berry
 Ability: Intimidate  
@@ -6121,7 +6163,7 @@ Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 SPECIES_INDEEDEE_F @ Psychic Seed
 Ability: Psychic Surge 
@@ -6184,7 +6226,7 @@ Pic: Leader Juan
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Palafin @ Leftovers
 Ability: Zero to Hero  
@@ -6540,7 +6582,7 @@ Pic: Pokefan M
 Gender: Male
 Music: Twins
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Pawniard @ Oran Berry
 Ability: Defiant
@@ -6689,7 +6731,7 @@ Pic: Pokefan F
 Gender: Female
 Music: Twins
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Thwackey @ Oran Berry
 Ability: Grassy Surge  
@@ -6919,7 +6961,7 @@ Pic: Expert F
 Gender: Female
 Music: Intense
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Clodsire
 Level: 25
@@ -7028,11 +7070,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Toxel
-Level: 22
+Level: 26
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
-Yamper
-Level: 22
+Boltund
+Level: 26
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
 === TRAINER_QUINCY ===
@@ -7216,7 +7258,7 @@ Pic: Champion Wallace
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 Mugshot: Yellow
 
 Dondozo @ Leftovers
@@ -10450,7 +10492,7 @@ Pic: Magma Admin
 Gender: Male
 Music: Magma
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Revavroom @ Air Balloon  
 Ability: Filter  
@@ -10592,7 +10634,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -10613,7 +10655,7 @@ Pic: Pokemon Ranger M
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Slowking-Galar @ Icy Rock  
 Ability: Regenerator  
@@ -10658,7 +10700,7 @@ Pic: Pokemon Ranger M
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Clodsire @ Leftovers  
 Ability: Water Absorb  
@@ -10703,7 +10745,7 @@ Pic: Pokemon Ranger M
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Coalossal @ Focus Sash  
 Ability: Steam Engine    
@@ -10748,7 +10790,7 @@ Pic: Pokemon Ranger M
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Glimmora @ Focus Sash  
 Ability: Toxic Debris    
@@ -10793,7 +10835,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Barraskewda
 Level: 45
@@ -10818,7 +10860,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -10839,7 +10881,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 45
@@ -10864,7 +10906,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -10885,7 +10927,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 45
@@ -10910,7 +10952,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -10931,7 +10973,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Barraskewda
 Level: 45
@@ -10956,7 +10998,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -10977,7 +11019,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 45
@@ -11002,7 +11044,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Voltorb-Hisui
 Level: 22
@@ -11023,7 +11065,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 45
@@ -12214,7 +12256,7 @@ Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Obstagoon @ Flame Orb
 Ability: Guts 
@@ -12259,7 +12301,7 @@ Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Linoone-Galar @ Sitrus Berry  
 Ability: Guts 
@@ -12303,7 +12345,7 @@ Pic: Lass
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Kilowattrel
 Ability: Wind Power
@@ -12944,11 +12986,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Voltorb-Hisui
-Level: 22
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Wattrel
-Level: 22
+Kilowattrel
+Level: 25
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_DANIELLE ===
@@ -13059,16 +13101,16 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
-Smoliv
-Level: 22
-IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
+Dolliv
+Level: 25
+IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 
 Fidough
-Level: 21
-IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
+Level: 25
+IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 
 === TRAINER_WALLY_VR_2 ===
 Name: WALLY
@@ -13273,7 +13315,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Barraskewda
 Level: 52
@@ -13302,7 +13344,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 52
@@ -13331,7 +13373,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 52
@@ -13360,7 +13402,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Barraskewda
 Level: 52
@@ -13389,7 +13431,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 52
@@ -13418,7 +13460,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Electrode-Hisui
 Level: 52
@@ -14565,7 +14607,7 @@ Pic: Magma Admin
 Gender: Male
 Music: Magma
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Revavroom @ Sitrus Berry  
 Ability: Filter  
@@ -14627,7 +14669,7 @@ Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Obstagoon @ Flame Orb
 Ability: Guts 
@@ -16883,11 +16925,11 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 Morpeko
-Level: 23
+Level: 26
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 Yamper
-Level: 23
+Level: 27
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_DARIUS ===
@@ -16914,7 +16956,7 @@ Pic: Steven
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Powerful Status
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
 
 Skarmory
 Level: 77
