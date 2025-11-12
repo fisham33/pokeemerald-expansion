@@ -134,12 +134,34 @@ DewfordTown_Gym_EventScript_StopCountingTrainers::
 	return
 
 DewfordTown_Gym_EventScript_Brawly::
-	trainerbattle_single TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_BrawlyDefeated, NO_MUSIC
+	lock
+	faceplayer
+	trainerbattle_selectmons TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_PostBattleHandler, 4
+	end
+
+DewfordTown_Gym_EventScript_PostBattleHandler::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+	switch VAR_RESULT
+	case 1, DewfordTown_Gym_EventScript_BrawlyWon
+	case 0, DewfordTown_Gym_EventScript_WhiteOut
+	end
+
+DewfordTown_Gym_EventScript_BrawlyWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE02_GET, DewfordTown_Gym_EventScript_BrawlyDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, DewfordTown_Gym_EventScript_BrawlyRematch
+	@ Normal post-battle dialogue
 	goto_if_unset FLAG_RECEIVED_TM_BULK_UP, DewfordTown_Gym_EventScript_GiveBulkUp2
 	msgbox DewfordTown_Gym_Text_BrawlyPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+DewfordTown_Gym_EventScript_WhiteOut::
+	fadescreen FADE_TO_BLACK
+	special SetCB2WhiteOut
+	waitstate
 	end
 
 DewfordTown_Gym_EventScript_BrawlyDefeated::

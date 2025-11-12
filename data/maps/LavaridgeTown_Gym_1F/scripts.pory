@@ -45,12 +45,33 @@ LavaridgeTown_Gym_1F_EventScript_EndCheckBuryTrainers::
 	return
 
 LavaridgeTown_Gym_1F_EventScript_Flannery::
-	trainerbattle_single TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated, NO_MUSIC
+	lock
+	faceplayer
+	trainerbattle_selectmons TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_PostBattleHandler, 4
+	end
+
+LavaridgeTown_Gym_1F_EventScript_PostBattleHandler::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+	switch VAR_RESULT
+	case 1, LavaridgeTown_Gym_1F_EventScript_FlanneryWon
+	case 0, LavaridgeTown_Gym_1F_EventScript_WhiteOut
+	end
+
+LavaridgeTown_Gym_1F_EventScript_FlanneryWon::
+	@ Check if first-time victory (badge not received yet)
+	goto_if_unset FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated
+	@ Check for rematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
 	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
 	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+LavaridgeTown_Gym_1F_EventScript_WhiteOut::
+	fadescreen FADE_TO_BLACK
+	special SetCB2WhiteOut
+	waitstate
 	end
 
 LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::

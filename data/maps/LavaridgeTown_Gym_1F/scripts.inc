@@ -93,687 +93,687 @@ LavaridgeTown_Gym_1F_EventScript_EndCheckBuryTrainers::
 # 47 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 LavaridgeTown_Gym_1F_EventScript_Flannery::
 # 48 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle_single TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated, NO_MUSIC
-# 49 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	specialvar VAR_RESULT, ShouldTryRematchBattle
-# 50 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
-# 51 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
-# 52 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostBattle, MSGBOX_DEFAULT
-# 53 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
-# 54 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 55 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 56 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
-# 57 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	message LavaridgeTown_Gym_1F_Text_ReceivedHeatBadge
-# 58 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	waitmessage
-# 59 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	call Common_EventScript_PlayGymBadgeFanfare
-# 60 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_ExplainHeatBadgeTakeThis, MSGBOX_DEFAULT
-# 61 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_WHITEOUT_TO_LAVARIDGE
-# 62 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_DEFEATED_LAVARIDGE_GYM
-# 63 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_BADGE04_GET
-# 64 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	addvar VAR_PETALBURG_GYM_STATE, 1
-# 65 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
-# 66 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setvar VAR_0x8008, 4
-# 67 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	call Common_EventScript_SetGymTrainers
-# 68 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLY
-# 69 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setvar VAR_LAVARIDGE_TOWN_STATE, 1
-# 70 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	call LavaridgeTown_Gym_1F_EventScript_GiveOverheat
-# 71 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	closemessage
-# 72 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	delay 30
-# 73 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	playfanfare MUS_REGISTER_MATCH_CALL
-# 74 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_RegisteredFlannery, MSGBOX_DEFAULT
-# 75 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	waitfanfare
-# 76 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	closemessage
-# 77 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	delay 30
-# 78 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_ENABLE_FLANNERY_MATCH_CALL
-# 79 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
-# 80 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 81 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 82 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GiveOverheat2::
-# 83 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	giveitem ITEM_TM_WILL_O_WISP
-# 84 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
-# 85 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_ExplainOverheat, MSGBOX_DEFAULT
-# 86 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_RECEIVED_TM_OVERHEAT
-# 87 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
-# 88 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 89 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 90 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GiveOverheat::
-# 91 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	giveitem ITEM_TM_WILL_O_WISP
-# 92 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
-# 93 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_ExplainOverheat, MSGBOX_DEFAULT
-# 94 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	setflag FLAG_RECEIVED_TM_OVERHEAT
-# 95 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	return
-# 96 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 97 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_FlanneryRematch::
-# 98 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle_rematch_double TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryPreRematch, LavaridgeTown_Gym_1F_Text_FlanneryRematchDefeat, LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons
-# 99 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostRematch, MSGBOX_AUTOCLOSE
-# 100 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 101 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 102 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_Cole::
-# 103 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_COLE, TRAINER_COLE, LavaridgeTown_Gym_1F_Text_ColeIntro, LavaridgeTown_Gym_1F_Text_ColeDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 104 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_ColePostBattle, MSGBOX_AUTOCLOSE
-# 105 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 106 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 107 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_EventScript_CheckTrainerScript::
-# 108 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	call LavaridgeTown_Gym_1F_EventScript_SetTrainerTempVars
-# 109 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
-# 110 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	special ShouldTryGetTrainerScript
-# 111 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_eq VAR_RESULT, 1, EventScript_GotoTrainerScript
-# 112 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 113 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 114 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_Axle::
-# 115 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_AXLE, TRAINER_AXLE, LavaridgeTown_Gym_1F_Text_AxleIntro, LavaridgeTown_Gym_1F_Text_AxleDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 116 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_AxlePostBattle, MSGBOX_AUTOCLOSE
-# 117 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 118 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 119 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_EventScript_Keegan::
-# 120 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_KEEGAN, TRAINER_KEEGAN, LavaridgeTown_Gym_B1F_Text_KeeganIntro, LavaridgeTown_Gym_B1F_Text_KeeganDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 121 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_B1F_Text_KeeganPostBattle, MSGBOX_AUTOCLOSE
-# 122 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 123 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 124 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_Danielle::
-# 125 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_DANIELLE, TRAINER_DANIELLE, LavaridgeTown_Gym_1F_Text_DanielleIntro, LavaridgeTown_Gym_1F_Text_DanielleDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 126 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_DaniellePostBattle, MSGBOX_AUTOCLOSE
-# 127 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 128 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 129 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_Gerald::
-# 130 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_GERALD, TRAINER_GERALD, LavaridgeTown_Gym_1F_Text_GeraldIntro, LavaridgeTown_Gym_1F_Text_GeraldDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 131 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_GeraldPostBattle, MSGBOX_AUTOCLOSE
-# 132 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 133 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 134 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_EventScript_Jace::
-# 135 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_JACE, TRAINER_JACE, LavaridgeTown_Gym_B1F_Text_JaceIntro, LavaridgeTown_Gym_B1F_Text_JaceDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 136 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_B1F_Text_JacePostBattle, MSGBOX_AUTOCLOSE
-# 137 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 138 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 139 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_EventScript_Jeff::
-# 140 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_JEFF, TRAINER_JEFF, LavaridgeTown_Gym_B1F_Text_JeffIntro, LavaridgeTown_Gym_B1F_Text_JeffDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 141 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_B1F_Text_JeffPostBattle, MSGBOX_AUTOCLOSE
-# 142 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 143 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 144 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_EventScript_Eli::
-# 145 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_ELI, TRAINER_ELI, LavaridgeTown_Gym_B1F_Text_EliIntro, LavaridgeTown_Gym_B1F_Text_EliDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
-# 146 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_B1F_Text_EliPostBattle, MSGBOX_AUTOCLOSE
-# 147 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
-# 148 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
-# 149 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GymGuide::
-# 150 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	lock
-# 151 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+# 49 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	faceplayer
+# 50 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle_selectmons TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_PostBattleHandler, 4
+# 51 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 52 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 53 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_PostBattleHandler::
+# 54 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+# 55 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	switch VAR_RESULT
+# 56 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	case 1, LavaridgeTown_Gym_1F_EventScript_FlanneryWon
+# 57 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	case 0, LavaridgeTown_Gym_1F_EventScript_WhiteOut
+# 58 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 59 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 60 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_FlanneryWon::
+# 61 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	@ Check if first-time victory (badge not received yet)
+# 62 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_unset FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated
+# 63 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	@ Check for rematch
+# 64 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+# 65 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
+# 66 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
+# 67 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostBattle, MSGBOX_DEFAULT
+# 68 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	release
+# 69 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 70 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 71 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_WhiteOut::
+# 72 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	fadescreen FADE_TO_BLACK
+# 73 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	special SetCB2WhiteOut
+# 74 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	waitstate
+# 75 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 76 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 77 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
+# 78 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	message LavaridgeTown_Gym_1F_Text_ReceivedHeatBadge
+# 79 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	waitmessage
+# 80 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	call Common_EventScript_PlayGymBadgeFanfare
+# 81 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_ExplainHeatBadgeTakeThis, MSGBOX_DEFAULT
+# 82 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_WHITEOUT_TO_LAVARIDGE
+# 83 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_DEFEATED_LAVARIDGE_GYM
+# 84 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_BADGE04_GET
+# 85 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	addvar VAR_PETALBURG_GYM_STATE, 1
+# 86 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
+# 87 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setvar VAR_0x8008, 4
+# 88 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	call Common_EventScript_SetGymTrainers
+# 89 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLY
+# 90 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setvar VAR_LAVARIDGE_TOWN_STATE, 1
+# 91 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	call LavaridgeTown_Gym_1F_EventScript_GiveOverheat
+# 92 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	closemessage
+# 93 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	delay 30
+# 94 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	playfanfare MUS_REGISTER_MATCH_CALL
+# 95 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_RegisteredFlannery, MSGBOX_DEFAULT
+# 96 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	waitfanfare
+# 97 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	closemessage
+# 98 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	delay 30
+# 99 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_ENABLE_FLANNERY_MATCH_CALL
+# 100 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	release
+# 101 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 102 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 103 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_GiveOverheat2::
+# 104 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	giveitem ITEM_TM_WILL_O_WISP
+# 105 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+# 106 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_ExplainOverheat, MSGBOX_DEFAULT
+# 107 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_RECEIVED_TM_OVERHEAT
+# 108 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	release
+# 109 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 110 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 111 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_GiveOverheat::
+# 112 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	giveitem ITEM_TM_WILL_O_WISP
+# 113 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+# 114 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_ExplainOverheat, MSGBOX_DEFAULT
+# 115 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	setflag FLAG_RECEIVED_TM_OVERHEAT
+# 116 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	return
+# 117 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 118 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_FlanneryRematch::
+# 119 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle_rematch_double TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryPreRematch, LavaridgeTown_Gym_1F_Text_FlanneryRematchDefeat, LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons
+# 120 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostRematch, MSGBOX_AUTOCLOSE
+# 121 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 122 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 123 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_Cole::
+# 124 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_COLE, TRAINER_COLE, LavaridgeTown_Gym_1F_Text_ColeIntro, LavaridgeTown_Gym_1F_Text_ColeDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+# 125 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_ColePostBattle, MSGBOX_AUTOCLOSE
+# 126 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 127 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 128 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_EventScript_CheckTrainerScript::
+# 129 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	call LavaridgeTown_Gym_1F_EventScript_SetTrainerTempVars
+# 130 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	release
+# 131 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	special ShouldTryGetTrainerScript
+# 132 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	goto_if_eq VAR_RESULT, 1, EventScript_GotoTrainerScript
+# 133 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 134 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 135 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_Axle::
+# 136 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_AXLE, TRAINER_AXLE, LavaridgeTown_Gym_1F_Text_AxleIntro, LavaridgeTown_Gym_1F_Text_AxleDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+# 137 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_AxlePostBattle, MSGBOX_AUTOCLOSE
+# 138 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 139 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 140 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_B1F_EventScript_Keegan::
+# 141 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_KEEGAN, TRAINER_KEEGAN, LavaridgeTown_Gym_B1F_Text_KeeganIntro, LavaridgeTown_Gym_B1F_Text_KeeganDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+# 142 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_B1F_Text_KeeganPostBattle, MSGBOX_AUTOCLOSE
+# 143 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 144 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 145 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_Danielle::
+# 146 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_DANIELLE, TRAINER_DANIELLE, LavaridgeTown_Gym_1F_Text_DanielleIntro, LavaridgeTown_Gym_1F_Text_DanielleDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+# 147 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_DaniellePostBattle, MSGBOX_AUTOCLOSE
+# 148 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	end
+# 149 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 150 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_Gerald::
+# 151 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_GERALD, TRAINER_GERALD, LavaridgeTown_Gym_1F_Text_GeraldIntro, LavaridgeTown_Gym_1F_Text_GeraldDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
 # 152 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_set FLAG_DEFEATED_LAVARIDGE_GYM, LavaridgeTown_Gym_1F_EventScript_GymGuidePostVictory
+	msgbox LavaridgeTown_Gym_1F_Text_GeraldPostBattle, MSGBOX_AUTOCLOSE
 # 153 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_GymGuideAdvice, MSGBOX_DEFAULT
+	end
 # 154 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
+
 # 155 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
+LavaridgeTown_Gym_B1F_EventScript_Jace::
 # 156 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_JACE, TRAINER_JACE, LavaridgeTown_Gym_B1F_Text_JaceIntro, LavaridgeTown_Gym_B1F_Text_JaceDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
 # 157 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GymGuidePostVictory::
+	msgbox LavaridgeTown_Gym_B1F_Text_JacePostBattle, MSGBOX_AUTOCLOSE
 # 158 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_GymGuidePostVictory, MSGBOX_DEFAULT
+	end
 # 159 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	release
+
 # 160 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
+LavaridgeTown_Gym_B1F_EventScript_Jeff::
 # 161 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_JEFF, TRAINER_JEFF, LavaridgeTown_Gym_B1F_Text_JeffIntro, LavaridgeTown_Gym_B1F_Text_JeffDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
 # 162 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_LeftGymStatue::
+	msgbox LavaridgeTown_Gym_B1F_Text_JeffPostBattle, MSGBOX_AUTOCLOSE
 # 163 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	lockall
+	end
 # 164 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_set FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified
+
 # 165 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto LavaridgeTown_Gym_1F_EventScript_GymStatue
+LavaridgeTown_Gym_B1F_EventScript_Eli::
 # 166 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_ELI, TRAINER_ELI, LavaridgeTown_Gym_B1F_Text_EliIntro, LavaridgeTown_Gym_B1F_Text_EliDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
 # 167 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	msgbox LavaridgeTown_Gym_B1F_Text_EliPostBattle, MSGBOX_AUTOCLOSE
 # 168 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_RightGymStatue::
+	end
 # 169 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	lockall
+
 # 170 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto_if_set FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified
+LavaridgeTown_Gym_1F_EventScript_GymGuide::
 # 171 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	goto LavaridgeTown_Gym_1F_EventScript_GymStatue
+	lock
 # 172 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
+	faceplayer
 # 173 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	goto_if_set FLAG_DEFEATED_LAVARIDGE_GYM, LavaridgeTown_Gym_1F_EventScript_GymGuidePostVictory
 # 174 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GymStatueCertified::
+	msgbox LavaridgeTown_Gym_1F_Text_GymGuideAdvice, MSGBOX_DEFAULT
 # 175 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_GymStatueCertified, MSGBOX_DEFAULT
+	release
 # 176 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	releaseall
+	end
 # 177 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	end
+
 # 178 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+LavaridgeTown_Gym_1F_EventScript_GymGuidePostVictory::
 # 179 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_EventScript_GymStatue::
+	msgbox LavaridgeTown_Gym_1F_Text_GymGuidePostVictory, MSGBOX_DEFAULT
 # 180 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	msgbox LavaridgeTown_Gym_1F_Text_GymStatue, MSGBOX_DEFAULT
+	release
 # 181 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	releaseall
-# 182 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	end
-# 183 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+# 182 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 183 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_LeftGymStatue::
 # 184 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GymGuideAdvice:
+	lockall
 # 185 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Hey, how's it going, CHAMPION-\n"
+	goto_if_set FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified
 # 186 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "bound {PLAYER}?\p"
+	goto LavaridgeTown_Gym_1F_EventScript_GymStatue
 # 187 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "LAVARIDGE's GYM LEADER FLANNERY\n"
+	end
 # 188 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "uses FIRE-type POKéMON.\p"
+
 # 189 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Her passion for POKéMON burns stronger\n"
+LavaridgeTown_Gym_1F_EventScript_RightGymStatue::
 # 190 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "and hotter than a volcano.\p"
+	lockall
 # 191 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Don't get too close to her--you'll burn!\n"
+	goto_if_set FLAG_BADGE04_GET, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified
 # 192 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Hose her down with water and then\l"
+	goto LavaridgeTown_Gym_1F_EventScript_GymStatue
 # 193 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "go for it!$"
+	end
 # 194 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 195 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GymGuidePostVictory:
+LavaridgeTown_Gym_1F_EventScript_GymStatueCertified::
 # 196 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Yow! That was a scorching-hot battle!$"
+	msgbox LavaridgeTown_Gym_1F_Text_GymStatueCertified, MSGBOX_DEFAULT
 # 197 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	releaseall
 # 198 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ColeIntro:
+	end
 # 199 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Owowowowow!\n"
-# 200 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Yikes, it's hot!$"
-# 201 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 200 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_EventScript_GymStatue::
+# 201 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	msgbox LavaridgeTown_Gym_1F_Text_GymStatue, MSGBOX_DEFAULT
 # 202 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ColeDefeat:
+	releaseall
 # 203 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I'm blinded by sweat in my eyes…$"
+	end
 # 204 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 205 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ColePostBattle:
+LavaridgeTown_Gym_1F_Text_GymGuideAdvice:
 # 206 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Being buried in hot sand promotes\n"
+	.string "Hey, how's it going, CHAMPION-\n"
 # 207 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "circulation.\p"
+	.string "bound {PLAYER}?\p"
 # 208 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "It's effective for healing pain in\n"
+	.string "LAVARIDGE's GYM LEADER FLANNERY\n"
 # 209 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "your joints.$"
+	.string "uses FIRE-type POKéMON.\p"
 # 210 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "Her passion for POKéMON burns stronger\n"
 # 211 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_AxleIntro:
+	.string "and hotter than a volcano.\p"
 # 212 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I'm trying to relieve my stress.\n"
+	.string "Don't get too close to her--you'll burn!\n"
 # 213 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Don't come along and stress me out!$"
+	.string "Hose her down with water and then\l"
 # 214 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "go for it!$"
 # 215 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_AxleDefeat:
-# 216 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I hope FLANNERY flames you good!$"
-# 217 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 216 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_GymGuidePostVictory:
+# 217 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Yow! That was a scorching-hot battle!$"
 # 218 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_AxlePostBattle:
+
 # 219 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Haaah… Whew…\p"
+LavaridgeTown_Gym_1F_Text_ColeIntro:
 # 220 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "If you spend too much time buried in\n"
+	.string "Owowowowow!\n"
 # 221 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "hot sand, it tuckers you out…$"
+	.string "Yikes, it's hot!$"
 # 222 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 223 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_KeeganIntro:
+LavaridgeTown_Gym_1F_Text_ColeDefeat:
 # 224 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "You must be getting tired by now.\n"
+	.string "I'm blinded by sweat in my eyes…$"
 # 225 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "You'd like to rest in the hot sand,\l"
+
 # 226 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "wouldn't you?\p"
+LavaridgeTown_Gym_1F_Text_ColePostBattle:
 # 227 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "But you should know that maintaining\n"
+	.string "Being buried in hot sand promotes\n"
 # 228 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "your willpower is an important ability\l"
+	.string "circulation.\p"
 # 229 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "for all TRAINERS.$"
+	.string "It's effective for healing pain in\n"
 # 230 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "your joints.$"
 # 231 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_KeeganDefeat:
+
 # 232 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Play with fire, and be burned…$"
+LavaridgeTown_Gym_1F_Text_AxleIntro:
 # 233 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "I'm trying to relieve my stress.\n"
 # 234 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_KeeganPostBattle:
+	.string "Don't come along and stress me out!$"
 # 235 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Your skill is real…\n"
-# 236 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "But our LEADER FLANNERY is strong.\p"
-# 237 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "If you don't watch yourself, you'll be\n"
-# 238 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "burned seriously.$"
-# 239 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 236 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_AxleDefeat:
+# 237 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I hope FLANNERY flames you good!$"
+# 238 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 239 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_AxlePostBattle:
 # 240 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GeraldIntro:
+	.string "Haaah… Whew…\p"
 # 241 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Can your POKéMON withstand\n"
+	.string "If you spend too much time buried in\n"
 # 242 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "392-degree heat?$"
+	.string "hot sand, it tuckers you out…$"
 # 243 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 244 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GeraldDefeat:
+LavaridgeTown_Gym_B1F_Text_KeeganIntro:
 # 245 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "It didn't burn hotly enough…$"
+	.string "You must be getting tired by now.\n"
 # 246 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "You'd like to rest in the hot sand,\l"
 # 247 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GeraldPostBattle:
+	.string "wouldn't you?\p"
 # 248 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "The temperature of magma is\n"
+	.string "But you should know that maintaining\n"
 # 249 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "392 degrees.\p"
+	.string "your willpower is an important ability\l"
 # 250 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Your POKéMON beat me, so they should\n"
+	.string "for all TRAINERS.$"
 # 251 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "easily survive in magma.$"
+
 # 252 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+LavaridgeTown_Gym_B1F_Text_KeeganDefeat:
 # 253 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_DanielleIntro:
+	.string "Play with fire, and be burned…$"
 # 254 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Um…\n"
+
 # 255 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Okay, I'll battle with you.$"
+LavaridgeTown_Gym_B1F_Text_KeeganPostBattle:
 # 256 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "Your skill is real…\n"
 # 257 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_DanielleDefeat:
+	.string "But our LEADER FLANNERY is strong.\p"
 # 258 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Oh, but you're too strong.$"
+	.string "If you don't watch yourself, you'll be\n"
 # 259 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "burned seriously.$"
 # 260 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_DaniellePostBattle:
-# 261 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I'm going to be a pretty and strong\n"
-# 262 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "TRAINER just like FLANNERY.$"
-# 263 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 261 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_GeraldIntro:
+# 262 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Can your POKéMON withstand\n"
+# 263 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "392-degree heat?$"
 # 264 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JaceIntro:
+
 # 265 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Come on, get with it!\n"
+LavaridgeTown_Gym_1F_Text_GeraldDefeat:
 # 266 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Let's go before my feelings cool!$"
+	.string "It didn't burn hotly enough…$"
 # 267 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 268 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JaceDefeat:
+LavaridgeTown_Gym_1F_Text_GeraldPostBattle:
 # 269 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "It's so hot, and yet my heart is\n"
+	.string "The temperature of magma is\n"
 # 270 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "clutched by ice…$"
+	.string "392 degrees.\p"
 # 271 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "Your POKéMON beat me, so they should\n"
 # 272 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JacePostBattle:
+	.string "easily survive in magma.$"
 # 273 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "The way the battling spirit burns\n"
-# 274 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "within you, you may stand a chance\l"
-# 275 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "against our LEADER.$"
-# 276 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 274 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_DanielleIntro:
+# 275 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Um…\n"
+# 276 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Okay, I'll battle with you.$"
 # 277 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JeffIntro:
+
 # 278 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "See how the flames blaze wildly?\n"
+LavaridgeTown_Gym_1F_Text_DanielleDefeat:
 # 279 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "They flare in anticipation of my win!$"
+	.string "Oh, but you're too strong.$"
 # 280 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 281 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JeffDefeat:
+LavaridgeTown_Gym_1F_Text_DaniellePostBattle:
 # 282 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Something didn't go right.$"
+	.string "I'm going to be a pretty and strong\n"
 # 283 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "TRAINER just like FLANNERY.$"
 # 284 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_JeffPostBattle:
+
 # 285 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Well, so what? I say so what?\n"
+LavaridgeTown_Gym_B1F_Text_JaceIntro:
 # 286 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I can walk on hot coals barefoot!\p"
+	.string "Come on, get with it!\n"
 # 287 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "…Don't even think about trying it!$"
+	.string "Let's go before my feelings cool!$"
 # 288 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 289 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_EliIntro:
+LavaridgeTown_Gym_B1F_Text_JaceDefeat:
 # 290 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "As much as I love mountains,\n"
+	.string "It's so hot, and yet my heart is\n"
 # 291 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I especially love volcanoes.$"
+	.string "clutched by ice…$"
 # 292 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 293 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_EliDefeat:
+LavaridgeTown_Gym_B1F_Text_JacePostBattle:
 # 294 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Well, it seems to me I lost without\n"
+	.string "The way the battling spirit burns\n"
 # 295 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "ever being in control.$"
+	.string "within you, you may stand a chance\l"
 # 296 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "against our LEADER.$"
 # 297 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_B1F_Text_EliPostBattle:
+
 # 298 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I stay here because I became a fan\n"
+LavaridgeTown_Gym_B1F_Text_JeffIntro:
 # 299 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "of FLANNERY's power.\p"
+	.string "See how the flames blaze wildly?\n"
 # 300 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Hehehehe.$"
+	.string "They flare in anticipation of my win!$"
 # 301 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 302 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryIntro:
+LavaridgeTown_Gym_B1F_Text_JeffDefeat:
 # 303 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Welcome… No, wait.\p"
+	.string "Something didn't go right.$"
 # 304 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Puny TRAINER, how good to see you've\n"
+
 # 305 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "made it here!\p"
+LavaridgeTown_Gym_B1F_Text_JeffPostBattle:
 # 306 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I have been entrusted with the…\n"
+	.string "Well, so what? I say so what?\n"
 # 307 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "No, wait.\p"
+	.string "I can walk on hot coals barefoot!\p"
 # 308 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I am FLANNERY, and I'm the GYM\n"
+	.string "…Don't even think about trying it!$"
 # 309 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "LEADER here!\p"
+
 # 310 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Uh…\n"
+LavaridgeTown_Gym_B1F_Text_EliIntro:
 # 311 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Dare not underestimate me, though\l"
+	.string "As much as I love mountains,\n"
 # 312 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I have been LEADER only a short time!\p"
+	.string "I especially love volcanoes.$"
 # 313 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "With skills inherited from my grand-\n"
+
 # 314 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "father, I shall, uh…demonstrate the\l"
+LavaridgeTown_Gym_B1F_Text_EliDefeat:
 # 315 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "hot moves we have honed on this land!$"
+	.string "Well, it seems to me I lost without\n"
 # 316 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "ever being in control.$"
 # 317 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryDefeat:
+
 # 318 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Oh…\n"
+LavaridgeTown_Gym_B1F_Text_EliPostBattle:
 # 319 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I guess I was trying too hard…\p"
+	.string "I stay here because I became a fan\n"
 # 320 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I… I've only recently become\n"
+	.string "of FLANNERY's power.\p"
 # 321 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "a GYM LEADER.\p"
+	.string "Hehehehe.$"
 # 322 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I tried too hard to be someone\n"
+
 # 323 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I'm not.\p"
+LavaridgeTown_Gym_1F_Text_FlanneryIntro:
 # 324 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I have to do things my natural way. If\n"
+	.string "Welcome… No, wait.\p"
 # 325 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I don't, my POKéMON will be confused.\p"
+	.string "Puny TRAINER, how good to see you've\n"
 # 326 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Thanks for teaching me that.\n"
+	.string "made it here!\p"
 # 327 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "For that, you deserve this.$"
+	.string "I have been entrusted with the…\n"
 # 328 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "No, wait.\p"
 # 329 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ReceivedHeatBadge:
+	.string "I am FLANNERY, and I'm the GYM\n"
 # 330 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "{PLAYER} received the HEAT BADGE\n"
+	.string "LEADER here!\p"
 # 331 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "from FLANNERY.$"
+	.string "Uh…\n"
 # 332 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "Dare not underestimate me, though\l"
 # 333 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ExplainHeatBadgeTakeThis:
+	.string "I have been LEADER only a short time!\p"
 # 334 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "If you have a HEAT BADGE, all POKéMON\n"
+	.string "With skills inherited from my grand-\n"
 # 335 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "up to Level 50, even those you get in\l"
+	.string "father, I shall, uh…demonstrate the\l"
 # 336 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "trades from other people, will obey\l"
+	.string "hot moves we have honed on this land!$"
 # 337 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "you completely.\p"
-# 338 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "And, it lets POKéMON use the HM move\n"
-# 339 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "STRENGTH outside of battle.\p"
-# 340 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "This is a token of my appreciation.\n"
-# 341 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Don't be shy about taking it!$"
-# 342 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 338 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_FlanneryDefeat:
+# 339 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Oh…\n"
+# 340 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I guess I was trying too hard…\p"
+# 341 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I… I've only recently become\n"
+# 342 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "a GYM LEADER.\p"
 # 343 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_ExplainOverheat:
+	.string "I tried too hard to be someone\n"
 # 344 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "TM23 contains WILL-O-WISP.\p"
+	.string "I'm not.\p"
 # 345 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "That move directly inflicts a burn on\n"
+	.string "I have to do things my natural way. If\n"
 # 346 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "the opponent.\p"
+	.string "I don't, my POKéMON will be confused.\p"
 # 347 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "A burnt POKéMON takes damage each turn\n"
+	.string "Thanks for teaching me that.\n"
 # 348 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "and has a reduced ATK stat.$"
+	.string "For that, you deserve this.$"
 # 349 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 350 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_RegisteredFlannery:
+LavaridgeTown_Gym_1F_Text_ReceivedHeatBadge:
 # 351 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Registered GYM LEADER FLANNERY\n"
+	.string "{PLAYER} received the HEAT BADGE\n"
 # 352 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "in the POKéNAV.$"
+	.string "from FLANNERY.$"
 # 353 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 354 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryPostBattle:
+LavaridgeTown_Gym_1F_Text_ExplainHeatBadgeTakeThis:
 # 355 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Your power reminds me of someone…\p"
+	.string "If you have a HEAT BADGE, all POKéMON\n"
 # 356 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Oh! I know! You battle like NORMAN,\n"
+	.string "up to Level 50, even those you get in\l"
 # 357 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "the GYM LEADER of PETALBURG.$"
+	.string "trades from other people, will obey\l"
 # 358 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "you completely.\p"
 # 359 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GymStatue:
+	.string "And, it lets POKéMON use the HM move\n"
 # 360 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "LAVARIDGE TOWN POKéMON GYM$"
+	.string "STRENGTH outside of battle.\p"
 # 361 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "This is a token of my appreciation.\n"
 # 362 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_GymStatueCertified:
+	.string "Don't be shy about taking it!$"
 # 363 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "LAVARIDGE TOWN POKéMON GYM\p"
+
 # 364 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "FLANNERY'S CERTIFIED TRAINERS:\n"
+LavaridgeTown_Gym_1F_Text_ExplainOverheat:
 # 365 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "{PLAYER}$"
+	.string "TM23 contains WILL-O-WISP.\p"
 # 366 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-
+	.string "That move directly inflicts a burn on\n"
 # 367 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryPreRematch:
+	.string "the opponent.\p"
 # 368 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "FLANNERY: Losing a battle isn't going\n"
+	.string "A burnt POKéMON takes damage each turn\n"
 # 369 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "to deflate me.\p"
+	.string "and has a reduced ATK stat.$"
 # 370 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I love POKéMON.\n"
-# 371 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I love to battle.\l"
-# 372 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "And… I love this GYM!\p"
-# 373 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Let's exchange superhot moves\n"
-# 374 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "in another battle!$"
-# 375 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
+# 371 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_RegisteredFlannery:
+# 372 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Registered GYM LEADER FLANNERY\n"
+# 373 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "in the POKéNAV.$"
+# 374 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 375 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_FlanneryPostBattle:
 # 376 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryRematchDefeat:
+	.string "Your power reminds me of someone…\p"
 # 377 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Whew!\n"
+	.string "Oh! I know! You battle like NORMAN,\n"
 # 378 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "On the verge of eruption!$"
+	.string "the GYM LEADER of PETALBURG.$"
 # 379 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 380 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryPostRematch:
+LavaridgeTown_Gym_1F_Text_GymStatue:
 # 381 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "FLANNERY: I lost the match,\n"
+	.string "LAVARIDGE TOWN POKéMON GYM$"
 # 382 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "but I'm completely satisfied.\p"
+
 # 383 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "It's not often I get to enjoy a battle\n"
+LavaridgeTown_Gym_1F_Text_GymStatueCertified:
 # 384 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "this heated.\p"
+	.string "LAVARIDGE TOWN POKéMON GYM\p"
 # 385 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Let's have another one like this\n"
+	.string "FLANNERY'S CERTIFIED TRAINERS:\n"
 # 386 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "again sometime!$"
+	.string "{PLAYER}$"
 # 387 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 
 # 388 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons:
+LavaridgeTown_Gym_1F_Text_FlanneryPreRematch:
 # 389 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	.string "FLANNERY: Losing a battle isn't going\n"
 # 390 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
@@ -787,12 +787,54 @@ LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons:
 # 394 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	.string "Let's exchange superhot moves\n"
 # 395 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "in another battle!\p"
+	.string "in another battle!$"
 # 396 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "Oh, wait. Do you only have one POKéMON\n"
+
 # 397 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "that can battle?\p"
+LavaridgeTown_Gym_1F_Text_FlanneryRematchDefeat:
 # 398 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
-	.string "I hate to say this, but when you come\n"
+	.string "Whew!\n"
 # 399 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "On the verge of eruption!$"
+# 400 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 401 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_FlanneryPostRematch:
+# 402 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "FLANNERY: I lost the match,\n"
+# 403 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "but I'm completely satisfied.\p"
+# 404 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "It's not often I get to enjoy a battle\n"
+# 405 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "this heated.\p"
+# 406 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Let's have another one like this\n"
+# 407 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "again sometime!$"
+# 408 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+
+# 409 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons:
+# 410 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "FLANNERY: Losing a battle isn't going\n"
+# 411 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "to deflate me.\p"
+# 412 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I love POKéMON.\n"
+# 413 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I love to battle.\l"
+# 414 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "And… I love this GYM!\p"
+# 415 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Let's exchange superhot moves\n"
+# 416 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "in another battle!\p"
+# 417 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "Oh, wait. Do you only have one POKéMON\n"
+# 418 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "that can battle?\p"
+# 419 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
+	.string "I hate to say this, but when you come\n"
+# 420 "data/maps/LavaridgeTown_Gym_1F/scripts.pory"
 	.string "see me, bring at least two POKéMON.$"

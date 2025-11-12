@@ -11778,37 +11778,28 @@ const struct Item gItemsInfo[] =
         .secondaryId = MOVE_BODY_PRESS, // Todo
     },
 
-    [ITEM_TM71] =
+    [ITEM_TM_COACHING] =
     {
         .name = ITEM_NAME("TM71"),
-        .price = 3000,
-        .description = sQuestionMarksDesc, // Todo
+        .price = 10000,
+        .description = sDefaultTMDesc,
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
+        .secondaryId = MOVE_COACHING, // Todo
     },
 
-    [ITEM_TM72] =
+    [ITEM_TM_POISON_TAIL] =
     {
         .name = ITEM_NAME("TM72"),
-        .price = 3000,
+        .price = 10000,
         .description = sQuestionMarksDesc, // Todo
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-    },
-
-    [ITEM_TM73] =
-    {
-        .name = ITEM_NAME("TM73"),
-        .price = 3000,
-        .description = sQuestionMarksDesc, // Todo
-        .importance = I_REUSABLE_TMS,
-        .pocket = POCKET_TM_HM,
-        .type = ITEM_USE_PARTY_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_TMHM,
+        .secondaryId = MOVE_POISON_TAIL, // Todo
     },
 
     [ITEM_TM74] =

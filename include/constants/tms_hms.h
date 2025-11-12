@@ -70,8 +70,10 @@
     F(FLASH_CANNON) \
     F(THROAT_CHOP) \
     F(METEOR_BEAM) \
-    F(BODY_PRESS) \
     F(BULLDOZE) \
+    F(BODY_PRESS) \
+    F(COACHING) \
+    F(POISON_TAIL) \
 
 #define FOREACH_HM(F) \
     F(CUT) \

@@ -199,7 +199,11 @@ MauvilleCity_EventScript_ScottExitEast::
 
 MauvilleCity_EventScript_BattleWally::
 	msgbox MauvilleCity_Text_WallyHereICome, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_WALLY_MAUVILLE, MauvilleCity_Text_WallyDefeat
+	@ trainerbattle_no_intro TRAINER_WALLY_MAUVILLE, MauvilleCity_Text_WallyDefeat
+	trainerbattle_selectmons TRAINER_WALLY_MAUVILLE, MauvilleCity_Text_WallyLetsBattle, MauvilleCity_Text_WallyDefeat, MauvilleCity_EventScript_PostBattleWally, 2
+	end
+
+MauvilleCity_EventScript_PostBattleWally::
 	applymovement LOCALID_MAUVILLE_WALLY, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox MauvilleCity_Text_WallyIllGoBackToVerdanturf, MSGBOX_DEFAULT
@@ -480,7 +484,7 @@ MauvilleCity_Text_UncleYourePushingIt:
 
 MauvilleCity_Text_WallyWeCanBeatAnyone:
 	.string "WALLY: I'm not pushing it.\p"
-	.string "If I combine forces with RALTS,\n"
+	.string "If I combine forces with DOLLIV,\n"
 	.string "we can beat anyone!$"
 
 MauvilleCity_Text_WallyWillYouBattleMe:
@@ -507,6 +511,9 @@ MauvilleCity_Text_UncleCanYouBattleWally:
 MauvilleCity_Text_WallyPleaseBattleMe:
 	.string "WALLY: {PLAYER}, please!\n"
 	.string "Battle with me, please.$"
+
+MauvilleCity_Text_WallyLetsBattle:
+	.string "WALLY: I won't hold back!$"
 
 MauvilleCity_Text_WallyHereICome:
 	.string "WALLY: {PLAYER}, thank you.\p"
