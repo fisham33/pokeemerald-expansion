@@ -136,46 +136,16 @@ Debug_EventScript_Text_OffensiveIVs:
 Debug_EventScript_Text_DefensiveIVs:
 	.string "HP IVs: {STR_VAR_1}, DEF IVs: {STR_VAR_2}, SPDEF IVs: {STR_VAR_3}$"
 
+@ example of how to implement selectmons gym battle
 Debug_EventScript_Script_1::
-	release
+	lock
+	faceplayer
+	trainerbattle_selectmons TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, RustboroCity_Gym_EventScript_PostBattleHandler, 3
 	end
 
 Debug_EventScript_Script_2::
-	trainerbattle_selectmons TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, Debug_EventScript_PostBattleHandler, 2
+	release
     end
-
-Debug_EventScript_PostBattleHandler::
-    @ Party is already restored by the macro
-    @ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
-    switch VAR_RESULT
-    case 1, RustboroCity_Gym_EventScript_RoxanneDefeated
-    case 0, Debug_EventScript_WhiteOut
-    end
-
-Debug_EventScript_WhiteOut::
-    fadescreen FADE_TO_BLACK
-    special SetCB2WhiteOut
-    waitstate
-    end
-
-Debug_EventScript_EndBattleFlow::
-    end
-
-Debug_EventScript_MaybeLater::
-    msgbox Debug_Text_MaybeLater, MSGBOX_DEFAULT
-    waitmessage
-    end
-
-Debug_Text_MaybeLater:
-    .string "Maybe later!$"
-
-Debug_IntroText:
-	.string "Hello, I am ROXANNE, the RUSTBORO\n"
-	.string "POKéMON GYM LEADER.$"
-
-Debug_DefeatText:
-	.string "So…\n"
-	.string "I lost…$"
 
 Debug_EventScript_Script_3::
 	release

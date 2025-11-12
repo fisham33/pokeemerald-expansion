@@ -7310,10 +7310,16 @@ static u8 CheckBattleEntriesAndGetMessage(void)
     maxBattlers = GetMaxBattleEntries();
     for (i = 0; i < maxBattlers - 1; i++)
     {
+        // Skip unselected slots (selectmons allows selecting fewer than max)
+        if (order[i] == 0)
+            continue;
         u16 species = GetMonData(&party[order[i] - 1], MON_DATA_SPECIES);
         u16 item = GetMonData(&party[order[i] - 1], MON_DATA_HELD_ITEM);
         for (j = i + 1; j < maxBattlers; j++)
         {
+            // Skip unselected slots in comparison
+            if (order[j] == 0)
+                continue;
             if (species == GetMonData(&party[order[j] - 1], MON_DATA_SPECIES))
                 return PARTY_MSG_MONS_CANT_BE_SAME;
             if (item != ITEM_NONE && item == GetMonData(&party[order[j] - 1], MON_DATA_HELD_ITEM))
