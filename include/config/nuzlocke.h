@@ -39,7 +39,7 @@
 // Note: Requires the palette modification system (PALETTE_SYSTEM_AVAILABLE) from the
 // variant_colours branch. If that system is not present, this feature will be disabled
 // at compile-time regardless of this setting.
-#define I_NUZLOCKE_VISUAL_DEATH       TRUE
+#define I_NUZLOCKE_VISUAL_DEATH       FALSE
 
 // Location merging - If TRUE, related locations share encounter slots
 // Example: Underwater Route 124 = Route 124 surface

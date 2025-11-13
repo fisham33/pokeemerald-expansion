@@ -399,7 +399,6 @@ Route110_EventScript_PlayBrendanMusic::
 	return
 
 Route110_EventScript_MayBattle::
-	msgbox Route110_Text_MayLetsBattle, MSGBOX_DEFAULT
 	switch VAR_STARTER_MON
 	case 0, Route110_EventScript_MayBattleTreecko
 	case 1, Route110_EventScript_MayBattleTorchic
@@ -407,18 +406,22 @@ Route110_EventScript_MayBattle::
 	end
 
 Route110_EventScript_MayBattleTreecko::
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_TREECKO, Route110_Text_MayDefeated
-	goto Route110_EventScript_MayDefeated
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_TREECKO, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
 	end
 
 Route110_EventScript_MayBattleTorchic::
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_TORCHIC, Route110_Text_MayDefeated
-	goto Route110_EventScript_MayDefeated
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_TORCHIC, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
 	end
 
 Route110_EventScript_MayBattleMudkip::
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_MUDKIP, Route110_Text_MayDefeated
-	goto Route110_EventScript_MayDefeated
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_MUDKIP, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
+	end
+
+Route110_EventScript_MayPostBattle::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+	switch VAR_RESULT
+	case 1, Route110_EventScript_MayDefeated
+	case 0, Route110_EventScript_RivalExit
 	end
 
 Route110_EventScript_MayDefeated::
@@ -429,7 +432,6 @@ Route110_EventScript_MayDefeated::
 	end
 
 Route110_EventScript_BrendanBattle::
-	msgbox Route110_Text_BrendanLetsBattle, MSGBOX_DEFAULT
 	switch VAR_STARTER_MON
 	case 0, Route110_EventScript_BrendanBattleTreecko
 	case 1, Route110_EventScript_BrendanBattleTorchic
@@ -437,18 +439,22 @@ Route110_EventScript_BrendanBattle::
 	end
 
 Route110_EventScript_BrendanBattleTreecko::
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_Text_BrendanDefeated
-	goto Route110_EventScript_BrendanDefeated
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
 	end
 
 Route110_EventScript_BrendanBattleTorchic::
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_Text_BrendanDefeated
-	goto Route110_EventScript_BrendanDefeated
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
 	end
 
 Route110_EventScript_BrendanBattleMudkip::
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_Text_BrendanDefeated
-	goto Route110_EventScript_BrendanDefeated
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
+	end
+
+Route110_EventScript_BrendanPostBattle::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
+	switch VAR_RESULT
+	case 1, Route110_EventScript_BrendanDefeated
+	case 0, Route110_EventScript_RivalExit
 	end
 
 Route110_EventScript_BrendanDefeated::
