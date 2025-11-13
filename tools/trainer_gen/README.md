@@ -16,6 +16,22 @@ Convert Pokemon Showdown's Random Doubles Battle data into `trainers.party` form
 ✅ **Multiple Output Modes** for different use cases
 ✅ **Smart Role Mapping** converts Showdown roles to TPP tags
 ✅ **No Level Required** - levels are optional in trainers.party format
+✅ **Web-Based Pokemon Filter** - hosted on GitHub Pages, no installation needed! (NEW!)
+
+## Web-Based Pokemon Filter
+
+🌐 **[Launch Pokemon Filter Tool](https://fisham33.github.io/pokeemerald-expansion/tools/trainer_gen/web/)** (GitHub Pages)
+
+A beautiful web interface for filtering Pokemon by stats, types, abilities, and generation:
+- **No installation required** - runs directly in your browser
+- Filter by generation, type, ability, BST, and individual stats
+- Responsive design works on desktop and mobile
+- Fast client-side filtering of 1000+ Pokemon
+- View full stats and abilities for each result
+
+The web version uses the same Pokemon database as the CLI tools but provides an accessible interface for anyone to use without Python or dependencies.
+
+See [web/README.md](web/README.md) for details on local development and deployment.
 
 ## Quick Start
 

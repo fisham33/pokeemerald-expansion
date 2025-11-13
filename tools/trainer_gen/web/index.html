@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Stat Filter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pokemon Stat Filter</h1>
+            <p class="subtitle">Filter Pokemon by generation, type, ability, and stats</p>
+        </header>
+
+        <div class="filters-container">
+            <div class="filter-group">
+                <label for="generation">Generation:</label>
+                <input type="number" id="generation" min="1" max="9" placeholder="1-9">
+            </div>
+
+            <div class="filter-group">
+                <label for="types">Type(s):</label>
+                <input type="text" id="types" placeholder="e.g., Fire, Dragon">
+                <span class="hint">Comma-separated</span>
+            </div>
+
+            <div class="filter-group">
+                <label for="ability">Ability:</label>
+                <input type="text" id="ability" placeholder="e.g., Intimidate">
+                <span class="hint">Partial match</span>
+            </div>
+
+            <div class="filter-group">
+                <label>BST Range:</label>
+                <div class="range-inputs">
+                    <input type="number" id="minBst" placeholder="Min">
+                    <span>to</span>
+                    <input type="number" id="maxBst" placeholder="Max">
+                </div>
+            </div>
+
+            <div class="stat-filters">
+                <h3>Individual Stats</h3>
+                <div class="stat-grid">
+                    <div class="stat-filter">
+                        <label>HP:</label>
+                        <input type="number" id="minHp" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxHp" placeholder="Max">
+                    </div>
+                    <div class="stat-filter">
+                        <label>Attack:</label>
+                        <input type="number" id="minAtk" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxAtk" placeholder="Max">
+                    </div>
+                    <div class="stat-filter">
+                        <label>Defense:</label>
+                        <input type="number" id="minDef" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxDef" placeholder="Max">
+                    </div>
+                    <div class="stat-filter">
+                        <label>Sp. Atk:</label>
+                        <input type="number" id="minSpa" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxSpa" placeholder="Max">
+                    </div>
+                    <div class="stat-filter">
+                        <label>Sp. Def:</label>
+                        <input type="number" id="minSpd" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxSpd" placeholder="Max">
+                    </div>
+                    <div class="stat-filter">
+                        <label>Speed:</label>
+                        <input type="number" id="minSpe" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="maxSpe" placeholder="Max">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="filterBtn" class="btn btn-primary">Filter</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                <button id="showAllBtn" class="btn btn-secondary">Show All</button>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <div class="results-header">
+                <h2>Results</h2>
+                <span id="resultCount" class="count">0 Pokemon</span>
+            </div>
+            <div id="results" class="results-list">
+                <p class="placeholder">Enter filter criteria and click "Filter" to see results</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Data extracted from pokeemerald-expansion |
+               <a href="https://github.com/fisham33/pokeemerald-expansion" target="_blank">View on GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="filter.js"></script>
+</body>
+</html>
