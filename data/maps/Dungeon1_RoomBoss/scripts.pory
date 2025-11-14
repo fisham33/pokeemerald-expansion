@@ -1,52 +1,79 @@
-raw `
-Dungeon1_RoomBoss_MapScripts::
-	.byte 0
+mapscripts Dungeon1_RoomBoss_MapScripts {}
 
-@ Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1
-DungeonBoss_TrainerTest::
-	trainerbattle_single TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat
-	msgbox TrainerBoss_PostBattle, MSGBOX_AUTOCLOSE
-	end
-
-TrainerBoss_OnDefeat::
-	msgbox TrainerBoss_Victory, MSGBOX_DEFAULT
-	waitmessage
-	end
-
-@ Test Pokemon boss at (4, 4) - Onix with totem boosts
-DungeonBoss_PokemonTest::
+// Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1 with selectmons
+script DungeonBoss_TrainerTest {
 	lock
 	faceplayer
-	msgbox PokemonBoss_Intro, MSGBOX_DEFAULT
+	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
-	@ Set totem boosts: +1 Attack, +1 Defense
-	settotemboost 1, 1, 1, 1, 1, 1, 1
-	@ Create wild Onix level 28 with Hard Stone
-	setwildbattle SPECIES_ONIX, 28, ITEM_HARD_STONE
-	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
-	clearflag FLAG_SYS_CTRL_OBJ_DELETE
-	msgbox PokemonBoss_Defeat, MSGBOX_DEFAULT
-	waitmessage
+	// Set starting battle status: Sandstorm for trainer battle
+	setvar(VAR_TEMP_E, B_WEATHER_SANDSTORM)
+	// Select mons battle (player picks 3 party members)
+	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
+	msgbox(TrainerBoss_PostBattle, MSGBOX_AUTOCLOSE)
 	release
-	end
+}
 
-@ Text strings
-TrainerBoss_Intro:
-	.string "You've made it this far...\nBut this is where your run ends!$"
+script TrainerBoss_OnDefeat {
+	msgbox(TrainerBoss_Victory, MSGBOX_DEFAULT)
+	waitmessage
+	// Hide trainer after defeat
+	setflag(FLAG_TEMP_1)
+	// Clear starting status var
+	setvar(VAR_TEMP_E, 0)
+	return
+}
 
-TrainerBoss_Defeat:
-	.string "Impossible...!$"
+// Test Pokemon boss at (4, 4) - Onix with totem boosts, sandstorm, and despawns
+script DungeonBoss_PokemonTest {
+	lock
+	faceplayer
+	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
+	closemessage
+	// Set starting battle status: Sandstorm for rock-type boss
+	setvar(VAR_TEMP_E, B_WEATHER_SANDSTORM)
+	// Set totem boosts: +1 to all stats
+	settotemboost(1, 1, 1, 1, 1, 1, 1)
+	// Create wild Onix level 28 with Hard Stone
+	setwildbattle(SPECIES_ONIX, 28, ITEM_HARD_STONE)
+	setflag(FLAG_SYS_CTRL_OBJ_DELETE)
+	dowildbattle
+	clearflag(FLAG_SYS_CTRL_OBJ_DELETE)
+	// Clear starting status var
+	setvar(VAR_TEMP_E, 0)
+	// Check if player won (not fled/lost)
+	if (var(VAR_RESULT) == B_OUTCOME_WON) {
+		msgbox(PokemonBoss_Defeat, MSGBOX_DEFAULT)
+		waitmessage
+		// Despawn the Pokemon after victory
+		setflag(FLAG_TEMP_2)
+	}
+	release
+}
 
-TrainerBoss_Victory:
-	.string "Boss trainer defeated!$"
+// Text strings
+text TrainerBoss_Intro {
+	"You've made it this far...\n"
+	"But this is where your run ends!"
+}
 
-TrainerBoss_PostBattle:
-	.string "You're stronger than I thought.$"
+text TrainerBoss_Defeat {
+	"Impossible...!"
+}
 
-PokemonBoss_Intro:
-	.string "The ground trembles as a massive\nONIX emerges from the shadows!$"
+text TrainerBoss_Victory {
+	"Boss trainer defeated!"
+}
 
-PokemonBoss_Defeat:
-	.string "The mighty ONIX has been defeated!$"
-`
+text TrainerBoss_PostBattle {
+	"You're stronger than I thought."
+}
+
+text PokemonBoss_Intro {
+	"The ground trembles as a massive\n"
+	"ONIX emerges from the shadows!"
+}
+
+text PokemonBoss_Defeat {
+	"The mighty ONIX has been defeated!"
+}
