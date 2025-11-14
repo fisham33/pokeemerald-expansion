@@ -8,25 +8,25 @@
 // ============================================
 
 script DungeonRoom_Trainer_0 {
-    trainerbattle_single(TRAINER_WINSTON_1, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0)
+    trainerbattle_single(TRAINER_VICTOR, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0)
     msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
     end
 }
 
 script DungeonRoom_Trainer_1 {
-    trainerbattle_single(TRAINER_IVAN, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1)
+    trainerbattle_single(TRAINER_VICTORIA, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1)
     msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
     end
 }
 
 script DungeonRoom_Trainer_2 {
-    trainerbattle_single(TRAINER_JOEY, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2)
+    trainerbattle_single(TRAINER_VICKY, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2)
     msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
     end
 }
 
 script DungeonRoom_Trainer_3 {
-    trainerbattle_single(TRAINER_JOSE, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3)
+    trainerbattle_single(TRAINER_CLAUDE, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3)
     msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
     end
 }
@@ -56,19 +56,11 @@ script DungeonRoom_OnDefeat_3 {
 // ============================================
 
 script DungeonRoom_ExitTrigger {
-    lock
-    callnative(Script_Dungeon_CheckRoomCleared)
-    if (var(VAR_RESULT) == TRUE) {
-        goto(DungeonRoom_DoAdvance)
-    }
-    msgbox(DungeonRoom_Text_NotCleared, MSGBOX_DEFAULT)
-    release
-}
-
-script DungeonRoom_DoAdvance {
-    callnative(Script_Dungeon_AdvanceToNextRoom)
+    lockall
+    callnative(Script_Dungeon_PrepareNextRoom)
     waitstate
-    release
+    releaseall
+    end
 }
 
 // ============================================

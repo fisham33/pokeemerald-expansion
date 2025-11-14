@@ -113,11 +113,13 @@ u8 Dungeon_GetCurrentLevel(void);  // Returns scaled level for current dungeon
 // They communicate with scripts via gSpecialVar_0x8000 and VAR_RESULT.
 
 void Script_Dungeon_Enter(void);              // Enter dungeon (reads dungeonId from gSpecialVar_0x8000)
+void Script_Dungeon_InitializeIfNeeded(void); // Initialize dungeon if not already active
 void Script_Dungeon_Exit(void);               // Exit dungeon and reset state
 void Script_Dungeon_SpawnTrainers(void);      // Spawn trainers in current room
 void Script_Dungeon_OnTrainerDefeated(void);  // Call after defeating a trainer
 void Script_Dungeon_CheckRoomCleared(void);   // Check if room cleared (sets VAR_RESULT)
-void Script_Dungeon_AdvanceToNextRoom(void);  // Move to next room
+void Script_Dungeon_PrepareNextRoom(void);    // Prepare next room warp (sets VAR_0x8004-8008)
+void Script_Dungeon_AdvanceToNextRoom(void);  // Move to next room (legacy, calls PrepareNextRoom)
 void Script_Dungeon_IsOnBossFloor(void);      // Check if on boss floor (sets VAR_RESULT)
 void Script_Dungeon_SpawnBoss(void);          // Spawn boss encounter
 void Script_Dungeon_DistributeRewards(void);  // Give rewards based on performance

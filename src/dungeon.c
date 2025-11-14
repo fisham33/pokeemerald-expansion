@@ -11,6 +11,8 @@
 #include "item.h"
 #include "pokemon_storage_system.h"
 #include "string_util.h"
+#include "task.h"
+#include "event_object_movement.h"
 #include "constants/dungeons.h"
 #include "constants/maps.h"
 #include "constants/items.h"
@@ -233,10 +235,9 @@ static const struct DungeonTrainer sDungeonTrainers[DUNGEON_MAX_TRAINERS_PER_ROO
 
 void Dungeon_SpawnTrainers(void)
 {
-    u8 dungeonId = Dungeon_GetCurrentDungeonId();
-
     // TEMPORARY: Allow spawning even when dungeon isn't active (for debug testing)
-    // In production, this should return if dungeonId == 0xFF
+    // In production, uncomment this check:
+    // u8 dungeonId = Dungeon_GetCurrentDungeonId();
     // if (dungeonId == 0xFF)
     //     return;
 
@@ -441,6 +442,17 @@ void Script_Dungeon_Enter(void)
     Dungeon_Enter(dungeonId);
 }
 
+// Initialize dungeon if not already active (called from Room1 entrance)
+// Usage: callnative Script_Dungeon_InitializeIfNeeded
+void Script_Dungeon_InitializeIfNeeded(void)
+{
+    if (!Dungeon_IsActive())
+    {
+        // Default to DUNGEON_EARLY_CAVE (ID 0) when entering Room1 directly
+        Dungeon_Enter(0);
+    }
+}
+
 // Called when exiting dungeon (whiteout, escape rope, completion)
 // Usage: callnative Script_Dungeon_Exit
 void Script_Dungeon_Exit(void)
@@ -483,11 +495,61 @@ void Script_Dungeon_CheckRoomCleared(void)
     gSpecialVar_Result = (defeated >= expectedTrainers);
 }
 
-// Advance to next room (called after room clear)
-// Usage: callnative Script_Dungeon_AdvanceToNextRoom
+// Prepare next room warp and execute teleport
+// Usage: callnative Script_Dungeon_PrepareNextRoom
+void Script_Dungeon_PrepareNextRoom(void)
+{
+    u8 nextRoom = Dungeon_GetRoom() + 1;
+    Dungeon_SetRoom(nextRoom);
+    Dungeon_SetTrainersDefeated(0);  // Reset for new room
+
+    // Clear trainer flags for next room
+    Dungeon_ClearTrainerFlags();
+
+    // Determine warp destination
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+        return;
+
+    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
+    if (dungeon == NULL)
+        return;
+
+    // Determine which map to warp to
+    u16 mapConstant;
+
+    if (nextRoom >= dungeon->roomCount)
+    {
+        // Boss room
+        mapConstant = MAP_DUNGEON1_ROOM_BOSS;
+    }
+    else
+    {
+        // Regular room (cycle through Room1-5)
+        switch (nextRoom % 5) {
+            case 0: mapConstant = MAP_DUNGEON1_ROOM1; break;
+            case 1: mapConstant = MAP_DUNGEON1_ROOM2; break;
+            case 2: mapConstant = MAP_DUNGEON1_ROOM3; break;
+            case 3: mapConstant = MAP_DUNGEON1_ROOM4; break;
+            default: mapConstant = MAP_DUNGEON1_ROOM5; break;
+        }
+    }
+
+    // Extract map group and num from constant
+    u8 mapGroup = MAP_GROUP(mapConstant);
+    u8 mapNum = MAP_NUM(mapConstant);
+
+    // Set warp destination and execute teleport
+    // Script handles the locking and delay, we just do the warp
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, 9, 8);
+    DoTeleportTileWarp();
+    ResetInitialPlayerAvatarState();
+}
+
+// Old function kept for compatibility (now calls prepare)
 void Script_Dungeon_AdvanceToNextRoom(void)
 {
-    Dungeon_AdvanceToNextRoom();
+    Script_Dungeon_PrepareNextRoom();
 }
 
 // Check if currently on boss floor
