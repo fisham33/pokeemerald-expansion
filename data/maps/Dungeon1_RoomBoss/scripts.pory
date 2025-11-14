@@ -1,0 +1,52 @@
+raw `
+Dungeon1_RoomBoss_MapScripts::
+	.byte 0
+
+@ Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1
+DungeonBoss_TrainerTest::
+	trainerbattle_single TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat
+	msgbox TrainerBoss_PostBattle, MSGBOX_AUTOCLOSE
+	end
+
+TrainerBoss_OnDefeat::
+	msgbox TrainerBoss_Victory, MSGBOX_DEFAULT
+	waitmessage
+	end
+
+@ Test Pokemon boss at (4, 4) - Onix with totem boosts
+DungeonBoss_PokemonTest::
+	lock
+	faceplayer
+	msgbox PokemonBoss_Intro, MSGBOX_DEFAULT
+	closemessage
+	@ Set totem boosts: +1 Attack, +1 Defense
+	settotemboost 1, 1, 1, 1, 1, 1, 1
+	@ Create wild Onix level 28 with Hard Stone
+	setwildbattle SPECIES_ONIX, 28, ITEM_HARD_STONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	dowildbattle
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	msgbox PokemonBoss_Defeat, MSGBOX_DEFAULT
+	waitmessage
+	release
+	end
+
+@ Text strings
+TrainerBoss_Intro:
+	.string "You've made it this far...\nBut this is where your run ends!$"
+
+TrainerBoss_Defeat:
+	.string "Impossible...!$"
+
+TrainerBoss_Victory:
+	.string "Boss trainer defeated!$"
+
+TrainerBoss_PostBattle:
+	.string "You're stronger than I thought.$"
+
+PokemonBoss_Intro:
+	.string "The ground trembles as a massive\nONIX emerges from the shadows!$"
+
+PokemonBoss_Defeat:
+	.string "The mighty ONIX has been defeated!$"
+`

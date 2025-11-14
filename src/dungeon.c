@@ -13,10 +13,16 @@
 #include "string_util.h"
 #include "task.h"
 #include "event_object_movement.h"
+#include "script_pokemon_util.h"
+#include "battle_setup.h"
+#include "battle.h"
+#include "battle_main.h"
 #include "constants/dungeons.h"
 #include "constants/maps.h"
 #include "constants/items.h"
 #include "constants/species.h"
+#include "constants/battle.h"
+#include "constants/weather.h"
 #include "config/dungeon.h"
 
 // Include data files
@@ -29,6 +35,9 @@
 // Forward declarations for static functions
 static void Dungeon_WarpToRoom(u8 roomIndex);
 static void Dungeon_WarpToBossRoom(void);
+
+// Static storage for current boss (persists during dungeon run)
+static const struct DungeonBoss *sCurrentBoss = NULL;
 
 // ==========================================================================
 // DUNGEON ENTRY/EXIT
@@ -63,6 +72,10 @@ void Dungeon_Exit(void)
 
     // Clear all trainer flags
     Dungeon_ClearTrainerFlags();
+
+    // Hide boss objects
+    FlagSet(FLAG_DUNGEON_TRAINER_0);
+    FlagSet(FLAG_DUNGEON_TRAINER_1);
 }
 
 // Note: Dungeon_IsActive() is defined as a macro in constants/dungeons.h
@@ -298,6 +311,7 @@ void Dungeon_OnTrainerDefeated(void)
 
 void Dungeon_SpawnBoss(void)
 {
+    // Get current dungeon and select random boss from tier pool
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
     if (dungeonId == 0xFF)
         return;
@@ -306,16 +320,55 @@ void Dungeon_SpawnBoss(void)
     if (dungeon == NULL)
         return;
 
-    // TODO: Implement boss spawning
-    // 1. Get boss pool for this tier
-    // 2. Pick random boss from pool
-    // 3. Set up boss encounter
+    // Get boss pool for this tier
+    const struct BossPoolEntry *pool = &sBossPools[dungeon->tier];
+    if (pool->count == 0)
+        return;
+
+    // Select random boss from pool
+    u8 bossIndex = Random() % pool->count;
+    sCurrentBoss = pool->bosses[bossIndex];
+
+    // Set up vars based on encounter type
+    if (sCurrentBoss->encounterType == DUNGEON_BOSS_TRAINER)
+    {
+        // Trainer battle
+        const struct BossTrainer *trainer = &sCurrentBoss->data.trainer;
+        VarSet(VAR_TEMP_1, trainer->trainerId);
+        VarSet(VAR_TEMP_3, 0);  // 0 = trainer
+
+        // Set trainer overworld sprite (VAR_OBJ_GFX_ID_0 = object 1 in map)
+        if (trainer->graphicsId != 0)
+            VarSet(VAR_OBJ_GFX_ID_0, trainer->graphicsId);
+        else
+            VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_HIKER);  // Default trainer sprite
+
+        // Make trainer visible, Pokemon hidden
+        FlagClear(FLAG_DUNGEON_TRAINER_0);  // Trainer object visible
+        FlagSet(FLAG_DUNGEON_TRAINER_1);    // Pokemon object hidden
+    }
+    else // DUNGEON_BOSS_POKEMON (Boss Pokemon)
+    {
+        // Boss Pokemon encounter
+        const struct BossPokemon *pokemon = &sCurrentBoss->data.pokemon;
+
+        // Check if double battle
+        bool8 isDouble = (pokemon->species2 != SPECIES_NONE);
+
+        VarSet(VAR_TEMP_3, isDouble ? 2 : 1);  // 1 = single, 2 = double
+
+        // Set Pokemon overworld sprite (VAR_OBJ_GFX_ID_1 = object 2 in map)
+        VarSet(VAR_OBJ_GFX_ID_1, pokemon->graphicsId);
+
+        // Make Pokemon visible, trainer hidden
+        FlagSet(FLAG_DUNGEON_TRAINER_0);    // Trainer object hidden
+        FlagClear(FLAG_DUNGEON_TRAINER_1);  // Pokemon object visible
+    }
 }
 
 const struct DungeonBoss *Dungeon_GetCurrentBoss(void)
 {
-    // TODO: Implement
-    return NULL;
+    return sCurrentBoss;
 }
 
 // ==========================================================================
@@ -541,7 +594,10 @@ void Script_Dungeon_PrepareNextRoom(void)
 
     // Set warp destination and execute teleport
     // Script handles the locking and delay, we just do the warp
-    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, 9, 8);
+    // Use center of map (10, 10) for 20x20 boss room, (7, 7) for 15x15 regular rooms
+    u8 x = (mapConstant == MAP_DUNGEON1_ROOM_BOSS) ? 10 : 9;
+    u8 y = (mapConstant == MAP_DUNGEON1_ROOM_BOSS) ? 10 : 8;
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, x, y);
     DoTeleportTileWarp();
     ResetInitialPlayerAvatarState();
 }
@@ -565,6 +621,229 @@ void Script_Dungeon_IsOnBossFloor(void)
 void Script_Dungeon_SpawnBoss(void)
 {
     Dungeon_SpawnBoss();
+}
+
+// Start boss Pokemon battle
+// Usage: callnative Script_Dungeon_StartBossPokemonBattle
+void Script_Dungeon_StartBossPokemonBattle(void)
+{
+    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
+    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
+        return;
+
+    const struct BossPokemon *pokemon = &boss->data.pokemon;
+    bool8 isDouble = (pokemon->species2 != SPECIES_NONE);
+
+    // Step 1: Apply field effects BEFORE creating Pokemon
+    const struct BossFieldEffect *fieldEffect = &pokemon->fieldEffect;
+    if (fieldEffect->weather != WEATHER_NONE)
+    {
+        // Set weather (will be applied when battle starts)
+        gBattleWeather = 0;
+        switch (fieldEffect->weather)
+        {
+            case WEATHER_RAIN:
+            case WEATHER_RAIN_THUNDERSTORM:
+                gBattleWeather = B_WEATHER_RAIN;
+                break;
+            case WEATHER_SANDSTORM:
+                gBattleWeather = B_WEATHER_SANDSTORM;
+                break;
+            case WEATHER_SUNNY:
+                gBattleWeather = B_WEATHER_SUN;
+                break;
+            case WEATHER_FOG_HORIZONTAL:
+            case WEATHER_FOG_DIAGONAL:
+                gBattleWeather = B_WEATHER_FOG;
+                break;
+            case WEATHER_SNOW:
+                gBattleWeather = B_WEATHER_HAIL;
+                break;
+        }
+    }
+
+    if (fieldEffect->terrain != 0)
+    {
+        // Set terrain (field status flags)
+        switch (fieldEffect->terrain)
+        {
+            case 1:  // Electric Terrain
+                gFieldStatuses = STATUS_FIELD_ELECTRIC_TERRAIN;
+                gFieldTimers.terrainTimer = 5;
+                break;
+            case 2:  // Grassy Terrain
+                gFieldStatuses = STATUS_FIELD_GRASSY_TERRAIN;
+                gFieldTimers.terrainTimer = 5;
+                break;
+            case 3:  // Misty Terrain
+                gFieldStatuses = STATUS_FIELD_MISTY_TERRAIN;
+                gFieldTimers.terrainTimer = 5;
+                break;
+            case 4:  // Psychic Terrain
+                gFieldStatuses = STATUS_FIELD_PSYCHIC_TERRAIN;
+                gFieldTimers.terrainTimer = 5;
+                break;
+        }
+    }
+
+    // Step 2: Set totem boosts (must be done BEFORE creating wild Pokemon)
+    // This follows the script pattern: settotemboost -> setwildbattle -> dowildbattle
+    u8 battler = isDouble ? B_POSITION_OPPONENT_LEFT : B_POSITION_OPPONENT_RIGHT;
+    const struct TotemBoosts *boosts = &pokemon->boosts;
+
+    // Clear existing boosts first
+    gQueuedStatBoosts[battler].stats = 0;
+    for (u8 i = 0; i < NUM_BATTLE_STATS - 1; i++)
+        gQueuedStatBoosts[battler].statChanges[i] = 0;
+
+    // Set stat boosts if any are non-zero (following settotemboost macro pattern)
+    bool8 hasBoosts = FALSE;
+    if (boosts->atk != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 0);
+        gQueuedStatBoosts[battler].statChanges[0] = boosts->atk;
+        hasBoosts = TRUE;
+    }
+    if (boosts->def != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 1);
+        gQueuedStatBoosts[battler].statChanges[1] = boosts->def;
+        hasBoosts = TRUE;
+    }
+    if (boosts->speed != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 2);
+        gQueuedStatBoosts[battler].statChanges[2] = boosts->speed;
+        hasBoosts = TRUE;
+    }
+    if (boosts->spatk != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 3);
+        gQueuedStatBoosts[battler].statChanges[3] = boosts->spatk;
+        hasBoosts = TRUE;
+    }
+    if (boosts->spdef != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 4);
+        gQueuedStatBoosts[battler].statChanges[4] = boosts->spdef;
+        hasBoosts = TRUE;
+    }
+    if (boosts->acc != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 5);
+        gQueuedStatBoosts[battler].statChanges[5] = boosts->acc;
+        hasBoosts = TRUE;
+    }
+    if (boosts->evas != 0)
+    {
+        gQueuedStatBoosts[battler].stats |= (1 << 6);
+        gQueuedStatBoosts[battler].statChanges[6] = boosts->evas;
+        hasBoosts = TRUE;
+    }
+
+    // Set the "totem flared to life" flag if any boosts were applied
+    if (hasBoosts)
+        gQueuedStatBoosts[battler].stats |= 0x80;
+
+    // Step 3: Create scripted wild encounter(s) (setwildbattle equivalent)
+    if (isDouble)
+    {
+        CreateScriptedDoubleWildMon(
+            pokemon->species, pokemon->level, pokemon->heldItem,
+            pokemon->species2, pokemon->level2, pokemon->heldItem2
+        );
+    }
+    else
+    {
+        CreateScriptedWildMon(pokemon->species, pokemon->level, pokemon->heldItem);
+    }
+
+    // Set custom moves for first Pokemon
+    if (pokemon->moves[0] != MOVE_NONE)
+    {
+        for (u8 i = 0; i < MAX_MON_MOVES; i++)
+        {
+            if (pokemon->moves[i] != MOVE_NONE)
+                SetMonMoveSlot(&gEnemyParty[0], pokemon->moves[i], i);
+        }
+    }
+
+    // Set custom moves for second Pokemon (if double battle)
+    if (isDouble && pokemon->moves2[0] != MOVE_NONE)
+    {
+        for (u8 i = 0; i < MAX_MON_MOVES; i++)
+        {
+            if (pokemon->moves2[i] != MOVE_NONE)
+                SetMonMoveSlot(&gEnemyParty[1], pokemon->moves2[i], i);
+        }
+    }
+
+    // Step 4: Start the battle (dowildbattle equivalent)
+    // Use RAID battle type to ensure totem boosts work correctly
+    BattleSetup_StartRaidBattle(isDouble);
+}
+
+// Load custom trainer text into gStringVar4
+// Usage: callnative Script_Dungeon_GetBossTrainerText
+void Script_Dungeon_GetBossTrainerText(void)
+{
+    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
+    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_TRAINER)
+        return;
+
+    const struct BossTrainer *trainer = &boss->data.trainer;
+
+    // If custom intro text specified, copy to gStringVar4
+    // Otherwise, trainer will use default text from trainers.h
+    if (trainer->introText != NULL)
+        StringCopy(gStringVar4, trainer->introText);
+}
+
+// Load custom Pokemon intro text into gStringVar4
+// Usage: callnative Script_Dungeon_GetBossPokemonText
+void Script_Dungeon_GetBossPokemonText(void)
+{
+    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
+    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
+        return;
+
+    const struct BossPokemon *pokemon = &boss->data.pokemon;
+
+    // Copy intro text to gStringVar4
+    if (pokemon->introText != NULL)
+        StringCopy(gStringVar4, pokemon->introText);
+}
+
+// Load custom Pokemon defeat text into gStringVar4
+// Usage: callnative Script_Dungeon_GetBossPokemonDefeatText
+void Script_Dungeon_GetBossPokemonDefeatText(void)
+{
+    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
+    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
+        return;
+
+    const struct BossPokemon *pokemon = &boss->data.pokemon;
+
+    // Copy defeat text to gStringVar4
+    if (pokemon->defeatText != NULL)
+        StringCopy(gStringVar4, pokemon->defeatText);
+}
+
+// Handle boss defeat (trainer or boss Pokemon)
+// Usage: callnative Script_Dungeon_OnBossDefeated
+void Script_Dungeon_OnBossDefeated(void)
+{
+    // Award bonus points for defeating boss
+    Dungeon_IncrementRewardScore(100);
+
+    // Hide both boss objects
+    FlagSet(FLAG_DUNGEON_TRAINER_0);  // Hide trainer
+    FlagSet(FLAG_DUNGEON_TRAINER_1);  // Hide Pokemon
+
+    // Warp to end room for rewards
+    SetWarpDestination(MAP_GROUP(MAP_DUNGEON1_ROOM_END), MAP_NUM(MAP_DUNGEON1_ROOM_END), WARP_ID_NONE, 9, 8);
+    DoTeleportTileWarp();
+    ResetInitialPlayerAvatarState();
 }
 
 // Distribute rewards at end of dungeon

@@ -51,20 +51,59 @@ struct DungeonTrainerClass {
 
 // === BOSS DEFINITION ===
 enum {
-    DUNGEON_BOSS_STATIC,   // Static wild encounter
+    DUNGEON_BOSS_POKEMON,  // Boss Pokemon (wild encounter with totem boosts)
     DUNGEON_BOSS_TRAINER,  // Trainer battle
 };
 
+// Totem boosts for boss Pokemon
+struct TotemBoosts {
+    s8 atk;
+    s8 def;
+    s8 speed;
+    s8 spatk;
+    s8 spdef;
+    s8 acc;
+    s8 evas;
+};
+
+// Field effects for boss battles
+struct BossFieldEffect {
+    u8 weather;        // WEATHER_* constant (0 = no weather)
+    u8 terrain;        // Terrain type (0 = no terrain)
+};
+
+// Boss Pokemon configuration (for wild encounters)
+struct BossPokemon {
+    u16 species;           // Species (or species1 for doubles)
+    u8 level;              // Level (or level1 for doubles)
+    u16 heldItem;          // Held item (or item1 for doubles)
+    u16 moves[4];          // Move set (or moves1 for doubles)
+    u16 species2;          // Species2 (for double battles, 0 if single)
+    u8 level2;             // Level2 (for double battles)
+    u16 heldItem2;         // Held item2 (for double battles)
+    u16 moves2[4];         // Move set2 (for double battles)
+    struct TotemBoosts boosts;       // Stat boosts applied to boss
+    struct BossFieldEffect fieldEffect;  // Field effects (weather/terrain)
+    u16 graphicsId;        // OBJ_EVENT_GFX_* (overworld sprite)
+    const u8 *introText;   // Text shown before battle
+    const u8 *defeatText;  // Text shown after defeating boss
+};
+
+// Boss Trainer configuration
+struct BossTrainer {
+    u16 trainerId;         // TRAINER_* from trainers.party
+    u16 graphicsId;        // OBJ_EVENT_GFX_* (overworld sprite, overrides trainer default if non-zero)
+    const u8 *introText;   // Custom intro text (overrides trainer default if non-NULL)
+    const u8 *defeatText;  // Custom defeat text (overrides trainer default if non-NULL)
+};
+
+// Main boss definition
 struct DungeonBoss {
-    u8 encounterType;      // DUNGEON_BOSS_STATIC or DUNGEON_BOSS_TRAINER
-    u16 species;           // Species for static encounter
-    u8 level;              // Level
-    u16 heldItem;          // Held item
-    u16 moves[4];          // Move set
-    u16 graphicsId;        // OBJ_EVENT_GFX_*
-    u16 trainerPic;        // TRAINER_PIC_*
-    u16 trainerClass;      // TRAINER_CLASS_*
-    u16 trainerId;         // TRAINER_ID (if trainer type)
+    u8 encounterType;      // DUNGEON_BOSS_POKEMON or DUNGEON_BOSS_TRAINER
+    union {
+        struct BossPokemon pokemon;
+        struct BossTrainer trainer;
+    } data;
 };
 
 // === PUBLIC API ===
@@ -122,6 +161,11 @@ void Script_Dungeon_PrepareNextRoom(void);    // Prepare next room warp (sets VA
 void Script_Dungeon_AdvanceToNextRoom(void);  // Move to next room (legacy, calls PrepareNextRoom)
 void Script_Dungeon_IsOnBossFloor(void);      // Check if on boss floor (sets VAR_RESULT)
 void Script_Dungeon_SpawnBoss(void);          // Spawn boss encounter
+void Script_Dungeon_StartBossPokemonBattle(void);     // Start boss Pokemon battle
+void Script_Dungeon_OnBossDefeated(void);             // Handle boss defeat and warp to end room
+void Script_Dungeon_GetBossTrainerText(void);         // Load custom trainer text into gStringVar4
+void Script_Dungeon_GetBossPokemonText(void);         // Load custom Pokemon intro text into gStringVar4
+void Script_Dungeon_GetBossPokemonDefeatText(void);   // Load custom Pokemon defeat text into gStringVar4
 void Script_Dungeon_DistributeRewards(void);  // Give rewards based on performance
 void Script_Dungeon_GetRewardTier(void);      // Get reward tier 1-3 (sets VAR_RESULT)
 void Script_Dungeon_IsActive(void);           // Check if dungeon active (sets VAR_RESULT)

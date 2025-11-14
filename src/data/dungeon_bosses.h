@@ -1,253 +1,317 @@
-// Dungeon Boss Definitions
-// This file defines boss encounters for each difficulty tier
+/*
+ * Dungeon Boss Definitions
+ *
+ * This file defines all dungeon bosses (both Pokemon and Trainers).
+ *
+ * BOSS POKEMON:
+ *   - Wild encounters with totem stat boosts
+ *   - Can be single or double battles
+ *   - Support custom movesets, held items, field effects (weather/terrain)
+ *   - Custom overworld sprites and battle text
+ *
+ * BOSS TRAINERS:
+ *   - Defined in trainers.party with party pools for randomization
+ *   - Can override overworld sprite and battle text here
+ *   - Use "Party Size" and "Pool Rules" in trainers.party for variety
+ *   - Example: Party Size: 3, Pool Rules: POOL_RULESET_BASIC with 5 Pokemon = 3 random selections
+ */
 
 #include "constants/species.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/trainers.h"
 #include "constants/event_objects.h"
+#include "constants/weather.h"
 
-// TODO: Populate boss pools with actual encounters
-// Bosses can be either:
-// 1. Static wild encounters (single powerful Pokemon)
-// 2. Trainer battles (boss trainers with themed teams)
-// The encounterType field determines which type
+// ============================================
+// TEXT STRINGS
+// ============================================
 
-// ==========================================================================
-// EARLY TIER BOSS POOL (Level 25-30)
-// ==========================================================================
+// Boss Pokemon text
+static const u8 sText_OnixBoss_Intro[] = _(
+    "The ground trembles as a massive\n"
+    "ONIX emerges from the shadows!");
 
-// Early tier bosses - powerful but not legendary
-static const struct DungeonBoss sEarlyTierBosses[] = {
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_ONIX,
-        .level = 28,
-        .heldItem = ITEM_HARD_STONE,
-        .moves = {MOVE_ROCK_THROW, MOVE_SLAM, MOVE_ROCK_TOMB, MOVE_SCREECH},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_ROUTE_119_TREECKO,  // TODO: Replace with TRAINER_DUNGEON_BOSS_EARLY_1
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_PINSIR,
-        .level = 27,
-        .heldItem = ITEM_SILVER_POWDER,
-        .moves = {MOVE_VICE_GRIP, MOVE_SEISMIC_TOSS, MOVE_BRICK_BREAK, MOVE_VITAL_THROW},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_ROUTE_119_MUDKIP,  // TODO: Replace with TRAINER_DUNGEON_BOSS_EARLY_2
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_MILTANK,
-        .level = 26,
-        .heldItem = ITEM_LEFTOVERS,
-        .moves = {MOVE_STOMP, MOVE_ROLLOUT, MOVE_MILK_DRINK, MOVE_BODY_SLAM},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_ROUTE_103_TREECKO,  // TODO: Replace with TRAINER_DUNGEON_BOSS_EARLY_3
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_GOLEM,
-        .level = 29,
-        .heldItem = ITEM_QUICK_CLAW,
-        .moves = {MOVE_MAGNITUDE, MOVE_ROCK_BLAST, MOVE_SELF_DESTRUCT, MOVE_BULLDOZE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_ROUTE_103_MUDKIP,  // TODO: Replace with TRAINER_DUNGEON_BOSS_EARLY_4
-    },
-    // TODO: Add 6-10 more boss options for variety
-    // Consider: Scyther, Heracross, Tauros, Electabuzz, Magmar, Jynx, etc.
+static const u8 sText_OnixBoss_Defeat[] = _(
+    "The mighty ONIX has been defeated!");
+
+static const u8 sText_DoubleDragon_Intro[] = _(
+    "Two fierce dragon Pokémon block\n"
+    "your path!");
+
+static const u8 sText_DoubleDragon_Defeat[] = _(
+    "The dragon duo falls in defeat!");
+
+static const u8 sText_Lapras_Intro[] = _(
+    "A majestic LAPRAS rises from\n"
+    "the misty waters!");
+
+static const u8 sText_Lapras_Defeat[] = _(
+    "LAPRAS sinks beneath the waves...");
+
+// Boss Trainer custom text (overrides trainers.party if specified, NULL uses defaults)
+static const u8 sText_CaveBoss_Intro[] = _(
+    "You've made it this far...\n"
+    "But this is where your run ends!");
+
+static const u8 sText_CaveBoss_Defeat[] = _(
+    "Impossible... You're stronger\n"
+    "than I thought!");
+
+// ============================================
+// BOSS POKEMON DEFINITIONS
+// ============================================
+
+// EXAMPLE 1: Early tier single battle with totem boosts and sandstorm
+static const struct DungeonBoss sBoss_Onix_Cave = {
+    .encounterType = DUNGEON_BOSS_POKEMON,
+    .data = {
+        .pokemon = {
+            // Primary Pokemon
+            .species = SPECIES_ONIX,
+            .level = 28,
+            .heldItem = ITEM_HARD_STONE,
+            .moves = {MOVE_ROCK_THROW, MOVE_SLAM, MOVE_ROCK_TOMB, MOVE_SCREECH},
+
+            // No second Pokemon (single battle)
+            .species2 = SPECIES_NONE,
+            .level2 = 0,
+            .heldItem2 = ITEM_NONE,
+            .moves2 = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE},
+
+            // Totem stat boosts (like settotemboost macro)
+            .boosts = {
+                .atk = 1,      // +1 Attack
+                .def = 1,      // +1 Defense
+                .speed = 0,
+                .spatk = 0,
+                .spdef = 0,
+                .acc = 0,
+                .evas = 0,
+            },
+
+            // Field effects
+            .fieldEffect = {
+                .weather = WEATHER_SANDSTORM,  // Sandstorm benefits rock-type
+                .terrain = 0,                   // No terrain
+            },
+
+            // Visual/text
+            .graphicsId = OBJ_EVENT_GFX_FOSSIL,
+            .introText = sText_OnixBoss_Intro,
+            .defeatText = sText_OnixBoss_Defeat,
+        }
+    }
 };
 
-#define EARLY_TIER_BOSS_COUNT ARRAY_COUNT(sEarlyTierBosses)
+// EXAMPLE 2: Mid tier double battle with dragons
+static const struct DungeonBoss sBoss_DoubleDragon_Forest = {
+    .encounterType = DUNGEON_BOSS_POKEMON,
+    .data = {
+        .pokemon = {
+            // First Pokemon
+            .species = SPECIES_GABITE,
+            .level = 45,
+            .heldItem = ITEM_DRAGON_FANG,
+            .moves = {MOVE_DRAGON_CLAW, MOVE_DIG, MOVE_SLASH, MOVE_SANDSTORM},
 
-// ==========================================================================
-// MID TIER BOSS POOL (Level 45-50)
-// ==========================================================================
+            // Second Pokemon (double battle)
+            .species2 = SPECIES_SHELGON,
+            .level2 = 45,
+            .heldItem2 = ITEM_DRAGON_SCALE,
+            .moves2 = {MOVE_DRAGON_BREATH, MOVE_HEADBUTT, MOVE_PROTECT, MOVE_SCARY_FACE},
 
-// Mid tier bosses - pseudo-legendaries and powerful fully-evolved Pokemon
-static const struct DungeonBoss sMidTierBosses[] = {
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_DRAGONAIR,
-        .level = 47,
-        .heldItem = ITEM_DRAGON_FANG,
-        .moves = {MOVE_DRAGON_PULSE, MOVE_AQUA_TAIL, MOVE_THUNDER_WAVE, MOVE_DRAGON_DANCE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_MAY,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_MAY_ROUTE_119_TREECKO,  // TODO: Replace with TRAINER_DUNGEON_BOSS_MID_1
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_SNORLAX,
-        .level = 48,
-        .heldItem = ITEM_CHESTO_BERRY,
-        .moves = {MOVE_BODY_SLAM, MOVE_REST, MOVE_CRUNCH, MOVE_HEAVY_SLAM},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_MAY,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_MAY_ROUTE_119_MUDKIP,  // TODO: Replace with TRAINER_DUNGEON_BOSS_MID_2
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_LAPRAS,
-        .level = 46,
-        .heldItem = ITEM_MYSTIC_WATER,
-        .moves = {MOVE_SURF, MOVE_ICE_BEAM, MOVE_THUNDERBOLT, MOVE_PERISH_SONG},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_MAY,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_MAY_ROUTE_119_TORCHIC,  // TODO: Replace with TRAINER_DUNGEON_BOSS_MID_3
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_METAGROSS,
-        .level = 49,
-        .heldItem = ITEM_METAL_COAT,
-        .moves = {MOVE_METEOR_MASH, MOVE_EARTHQUAKE, MOVE_ZEN_HEADBUTT, MOVE_BULLET_PUNCH},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_RS_MAY,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_MAY_ROUTE_103_TREECKO,  // TODO: Replace with TRAINER_DUNGEON_BOSS_MID_4
-    },
-    // TODO: Add 6-10 more boss options for variety
-    // Consider: Salamence, Tyranitar, Garchomp, Dragonite, Arcanine, Gyarados, etc.
+            // Totem boosts (applied to BOTH Pokemon in double battles)
+            .boosts = {
+                .atk = 1,      // +1 Attack
+                .def = 0,
+                .speed = 1,    // +1 Speed
+                .spatk = 0,
+                .spdef = 0,
+                .acc = 0,
+                .evas = 0,
+            },
+
+            // No field effects
+            .fieldEffect = {
+                .weather = WEATHER_NONE,
+                .terrain = 0,
+            },
+
+            .graphicsId = OBJ_EVENT_GFX_FOSSIL,
+            .introText = sText_DoubleDragon_Intro,
+            .defeatText = sText_DoubleDragon_Defeat,
+        }
+    }
 };
 
-#define MID_TIER_BOSS_COUNT ARRAY_COUNT(sMidTierBosses)
+// EXAMPLE 3: Mid tier with Misty Terrain
+static const struct DungeonBoss sBoss_Lapras_Lake = {
+    .encounterType = DUNGEON_BOSS_POKEMON,
+    .data = {
+        .pokemon = {
+            .species = SPECIES_LAPRAS,
+            .level = 46,
+            .heldItem = ITEM_MYSTIC_WATER,
+            .moves = {MOVE_SURF, MOVE_ICE_BEAM, MOVE_THUNDERBOLT, MOVE_PERISH_SONG},
 
-// ==========================================================================
-// LATE TIER BOSS POOL (Level 65-70)
-// ==========================================================================
+            .species2 = SPECIES_NONE,  // Single battle
+            .level2 = 0,
+            .heldItem2 = ITEM_NONE,
+            .moves2 = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE},
 
-// Late tier bosses - legendaries and mythicals
-// Note: These are powerful reward encounters, should be rare/special
-static const struct DungeonBoss sLateTierBosses[] = {
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_ARTICUNO,
-        .level = 67,
-        .heldItem = ITEM_NEVER_MELT_ICE,
-        .moves = {MOVE_ICE_BEAM, MOVE_HURRICANE, MOVE_REFLECT, MOVE_ROOST},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_WALLY_VR_1,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_1
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_ZAPDOS,
-        .level = 67,
-        .heldItem = ITEM_MAGNET,
-        .moves = {MOVE_THUNDERBOLT, MOVE_DRILL_PECK, MOVE_ANCIENT_POWER, MOVE_DISCHARGE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_WALLY_VR_2,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_2
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_MOLTRES,
-        .level = 67,
-        .heldItem = ITEM_CHARCOAL,
-        .moves = {MOVE_FLAMETHROWER, MOVE_AIR_SLASH, MOVE_SOLAR_BEAM, MOVE_HEAT_WAVE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_WALLY_VR_3,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_3
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_SUICUNE,
-        .level = 68,
-        .heldItem = ITEM_LEFTOVERS,
-        .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_CALM_MIND, MOVE_MIRROR_COAT},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_WALLY_VR_4,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_4
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_RAIKOU,
-        .level = 68,
-        .heldItem = ITEM_MAGNET,
-        .moves = {MOVE_THUNDERBOLT, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_VOLT_SWITCH},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_WALLY_VR_5,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_5
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_ENTEI,
-        .level = 68,
-        .heldItem = ITEM_CHARCOAL,
-        .moves = {MOVE_FLAMETHROWER, MOVE_STONE_EDGE, MOVE_EXTREME_SPEED, MOVE_SACRED_FIRE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_LILYCOVE_TREECKO,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_6
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_LATIAS,
-        .level = 69,
-        .heldItem = ITEM_SOUL_DEW,
-        .moves = {MOVE_PSYCHIC, MOVE_DRAGON_PULSE, MOVE_CALM_MIND, MOVE_RECOVER},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_LILYCOVE_MUDKIP,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_7
-    },
-    {
-        .encounterType = DUNGEON_BOSS_STATIC,
-        .species = SPECIES_LATIOS,
-        .level = 69,
-        .heldItem = ITEM_SOUL_DEW,
-        .moves = {MOVE_PSYCHIC, MOVE_DRAGON_PULSE, MOVE_CALM_MIND, MOVE_LUSTER_PURGE},
-        .graphicsId = OBJ_EVENT_GFX_FOSSIL,
-        .trainerPic = TRAINER_PIC_BRENDAN,  // Placeholder
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerId = TRAINER_BRENDAN_LILYCOVE_TORCHIC,  // TODO: Replace with TRAINER_DUNGEON_BOSS_LATE_8
-    },
-    // TODO: Consider adding more legendaries for variety
-    // Options: Regis, Heatran, Cresselia, Cobalion/Terrakion/Virizion, etc.
-    // Note: Avoid box legendaries (Mewtwo, Rayquaza, etc.) to keep difficulty reasonable
+            .boosts = {
+                .atk = 0,
+                .def = 1,      // +1 Defense
+                .speed = 0,
+                .spatk = 1,    // +1 Sp. Attack
+                .spdef = 1,    // +1 Sp. Defense
+                .acc = 0,
+                .evas = 0,
+            },
+
+            .fieldEffect = {
+                .weather = WEATHER_FOG_HORIZONTAL,  // Fog for atmosphere
+                .terrain = 3,                       // 3 = Misty Terrain
+            },
+
+            .graphicsId = OBJ_EVENT_GFX_FOSSIL,
+            .introText = sText_Lapras_Intro,
+            .defeatText = sText_Lapras_Defeat,
+        }
+    }
 };
 
-#define LATE_TIER_BOSS_COUNT ARRAY_COUNT(sLateTierBosses)
+// ============================================
+// BOSS TRAINER DEFINITIONS
+// ============================================
+//
+// Boss trainers are defined in trainers.party with party pools.
+//
+// EXAMPLE in trainers.party:
+//
+// === TRAINER_DUNGEON_BOSS_CAVE_HIKER ===
+// Name: Mountain Man Marcus
+// Class: Hiker
+// Pic: Hiker
+// Gender: Male
+// Music: Hiker
+// Double Battle: No
+// AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching
+// Party Size: 3
+// Pool Rules: POOL_RULESET_BASIC
+//
+// Geodude @ Oran Berry
+// Ability: Sturdy
+// Level: 26
+// IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+// Tags: Lead
+// - Rock Throw
+// - Magnitude
+// - Defense Curl
+// - Rollout
+//
+// Onix @ Hard Stone
+// Ability: Rock Head
+// Level: 28
+// IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
+// Tags: Ace
+// - Rock Tomb
+// - Slam
+// - Screech
+// - Rock Throw
+//
+// Graveler
+// Level: 27
+// IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+// - Rock Blast
+// - Bulldoze
+// - Smack Down
+//
+// Roggenrola @ Sitrus Berry
+// Level: 26
+// IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+// - Rock Blast
+// - Headbutt
+// - Sand Attack
+//
+// Nosepass
+// Level: 27
+// IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+// - Rock Tomb
+// - Thunder Wave
+// - Block
+// - Spark
+//
+// With "Party Size: 3", trainer randomly selects 3 Pokemon from pool each battle.
+// Tags: Lead/Ace ensures those Pokemon are always included.
+//
 
-// ==========================================================================
+// EXAMPLE 1: Boss trainer with custom text/sprite
+static const struct DungeonBoss sBoss_Trainer_Cave_Hiker = {
+    .encounterType = DUNGEON_BOSS_TRAINER,
+    .data = {
+        .trainer = {
+            .trainerId = TRAINER_NICOLAS_1,  // Using existing trainer for testing
+
+            // Override overworld sprite (0 = use default from trainers.party)
+            .graphicsId = 0,  // Use default for now
+
+            // Override battle text (NULL = use default from trainers.party)
+            .introText = sText_CaveBoss_Intro,
+            .defeatText = sText_CaveBoss_Defeat,
+        }
+    }
+};
+
+// ============================================
+// BOSS POOLS (Random Selection Per Run)
+// ============================================
+
+// Early tier boss pool (1 randomly selected per run)
+static const struct DungeonBoss * const sBosses_EarlyTier[] = {
+    &sBoss_Onix_Cave,
+    &sBoss_Trainer_Cave_Hiker,
+    // Add more early bosses here for variety
+};
+
+// Mid tier boss pool
+static const struct DungeonBoss * const sBosses_MidTier[] = {
+    &sBoss_DoubleDragon_Forest,
+    &sBoss_Lapras_Lake,
+    // Add more mid bosses here
+};
+
+// Late tier boss pool
+static const struct DungeonBoss * const sBosses_LateTier[] = {
+    // Define late tier bosses here (legendaries, etc.)
+};
+
+// Pool counts
+#define BOSS_POOL_EARLY_COUNT ARRAY_COUNT(sBosses_EarlyTier)
+#define BOSS_POOL_MID_COUNT   ARRAY_COUNT(sBosses_MidTier)
+#define BOSS_POOL_LATE_COUNT  ARRAY_COUNT(sBosses_LateTier)
+
+// ============================================
 // BOSS POOL LOOKUP TABLE
-// ==========================================================================
+// ============================================
 
-// Helper structure to organize boss pools by tier
 struct BossPoolEntry {
-    const struct DungeonBoss *bosses;
+    const struct DungeonBoss * const *bosses;  // Pointer to array of boss pointers
     u8 count;
 };
 
 static const struct BossPoolEntry sBossPools[DUNGEON_TIER_COUNT] = {
     [DUNGEON_TIER_EARLY] = {
-        .bosses = sEarlyTierBosses,
-        .count = EARLY_TIER_BOSS_COUNT,
+        .bosses = sBosses_EarlyTier,
+        .count = BOSS_POOL_EARLY_COUNT,
     },
     [DUNGEON_TIER_MID] = {
-        .bosses = sMidTierBosses,
-        .count = MID_TIER_BOSS_COUNT,
+        .bosses = sBosses_MidTier,
+        .count = BOSS_POOL_MID_COUNT,
     },
     [DUNGEON_TIER_LATE] = {
-        .bosses = sLateTierBosses,
-        .count = LATE_TIER_BOSS_COUNT,
+        .bosses = sBosses_LateTier,
+        .count = BOSS_POOL_LATE_COUNT,
     },
 };
