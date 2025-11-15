@@ -7,7 +7,7 @@ script DungeonBoss_TrainerTest {
 	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
 	// Set starting battle status: Sandstorm for trainer battle
-	setvar(VAR_STARTING_STATUS_CONTROL, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
 	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Select mons battle (player picks 3 party members)
 	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
@@ -32,7 +32,7 @@ script DungeonBoss_PokemonTest {
 	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
 	// Set starting battle status: Sandstorm for rock-type boss
-	setvar(VAR_STARTING_STATUS_CONTROL, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
 	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Set totem boosts: +1 to all stats
 	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)

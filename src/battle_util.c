@@ -3311,6 +3311,30 @@ static inline u32 SetStartingSideStatus(u32 flag, u32 side, u32 message, u32 ani
     return 0;
 }
 
+static inline u32 SetStartingWeather(u32 weatherFlag, u32 message, u32 anim)
+{
+    if (!(gBattleWeather & weatherFlag))
+    {
+        gBattleWeather = weatherFlag;
+        gBattleCommunication[MULTISTRING_CHOOSER] = message;
+        gBattleScripting.animArg1 = anim;
+
+        // Set weather duration
+        if (gBattleStruct->startingStatusTimer)
+            gWishFutureKnock.weatherDuration = gBattleStruct->startingStatusTimer;
+        else
+            gWishFutureKnock.weatherDuration = 0; // Infinite
+
+        // Clear weather ability flags for all battlers
+        for (u32 i = 0; i < gBattlersCount; i++)
+            gDisableStructs[i].weatherAbilityDone = FALSE;
+
+        return 1;
+    }
+
+    return 0;
+}
+
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
 {
     u32 effect = 0;
@@ -3448,12 +3472,34 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                                                B_ANIM_SWAMP,
                                                &gSideTimers[B_SIDE_OPPONENT].swampTimer);
                 break;
+            case STARTING_STATUS_RAIN:
+                effect = SetStartingWeather(B_WEATHER_RAIN_NORMAL, WEATHER_RAIN, B_ANIM_RAIN_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
+            case STARTING_STATUS_SUN:
+                effect = SetStartingWeather(B_WEATHER_SUN_NORMAL, WEATHER_DROUGHT, B_ANIM_SUN_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
+            case STARTING_STATUS_SANDSTORM:
+                effect = SetStartingWeather(B_WEATHER_SANDSTORM, WEATHER_SANDSTORM, B_ANIM_SANDSTORM_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
+            case STARTING_STATUS_HAIL:
+                effect = SetStartingWeather(B_WEATHER_HAIL, WEATHER_SNOW, B_ANIM_HAIL_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
+            case STARTING_STATUS_SNOW:
+                effect = SetStartingWeather(B_WEATHER_SNOW, WEATHER_SNOW, B_ANIM_SNOW_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
             }
 
             if (effect == 1)
                 BattleScriptPushCursorAndCallback(BattleScript_OverworldStatusStarts);
             else if (effect == 2)
                 BattleScriptPushCursorAndCallback(BattleScript_OverworldTerrain);
+            else if (effect == 3)
+                BattleScriptPushCursorAndCallback(BattleScript_OverworldWeatherStarts);
         }
         break;
     case ABILITYEFFECT_SWITCH_IN_TERRAIN:   // terrain starting from overworld weather
