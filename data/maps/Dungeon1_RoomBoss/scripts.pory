@@ -7,7 +7,8 @@ script DungeonBoss_TrainerTest {
 	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
 	// Set starting battle status: Sandstorm for trainer battle
-	setvar(VAR_TEMP_E, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_CONTROL, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Select mons battle (player picks 3 party members)
 	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
 	msgbox(TrainerBoss_PostBattle, MSGBOX_AUTOCLOSE)
@@ -20,7 +21,7 @@ script TrainerBoss_OnDefeat {
 	// Hide trainer after defeat
 	setflag(FLAG_TEMP_1)
 	// Clear starting status var
-	setvar(VAR_TEMP_E, 0)
+	setvar(VAR_STARTING_STATUS_CONTROL, 0)
 	return
 }
 
@@ -31,16 +32,17 @@ script DungeonBoss_PokemonTest {
 	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
 	// Set starting battle status: Sandstorm for rock-type boss
-	setvar(VAR_TEMP_E, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_CONTROL, B_WEATHER_SANDSTORM)
+	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Set totem boosts: +1 to all stats
-	settotemboost(1, 1, 1, 1, 1, 1, 1)
+	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)
 	// Create wild Onix level 28 with Hard Stone
 	setwildbattle(SPECIES_ONIX, 28, ITEM_HARD_STONE)
 	setflag(FLAG_SYS_CTRL_OBJ_DELETE)
 	dowildbattle
 	clearflag(FLAG_SYS_CTRL_OBJ_DELETE)
 	// Clear starting status var
-	setvar(VAR_TEMP_E, 0)
+	setvar(VAR_STARTING_STATUS_CONTROL, 0)
 	// Check if player won (not fled/lost)
 	if (var(VAR_RESULT) == B_OUTCOME_WON) {
 		msgbox(PokemonBoss_Defeat, MSGBOX_DEFAULT)
