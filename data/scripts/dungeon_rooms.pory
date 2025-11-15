@@ -8,47 +8,115 @@
 // ============================================
 
 script DungeonRoom_Trainer_0 {
-    trainerbattle_single(TRAINER_VICTOR, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_0)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    lockall
+    faceplayer
+    // Check if already defeated this floor
+    checkflag(FLAG_DUNGEON_TRAINER_0)
+    if (flag(FLAG_DUNGEON_TRAINER_0)) {
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        releaseall
+        end
+    }
+    // Setup dynamic trainer battle for slot 0
+    setvar(VAR_0x8000, 0)
+    callnative(Script_Dungeon_SetupTrainerBattle)
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    dotrainerbattle
+    goto(DungeonRoom_Trainer_0_PostBattle)
+}
+
+script DungeonRoom_Trainer_0_PostBattle {
+    lockall
+    faceplayer
+    callnative(Script_Dungeon_OnTrainerDefeated)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+    setflag(FLAG_DUNGEON_TRAINER_0)
+    releaseall
     end
 }
 
 script DungeonRoom_Trainer_1 {
-    trainerbattle_single(TRAINER_VICTORIA, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_1)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    lockall
+    faceplayer
+    // Check if already defeated this floor
+    checkflag(FLAG_DUNGEON_TRAINER_1)
+    if (flag(FLAG_DUNGEON_TRAINER_1)) {
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        releaseall
+        end
+    }
+    // Setup dynamic trainer battle for slot 1
+    setvar(VAR_0x8000, 1)
+    callnative(Script_Dungeon_SetupTrainerBattle)
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    dotrainerbattle
+    goto(DungeonRoom_Trainer_1_PostBattle)
+}
+
+script DungeonRoom_Trainer_1_PostBattle {
+    lockall
+    faceplayer
+    callnative(Script_Dungeon_OnTrainerDefeated)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+    setflag(FLAG_DUNGEON_TRAINER_1)
+    releaseall
     end
 }
 
 script DungeonRoom_Trainer_2 {
-    trainerbattle_single(TRAINER_VICKY, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_2)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    lockall
+    faceplayer
+    // Check if already defeated this floor
+    checkflag(FLAG_DUNGEON_TRAINER_2)
+    if (flag(FLAG_DUNGEON_TRAINER_2)) {
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        releaseall
+        end
+    }
+    // Setup dynamic trainer battle for slot 2
+    setvar(VAR_0x8000, 2)
+    callnative(Script_Dungeon_SetupTrainerBattle)
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    dotrainerbattle
+    goto(DungeonRoom_Trainer_2_PostBattle)
+}
+
+script DungeonRoom_Trainer_2_PostBattle {
+    lockall
+    faceplayer
+    callnative(Script_Dungeon_OnTrainerDefeated)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+    setflag(FLAG_DUNGEON_TRAINER_2)
+    releaseall
     end
 }
 
 script DungeonRoom_Trainer_3 {
-    trainerbattle_single(TRAINER_CLAUDE, DungeonRoom_Intro, DungeonRoom_Defeated, DungeonRoom_OnDefeat_3)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_AUTOCLOSE)
+    lockall
+    faceplayer
+    // Check if already defeated this floor
+    checkflag(FLAG_DUNGEON_TRAINER_3)
+    if (flag(FLAG_DUNGEON_TRAINER_3)) {
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        releaseall
+        end
+    }
+    // Setup dynamic trainer battle for slot 3
+    setvar(VAR_0x8000, 3)
+    callnative(Script_Dungeon_SetupTrainerBattle)
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    dotrainerbattle
+    goto(DungeonRoom_Trainer_3_PostBattle)
+}
+
+script DungeonRoom_Trainer_3_PostBattle {
+    lockall
+    faceplayer
+    callnative(Script_Dungeon_OnTrainerDefeated)
+    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+    setflag(FLAG_DUNGEON_TRAINER_3)
+    releaseall
     end
-}
-
-// ============================================
-// TRAINER DEFEAT HANDLERS
-// ============================================
-
-script DungeonRoom_OnDefeat_0 {
-    callnative(Script_Dungeon_OnTrainerDefeated)
-}
-
-script DungeonRoom_OnDefeat_1 {
-    callnative(Script_Dungeon_OnTrainerDefeated)
-}
-
-script DungeonRoom_OnDefeat_2 {
-    callnative(Script_Dungeon_OnTrainerDefeated)
-}
-
-script DungeonRoom_OnDefeat_3 {
-    callnative(Script_Dungeon_OnTrainerDefeated)
 }
 
 // ============================================
@@ -69,10 +137,6 @@ script DungeonRoom_ExitTrigger {
 
 text DungeonRoom_Intro {
     "Let's battle!"
-}
-
-text DungeonRoom_Defeated {
-    "I lost!"
 }
 
 text DungeonRoom_PostBattle {

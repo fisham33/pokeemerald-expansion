@@ -8,7 +8,7 @@ struct DungeonTrainer {
     u16 arrayElement;      // Index into trainer class pool
     u16 gfxIdVar;          // VAR_OBJ_GFX_ID_X to use
     u16 trainerFlag;       // FLAG_DUNGEON_TRAINER_X
-    u16 trainerId;         // TRAINER_DUNGEON_RANDOM_X
+    u16 trainerIdVar;      // VAR_DUNGEON_TRAINER_X (stores dynamic trainer ID)
 };
 
 // === DUNGEON DEFINITION ===
@@ -112,6 +112,12 @@ struct DungeonBoss {
 #define BOSS_TYPE_TRAINER 1
 #define BOSS_TYPE_POKEMON 2
 
+// Pairs a trainer ID with their overworld sprite
+struct DungeonTrainerEntry {
+    u16 trainerId;      // TRAINER_* constant
+    u16 graphicsId;     // OBJ_EVENT_GFX_* for overworld sprite
+};
+
 // Daily rotating narrative that affects dungeon content
 struct DungeonNarrative {
     u8 id;
@@ -119,10 +125,8 @@ struct DungeonNarrative {
     const u8 *description;                   // Multi-line description shown at entrance
 
     // Trainer configuration
-    u8 trainerCount;                         // Number of trainer IDs in pool
-    const u16 *trainerPool;                  // Array of TRAINER_* IDs to randomly select from
-    u8 trainerGraphicsCount;                 // Number of overworld sprites
-    const u16 *trainerGraphicsPool;          // Array of OBJ_EVENT_GFX_* for overworld sprites
+    u8 trainerCount;                         // Number of trainers in pool
+    const struct DungeonTrainerEntry *trainerPool;  // Array of trainer+graphics pairs
 
     // Wild encounters
     const struct WildPokemonInfo *landEncounters;
@@ -239,5 +243,6 @@ void Script_Dungeon_GetRewardTier(void);      // Get reward tier 1-3 (sets VAR_R
 void Script_Dungeon_IsActive(void);           // Check if dungeon active (sets VAR_RESULT)
 void Script_Dungeon_GetCurrentRoom(void);     // Get room number (sets VAR_RESULT)
 void Script_Dungeon_GetRewardScore(void);     // Get reward score (sets VAR_RESULT)
+void Script_Dungeon_SetupTrainerBattle(void); // Setup trainer battle with dynamic ID (reads trainerIdVar from gSpecialVar_0x8000)
 
 #endif // GUARD_DUNGEON_H

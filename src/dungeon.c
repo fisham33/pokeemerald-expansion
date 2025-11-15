@@ -24,8 +24,12 @@
 #include "constants/items.h"
 #include "constants/species.h"
 #include "constants/battle.h"
+#include "constants/battle_setup.h"
 #include "constants/weather.h"
+#include "constants/opponents.h"
+#include "constants/event_object_movement.h"
 #include "config/dungeon.h"
+#include "debug.h"
 
 // Include data files
 #include "data/dungeon_definitions.h"
@@ -76,6 +80,9 @@ void Dungeon_Exit(void)
 
     // Clear all trainer flags
     Dungeon_ClearTrainerFlags();
+
+    // Clear boss defeated flag
+    FlagClear(FLAG_DUNGEON_BOSS_DEFEATED);
 
     // Hide boss objects
     FlagSet(FLAG_DUNGEON_TRAINER_0);
@@ -228,60 +235,130 @@ static const struct DungeonTrainer sDungeonTrainers[DUNGEON_MAX_TRAINERS_PER_ROO
         .arrayElement = 0,
         .gfxIdVar = VAR_OBJ_GFX_ID_0,
         .trainerFlag = FLAG_DUNGEON_TRAINER_0,
-        .trainerId = TRAINER_WINSTON_1,  // Placeholder
+        .trainerIdVar = VAR_DUNGEON_TRAINER_0,
     },
     [1] = {
         .arrayElement = 1,
         .gfxIdVar = VAR_OBJ_GFX_ID_1,
         .trainerFlag = FLAG_DUNGEON_TRAINER_1,
-        .trainerId = TRAINER_IVAN,  // Placeholder
+        .trainerIdVar = VAR_DUNGEON_TRAINER_1,
     },
     [2] = {
         .arrayElement = 2,
         .gfxIdVar = VAR_OBJ_GFX_ID_2,
         .trainerFlag = FLAG_DUNGEON_TRAINER_2,
-        .trainerId = TRAINER_JOEY,  // Placeholder
+        .trainerIdVar = VAR_DUNGEON_TRAINER_2,
     },
     [3] = {
         .arrayElement = 3,
         .gfxIdVar = VAR_OBJ_GFX_ID_3,
         .trainerFlag = FLAG_DUNGEON_TRAINER_3,
-        .trainerId = TRAINER_JOSE,  // Placeholder
+        .trainerIdVar = VAR_DUNGEON_TRAINER_3,
     },
 };
 
+// Select a random trainer entry (trainerId + graphicsId pair) from the narrative pool
+static struct DungeonTrainerEntry Dungeon_SelectRandomTrainer(u8 dungeonId)
+{
+    // Default fallback entry
+    struct DungeonTrainerEntry fallback = {
+        .trainerId = TRAINER_CALVIN_1,
+        .graphicsId = OBJ_EVENT_GFX_YOUNGSTER
+    };
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+
+    if (narrative == NULL || narrative->trainerCount == 0 || narrative->trainerPool == NULL)
+    {
+        DebugPrintf("WARNING: Invalid narrative or empty trainer pool for dungeon %d", dungeonId);
+        return fallback;
+    }
+
+    // Select random trainer from pool
+    u32 randomValue = Random();
+    u8 index = randomValue % narrative->trainerCount;
+    struct DungeonTrainerEntry entry = narrative->trainerPool[index];
+
+    DebugPrintf("Random trainer: value=%u, count=%d, index=%d, ID=%d, gfx=%d",
+        randomValue, narrative->trainerCount, index, entry.trainerId, entry.graphicsId);
+
+    // Validate trainer ID is in valid range
+    if (entry.trainerId >= TRAINERS_COUNT)
+    {
+        DebugPrintf("ERROR: Invalid trainer ID %d selected from pool", entry.trainerId);
+        return fallback;
+    }
+
+    return entry;
+}
+
+// Clear trainer defeated flags so trainers can be rebattled in new rooms
+static void Dungeon_ClearTrainerDefeatedFlags(u8 dungeonId)
+{
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+
+    if (narrative == NULL || narrative->trainerCount == 0 || narrative->trainerPool == NULL)
+        return;
+
+    // Clear defeated flags for all trainers in the narrative pool
+    for (u8 i = 0; i < narrative->trainerCount; i++)
+    {
+        u16 trainerId = narrative->trainerPool[i].trainerId;
+        u16 trainerFlag = TRAINER_FLAGS_START + trainerId;
+        FlagClear(trainerFlag);
+    }
+}
+
 void Dungeon_SpawnTrainers(void)
 {
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+
     // TEMPORARY: Allow spawning even when dungeon isn't active (for debug testing)
-    // In production, uncomment this check:
-    // u8 dungeonId = Dungeon_GetCurrentDungeonId();
-    // if (dungeonId == 0xFF)
-    //     return;
+    if (dungeonId == 0xFF)
+        dungeonId = DUNGEON_EARLY_CAVE; // Default to cave for testing
 
-    // TODO: Implement trainer spawning
-    // 1. Determine how many trainers to spawn (based on current room definition)
-    // 2. For each trainer:
-    //    - Pick random trainer class from tier pool
-    //    - Set VAR_OBJ_GFX_ID_X to trainer's graphics ID
-    //    - Clear FLAG_DUNGEON_TRAINER_X (makes them visible)
-    // 3. For un-spawned trainer slots, set flags to hide them
+    // FIRST: Hide all trainers by setting their flags (must do this BEFORE map loads objects)
+    for (u8 i = 0; i < DUNGEON_MAX_TRAINERS_PER_ROOM; i++)
+    {
+        FlagSet(sDungeonTrainers[i].trainerFlag);
+    }
 
-    // Placeholder implementation
+    // Clear trainer defeated flags so trainers can be rebattled
+    Dungeon_ClearTrainerDefeatedFlags(dungeonId);
+
+    // Determine how many trainers to spawn
     u8 trainersToSpawn = Random() % (I_DUNGEON_TRAINER_COUNT_MAX - I_DUNGEON_TRAINER_COUNT_MIN + 1) + I_DUNGEON_TRAINER_COUNT_MIN;
+
+    DebugPrintf("Spawning %d trainers in dungeon %d", trainersToSpawn, dungeonId);
 
     for (u8 i = 0; i < DUNGEON_MAX_TRAINERS_PER_ROOM; i++)
     {
         if (i < trainersToSpawn)
         {
-            // Spawn this trainer
-            // TODO: Set VAR_OBJ_GFX_ID based on random trainer class
-            VarSet(sDungeonTrainers[i].gfxIdVar, OBJ_EVENT_GFX_BOY_1); // Placeholder
-            FlagClear(sDungeonTrainers[i].trainerFlag); // Make visible
+            // Select random trainer entry (paired trainerId + graphicsId)
+            struct DungeonTrainerEntry entry = Dungeon_SelectRandomTrainer(dungeonId);
+
+            DebugPrintf("Slot %d: trainerId=%d, graphicsId=%d, trainerVar=0x%04X, gfxVar=0x%04X",
+                i, entry.trainerId, entry.graphicsId, sDungeonTrainers[i].trainerIdVar, sDungeonTrainers[i].gfxIdVar);
+
+            // Store trainer ID in variable for battle script to use
+            VarSet(sDungeonTrainers[i].trainerIdVar, entry.trainerId);
+
+            // Set graphics for overworld sprite
+            VarSet(sDungeonTrainers[i].gfxIdVar, entry.graphicsId);
+
+            // Make trainer visible (clear flag so object spawns)
+            FlagClear(sDungeonTrainers[i].trainerFlag);
         }
         else
         {
-            // Hide this trainer
-            FlagSet(sDungeonTrainers[i].trainerFlag);
+            DebugPrintf("Slot %d: Hidden (not spawning)", i);
+
+            // Initialize variables to safe values for unspawned trainers (in case of bugs)
+            VarSet(sDungeonTrainers[i].trainerIdVar, TRAINER_CALVIN_1);
+            VarSet(sDungeonTrainers[i].gfxIdVar, OBJ_EVENT_GFX_BOY_1);
+
+            // Keep this trainer slot hidden (flag remains SET)
         }
     }
 }
@@ -1051,4 +1128,66 @@ void Script_Dungeon_GetCurrentRoom(void)
 void Script_Dungeon_GetRewardScore(void)
 {
     gSpecialVar_Result = Dungeon_GetRewardScore();
+}
+
+// Shared text strings for dungeon trainer battles
+static const u8 sDungeonTrainerIntro[] = _("Let's battle!");
+static const u8 sDungeonTrainerDefeated[] = _("I lost!");
+
+// Setup trainer battle with dynamic trainer ID
+// Usage: setvar VAR_0x8000, <trainer_slot_index>
+//        callnative Script_Dungeon_SetupTrainerBattle
+//        dotrainerbattle
+//        gotopostbattlescript
+// gSpecialVar_0x8000 should contain the trainer slot index (0-3)
+void Script_Dungeon_SetupTrainerBattle(void)
+{
+    u8 trainerSlot = gSpecialVar_0x8000;  // Which trainer slot (0-3)
+
+    DebugPrintf("SetupTrainerBattle: slot=%d", trainerSlot);
+
+    // Bounds check
+    if (trainerSlot >= DUNGEON_MAX_TRAINERS_PER_ROOM)
+    {
+        DebugPrintf("ERROR: Invalid trainer slot %d", trainerSlot);
+        return;
+    }
+
+    // Get trainer ID from the appropriate variable
+    u16 trainerId = VarGet(sDungeonTrainers[trainerSlot].trainerIdVar);
+
+    DebugPrintf("SetupTrainerBattle: trainerId=%d from var 0x%04X", trainerId, sDungeonTrainers[trainerSlot].trainerIdVar);
+
+    // Validate trainer ID
+    if (trainerId == 0 || trainerId >= TRAINERS_COUNT)
+    {
+        DebugPrintf("ERROR: Invalid trainer ID %d, using fallback", trainerId);
+        trainerId = TRAINER_CALVIN_1;
+    }
+
+    // Initialize battle parameters
+    memset(gTrainerBattleParameter.data, 0, sizeof(TrainerBattleParameter));
+
+    // Set up single trainer battle with continue script
+    TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT;
+    TRAINER_BATTLE_PARAM.playMusicA = TRUE;
+    TRAINER_BATTLE_PARAM.isDoubleBattle = FALSE;
+    TRAINER_BATTLE_PARAM.isRematch = FALSE;
+
+    TRAINER_BATTLE_PARAM.objEventLocalIdA = gSpecialVar_LastTalked; // The trainer NPC
+    TRAINER_BATTLE_PARAM.opponentA = trainerId;                      // Dynamic trainer ID
+    TRAINER_BATTLE_PARAM.introTextA = (u8 *)sDungeonTrainerIntro;   // Intro text (cast away const)
+    TRAINER_BATTLE_PARAM.defeatTextA = (u8 *)sDungeonTrainerDefeated; // Defeat text (cast away const)
+    TRAINER_BATTLE_PARAM.battleScriptRetAddrA = NULL;                // No post-battle script (will use gotopostbattlescript)
+
+    // Trainer B fields (not used for single battles)
+    TRAINER_BATTLE_PARAM.objEventLocalIdB = LOCALID_NONE;
+    TRAINER_BATTLE_PARAM.opponentB = TRAINER_NONE;
+    TRAINER_BATTLE_PARAM.introTextB = NULL;
+    TRAINER_BATTLE_PARAM.defeatTextB = NULL;
+    TRAINER_BATTLE_PARAM.battleScriptRetAddrB = NULL;
+
+    // No victory/cannot battle text needed
+    TRAINER_BATTLE_PARAM.victoryText = NULL;
+    TRAINER_BATTLE_PARAM.cannotBattleText = NULL;
 }

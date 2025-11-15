@@ -272,9 +272,12 @@
 #define VAR_NUZLOCKE_CATCHES_2                           0x40FC // Nuzlocke: Track successful catches in routes/areas (32 bits)
 #define VAR_NUZLOCKE_CATCHES_3                           0x40FD // Nuzlocke: Track successful catches in routes/areas (32 bits)
 #define VAR_NUZLOCKE_CATCHES_4                           0x40FE // Nuzlocke: Track successful catches in routes/areas (32 bits)
-#define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
+#define VAR_DUNGEON_TRAINER_0                            0x40FF // Dungeon: Trainer ID for slot 0
+#define VAR_DUNGEON_TRAINER_1                            0x4100 // Dungeon: Trainer ID for slot 1
+#define VAR_DUNGEON_TRAINER_2                            0x4101 // Dungeon: Trainer ID for slot 2
+#define VAR_DUNGEON_TRAINER_3                            0x4102 // Dungeon: Trainer ID for slot 3
 
-#define VARS_END                                         0x40FF
+#define VARS_END                                         0x4102
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 
 #define SPECIAL_VARS_START            0x8000

@@ -1,0 +1,8 @@
+mapscripts Dungeon1_Room2_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: Dungeon1_Room2_OnTransition
+}
+
+script Dungeon1_Room2_OnTransition {
+    callnative(Script_Dungeon_InitializeIfNeeded)
+    callnative(Script_Dungeon_SpawnTrainers)
+}

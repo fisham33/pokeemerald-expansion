@@ -2,22 +2,30 @@ mapscripts Dungeon1_RoomBoss_MapScripts {}
 
 // Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1 with selectmons
 script DungeonBoss_TrainerTest {
-	lock
+	lockall
 	faceplayer
+	// Check if already defeated this run
+	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
+		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+		releaseall
+		end
+	}
 	// Set starting battle status: Sandstorm for trainer battle
 	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
 	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Select mons battle (player picks 3 party members)
 	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
-	msgbox(TrainerBoss_PostBattle, MSGBOX_AUTOCLOSE)
-	release
+	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+	releaseall
+	end
 }
 
 script TrainerBoss_OnDefeat {
 	msgbox(TrainerBoss_Victory, MSGBOX_DEFAULT)
 	waitmessage
-	// Hide trainer after defeat
-	setflag(FLAG_TEMP_1)
+	// Mark boss as defeated
+	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
 	// Clear starting status var
 	setvar(VAR_STARTING_STATUS_CONTROL, 0)
 	return

@@ -38,16 +38,16 @@ enum DungeonTier {
 #define Dungeon_GetRewardScore()         (gSaveBlock2Ptr->dungeonRewardScore)
 
 // === FLAGS ===
-// Trainer flags (cleared between rooms) - using unused system flags 0x881-0x884
-#define FLAG_DUNGEON_TRAINER_0          (SYSTEM_FLAGS + 0x21) // 0x881
-#define FLAG_DUNGEON_TRAINER_1          (SYSTEM_FLAGS + 0x22) // 0x882
-#define FLAG_DUNGEON_TRAINER_2          (SYSTEM_FLAGS + 0x23) // 0x883
-#define FLAG_DUNGEON_TRAINER_3          (SYSTEM_FLAGS + 0x24) // 0x884
-
-// Optional: Permanent completion tracking - using unused system flags 0x885-0x887
-#define FLAG_DUNGEON_CAVE_COMPLETED     (SYSTEM_FLAGS + 0x25) // 0x885
-#define FLAG_DUNGEON_FOREST_COMPLETED   (SYSTEM_FLAGS + 0x26) // 0x886
-#define FLAG_DUNGEON_MOUNTAIN_COMPLETED (SYSTEM_FLAGS + 0x27) // 0x887
+// Note: All dungeon flags are defined in include/constants/flags.h
+// Listed here for reference:
+// FLAG_DUNGEON_TRAINER_0          - Trainer 0 visibility (cleared between rooms)
+// FLAG_DUNGEON_TRAINER_1          - Trainer 1 visibility (cleared between rooms)
+// FLAG_DUNGEON_TRAINER_2          - Trainer 2 visibility (cleared between rooms)
+// FLAG_DUNGEON_TRAINER_3          - Trainer 3 visibility (cleared between rooms)
+// FLAG_DUNGEON_BOSS_DEFEATED      - Boss defeated this run (cleared on dungeon exit)
+// FLAG_DUNGEON_CAVE_COMPLETED     - Early Cave permanently completed
+// FLAG_DUNGEON_FOREST_COMPLETED   - Mid Forest permanently completed
+// FLAG_DUNGEON_MOUNTAIN_COMPLETED - Late Mountain permanently completed
 
 // === TRAINER CONSTANTS ===
 // Trainer IDs - These are now defined in src/data/trainers.party

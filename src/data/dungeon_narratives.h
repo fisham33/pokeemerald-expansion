@@ -6,21 +6,37 @@
 #include "constants/items.h"
 #include "constants/event_objects.h"
 #include "constants/dungeons.h"
+#include "wild_encounter.h"
 
 // === TEST NARRATIVE (Phase 1) ===
 
-// Trainer pool for test narrative (using existing trainers for now)
-static const u16 sCaveTest_TrainerPool[] = {
-    TRAINER_NICOLAS_1,
-    TRAINER_CALVIN_1,
-    TRAINER_ANDRES_1,
+// Trainer pool for test narrative (paired with overworld sprites)
+static const struct DungeonTrainerEntry sCaveTest_TrainerPool[] = {
+    { .trainerId = TRAINER_NICOLAS_1, .graphicsId = OBJ_EVENT_GFX_HIKER },
+    { .trainerId = TRAINER_CALVIN_1,  .graphicsId = OBJ_EVENT_GFX_YOUNGSTER },
+    { .trainerId = TRAINER_ANDRES_1,  .graphicsId = OBJ_EVENT_GFX_CAMPER },
 };
 
-// Trainer graphics pool for test narrative
-static const u16 sCaveTest_TrainerGraphicsPool[] = {
-    OBJ_EVENT_GFX_HIKER,
-    OBJ_EVENT_GFX_CAMPER,
-    OBJ_EVENT_GFX_PICNICKER,
+// Wild encounter table for test narrative (cave/rock themed)
+// 12 slots for land encounters (same distribution as standard encounters)
+static const struct WildPokemon sCaveTest_LandMons[] = {
+    { 18, 20, SPECIES_GEODUDE },      // 20% - Slot 0
+    { 18, 20, SPECIES_ZUBAT },        // 20% - Slot 1
+    { 19, 21, SPECIES_GEODUDE },      // 10% - Slot 2
+    { 19, 21, SPECIES_ZUBAT },        // 10% - Slot 3
+    { 18, 20, SPECIES_ROGGENROLA },   // 10% - Slot 4
+    { 19, 21, SPECIES_ROGGENROLA },   // 10% - Slot 5
+    { 20, 22, SPECIES_ONIX },         // 5%  - Slot 6
+    { 20, 22, SPECIES_ONIX },         // 5%  - Slot 7
+    { 21, 23, SPECIES_NOSEPASS },     // 4%  - Slot 8 (rare)
+    { 21, 23, SPECIES_NOSEPASS },     // 4%  - Slot 9 (rare)
+    { 22, 24, SPECIES_LARVITAR },     // 1%  - Slot 10 (very rare)
+    { 22, 24, SPECIES_LARVITAR },     // 1%  - Slot 11 (very rare)
+};
+
+static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
+    .encounterRate = 20,  // 20 out of 256 chance per step (~8%)
+    .wildPokemon = sCaveTest_LandMons
 };
 
 // Reward items for test narrative (3 tiers based on score)
@@ -47,12 +63,10 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
     // Trainers
     .trainerCount = ARRAY_COUNT(sCaveTest_TrainerPool),
     .trainerPool = sCaveTest_TrainerPool,
-    .trainerGraphicsCount = ARRAY_COUNT(sCaveTest_TrainerGraphicsPool),
-    .trainerGraphicsPool = sCaveTest_TrainerGraphicsPool,
 
-    // Wild encounters (NULL for Phase 1 - will implement in Phase 4)
-    .landEncounters = NULL,
-    .waterEncounters = NULL,
+    // Wild encounters
+    .landEncounters = &sCaveTest_LandMonsInfo,
+    .waterEncounters = NULL,  // No water encounters in cave
 
     // Boss configuration - using current test boss from map
     .bossType = BOSS_TYPE_TRAINER,
@@ -117,8 +131,6 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
         .description = sNarrativeNone_Description,
         .trainerCount = 0,
         .trainerPool = NULL,
-        .trainerGraphicsCount = 0,
-        .trainerGraphicsPool = NULL,
         .landEncounters = NULL,
         .waterEncounters = NULL,
         .bossType = BOSS_TYPE_NONE,
@@ -129,4 +141,4 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
     // Future narratives will be added here
 };
 
-#endif // GUARD_DATA_DUNGEON_NARRATIVES_H
+#endif // GUARD_DATA_DUNGEON_NARRATIVE
