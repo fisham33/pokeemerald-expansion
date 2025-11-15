@@ -4,8 +4,6 @@ mapscripts Dungeon1_RoomBoss_MapScripts {}
 script DungeonBoss_TrainerTest {
 	lock
 	faceplayer
-	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
-	closemessage
 	// Set starting battle status: Sandstorm for trainer battle
 	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
 	setvar(VAR_STARTING_STATUS_TIMER, 2)
