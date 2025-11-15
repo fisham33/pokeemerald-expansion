@@ -17,6 +17,8 @@
 #include "battle_setup.h"
 #include "battle.h"
 #include "battle_main.h"
+#include "rtc.h"
+#include "datetime.h"
 #include "constants/dungeons.h"
 #include "constants/maps.h"
 #include "constants/items.h"
@@ -31,6 +33,8 @@
 #include "data/dungeon_trainers.h"
 #include "data/dungeon_encounters.h"
 #include "data/dungeon_bosses.h"
+#include "data/dungeon_narratives.h"
+#include "data/dungeon_modifiers.h"
 
 // Forward declarations for static functions
 static void Dungeon_WarpToRoom(u8 roomIndex);
@@ -302,7 +306,7 @@ void Dungeon_OnTrainerDefeated(void)
     Dungeon_SetTrainersDefeated(defeated);
 
     // Award reward points
-    Dungeon_IncrementRewardScore(I_DUNGEON_BASE_REWARD_POINTS);
+    Dungeon_IncrementRewardScore(DUNGEON_POINTS_PER_TRAINER);
 }
 
 // ==========================================================================
@@ -482,6 +486,160 @@ u8 Dungeon_GetCurrentLevel(void)
 }
 
 // ==========================================================================
+// NARRATIVE SYSTEM
+// ==========================================================================
+
+// Generate daily seed based on current RTC date
+u16 Dungeon_GetDailySeed(void)
+{
+    struct DateTime dateTime;
+
+    RtcCalcLocalTime();
+    ConvertTimeToDateTime(&dateTime, &gLocalTime);
+
+    // Create seed from year/month/day
+    // This ensures the seed changes once per day
+    u16 seed = (dateTime.year << 9)
+             | (dateTime.month << 5)
+             | (dateTime.day);
+
+    return seed;
+}
+
+// Select narrative for a dungeon based on seed
+static u8 Dungeon_SelectNarrative(u8 dungeonId, u16 seed)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return NARRATIVE_NONE;
+
+    // Get narrative pool for this dungeon
+    const u8 *pool = sDungeonNarrativePools[dungeonId];
+    u8 count = sDungeonNarrativePoolCounts[dungeonId];
+
+    if (count == 0)
+        return NARRATIVE_NONE;
+
+    // Use seed to select narrative
+    return pool[seed % count];
+}
+
+// Select modifier for a dungeon based on seed
+static u8 Dungeon_SelectModifier(u8 dungeonId, u16 seed)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return MODIFIER_NONE;
+
+    // Get modifier pool for this dungeon
+    const u8 *pool = sDungeonModifierPools[dungeonId];
+    u8 count = sDungeonModifierPoolCounts[dungeonId];
+
+    if (count == 0)
+        return MODIFIER_NONE;
+
+    // Use seed to select modifier (offset by 7 to get different result than narrative)
+    return pool[(seed + 7) % count];
+}
+
+// Check if daily rotation needs to be updated
+void Dungeon_CheckDailyRotation(void)
+{
+#if I_DUNGEON_DAILY_ROTATION == FALSE
+    return; // Daily rotation disabled
+#endif
+
+    u16 currentSeed = Dungeon_GetDailySeed();
+    bool8 needsInit = FALSE;
+
+    // Check if this is first run (seed is 0 or narratives/modifiers look uninitialized)
+    if (gSaveBlock2Ptr->dungeonDailySeed == 0)
+        needsInit = TRUE;
+
+    // Check if any modifier is invalid (indicates uninitialized save data)
+    for (u8 i = 0; i < DUNGEON_COUNT; i++)
+    {
+        if (gSaveBlock2Ptr->dungeonModifiers[i] >= MODIFIER_COUNT)
+            needsInit = TRUE;
+    }
+
+    // Check if seed has changed (new day) or needs initialization
+    if (needsInit || gSaveBlock2Ptr->dungeonDailySeed != currentSeed)
+    {
+        // Update seed
+        gSaveBlock2Ptr->dungeonDailySeed = currentSeed;
+
+        // Update narratives and modifiers for all dungeons
+        for (u8 i = 0; i < DUNGEON_COUNT; i++)
+        {
+            gSaveBlock2Ptr->dungeonNarratives[i] = Dungeon_SelectNarrative(i, currentSeed);
+            gSaveBlock2Ptr->dungeonModifiers[i] = Dungeon_SelectModifier(i, currentSeed);
+        }
+    }
+}
+
+// Get active narrative for a dungeon
+const struct DungeonNarrative *Dungeon_GetActiveNarrative(u8 dungeonId)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return NULL;
+
+    u8 narrativeId = gSaveBlock2Ptr->dungeonNarratives[dungeonId];
+
+    if (narrativeId >= NARRATIVE_COUNT)
+        return NULL;
+
+    return &gDungeonNarratives[narrativeId];
+}
+
+// Get active modifier for a dungeon
+const struct DungeonModifier *Dungeon_GetActiveModifier(u8 dungeonId)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return NULL;
+
+    u8 modifierId = gSaveBlock2Ptr->dungeonModifiers[dungeonId];
+
+    if (modifierId >= MODIFIER_COUNT)
+        return NULL;
+
+    return &gDungeonModifiers[modifierId];
+}
+
+// Display entrance info (narrative + modifier) for a dungeon
+void Dungeon_ShowEntranceInfo(u8 dungeonId)
+{
+    static const u8 sText_Challenge[] = _("CHALLENGE: ");
+    static const u8 sText_Modifier[] = _("\pMODIFIER: ");
+    static const u8 sText_Newline[] = _("\n");
+
+    const struct DungeonNarrative *narrative;
+    const struct DungeonModifier *modifier;
+    u8 buffer[300];
+
+    // Check for daily rotation first
+    Dungeon_CheckDailyRotation();
+
+    // Get active narrative and modifier
+    narrative = Dungeon_GetActiveNarrative(dungeonId);
+    modifier = Dungeon_GetActiveModifier(dungeonId);
+
+    if (narrative == NULL || modifier == NULL)
+        return;
+
+    // Build message manually
+    StringCopy(buffer, sText_Challenge);
+    StringAppend(buffer, narrative->name);
+    StringAppend(buffer, sText_Newline);
+    StringAppend(buffer, narrative->description);
+    StringAppend(buffer, sText_Modifier);
+    StringAppend(buffer, modifier->name);
+    StringAppend(buffer, sText_Newline);
+    StringAppend(buffer, modifier->description);
+
+    // Copy to gStringVar4 for script to display
+    StringCopy(gStringVar4, buffer);
+}
+
+// ==========================================================================
 // SCRIPT-CALLABLE WRAPPERS (for callnative)
 // ==========================================================================
 // These functions are designed to be called from Pory scripts using callnative.
@@ -493,6 +651,16 @@ void Script_Dungeon_Enter(void)
 {
     u8 dungeonId = gSpecialVar_0x8000; // Script should set this before calling
     Dungeon_Enter(dungeonId);
+}
+
+// Called from dungeon entrance scripts to display narrative/modifier info
+// Usage: setvar VAR_0x8000, DUNGEON_EARLY_CAVE
+//        callnative Script_Dungeon_ShowEntranceInfo
+//        msgbox gStringVar4, MSGBOX_DEFAULT
+void Script_Dungeon_ShowEntranceInfo(void)
+{
+    u8 dungeonId = gSpecialVar_0x8000; // Script should set this before calling
+    Dungeon_ShowEntranceInfo(dungeonId);
 }
 
 // Initialize dungeon if not already active (called from Room1 entrance)

@@ -61,4 +61,36 @@ enum DungeonTier {
 #define TRAINER_DUNGEON_BOSS_MID        TRAINER_PLAYER  // Placeholder
 #define TRAINER_DUNGEON_BOSS_LATE       TRAINER_PLAYER  // Placeholder
 
+// === NARRATIVE SYSTEM ===
+
+// Dungeon narrative IDs
+enum DungeonNarratives {
+    NARRATIVE_NONE,               // No narrative (shouldn't happen)
+    // Cave narratives
+    NARRATIVE_CAVE_TEST,          // Test narrative for Phase 1
+    NARRATIVE_CAVE_PROFESSOR,     // Professor's Expedition
+    NARRATIVE_CAVE_MAGMA,         // Team Magma's Search
+    NARRATIVE_CAVE_STEVEN,        // Steven's Request
+    // Forest narratives (future)
+    NARRATIVE_FOREST_AQUA,        // Team Aqua's Search
+    // Mountain narratives (future)
+    NARRATIVE_MOUNTAIN_HIKER,     // Mountain Challenge
+    NARRATIVE_COUNT
+};
+
+// Dungeon modifier IDs
+enum DungeonModifiers {
+    MODIFIER_NONE,                // No modifier
+    MODIFIER_PERMANENT_SUN,       // Harsh sunlight throughout
+    MODIFIER_PERMANENT_RAIN,      // Rain throughout
+    MODIFIER_PERMANENT_SANDSTORM, // Sandstorm throughout
+    MODIFIER_PERMANENT_HAIL,      // Hail throughout
+    MODIFIER_PERMANENT_SNOW,      // Snow throughout
+    MODIFIER_TRICK_ROOM,          // Trick Room (5 turns)
+    MODIFIER_INVERSE_BATTLE,      // Type matchups inverted
+    MODIFIER_DOUBLE_EXP,          // 2x experience
+    MODIFIER_EXPERT_CHALLENGE,    // +5 levels to all enemies
+    MODIFIER_COUNT
+};
+
 #endif // GUARD_CONSTANTS_DUNGEONS_H

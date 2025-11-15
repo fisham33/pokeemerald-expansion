@@ -590,7 +590,9 @@ struct SaveBlock2
              u16 dungeonRewardScore:9;      // Dungeon system: Total reward points (0-511)
              u16 padding2:4;
     /*0x18*/ struct Pokedex pokedex;
-    /*0x90*/ u8 filler_90[0x8];
+    /*0x90*/ u16 dungeonDailySeed;           // Narrative system: Seed based on current day (for rotation)
+    /*0x92*/ u8 dungeonNarratives[3];        // Narrative system: Active narrative ID per dungeon
+    /*0x95*/ u8 dungeonModifiers[3];         // Narrative system: Active modifier ID per dungeon
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD

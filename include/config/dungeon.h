@@ -1,35 +1,53 @@
 #ifndef GUARD_CONFIG_DUNGEON_H
 #define GUARD_CONFIG_DUNGEON_H
 
-// === DUNGEON SYSTEM CONFIG ===
+// === BASIC DUNGEON SETTINGS ===
 
-// Number of rooms before boss room
+// Number of rooms per dungeon run (before boss)
 #define DUNGEON_ROOMS_PER_RUN           5
 
-// Maximum trainers that can spawn in a single room
-#define DUNGEON_MAX_TRAINERS_PER_ROOM   4
+// Trainer configuration
+#define DUNGEON_MAX_TRAINERS_PER_ROOM   4       // Maximum trainers that can spawn in a room
+#define I_DUNGEON_TRAINER_COUNT_MIN     2       // Minimum trainers per room
+#define I_DUNGEON_TRAINER_COUNT_MAX     4       // Maximum trainers per room
 
-// Maximum number of concurrent dungeons
-#define DUNGEON_COUNT                   3  // Early/Mid/Late game dungeons
+// Reward scoring
+#define DUNGEON_POINTS_PER_TRAINER      20      // Points for defeating a trainer
+#define DUNGEON_POINTS_PER_CATCH        10      // Points for catching a Pokemon
+#define DUNGEON_POINTS_BOSS_POKEMON     50      // Points for defeating boss Pokemon
+#define DUNGEON_POINTS_BOSS_TRAINER     50      // Points for defeating boss trainer
 
-// Healing between rooms
-#define I_DUNGEON_HEAL_BETWEEN_ROOMS    TRUE
+// === NARRATIVE & MODIFIER SYSTEM ===
 
-// Allow player to leave mid-run
-#define I_DUNGEON_ALLOW_ESCAPE          TRUE
+// Enable daily rotation
+#define I_DUNGEON_DAILY_ROTATION        TRUE
 
-// Reset progress on escape/whiteout
-#define I_DUNGEON_RESET_ON_LEAVE        TRUE
+// Rotation interval (days)
+// 1 = daily, 7 = weekly
+#define I_DUNGEON_ROTATION_INTERVAL     1
 
-// Reward scaling
-#define I_DUNGEON_BASE_REWARD_POINTS    10  // Base points per trainer defeat
-#define I_DUNGEON_BONUS_CAUGHT_SPECIES  5   // Bonus points per unique species caught
+// Modifier pools (per dungeon)
+// Define which modifiers can appear in each dungeon
 
-// Difficulty scaling
-#define I_DUNGEON_TRAINER_COUNT_MIN     1   // Minimum trainers per room
-#define I_DUNGEON_TRAINER_COUNT_MAX     4   // Maximum trainers per room
+// Cave modifiers (DUNGEON_EARLY_CAVE)
+#define DUNGEON_CAVE_MODIFIERS \
+    MODIFIER_PERMANENT_SUN, \
+    MODIFIER_PERMANENT_SANDSTORM, \
+    MODIFIER_TRICK_ROOM, \
+    MODIFIER_INVERSE_BATTLE, \
+    MODIFIER_DOUBLE_EXP
 
-// Level caps (optional)
-#define I_DUNGEON_ENFORCE_LEVEL_CAP     FALSE
+// Forest modifiers (DUNGEON_MID_FOREST) - future
+#define DUNGEON_FOREST_MODIFIERS \
+    MODIFIER_PERMANENT_RAIN, \
+    MODIFIER_TRICK_ROOM, \
+    MODIFIER_INVERSE_BATTLE
+
+// Mountain modifiers (DUNGEON_LATE_MOUNTAIN) - future
+#define DUNGEON_MOUNTAIN_MODIFIERS \
+    MODIFIER_PERMANENT_HAIL, \
+    MODIFIER_PERMANENT_SNOW, \
+    MODIFIER_TRICK_ROOM, \
+    MODIFIER_EXPERT_CHALLENGE
 
 #endif // GUARD_CONFIG_DUNGEON_H

@@ -1,0 +1,35 @@
+mapscripts Dungeon1_Entrance_MapScripts {
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_TEMP_0, 0: Dungeon1_Entrance_ShowInfo
+    ]
+}
+
+script Dungeon1_Entrance_ShowInfo {
+    lockall
+    // Set dungeon ID (DUNGEON_EARLY_CAVE = 0)
+    setvar(VAR_0x8000, 0)
+    // Call C function to build narrative info string
+    callnative(Script_Dungeon_ShowEntranceInfo)
+    // Display the info
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
+    // Set flag so this only shows once per map entry
+    setvar(VAR_TEMP_0, 1)
+    releaseall
+}
+
+// Optional: Add a sign that lets players re-read the info
+text Dungeon_Entrance_Sign {
+    format("Dungeon Challenge\n"
+           "Speak to view today's challenge.")
+}
+
+script Dungeon_Entrance_ReadSign {
+    lockall
+    // Set dungeon ID
+    setvar(VAR_0x8000, 0)
+    // Call C function to build narrative info string
+    callnative(Script_Dungeon_ShowEntranceInfo)
+    // Display the info
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
+    releaseall
+}

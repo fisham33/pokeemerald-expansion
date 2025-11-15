@@ -106,6 +106,67 @@ struct DungeonBoss {
     } data;
 };
 
+// === NARRATIVE SYSTEM ===
+
+#define BOSS_TYPE_NONE    0
+#define BOSS_TYPE_TRAINER 1
+#define BOSS_TYPE_POKEMON 2
+
+// Daily rotating narrative that affects dungeon content
+struct DungeonNarrative {
+    u8 id;
+    const u8 *name;                          // "Professor's Expedition"
+    const u8 *description;                   // Multi-line description shown at entrance
+
+    // Trainer configuration
+    u8 trainerCount;                         // Number of trainer IDs in pool
+    const u16 *trainerPool;                  // Array of TRAINER_* IDs to randomly select from
+    u8 trainerGraphicsCount;                 // Number of overworld sprites
+    const u16 *trainerGraphicsPool;          // Array of OBJ_EVENT_GFX_* for overworld sprites
+
+    // Wild encounters
+    const struct WildPokemonInfo *landEncounters;
+    const struct WildPokemonInfo *waterEncounters;
+
+    // Boss configuration
+    u8 bossType;                             // BOSS_TYPE_TRAINER or BOSS_TYPE_POKEMON
+    union {
+        struct {
+            u16 trainerId;                   // TRAINER_* constant
+            u16 graphicsId;                  // OBJ_EVENT_GFX_*
+        } trainer;
+        struct {
+            u16 species;                     // SPECIES_*
+            u8 level;
+            u16 heldItem;                    // ITEM_*
+            u8 totemBoosts[7];               // HP/Atk/Def/SpA/SpD/Spe/Acc boosts
+        } pokemon;
+    } boss;
+
+    // Rewards
+    const u16 *rewardItems;                  // Array of ITEM_* based on score tiers
+    u8 rewardTierCount;                      // Number of reward tiers
+};
+
+// Daily rotating modifier that affects battle conditions
+struct DungeonModifier {
+    u8 id;
+    const u8 *name;                          // "Permanent Sunlight"
+    const u8 *description;                   // "Harsh sunlight throughout the dungeon"
+
+    // Battle conditions
+    u8 weatherOrTerrain;                     // STARTING_STATUS_* constant
+    u8 weatherDuration;                      // 0 = infinite, else turn count
+
+    // Battle flags
+    u16 battleTypeFlags;                     // B_FLAG_INVERSE_BATTLE, etc.
+
+    // Additional modifiers (optional)
+    s8 levelModifier;                        // ±level adjustment for all mons
+    u8 expMultiplier;                        // 1-5x experience
+    u8 moneyMultiplier;                      // 1-5x prize money
+};
+
 // === PUBLIC API ===
 
 // Dungeon entry/exit
@@ -147,11 +208,18 @@ u16 Dungeon_CalculateRewardTier(void);  // Returns reward quality based on score
 const struct Dungeon *Dungeon_GetDefinition(u8 dungeonId);
 u8 Dungeon_GetCurrentLevel(void);  // Returns scaled level for current dungeon
 
+// Narrative system
+void Dungeon_CheckDailyRotation(void);
+const struct DungeonNarrative *Dungeon_GetActiveNarrative(u8 dungeonId);
+const struct DungeonModifier *Dungeon_GetActiveModifier(u8 dungeonId);
+void Dungeon_ShowEntranceInfo(u8 dungeonId);
+
 // === SCRIPT-CALLABLE FUNCTIONS (for callnative) ===
 // These functions are designed to be called from Pory/ASM scripts using callnative.
 // They communicate with scripts via gSpecialVar_0x8000 and VAR_RESULT.
 
 void Script_Dungeon_Enter(void);              // Enter dungeon (reads dungeonId from gSpecialVar_0x8000)
+void Script_Dungeon_ShowEntranceInfo(void);   // Display narrative/modifier info (reads dungeonId from gSpecialVar_0x8000)
 void Script_Dungeon_InitializeIfNeeded(void); // Initialize dungeon if not already active
 void Script_Dungeon_Exit(void);               // Exit dungeon and reset state
 void Script_Dungeon_SpawnTrainers(void);      // Spawn trainers in current room
