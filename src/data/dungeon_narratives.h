@@ -141,4 +141,4 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
     // Future narratives will be added here
 };
 
-#endif // GUARD_DATA_DUNGEON_NARRATIVE
+#endif // GUARD_DATA_DUNGEON_NARRATIVES_H

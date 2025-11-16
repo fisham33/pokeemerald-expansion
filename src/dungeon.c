@@ -54,7 +54,12 @@ static const struct DungeonBoss *sCurrentBoss = NULL;
 void Dungeon_Enter(u8 dungeonId)
 {
     if (dungeonId >= DUNGEON_COUNT)
+    {
+        DebugPrintf("Dungeon_Enter: Invalid dungeonId %d", dungeonId);
         return;
+    }
+
+    DebugPrintf("Dungeon_Enter: Entering dungeon %d", dungeonId);
 
     // Initialize dungeon state
     Dungeon_SetActive(TRUE);
@@ -64,6 +69,8 @@ void Dungeon_Enter(u8 dungeonId)
 
     // Store which dungeon we're in using temp var
     VarSet(VAR_TEMP_0, dungeonId);
+
+    DebugPrintf("Dungeon_Enter: Set active, room=0, dungeonId stored in VAR_TEMP_0=%d", VarGet(VAR_TEMP_0));
 
     // Clear all trainer flags
     Dungeon_ClearTrainerFlags();
@@ -475,16 +482,66 @@ void Dungeon_SetupWildEncounters(void)
 
 const struct WildPokemonInfo *Dungeon_GetLandEncounters(void)
 {
-    // TODO: Implement
-    // Return the appropriate land encounters for current dungeon/biome
-    return NULL;
+    if (!Dungeon_IsActive())
+    {
+        DebugPrintf("Dungeon_GetLandEncounters: Dungeon NOT active");
+        return NULL;
+    }
+
+    // IMPORTANT: Also check if we're actually on a dungeon map
+    // This prevents dungeon encounters from persisting if player warps out or whites out
+    // without going through the entrance (which would clear the active flag)
+    u16 currentMap = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    bool8 isOnDungeonMap = (currentMap >= MAP_DUNGEON1_ROOM1 && currentMap <= MAP_DUNGEON1_ROOM_END);
+
+    if (!isOnDungeonMap)
+    {
+        DebugPrintf("Dungeon_GetLandEncounters: Not on dungeon map (map=0x%04X), clearing dungeon state", currentMap);
+        // Auto-clear dungeon state since we're not in a dungeon anymore
+        Dungeon_Exit();
+        return NULL;
+    }
+
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    DebugPrintf("Dungeon_GetLandEncounters: dungeonId=%d", dungeonId);
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+
+    if (narrative == NULL)
+    {
+        DebugPrintf("Dungeon_GetLandEncounters: narrative is NULL");
+        return NULL;
+    }
+
+    DebugPrintf("Dungeon_GetLandEncounters: Returning narrative encounters (rate=%d)",
+        narrative->landEncounters ? narrative->landEncounters->encounterRate : 0);
+    return narrative->landEncounters;
 }
 
 const struct WildPokemonInfo *Dungeon_GetWaterEncounters(void)
 {
-    // TODO: Implement
-    // Return the appropriate water encounters for current dungeon/biome
-    return NULL;
+    if (!Dungeon_IsActive())
+        return NULL;
+
+    // IMPORTANT: Also check if we're actually on a dungeon map
+    // This prevents dungeon encounters from persisting if player warps out or whites out
+    u16 currentMap = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    bool8 isOnDungeonMap = (currentMap >= MAP_DUNGEON1_ROOM1 && currentMap <= MAP_DUNGEON1_ROOM_END);
+
+    if (!isOnDungeonMap)
+    {
+        // Auto-clear dungeon state since we're not in a dungeon anymore
+        Dungeon_Exit();
+        return NULL;
+    }
+
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+
+    if (narrative == NULL)
+        return NULL;
+
+    return narrative->waterEncounters;
 }
 
 // ==========================================================================
@@ -744,10 +801,14 @@ void Script_Dungeon_ShowEntranceInfo(void)
 // Usage: callnative Script_Dungeon_InitializeIfNeeded
 void Script_Dungeon_InitializeIfNeeded(void)
 {
-    if (!Dungeon_IsActive())
+    bool8 wasActive = Dungeon_IsActive();
+    DebugPrintf("Script_Dungeon_InitializeIfNeeded: wasActive=%d", wasActive);
+
+    if (!wasActive)
     {
         // Default to DUNGEON_EARLY_CAVE (ID 0) when entering Room1 directly
         Dungeon_Enter(0);
+        DebugPrintf("Script_Dungeon_InitializeIfNeeded: Called Dungeon_Enter(0), now active=%d", Dungeon_IsActive());
     }
 }
 
