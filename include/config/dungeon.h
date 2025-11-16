@@ -26,6 +26,20 @@
 // 1 = daily, 7 = weekly
 #define I_DUNGEON_ROTATION_INTERVAL     1
 
+// === DEBUG & TESTING ===
+
+// Enable debug mode to force specific narratives/modifiers
+// Set to TRUE to override daily rotation for testing
+#define I_DUNGEON_DEBUG_MODE            TRUE
+
+// Force specific modifier (only when I_DUNGEON_DEBUG_MODE is TRUE)
+// Example: MODIFIER_PERMANENT_SNOW, MODIFIER_INVERSE_BATTLE, etc.
+#define I_DUNGEON_DEBUG_MODIFIER        MODIFIER_INVERSE_BATTLE
+
+// Force specific narrative (only when I_DUNGEON_DEBUG_MODE is TRUE)
+// Example: NARRATIVE_CAVE_TEST, NARRATIVE_CAVE_MAGMA, etc.
+#define I_DUNGEON_DEBUG_NARRATIVE       NARRATIVE_CAVE_TEST
+
 // Modifier pools (per dungeon)
 // Define which modifiers can appear in each dungeon
 

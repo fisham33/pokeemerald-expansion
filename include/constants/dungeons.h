@@ -86,6 +86,7 @@ enum DungeonModifiers {
     MODIFIER_PERMANENT_SANDSTORM, // Sandstorm throughout
     MODIFIER_PERMANENT_HAIL,      // Hail throughout
     MODIFIER_PERMANENT_SNOW,      // Snow throughout
+    MODIFIER_PERMANENT_STRONG_WINDS, // Strong winds (Delta Stream) throughout
     MODIFIER_TRICK_ROOM,          // Trick Room (5 turns)
     MODIFIER_INVERSE_BATTLE,      // Type matchups inverted
     MODIFIER_DOUBLE_EXP,          // 2x experience

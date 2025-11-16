@@ -61,6 +61,7 @@
 #include "nuzlocke.h"
 #include "util.h"
 #include "wild_encounter.h"
+#include "dungeon.h"
 #include "window.h"
 #include "constants/abilities.h"
 #include "constants/battle_ai.h"
@@ -3090,6 +3091,20 @@ static void BattleStartClearSetData(void)
     gBattleStruct->safariEscapeFactor = 3;
     gBattleStruct->wildVictorySong = 0;
     gBattleStruct->moneyMultiplier = 1;
+
+    // Apply dungeon modifier money multiplier
+    if (Dungeon_IsActive())
+    {
+        u8 dungeonId = Dungeon_GetCurrentDungeonId();
+        if (dungeonId != 0xFF)
+        {
+            const struct DungeonModifier *modifier = Dungeon_GetActiveModifier(dungeonId);
+            if (modifier != NULL && modifier->moneyMultiplier > 1)
+            {
+                gBattleStruct->moneyMultiplier = modifier->moneyMultiplier;
+            }
+        }
+    }
 
     gBattleStruct->givenExpMons = 0;
     gBattleStruct->palaceFlags = 0;

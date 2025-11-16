@@ -19,6 +19,8 @@ static const u8 sModifierHail_Name[] = _("Permanent Hail");
 static const u8 sModifierHail_Description[] = _("Hail falls constantly\pthroughout the dungeon.$");
 static const u8 sModifierSnow_Name[] = _("Permanent Snow");
 static const u8 sModifierSnow_Description[] = _("Snow falls constantly\pthroughout the dungeon.$");
+static const u8 sModifierStrongWinds_Name[] = _("Strong Winds");
+static const u8 sModifierStrongWinds_Description[] = _("Mysterious strong winds\pblow throughout the dungeon.$");
 static const u8 sModifierTrickRoom_Name[] = _("Trick Room");
 static const u8 sModifierTrickRoom_Description[] = _("Trick Room is active for\p5 turns at battle start.$");
 static const u8 sModifierInverse_Name[] = _("Inverse Battle");
@@ -106,6 +108,19 @@ static const struct DungeonModifier gModifier_PermanentSnow = {
     .moneyMultiplier = 1,
 };
 
+// Permanent Strong Winds
+static const struct DungeonModifier gModifier_PermanentStrongWinds = {
+    .id = MODIFIER_PERMANENT_STRONG_WINDS,
+    .name = sModifierStrongWinds_Name,
+    .description = sModifierStrongWinds_Description,
+    .weatherOrTerrain = STARTING_STATUS_STRONG_WINDS,
+    .weatherDuration = 0,
+    .battleTypeFlags = 0,
+    .levelModifier = 0,
+    .expMultiplier = 1,
+    .moneyMultiplier = 1,
+};
+
 // Trick Room (5 turns)
 static const struct DungeonModifier gModifier_TrickRoom = {
     .id = MODIFIER_TRICK_ROOM,
@@ -120,13 +135,14 @@ static const struct DungeonModifier gModifier_TrickRoom = {
 };
 
 // Inverse Battle
+// Note: Inverse battles are handled via FLAG_ENABLE_INVERSE_BATTLE, not battleTypeFlags
 static const struct DungeonModifier gModifier_InverseBattle = {
     .id = MODIFIER_INVERSE_BATTLE,
     .name = sModifierInverse_Name,
     .description = sModifierInverse_Description,
     .weatherOrTerrain = 0,
     .weatherDuration = 0,
-    .battleTypeFlags = 0, // TODO: Phase 6 - Implement inverse battle flag support (B_FLAG_INVERSE_BATTLE)
+    .battleTypeFlags = 0, // Inverse battles use a flag instead (FLAG_ENABLE_INVERSE_BATTLE)
     .levelModifier = 0,
     .expMultiplier = 1,
     .moneyMultiplier = 1,
@@ -199,6 +215,7 @@ static const struct DungeonModifier gDungeonModifiers[MODIFIER_COUNT] = {
     [MODIFIER_PERMANENT_SANDSTORM] = gModifier_PermanentSandstorm,
     [MODIFIER_PERMANENT_HAIL] = gModifier_PermanentHail,
     [MODIFIER_PERMANENT_SNOW] = gModifier_PermanentSnow,
+    [MODIFIER_PERMANENT_STRONG_WINDS] = gModifier_PermanentStrongWinds,
     [MODIFIER_TRICK_ROOM] = gModifier_TrickRoom,
     [MODIFIER_INVERSE_BATTLE] = gModifier_InverseBattle,
     [MODIFIER_DOUBLE_EXP] = gModifier_DoubleExp,

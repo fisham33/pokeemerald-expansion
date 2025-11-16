@@ -44,8 +44,8 @@
 static void Dungeon_WarpToRoom(u8 roomIndex);
 static void Dungeon_WarpToBossRoom(void);
 
-// Static storage for current boss (persists during dungeon run)
-static const struct DungeonBoss *sCurrentBoss = NULL;
+// Note: Boss is now defined per narrative, not stored statically
+// Use Dungeon_GetActiveNarrative()->boss instead
 
 // ==========================================================================
 // DUNGEON ENTRY/EXIT
@@ -90,6 +90,10 @@ void Dungeon_Exit(void)
 
     // Clear boss defeated flag
     FlagClear(FLAG_DUNGEON_BOSS_DEFEATED);
+
+    // Clear inverse battle flag if it was set
+    if (B_FLAG_INVERSE_BATTLE != 0)
+        FlagClear(B_FLAG_INVERSE_BATTLE);
 
     // Hide boss objects
     FlagSet(FLAG_DUNGEON_TRAINER_0);
@@ -399,64 +403,69 @@ void Dungeon_OnTrainerDefeated(void)
 
 void Dungeon_SpawnBoss(void)
 {
-    // Get current dungeon and select random boss from tier pool
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
     if (dungeonId == 0xFF)
         return;
 
-    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
-    if (dungeon == NULL)
+    // Get active narrative (boss is defined per narrative, not per tier)
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL)
         return;
 
-    // Get boss pool for this tier
-    const struct BossPoolEntry *pool = &sBossPools[dungeon->tier];
-    if (pool->count == 0)
-        return;
+    DebugPrintf("Dungeon_SpawnBoss: narrative=%d, bossType=%d", narrative->id, narrative->bossType);
 
-    // Select random boss from pool
-    u8 bossIndex = Random() % pool->count;
-    sCurrentBoss = pool->bosses[bossIndex];
-
-    // Set up vars based on encounter type
-    if (sCurrentBoss->encounterType == DUNGEON_BOSS_TRAINER)
+    // Spawn boss based on narrative's boss type
+    if (narrative->bossType == BOSS_TYPE_TRAINER)
     {
-        // Trainer battle
-        const struct BossTrainer *trainer = &sCurrentBoss->data.trainer;
-        VarSet(VAR_TEMP_1, trainer->trainerId);
+        // Trainer boss from narrative
+        DebugPrintf("Dungeon_SpawnBoss: Trainer boss, trainerId=%d, graphicsId=%d",
+            narrative->boss.trainer.trainerId, narrative->boss.trainer.graphicsId);
+
+        VarSet(VAR_TEMP_1, narrative->boss.trainer.trainerId);
         VarSet(VAR_TEMP_3, 0);  // 0 = trainer
 
-        // Set trainer overworld sprite (VAR_OBJ_GFX_ID_0 = object 1 in map)
-        if (trainer->graphicsId != 0)
-            VarSet(VAR_OBJ_GFX_ID_0, trainer->graphicsId);
+        // Set trainer overworld sprite
+        if (narrative->boss.trainer.graphicsId != 0)
+            VarSet(VAR_OBJ_GFX_ID_0, narrative->boss.trainer.graphicsId);
         else
-            VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_HIKER);  // Default trainer sprite
+            VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_HIKER);  // Default
 
         // Make trainer visible, Pokemon hidden
         FlagClear(FLAG_DUNGEON_TRAINER_0);  // Trainer object visible
         FlagSet(FLAG_DUNGEON_TRAINER_1);    // Pokemon object hidden
     }
-    else // DUNGEON_BOSS_POKEMON (Boss Pokemon)
+    else if (narrative->bossType == BOSS_TYPE_POKEMON)
     {
-        // Boss Pokemon encounter
-        const struct BossPokemon *pokemon = &sCurrentBoss->data.pokemon;
+        // Pokemon boss from narrative (simplified - just species/level/item)
+        DebugPrintf("Dungeon_SpawnBoss: Pokemon boss, species=%d, level=%d",
+            narrative->boss.pokemon.species, narrative->boss.pokemon.level);
 
-        // Check if double battle
-        bool8 isDouble = (pokemon->species2 != SPECIES_NONE);
+        // Create wild Pokemon encounter
+        VarSet(VAR_TEMP_3, 1);  // 1 = single Pokemon
 
-        VarSet(VAR_TEMP_3, isDouble ? 2 : 1);  // 1 = single, 2 = double
-
-        // Set Pokemon overworld sprite (VAR_OBJ_GFX_ID_1 = object 2 in map)
-        VarSet(VAR_OBJ_GFX_ID_1, pokemon->graphicsId);
+        // Set Pokemon overworld sprite (use generic fossil sprite for now)
+        VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_FOSSIL);
 
         // Make Pokemon visible, trainer hidden
         FlagSet(FLAG_DUNGEON_TRAINER_0);    // Trainer object hidden
         FlagClear(FLAG_DUNGEON_TRAINER_1);  // Pokemon object visible
+
+        // Note: The actual Pokemon encounter is created in Script_Dungeon_StartBossPokemonBattle()
+        // using the narrative's boss.pokemon data
+    }
+    else
+    {
+        // BOSS_TYPE_NONE - no boss for this narrative
+        DebugPrintf("Dungeon_SpawnBoss: No boss (type=BOSS_TYPE_NONE)");
     }
 }
 
 const struct DungeonBoss *Dungeon_GetCurrentBoss(void)
 {
-    return sCurrentBoss;
+    // Note: This function is deprecated - boss data is now in narrative
+    // Kept for backward compatibility but returns NULL
+    // Use Dungeon_GetActiveNarrative()->boss instead
+    return NULL;
 }
 
 // ==========================================================================
@@ -716,7 +725,13 @@ const struct DungeonNarrative *Dungeon_GetActiveNarrative(u8 dungeonId)
     if (dungeonId >= DUNGEON_COUNT)
         return NULL;
 
+#if I_DUNGEON_DEBUG_MODE == TRUE
+    // Debug mode: Force specific narrative for testing
+    u8 narrativeId = I_DUNGEON_DEBUG_NARRATIVE;
+#else
+    // Production: Use daily rotation system
     u8 narrativeId = gSaveBlock2Ptr->dungeonNarratives[dungeonId];
+#endif
 
     if (narrativeId >= NARRATIVE_COUNT)
         return NULL;
@@ -730,7 +745,13 @@ const struct DungeonModifier *Dungeon_GetActiveModifier(u8 dungeonId)
     if (dungeonId >= DUNGEON_COUNT)
         return NULL;
 
+#if I_DUNGEON_DEBUG_MODE == TRUE
+    // Debug mode: Force specific modifier for testing
+    u8 modifierId = I_DUNGEON_DEBUG_MODIFIER;
+#else
+    // Production: Use daily rotation system
     u8 modifierId = gSaveBlock2Ptr->dungeonModifiers[dungeonId];
+#endif
 
     if (modifierId >= MODIFIER_COUNT)
         return NULL;
@@ -933,206 +954,57 @@ void Script_Dungeon_SpawnBoss(void)
 // Usage: callnative Script_Dungeon_StartBossPokemonBattle
 void Script_Dungeon_StartBossPokemonBattle(void)
 {
-    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
-    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
         return;
 
-    const struct BossPokemon *pokemon = &boss->data.pokemon;
-    bool8 isDouble = (pokemon->species2 != SPECIES_NONE);
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossType != BOSS_TYPE_POKEMON)
+        return;
 
-    // Step 1: Apply field effects BEFORE creating Pokemon
-    const struct BossFieldEffect *fieldEffect = &pokemon->fieldEffect;
-    if (fieldEffect->weather != WEATHER_NONE)
-    {
-        // Set weather (will be applied when battle starts)
-        gBattleWeather = 0;
-        switch (fieldEffect->weather)
-        {
-            case WEATHER_RAIN:
-            case WEATHER_RAIN_THUNDERSTORM:
-                gBattleWeather = B_WEATHER_RAIN;
-                break;
-            case WEATHER_SANDSTORM:
-                gBattleWeather = B_WEATHER_SANDSTORM;
-                break;
-            case WEATHER_SUNNY:
-                gBattleWeather = B_WEATHER_SUN;
-                break;
-            case WEATHER_FOG_HORIZONTAL:
-            case WEATHER_FOG_DIAGONAL:
-                gBattleWeather = B_WEATHER_FOG;
-                break;
-            case WEATHER_SNOW:
-                gBattleWeather = B_WEATHER_HAIL;
-                break;
-        }
-    }
+    // Note: Narrative only has simplified Pokemon boss data (species/level/item)
+    // Full boss Pokemon features (double battles, custom moves, field effects) not yet supported
+    u16 species = narrative->boss.pokemon.species;
+    u8 level = narrative->boss.pokemon.level;
+    u16 heldItem = narrative->boss.pokemon.heldItem;
 
-    if (fieldEffect->terrain != 0)
-    {
-        // Set terrain (field status flags)
-        switch (fieldEffect->terrain)
-        {
-            case 1:  // Electric Terrain
-                gFieldStatuses = STATUS_FIELD_ELECTRIC_TERRAIN;
-                gFieldTimers.terrainTimer = 5;
-                break;
-            case 2:  // Grassy Terrain
-                gFieldStatuses = STATUS_FIELD_GRASSY_TERRAIN;
-                gFieldTimers.terrainTimer = 5;
-                break;
-            case 3:  // Misty Terrain
-                gFieldStatuses = STATUS_FIELD_MISTY_TERRAIN;
-                gFieldTimers.terrainTimer = 5;
-                break;
-            case 4:  // Psychic Terrain
-                gFieldStatuses = STATUS_FIELD_PSYCHIC_TERRAIN;
-                gFieldTimers.terrainTimer = 5;
-                break;
-        }
-    }
+    DebugPrintf("Script_Dungeon_StartBossPokemonBattle: species=%d, level=%d, item=%d",
+        species, level, heldItem);
 
-    // Step 2: Set totem boosts (must be done BEFORE creating wild Pokemon)
-    // This follows the script pattern: settotemboost -> setwildbattle -> dowildbattle
-    u8 battler = isDouble ? B_POSITION_OPPONENT_LEFT : B_POSITION_OPPONENT_RIGHT;
-    const struct TotemBoosts *boosts = &pokemon->boosts;
+    // Create simple single Pokemon encounter
+    CreateScriptedWildMon(species, level, heldItem);
 
-    // Clear existing boosts first
-    gQueuedStatBoosts[battler].stats = 0;
-    for (u8 i = 0; i < NUM_BATTLE_STATS - 1; i++)
-        gQueuedStatBoosts[battler].statChanges[i] = 0;
+    // Apply totem boosts if any
+    // Note: Narrative has totemBoosts[7] array but no struct - just copy values
+    // TODO: Apply boosts from narrative->boss.pokemon.totemBoosts[]
 
-    // Set stat boosts if any are non-zero (following settotemboost macro pattern)
-    bool8 hasBoosts = FALSE;
-    if (boosts->atk != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 0);
-        gQueuedStatBoosts[battler].statChanges[0] = boosts->atk;
-        hasBoosts = TRUE;
-    }
-    if (boosts->def != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 1);
-        gQueuedStatBoosts[battler].statChanges[1] = boosts->def;
-        hasBoosts = TRUE;
-    }
-    if (boosts->speed != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 2);
-        gQueuedStatBoosts[battler].statChanges[2] = boosts->speed;
-        hasBoosts = TRUE;
-    }
-    if (boosts->spatk != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 3);
-        gQueuedStatBoosts[battler].statChanges[3] = boosts->spatk;
-        hasBoosts = TRUE;
-    }
-    if (boosts->spdef != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 4);
-        gQueuedStatBoosts[battler].statChanges[4] = boosts->spdef;
-        hasBoosts = TRUE;
-    }
-    if (boosts->acc != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 5);
-        gQueuedStatBoosts[battler].statChanges[5] = boosts->acc;
-        hasBoosts = TRUE;
-    }
-    if (boosts->evas != 0)
-    {
-        gQueuedStatBoosts[battler].stats |= (1 << 6);
-        gQueuedStatBoosts[battler].statChanges[6] = boosts->evas;
-        hasBoosts = TRUE;
-    }
-
-    // Set the "totem flared to life" flag if any boosts were applied
-    if (hasBoosts)
-        gQueuedStatBoosts[battler].stats |= 0x80;
-
-    // Step 3: Create scripted wild encounter(s) (setwildbattle equivalent)
-    if (isDouble)
-    {
-        CreateScriptedDoubleWildMon(
-            pokemon->species, pokemon->level, pokemon->heldItem,
-            pokemon->species2, pokemon->level2, pokemon->heldItem2
-        );
-    }
-    else
-    {
-        CreateScriptedWildMon(pokemon->species, pokemon->level, pokemon->heldItem);
-    }
-
-    // Set custom moves for first Pokemon
-    if (pokemon->moves[0] != MOVE_NONE)
-    {
-        for (u8 i = 0; i < MAX_MON_MOVES; i++)
-        {
-            if (pokemon->moves[i] != MOVE_NONE)
-                SetMonMoveSlot(&gEnemyParty[0], pokemon->moves[i], i);
-        }
-    }
-
-    // Set custom moves for second Pokemon (if double battle)
-    if (isDouble && pokemon->moves2[0] != MOVE_NONE)
-    {
-        for (u8 i = 0; i < MAX_MON_MOVES; i++)
-        {
-            if (pokemon->moves2[i] != MOVE_NONE)
-                SetMonMoveSlot(&gEnemyParty[1], pokemon->moves2[i], i);
-        }
-    }
-
-    // Step 4: Start the battle (dowildbattle equivalent)
-    // Use RAID battle type to ensure totem boosts work correctly
-    BattleSetup_StartRaidBattle(isDouble);
+    // Start the battle
+    BattleSetup_StartWildBattle();
 }
 
 // Load custom trainer text into gStringVar4
 // Usage: callnative Script_Dungeon_GetBossTrainerText
 void Script_Dungeon_GetBossTrainerText(void)
 {
-    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
-    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_TRAINER)
-        return;
-
-    const struct BossTrainer *trainer = &boss->data.trainer;
-
-    // If custom intro text specified, copy to gStringVar4
-    // Otherwise, trainer will use default text from trainers.h
-    if (trainer->introText != NULL)
-        StringCopy(gStringVar4, trainer->introText);
+    // Note: Narrative trainer bosses use the trainer's default text from trainers.party
+    // Custom text not supported in narrative struct yet
+    // Function kept for compatibility but does nothing
 }
 
 // Load custom Pokemon intro text into gStringVar4
 // Usage: callnative Script_Dungeon_GetBossPokemonText
 void Script_Dungeon_GetBossPokemonText(void)
 {
-    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
-    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
-        return;
-
-    const struct BossPokemon *pokemon = &boss->data.pokemon;
-
-    // Copy intro text to gStringVar4
-    if (pokemon->introText != NULL)
-        StringCopy(gStringVar4, pokemon->introText);
+    // Note: Narrative Pokemon bosses don't have custom text yet
+    // Function kept for compatibility but does nothing
 }
 
 // Load custom Pokemon defeat text into gStringVar4
 // Usage: callnative Script_Dungeon_GetBossPokemonDefeatText
 void Script_Dungeon_GetBossPokemonDefeatText(void)
 {
-    const struct DungeonBoss *boss = Dungeon_GetCurrentBoss();
-    if (boss == NULL || boss->encounterType != DUNGEON_BOSS_POKEMON)
-        return;
-
-    const struct BossPokemon *pokemon = &boss->data.pokemon;
-
-    // Copy defeat text to gStringVar4
-    if (pokemon->defeatText != NULL)
-        StringCopy(gStringVar4, pokemon->defeatText);
+    // Note: Narrative Pokemon bosses don't have custom text yet
+    // Function kept for compatibility but does nothing
 }
 
 // Handle boss defeat (trainer or boss Pokemon)
@@ -1251,4 +1123,71 @@ void Script_Dungeon_SetupTrainerBattle(void)
     // No victory/cannot battle text needed
     TRAINER_BATTLE_PARAM.victoryText = NULL;
     TRAINER_BATTLE_PARAM.cannotBattleText = NULL;
+}
+
+// ==========================================================================
+// MODIFIER APPLICATION
+// ==========================================================================
+
+void Dungeon_ApplyModifierForBattle(void)
+{
+    // Check if we're in an active dungeon
+    if (!Dungeon_IsActive())
+    {
+        // Not in dungeon, clear inverse battle flag if it was set
+        if (B_FLAG_INVERSE_BATTLE != 0 && FlagGet(B_FLAG_INVERSE_BATTLE))
+            FlagClear(B_FLAG_INVERSE_BATTLE);
+        return;
+    }
+
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+        return;
+
+    // Get the active modifier for this dungeon
+    const struct DungeonModifier *modifier = Dungeon_GetActiveModifier(dungeonId);
+    if (modifier == NULL || modifier->id == MODIFIER_NONE)
+    {
+        // No modifier active, clear vars just in case
+        VarSet(B_VAR_STARTING_STATUS, 0);
+        VarSet(B_VAR_STARTING_STATUS_TIMER, 0);
+        if (B_FLAG_INVERSE_BATTLE != 0)
+            FlagClear(B_FLAG_INVERSE_BATTLE);
+        return;
+    }
+
+    DebugPrintf("Applying dungeon modifier: %s", modifier->name);
+
+    // Apply weather/terrain via B_VAR_STARTING_STATUS
+    if (modifier->weatherOrTerrain != 0)
+    {
+        VarSet(B_VAR_STARTING_STATUS, modifier->weatherOrTerrain);
+        VarSet(B_VAR_STARTING_STATUS_TIMER, modifier->weatherDuration);
+        DebugPrintf("Set starting status: %d (duration: %d)",
+                    modifier->weatherOrTerrain, modifier->weatherDuration);
+    }
+
+    // Apply battle type flags
+    if (modifier->battleTypeFlags != 0)
+    {
+        gBattleTypeFlags |= modifier->battleTypeFlags;
+        DebugPrintf("Added battle flags: 0x%04X", modifier->battleTypeFlags);
+    }
+
+    // Handle inverse battle modifier specially (uses a flag, not gBattleTypeFlags)
+    if (B_FLAG_INVERSE_BATTLE != 0)
+    {
+        if (modifier->id == MODIFIER_INVERSE_BATTLE)
+        {
+            FlagSet(B_FLAG_INVERSE_BATTLE);
+            DebugPrintf("Enabled inverse battle mode");
+        }
+        else
+        {
+            FlagClear(B_FLAG_INVERSE_BATTLE);
+        }
+    }
+
+    // Note: Level modifiers, exp multipliers, and money multipliers
+    // will be handled in separate hooks during battle calculations
 }

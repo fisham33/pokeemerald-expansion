@@ -28,6 +28,7 @@
 #include "trainer_slide.h"
 #include "window.h"
 #include "nuzlocke.h"
+#include "dungeon.h"
 #include "battle_message.h"
 #include "battle_ai_main.h"
 #include "battle_ai_util.h"
@@ -3490,6 +3491,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case STARTING_STATUS_SNOW:
                 effect = SetStartingWeather(B_WEATHER_SNOW, WEATHER_SNOW, B_ANIM_SNOW_CONTINUES);
+                effect = (effect == 1) ? 3 : 0;
+                break;
+            case STARTING_STATUS_STRONG_WINDS:
+                effect = SetStartingWeather(B_WEATHER_STRONG_WINDS, WEATHER_STRONG_WINDS, B_ANIM_STRONG_WINDS);
                 effect = (effect == 1) ? 3 : 0;
                 break;
             }
@@ -11028,6 +11033,27 @@ static void SetRandomMultiHitCounter()
 void CopyMonLevelAndBaseStatsToBattleMon(u32 battler, struct Pokemon *mon)
 {
     gBattleMons[battler].level = GetMonData(mon, MON_DATA_LEVEL);
+
+    // Apply dungeon modifier level adjustment (for opponents only)
+    if (Dungeon_IsActive() && GetBattlerSide(battler) == B_SIDE_OPPONENT)
+    {
+        u8 dungeonId = Dungeon_GetCurrentDungeonId();
+        if (dungeonId != 0xFF)
+        {
+            const struct DungeonModifier *modifier = Dungeon_GetActiveModifier(dungeonId);
+            if (modifier != NULL && modifier->levelModifier != 0)
+            {
+                s32 newLevel = gBattleMons[battler].level + modifier->levelModifier;
+                // Clamp level between 1 and MAX_LEVEL (100)
+                if (newLevel < 1)
+                    newLevel = 1;
+                else if (newLevel > MAX_LEVEL)
+                    newLevel = MAX_LEVEL;
+                gBattleMons[battler].level = newLevel;
+            }
+        }
+    }
+
     gBattleMons[battler].hp = GetMonData(mon, MON_DATA_HP);
     gBattleMons[battler].maxHP = GetMonData(mon, MON_DATA_MAX_HP);
     gBattleMons[battler].attack = GetMonData(mon, MON_DATA_ATK);

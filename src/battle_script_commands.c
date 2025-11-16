@@ -37,6 +37,7 @@
 #include "overworld.h"
 #include "nuzlocke.h"
 #include "wild_encounter.h"
+#include "dungeon.h"
 #include "rtc.h"
 #include "party_menu.h"
 #include "battle_arena.h"
@@ -15137,6 +15138,20 @@ void ApplyExperienceMultipliers(s32 *expAmount, u8 expGetterMonId, u8 faintedBat
         value /= sExperienceScalingFactors[faintedLevel + expGetterLevel + 10];
 
         *expAmount = value + 1;
+    }
+
+    // Apply dungeon modifier exp multiplier
+    if (Dungeon_IsActive())
+    {
+        u8 dungeonId = Dungeon_GetCurrentDungeonId();
+        if (dungeonId != 0xFF)
+        {
+            const struct DungeonModifier *modifier = Dungeon_GetActiveModifier(dungeonId);
+            if (modifier != NULL && modifier->expMultiplier > 1)
+            {
+                *expAmount = (*expAmount * modifier->expMultiplier);
+            }
+        }
     }
 }
 

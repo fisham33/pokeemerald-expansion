@@ -218,6 +218,9 @@ const struct DungeonNarrative *Dungeon_GetActiveNarrative(u8 dungeonId);
 const struct DungeonModifier *Dungeon_GetActiveModifier(u8 dungeonId);
 void Dungeon_ShowEntranceInfo(u8 dungeonId);
 
+// Modifier application
+void Dungeon_ApplyModifierForBattle(void);
+
 // === SCRIPT-CALLABLE FUNCTIONS (for callnative) ===
 // These functions are designed to be called from Pory/ASM scripts using callnative.
 // They communicate with scripts via gSpecialVar_0x8000 and VAR_RESULT.
