@@ -28,6 +28,7 @@
 #include "constants/weather.h"
 #include "constants/opponents.h"
 #include "constants/event_object_movement.h"
+#include "constants/event_objects.h"
 #include "config/dungeon.h"
 #include "debug.h"
 
@@ -424,51 +425,47 @@ void Dungeon_SpawnBoss(void)
     if (narrative == NULL)
         return;
 
-    DebugPrintf("Dungeon_SpawnBoss: narrative=%d, bossType=%d", narrative->id, narrative->bossType);
+    MgbaPrintf(MGBA_LOG_INFO, "Dungeon_SpawnBoss: narrative=%d, bossType=%d", narrative->id, narrative->bossType);
 
     // Spawn boss based on narrative's boss type
     if (narrative->bossType == BOSS_TYPE_TRAINER)
     {
         // Trainer boss from narrative
-        DebugPrintf("Dungeon_SpawnBoss: Trainer boss, trainerId=%d, graphicsId=%d",
+        MgbaPrintf(MGBA_LOG_INFO, "Dungeon_SpawnBoss: Trainer boss, trainerId=%d, graphicsId=%d",
             narrative->boss.trainer.trainerId, narrative->boss.trainer.graphicsId);
 
-        VarSet(VAR_TEMP_1, narrative->boss.trainer.trainerId);
-        VarSet(VAR_TEMP_3, 0);  // 0 = trainer
+        // Store trainer ID in dedicated boss var
+        VarSet(VAR_DUNGEON_BOSS_TRAINER, narrative->boss.trainer.trainerId);
 
-        // Set trainer overworld sprite
+        // Set trainer overworld sprite (VAR_OBJ_GFX_ID_4 for boss trainer)
         if (narrative->boss.trainer.graphicsId != 0)
-            VarSet(VAR_OBJ_GFX_ID_0, narrative->boss.trainer.graphicsId);
+            VarSet(VAR_OBJ_GFX_ID_4, narrative->boss.trainer.graphicsId);
         else
-            VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_HIKER);  // Default
+            VarSet(VAR_OBJ_GFX_ID_4, OBJ_EVENT_GFX_HIKER);  // Default
 
-        // Make trainer visible, Pokemon hidden
-        FlagClear(FLAG_DUNGEON_TRAINER_0);  // Trainer object visible
-        FlagSet(FLAG_DUNGEON_TRAINER_1);    // Pokemon object hidden
+        // The trainer boss object in map.json uses FLAG_DUNGEON_BOSS_DEFEATED
+        // We don't need to do anything here for visibility - it's automatic
     }
     else if (narrative->bossType == BOSS_TYPE_POKEMON)
     {
         // Pokemon boss from narrative (simplified - just species/level/item)
-        DebugPrintf("Dungeon_SpawnBoss: Pokemon boss, species=%d, level=%d",
+        MgbaPrintf(MGBA_LOG_INFO, "Dungeon_SpawnBoss: Pokemon boss, species=%d, level=%d",
             narrative->boss.pokemon.species, narrative->boss.pokemon.level);
 
-        // Create wild Pokemon encounter
-        VarSet(VAR_TEMP_3, 1);  // 1 = single Pokemon
+        // Set Pokemon overworld sprite (VAR_OBJ_GFX_ID_5 for boss pokemon)
+        // Use species-specific graphics: OBJ_EVENT_GFX_SPECIES(species) = species + OBJ_EVENT_MON
+        u16 speciesGfxId = narrative->boss.pokemon.species + OBJ_EVENT_MON;
+        VarSet(VAR_OBJ_GFX_ID_5, speciesGfxId);
 
-        // Set Pokemon overworld sprite (use generic fossil sprite for now)
-        VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_FOSSIL);
-
-        // Make Pokemon visible, trainer hidden
-        FlagSet(FLAG_DUNGEON_TRAINER_0);    // Trainer object hidden
-        FlagClear(FLAG_DUNGEON_TRAINER_1);  // Pokemon object visible
-
+        // The pokemon boss object in map.json uses FLAG_DUNGEON_BOSS_DEFEATED
+        // We don't need to do anything here for visibility - it's automatic
         // Note: The actual Pokemon encounter is created in Script_Dungeon_StartBossPokemonBattle()
         // using the narrative's boss.pokemon data
     }
     else
     {
         // BOSS_TYPE_NONE - no boss for this narrative
-        DebugPrintf("Dungeon_SpawnBoss: No boss (type=BOSS_TYPE_NONE)");
+        MgbaPrintf(MGBA_LOG_INFO, "Dungeon_SpawnBoss: No boss (type=BOSS_TYPE_NONE)");
     }
 }
 
@@ -991,7 +988,8 @@ void Script_Dungeon_SpawnBoss(void)
     Dungeon_SpawnBoss();
 }
 
-// Start boss Pokemon battle
+// Prepare boss Pokemon battle (sets up the encounter, but doesn't start it)
+// Script should call dowildbattle after this to actually start the battle
 // Usage: callnative Script_Dungeon_StartBossPokemonBattle
 void Script_Dungeon_StartBossPokemonBattle(void)
 {
@@ -1009,18 +1007,16 @@ void Script_Dungeon_StartBossPokemonBattle(void)
     u8 level = narrative->boss.pokemon.level;
     u16 heldItem = narrative->boss.pokemon.heldItem;
 
-    DebugPrintf("Script_Dungeon_StartBossPokemonBattle: species=%d, level=%d, item=%d",
+    MgbaPrintf(MGBA_LOG_INFO, "Script_Dungeon_StartBossPokemonBattle: species=%d, level=%d, item=%d",
         species, level, heldItem);
 
-    // Create simple single Pokemon encounter
+    // Create wild Pokemon encounter
+    // The script will call dowildbattle after this to start the battle
     CreateScriptedWildMon(species, level, heldItem);
 
     // Apply totem boosts if any
     // Note: Narrative has totemBoosts[7] array but no struct - just copy values
     // TODO: Apply boosts from narrative->boss.pokemon.totemBoosts[]
-
-    // Start the battle
-    BattleSetup_StartWildBattle();
 }
 
 // Load custom trainer text into gStringVar4
@@ -1046,6 +1042,94 @@ void Script_Dungeon_GetBossPokemonDefeatText(void)
 {
     // Note: Narrative Pokemon bosses don't have custom text yet
     // Function kept for compatibility but does nothing
+}
+
+// Get active boss type from narrative
+// Sets VAR_RESULT to boss type (BOSS_TYPE_TRAINER, BOSS_TYPE_POKEMON, or BOSS_TYPE_NONE)
+// Usage: callnative Script_Dungeon_GetBossType
+void Script_Dungeon_GetBossType(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gSpecialVar_Result = BOSS_TYPE_NONE;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL)
+    {
+        gSpecialVar_Result = BOSS_TYPE_NONE;
+        return;
+    }
+
+    gSpecialVar_Result = narrative->bossType;
+}
+
+// Get boss Pokemon species from active narrative
+// Sets VAR_0x8004 to species ID
+// Usage: callnative Script_Dungeon_GetBossPokemonSpecies
+void Script_Dungeon_GetBossPokemonSpecies(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gSpecialVar_0x8004 = SPECIES_NONE;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossType != BOSS_TYPE_POKEMON)
+    {
+        gSpecialVar_0x8004 = SPECIES_NONE;
+        return;
+    }
+
+    gSpecialVar_0x8004 = narrative->boss.pokemon.species;
+}
+
+// Get boss Pokemon level from active narrative
+// Sets VAR_0x8004 to level
+// Usage: callnative Script_Dungeon_GetBossPokemonLevel
+void Script_Dungeon_GetBossPokemonLevel(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gSpecialVar_0x8004 = 50;  // Default level
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossType != BOSS_TYPE_POKEMON)
+    {
+        gSpecialVar_0x8004 = 50;  // Default level
+        return;
+    }
+
+    gSpecialVar_0x8004 = narrative->boss.pokemon.level;
+}
+
+// Get boss Pokemon held item from active narrative
+// Sets VAR_0x8004 to item ID
+// Usage: callnative Script_Dungeon_GetBossPokemonItem
+void Script_Dungeon_GetBossPokemonItem(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gSpecialVar_0x8004 = ITEM_NONE;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossType != BOSS_TYPE_POKEMON)
+    {
+        gSpecialVar_0x8004 = ITEM_NONE;
+        return;
+    }
+
+    gSpecialVar_0x8004 = narrative->boss.pokemon.heldItem;
 }
 
 // Handle boss defeat (trainer or boss Pokemon)

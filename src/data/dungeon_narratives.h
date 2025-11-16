@@ -108,12 +108,14 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
     .landEncounters = &sCaveTest_LandMonsInfo,
     .waterEncounters = NULL,  // No water encounters in cave
 
-    // Boss configuration - using current test boss from map
-    .bossType = BOSS_TYPE_TRAINER,
+    // Boss configuration - Pokemon boss for testing
+    .bossType = BOSS_TYPE_POKEMON,
     .boss = {
-        .trainer = {
-            .trainerId = TRAINER_NICOLAS_1,
-            .graphicsId = OBJ_EVENT_GFX_HIKER,
+        .pokemon = {
+            .species = SPECIES_ONIX,
+            .level = 28,
+            .heldItem = ITEM_HARD_STONE,
+            .totemBoosts = {1, 1, 1, 1, 1, 1, 1},  // +1 to all stats
         }
     },
 

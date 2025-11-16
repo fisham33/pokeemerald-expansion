@@ -7,29 +7,70 @@
 // 6 = Psychic teleporter
 
 mapscripts Dungeon1_RoomBoss_MapScripts {
-	MAP_SCRIPT_ON_TRANSITION {
-		// Boss objects are controlled by FLAG_DUNGEON_BOSS_DEFEATED (set in map.json)
-		// When flag is clear → bosses visible, rewards hidden
-		// When flag is set → bosses hidden, rewards visible
-		checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
-		if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
-			// Show reward objects
-			clearflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
-			clearflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
-			clearflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
-			clearflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
-		}
-		else {
-			// Hide rewards (bosses visible by default)
-			setflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
-			setflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
-			setflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
-			setflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
-		}
-	}
+	MAP_SCRIPT_ON_TRANSITION: Dungeon1_RoomBoss_OnTransition
 }
 
-// Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1 with selectmons
+script Dungeon1_RoomBoss_OnTransition {
+	// Spawn boss based on active narrative (sets VAR_OBJ_GFX_ID_4/5 and VAR_DUNGEON_BOSS_TRAINER)
+	callnative(Script_Dungeon_SpawnBoss)
+
+	// Check if boss already defeated
+	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
+		call(Dungeon1_RoomBoss_BossDefeated)
+	}
+	else {
+		// Boss not defeated - show appropriate boss
+		callnative(Script_Dungeon_GetBossType)
+		copyvar(VAR_TEMP_0, VAR_RESULT)
+		if (var(VAR_TEMP_0) == 1) {
+			call(Dungeon1_RoomBoss_ShowTrainerBoss)
+		}
+		elif (var(VAR_TEMP_0) == 2) {
+			call(Dungeon1_RoomBoss_ShowPokemonBoss)
+		}
+		else {
+			call(Dungeon1_RoomBoss_HideRewards)
+		}
+	}
+	return
+}
+
+script Dungeon1_RoomBoss_BossDefeated {
+	// Boss defeated - hide both bosses, show rewards
+	setflag(FLAG_TEMP_11)  // Hide trainer boss
+	setflag(FLAG_TEMP_12)  // Hide pokemon boss
+	clearflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
+	clearflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
+	clearflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
+	clearflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
+	return
+}
+
+script Dungeon1_RoomBoss_ShowTrainerBoss {
+	// Show trainer boss, hide pokemon boss
+	clearflag(FLAG_TEMP_11)
+	setflag(FLAG_TEMP_12)
+	goto(Dungeon1_RoomBoss_HideRewards)
+}
+
+script Dungeon1_RoomBoss_ShowPokemonBoss {
+	// Show pokemon boss, hide trainer boss
+	setflag(FLAG_TEMP_11)
+	clearflag(FLAG_TEMP_12)
+	goto(Dungeon1_RoomBoss_HideRewards)
+}
+
+script Dungeon1_RoomBoss_HideRewards {
+	// Hide rewards
+	setflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
+	setflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
+	setflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
+	setflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
+	return
+}
+
+// Trainer boss - uses dynamic trainer from narrative
 script DungeonBoss_TrainerTest {
 	lockall
 	faceplayer
@@ -41,7 +82,8 @@ script DungeonBoss_TrainerTest {
 		end
 	}
 	// Select mons battle (player picks 3 party members)
-	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3) // this is current hardcoded to nicolas, but it needs to find the right trainer based off the narrative config.
+	// VAR_DUNGEON_BOSS_TRAINER was set by Script_Dungeon_SpawnBoss based on narrative
+	trainerbattle_selectmons(VAR_DUNGEON_BOSS_TRAINER, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
 	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
 	releaseall
 	end
@@ -55,11 +97,14 @@ script TrainerBoss_OnDefeat {
 	// Slow fade to black
 	fadescreenspeed(FADE_TO_BLACK, 8)
 	waitmessage
-	// Immediately hide boss objects
+	// Mark boss as defeated first (for persistence)
+	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	// Hide both boss objects using their visibility flags
+	setflag(FLAG_TEMP_11)  // Hide trainer boss
+	setflag(FLAG_TEMP_12)  // Hide pokemon boss
+	// Remove boss objects immediately
 	removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
 	removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
-	// Mark boss as defeated (persists so bosses stay hidden)
-	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
 	// Spawn rewards and clear reward flags
 	callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
 	// Immediately show reward objects
@@ -74,23 +119,34 @@ script TrainerBoss_OnDefeat {
 	return
 }
 
-// Test Pokemon boss at (4, 4) - Onix with totem boosts, sandstorm, and despawns
+// Pokemon boss - uses dynamic species/level/item from narrative
 script DungeonBoss_PokemonTest {
 	lock
 	faceplayer
+	// Check if already defeated this run
+	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
+		msgbox(PokemonBoss_PostBattle, MSGBOX_DEFAULT)
+		release
+		end
+	}
 	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
 	// Set totem boosts: +1 to all stats
 	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)
-	// Create wild Onix level 28 with Hard Stone
-	setwildbattle(SPECIES_ONIX, 28, ITEM_HARD_STONE) // this is current hardcoded to onix, but it needs to find the right pokemon based off the narrative config 
-	//setflag(FLAG_SYS_CTRL_OBJ_DELETE)
-	dowildbattle
-	//clearflag(FLAG_SYS_CTRL_OBJ_DELETE)
+	// Prepare wild battle from narrative (creates the encounter)
+	callnative(Script_Dungeon_StartBossPokemonBattle)
+	// Set flags for boss battle
 	setflag(FLAG_SMART_WILD_POKEMON)
 	setflag(FLAG_NO_CATCHING)
 	setflag(FLAG_NO_RUNNING)
-	// Check if player won (not fled/lost)
+	// Start the battle (dowildbattle sets VAR_RESULT with the outcome)
+	dowildbattle
+	// Clear battle flags
+	clearflag(FLAG_SMART_WILD_POKEMON)
+	clearflag(FLAG_NO_CATCHING)
+	clearflag(FLAG_NO_RUNNING)
+	// Check if player won (dowildbattle automatically sets VAR_RESULT)
 	if (var(VAR_RESULT) == B_OUTCOME_WON) {
 		lock
 		faceplayer
@@ -99,13 +155,14 @@ script DungeonBoss_PokemonTest {
 		// Slow fade to black
 		fadescreenspeed(FADE_TO_BLACK, 8)
 		waitmessage
-		// Immediately hide boss objects
+		// Mark boss as defeated first (for persistence)
+		setflag(FLAG_DUNGEON_BOSS_DEFEATED)
+		// Hide both boss objects using their visibility flags
+		setflag(FLAG_TEMP_11)  // Hide trainer boss
+		setflag(FLAG_TEMP_12)  // Hide pokemon boss
+		// Remove boss objects immediately
 		removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
 		removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
-		// Mark boss as defeated (this hides both boss objects via their flags)
-		setflag(FLAG_DUNGEON_BOSS_DEFEATED)
-		setflag(FLAG_NO_CATCHING)
-		setflag(FLAG_NO_RUNNING)
 		// Clear starting status var
 		setvar(VAR_STARTING_STATUS_CONTROL, 0)
 		// Spawn rewards and clear reward flags
@@ -148,6 +205,10 @@ text PokemonBoss_Intro {
 
 text PokemonBoss_Defeat {
 	"The mighty ONIX has been defeated!"
+}
+
+text PokemonBoss_PostBattle {
+	"..."
 }
 
 // ========== REWARD ITEM BALLS ==========

@@ -276,8 +276,9 @@
 #define VAR_DUNGEON_TRAINER_1                            0x4100 // Dungeon: Trainer ID for slot 1
 #define VAR_DUNGEON_TRAINER_2                            0x4101 // Dungeon: Trainer ID for slot 2
 #define VAR_DUNGEON_TRAINER_3                            0x4102 // Dungeon: Trainer ID for slot 3
+#define VAR_DUNGEON_BOSS_TRAINER                         0x4103 // Dungeon: Boss trainer ID
 
-#define VARS_END                                         0x4102
+#define VARS_END                                         0x4103
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 
 #define SPECIAL_VARS_START            0x8000

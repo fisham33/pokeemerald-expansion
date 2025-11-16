@@ -241,6 +241,10 @@ void Script_Dungeon_OnBossDefeated(void);             // Handle boss defeat and 
 void Script_Dungeon_GetBossTrainerText(void);         // Load custom trainer text into gStringVar4
 void Script_Dungeon_GetBossPokemonText(void);         // Load custom Pokemon intro text into gStringVar4
 void Script_Dungeon_GetBossPokemonDefeatText(void);   // Load custom Pokemon defeat text into gStringVar4
+void Script_Dungeon_GetBossType(void);                // Get boss type from narrative (sets VAR_RESULT)
+void Script_Dungeon_GetBossPokemonSpecies(void);      // Get boss Pokemon species (sets VAR_0x8004)
+void Script_Dungeon_GetBossPokemonLevel(void);        // Get boss Pokemon level (sets VAR_0x8004)
+void Script_Dungeon_GetBossPokemonItem(void);         // Get boss Pokemon item (sets VAR_0x8004)
 void Script_Dungeon_DistributeRewards(void);  // Give rewards based on performance
 void Script_Dungeon_GetRewardTier(void);      // Get reward tier 1-3 (sets VAR_RESULT)
 void Script_Dungeon_OnBossDefeated_SpawnRewards(void);  // Spawn reward items in boss room
