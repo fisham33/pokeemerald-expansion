@@ -1,0 +1,16 @@
+# Pokemon Emerald Music Converter Requirements
+
+# MIDI processing
+mido>=1.3.0
+
+# Audio-to-MIDI conversion (optional but recommended)
+# Note: basic-pitch requires tensorflow and can be large
+# Install separately if needed: pip install basic-pitch
+# basic-pitch>=0.2.5
+
+# Alternative lightweight MIDI libraries (already included in mido)
+# python-rtmidi>=1.5.0  # Optional: for real-time MIDI
+
+# For audio file reading (if you want to add pre-analysis)
+# librosa>=0.10.0  # Optional: audio analysis
+# soundfile>=0.12.0  # Optional: audio file I/O
