@@ -38,7 +38,7 @@
 
 // Force specific narrative (only when I_DUNGEON_DEBUG_MODE is TRUE)
 // Example: NARRATIVE_CAVE_TEST, NARRATIVE_CAVE_MAGMA, etc.
-#define I_DUNGEON_DEBUG_NARRATIVE       NARRATIVE_CAVE_TEST
+#define I_DUNGEON_DEBUG_NARRATIVE       NARRATIVE_CAVE_TEAM_MAGMA
 
 // Modifier pools (per dungeon)
 // Define which modifiers can appear in each dungeon

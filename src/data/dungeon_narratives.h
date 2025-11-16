@@ -17,6 +17,12 @@ static const struct DungeonTrainerEntry sCaveTest_TrainerPool[] = {
     { .trainerId = TRAINER_ANDRES_1,  .graphicsId = OBJ_EVENT_GFX_CAMPER },
 };
 
+// team magma:
+static const struct DungeonTrainerEntry sCaveTeamMagma_TrainerPool[] = {
+    { .trainerId = TRAINER_GRUNT_MT_CHIMNEY_1, .graphicsId = OBJ_EVENT_GFX_MAGMA_MEMBER_F },
+    { .trainerId = TRAINER_GRUNT_MT_CHIMNEY_2,  .graphicsId = OBJ_EVENT_GFX_MAGMA_MEMBER_M },
+};
+
 // Wild encounter table for test narrative (cave/rock themed)
 // 12 slots for land encounters (same distribution as standard encounters)
 static const struct WildPokemon sCaveTest_LandMons[] = {
@@ -34,9 +40,29 @@ static const struct WildPokemon sCaveTest_LandMons[] = {
     { 22, 24, SPECIES_LARVITAR },     // 1%  - Slot 11 (very rare)
 };
 
+static const struct WildPokemon sCaveTeamMagma_LandMons[] = {
+    { 18, 20, SPECIES_SIZZLIPEDE },      // 20% - Slot 0
+    { 18, 20, SPECIES_LINOONE_GALAR },        // 20% - Slot 1
+    { 19, 21, SPECIES_SIZZLIPEDE },      // 10% - Slot 2
+    { 19, 21, SPECIES_LINOONE_GALAR },        // 10% - Slot 3
+    { 18, 20, SPECIES_GROWLITHE_HISUI },   // 10% - Slot 4
+    { 19, 21, SPECIES_GROWLITHE_HISUI },   // 10% - Slot 5
+    { 20, 22, SPECIES_THIEVUL },         // 5%  - Slot 6
+    { 20, 22, SPECIES_THIEVUL },         // 5%  - Slot 7
+    { 21, 23, SPECIES_CHARCADET },     // 4%  - Slot 8 (rare)
+    { 21, 23, SPECIES_CHARCADET },     // 4%  - Slot 9 (rare)
+    { 22, 24, SPECIES_CHARCADET },     // 1%  - Slot 10 (very rare)
+    { 22, 24, SPECIES_CHARCADET },     // 1%  - Slot 11 (very rare)
+};
+
 static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
     .encounterRate = 4,  // 2 out of 256 chance per step
     .wildPokemon = sCaveTest_LandMons
+};
+
+static const struct WildPokemonInfo sCaveTeamMagma_LandMonsInfo = {
+    .encounterRate = 12,  // 2 out of 256 chance per step
+    .wildPokemon = sCaveTeamMagma_LandMons
 };
 
 // Reward items for test narrative (3 tiers based on score)
@@ -46,12 +72,26 @@ static const u16 sCaveTest_RewardItems[] = {
     ITEM_ULTRA_BALL,        // High score (201+)
 };
 
+static const u16 sCaveTeamMagma_RewardItems[] = {
+    ITEM_HEAT_ROCK,         // Low score (0-100)
+    ITEM_TM_FLAMETHROWER,        // Medium score (101-200)
+    ITEM_FIRE_STONE,        // High score (201+)
+};
+
 // Strings for test narrative
 static const u8 sCaveTest_Name[] = _("Test Expedition");
 static const u8 sCaveTest_Description[] = _(
     "A simple test narrative for\p"
     "validating the daily rotation\n"
     "system implementation.$"
+);
+
+// Team Magma:
+static const u8 sCaveTeamMagma_Name[] = _("Team Magma Dungeon");
+static const u8 sCaveTeamMagma_Description[] = _(
+    "Team Magma are investigating this\p"
+    "cave to try and find rare items to\n"
+    "awaken Groudon!$"
 );
 
 // Test narrative definition
@@ -82,11 +122,40 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
     .rewardTierCount = ARRAY_COUNT(sCaveTest_RewardItems),
 };
 
+// Team Magma
+static const struct DungeonNarrative gNarrative_CaveTeamMagma = {
+    .id = NARRATIVE_CAVE_TEAM_MAGMA,
+    .name = sCaveTeamMagma_Name,
+    .description = sCaveTeamMagma_Description,
+
+    // Trainers
+    .trainerCount = ARRAY_COUNT(sCaveTeamMagma_TrainerPool),
+    .trainerPool = sCaveTeamMagma_TrainerPool,
+
+    // Wild encounters
+    .landEncounters = &sCaveTeamMagma_LandMonsInfo,
+    .waterEncounters = NULL,  // No water encounters in cave
+
+    // Boss configuration - using current test boss from map
+    .bossType = BOSS_TYPE_TRAINER,
+    .boss = {
+        .trainer = {
+            .trainerId = TRAINER_MAXIE_MT_CHIMNEY,
+            .graphicsId = OBJ_EVENT_GFX_MAXIE,
+        }
+    },
+
+    // Rewards
+    .rewardItems = sCaveTeamMagma_RewardItems,
+    .rewardTierCount = ARRAY_COUNT(sCaveTeamMagma_RewardItems),
+};
+
 // === NARRATIVE POOLS ===
 
 // Cave narrative pool (DUNGEON_EARLY_CAVE)
 static const u8 sCaveNarrativePool[] = {
     NARRATIVE_CAVE_TEST,
+    NARRATIVE_CAVE_TEAM_MAGMA,
     // Future narratives:
     // NARRATIVE_CAVE_PROFESSOR,
     // NARRATIVE_CAVE_MAGMA,
@@ -138,6 +207,7 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
         .rewardTierCount = 0,
     },
     [NARRATIVE_CAVE_TEST] = gNarrative_CaveTest,
+    [NARRATIVE_CAVE_TEAM_MAGMA] = gNarrative_CaveTeamMagma,
     // Future narratives will be added here
 };
 

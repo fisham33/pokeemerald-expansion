@@ -68,6 +68,7 @@ enum DungeonNarratives {
     NARRATIVE_NONE,               // No narrative (shouldn't happen)
     // Cave narratives
     NARRATIVE_CAVE_TEST,          // Test narrative for Phase 1
+    NARRATIVE_CAVE_TEAM_MAGMA,    // testing
     NARRATIVE_CAVE_PROFESSOR,     // Professor's Expedition
     NARRATIVE_CAVE_MAGMA,         // Team Magma's Search
     NARRATIVE_CAVE_STEVEN,        // Steven's Request
