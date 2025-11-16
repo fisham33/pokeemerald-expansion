@@ -135,13 +135,25 @@ u8 Dungeon_GetCurrentDungeonId(void)
 
 void Dungeon_IncrementRewardScore(u16 points)
 {
-    u16 newScore = Dungeon_GetRewardScore() + points;
+    u16 oldScore = Dungeon_GetRewardScore();
+    u16 newScore = oldScore + points;
 
-    // Cap at 511 (9-bit max)
-    if (newScore > 511)
-        newScore = 511;
+    // Cap at 127 (7-bit max)
+    if (newScore > 127)
+        newScore = 127;
 
     Dungeon_SetRewardScore(newScore);
+
+    // Info logging (shows even without debug mode)
+    u16 tier = Dungeon_CalculateRewardTier();
+    const char *tierName = (tier == 3) ? "GOLD" : (tier == 2) ? "SILVER" : "BRONZE";
+
+    MgbaPrintf(MGBA_LOG_INFO, "=== DUNGEON POINTS ===");
+    MgbaPrintf(MGBA_LOG_INFO, "Gained: +%d points", points);
+    MgbaPrintf(MGBA_LOG_INFO, "Total: %d points (was %d)", newScore, oldScore);
+    MgbaPrintf(MGBA_LOG_INFO, "Thresholds: Bronze=0-20, Silver=21-40, Gold=41+");
+    MgbaPrintf(MGBA_LOG_INFO, "Current Tier: %s (%d)", tierName, tier);
+    MgbaPrintf(MGBA_LOG_INFO, "======================");
 }
 
 // ==========================================================================
@@ -492,10 +504,7 @@ void Dungeon_SetupWildEncounters(void)
 const struct WildPokemonInfo *Dungeon_GetLandEncounters(void)
 {
     if (!Dungeon_IsActive())
-    {
-        DebugPrintf("Dungeon_GetLandEncounters: Dungeon NOT active");
         return NULL;
-    }
 
     // IMPORTANT: Also check if we're actually on a dungeon map
     // This prevents dungeon encounters from persisting if player warps out or whites out
@@ -505,25 +514,17 @@ const struct WildPokemonInfo *Dungeon_GetLandEncounters(void)
 
     if (!isOnDungeonMap)
     {
-        DebugPrintf("Dungeon_GetLandEncounters: Not on dungeon map (map=0x%04X), clearing dungeon state", currentMap);
         // Auto-clear dungeon state since we're not in a dungeon anymore
         Dungeon_Exit();
         return NULL;
     }
 
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
-    DebugPrintf("Dungeon_GetLandEncounters: dungeonId=%d", dungeonId);
-
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
 
     if (narrative == NULL)
-    {
-        DebugPrintf("Dungeon_GetLandEncounters: narrative is NULL");
         return NULL;
-    }
 
-    DebugPrintf("Dungeon_GetLandEncounters: Returning narrative encounters (rate=%d)",
-        narrative->landEncounters ? narrative->landEncounters->encounterRate : 0);
     return narrative->landEncounters;
 }
 
@@ -559,28 +560,68 @@ const struct WildPokemonInfo *Dungeon_GetWaterEncounters(void)
 
 void Dungeon_DistributeRewards(void)
 {
-    u16 tier = Dungeon_CalculateRewardTier();
-    (void)tier; // Unused for now, will be used in reward implementation
-
-    // TODO: Implement reward distribution
-    // Based on tier, give items/TMs/legendary encounters
-
-    // Placeholder: Just give some items based on score
-    u16 score = Dungeon_GetRewardScore();
-    if (score > 400)
+    // Get current dungeon and narrative
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
     {
-        // High tier rewards
-        // AddBagItem(ITEM_RARE_CANDY, 3);
+        DebugPrintf("Dungeon_DistributeRewards: Not in a valid dungeon");
+        gSpecialVar_Result = FALSE;
+        return;
     }
-    else if (score > 200)
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL)
     {
-        // Medium tier rewards
-        // AddBagItem(ITEM_RARE_CANDY, 1);
+        DebugPrintf("Dungeon_DistributeRewards: No active narrative");
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    // Check if narrative has rewards defined
+    if (narrative->rewardItems == NULL || narrative->rewardTierCount == 0)
+    {
+        DebugPrintf("Dungeon_DistributeRewards: Narrative has no rewards defined");
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    // Calculate reward tier (1-3)
+    u16 tier = Dungeon_CalculateRewardTier();
+
+    // Convert tier to array index (tier 1 = index 0, tier 2 = index 1, tier 3 = index 2)
+    u8 rewardIndex = tier - 1;
+
+    // Clamp index to available tiers
+    if (rewardIndex >= narrative->rewardTierCount)
+        rewardIndex = narrative->rewardTierCount - 1;
+
+    // Get the reward item for this tier
+    u16 itemId = narrative->rewardItems[rewardIndex];
+
+    DebugPrintf("Dungeon_DistributeRewards: score=%d, tier=%d, itemId=%d",
+                Dungeon_GetRewardScore(), tier, itemId);
+
+    // Check if bag has space
+    if (!CheckBagHasSpace(itemId, 1))
+    {
+        DebugPrintf("Dungeon_DistributeRewards: Bag full, cannot give item");
+        gSpecialVar_Result = FALSE;
+        gSpecialVar_0x8004 = itemId; // Store item ID for script to display "bag full" message
+        return;
+    }
+
+    // Give the item to the player
+    if (AddBagItem(itemId, 1))
+    {
+        DebugPrintf("Dungeon_DistributeRewards: Successfully gave item %d", itemId);
+        gSpecialVar_Result = TRUE;
+        gSpecialVar_0x8004 = itemId; // Store item ID for script to display reward message
     }
     else
     {
-        // Low tier rewards
-        // AddBagItem(ITEM_POTION, 3);
+        DebugPrintf("Dungeon_DistributeRewards: Failed to give item %d", itemId);
+        gSpecialVar_Result = FALSE;
+        gSpecialVar_0x8004 = itemId;
     }
 }
 
@@ -588,14 +629,14 @@ u16 Dungeon_CalculateRewardTier(void)
 {
     u16 score = Dungeon_GetRewardScore();
 
-    // Simple tier calculation
-    // 0-170 = Tier 1 (basic rewards)
-    // 171-340 = Tier 2 (good rewards)
-    // 341-511 = Tier 3 (excellent rewards)
+    // Tier calculation based on performance
+    // 0-20 = Tier 1 (Bronze) - Boss only
+    // 21-40 = Tier 2 (Silver) - Boss + 1-5 trainers
+    // 41+ = Tier 3 (Gold) - Boss + 6+ trainers (or many catches)
 
-    if (score >= 341)
+    if (score >= 41)
         return 3;
-    else if (score >= 171)
+    else if (score >= 21)
         return 2;
     else
         return 1;
@@ -1012,7 +1053,7 @@ void Script_Dungeon_GetBossPokemonDefeatText(void)
 void Script_Dungeon_OnBossDefeated(void)
 {
     // Award bonus points for defeating boss
-    Dungeon_IncrementRewardScore(100);
+    Dungeon_IncrementRewardScore(DUNGEON_POINTS_BOSS_TRAINER);
 
     // Hide both boss objects
     FlagSet(FLAG_DUNGEON_TRAINER_0);  // Hide trainer
@@ -1022,6 +1063,53 @@ void Script_Dungeon_OnBossDefeated(void)
     SetWarpDestination(MAP_GROUP(MAP_DUNGEON1_ROOM_END), MAP_NUM(MAP_DUNGEON1_ROOM_END), WARP_ID_NONE, 9, 8);
     DoTeleportTileWarp();
     ResetInitialPlayerAvatarState();
+}
+
+// Spawn reward items in boss room (instead of warping to end room)
+// Usage: callnative Script_Dungeon_OnBossDefeated_SpawnRewards
+void Script_Dungeon_OnBossDefeated_SpawnRewards(void)
+{
+    // Award bonus points for defeating boss
+    Dungeon_IncrementRewardScore(DUNGEON_POINTS_BOSS_TRAINER);
+
+    // Clear flags to show reward item balls (FLAGS_DUNGEON_TRAINER_0/1/2)
+    FlagClear(FLAG_DUNGEON_TRAINER_0);  // Bronze reward
+    FlagClear(FLAG_DUNGEON_TRAINER_1);  // Silver reward
+    FlagClear(FLAG_DUNGEON_TRAINER_2);  // Gold reward
+
+    // Clear flag to show Psychic teleport NPC
+    FlagClear(FLAG_DUNGEON_TRAINER_3);
+}
+
+// Get individual reward item by tier index
+// Reads tier index from VAR_TEMP_0, sets item ID in VAR_0x8004
+// Usage: setvar VAR_TEMP_0, <tier_index>
+//        callnative Script_Dungeon_GetRewardItem
+void Script_Dungeon_GetRewardItem(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gSpecialVar_0x8004 = ITEM_NONE;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->rewardItems == NULL || narrative->rewardTierCount == 0)
+    {
+        gSpecialVar_0x8004 = ITEM_NONE;
+        return;
+    }
+
+    // Get tier index from VAR_TEMP_0 (0 = bronze, 1 = silver, 2 = gold)
+    u8 tierIndex = VarGet(VAR_TEMP_0);
+
+    // Clamp to available tiers
+    if (tierIndex >= narrative->rewardTierCount)
+        tierIndex = narrative->rewardTierCount - 1;
+
+    // Set item ID
+    gSpecialVar_0x8004 = narrative->rewardItems[tierIndex];
 }
 
 // Distribute rewards at end of dungeon

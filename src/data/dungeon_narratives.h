@@ -35,7 +35,7 @@ static const struct WildPokemon sCaveTest_LandMons[] = {
 };
 
 static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
-    .encounterRate = 20,  // 20 out of 256 chance per step (~8%)
+    .encounterRate = 4,  // 2 out of 256 chance per step
     .wildPokemon = sCaveTest_LandMons
 };
 

@@ -15,6 +15,7 @@
   "connections": null,
   "object_events": [
     {
+      "local_id": "DUNGEON1_BOSS_TRAINER",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
       "x": 6,
       "y": 6,
@@ -25,9 +26,10 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "DungeonBoss_TrainerTest",
-      "flag": "0"
+      "flag": "FLAG_DUNGEON_BOSS_DEFEATED"
     },
     {
+      "local_id": "DUNGEON1_BOSS_POKEMON",
       "graphics_id": "OBJ_EVENT_GFX_FOSSIL",
       "x": 4,
       "y": 4,
@@ -38,7 +40,59 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "DungeonBoss_PokemonTest",
-      "flag": "FLAG_TEMP_2"
+      "flag": "FLAG_DUNGEON_BOSS_DEFEATED"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 6,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "DungeonReward_Bronze",
+      "flag": "FLAG_DUNGEON_TRAINER_0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 7,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "DungeonReward_Silver",
+      "flag": "FLAG_DUNGEON_TRAINER_1"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 8,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "DungeonReward_Gold",
+      "flag": "FLAG_DUNGEON_TRAINER_2"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
+      "x": 7,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "DungeonExit_Teleporter",
+      "flag": "FLAG_DUNGEON_TRAINER_3"
     }
   ],
   "warp_events": [],

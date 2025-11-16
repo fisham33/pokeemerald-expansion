@@ -587,8 +587,8 @@ struct SaveBlock2
              u16 dungeonCurrentRoom:3;      // Dungeon system: Current room (0-7)
              //u16 padding1:0;
     /*0x16*/ u16 dungeonTrainersDefeated:3; // Dungeon system: Trainers defeated this room (0-7)
-             u16 dungeonRewardScore:9;      // Dungeon system: Total reward points (0-511)
-             u16 padding2:4;
+             u16 dungeonRewardScore:7;      // Dungeon system: Total reward points (0-127)
+             u16 padding2:6;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u16 dungeonDailySeed;           // Narrative system: Seed based on current day (for rotation)
     /*0x92*/ u8 dungeonNarratives[3];        // Narrative system: Active narrative ID per dungeon

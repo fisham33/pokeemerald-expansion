@@ -243,6 +243,8 @@ void Script_Dungeon_GetBossPokemonText(void);         // Load custom Pokemon int
 void Script_Dungeon_GetBossPokemonDefeatText(void);   // Load custom Pokemon defeat text into gStringVar4
 void Script_Dungeon_DistributeRewards(void);  // Give rewards based on performance
 void Script_Dungeon_GetRewardTier(void);      // Get reward tier 1-3 (sets VAR_RESULT)
+void Script_Dungeon_OnBossDefeated_SpawnRewards(void);  // Spawn reward items in boss room
+void Script_Dungeon_GetRewardItem(void);      // Get specific reward item by tier (uses VAR_TEMP_0, sets VAR_0x8004)
 void Script_Dungeon_IsActive(void);           // Check if dungeon active (sets VAR_RESULT)
 void Script_Dungeon_GetCurrentRoom(void);     // Get room number (sets VAR_RESULT)
 void Script_Dungeon_GetRewardScore(void);     // Get reward score (sets VAR_RESULT)

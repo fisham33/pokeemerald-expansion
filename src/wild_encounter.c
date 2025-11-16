@@ -735,7 +735,6 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
         return FALSE;
 
     headerId = GetCurrentMapWildMonHeaderId();
-    DebugPrintf("StandardWildEncounter: headerId=%d (HEADER_NONE=%d)", headerId, HEADER_NONE);
     if (headerId == HEADER_NONE)
     {
         // Check for dungeon encounters first (dungeons don't use wild_encounters.json)
@@ -744,12 +743,15 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 
         if (dungeonLandMonsInfo != NULL || dungeonWaterMonsInfo != NULL)
         {
-            DebugPrintf("StandardWildEncounter: Dungeon encounters detected (HEADER_NONE path)");
+            // Disable wild encounters in boss rooms
+            if (Dungeon_IsOnBossFloor())
+            {
+                return FALSE;
+            }
 
             // Handle land encounters
             if (MetatileBehavior_IsLandWildEncounter(curMetatileBehavior) == TRUE && dungeonLandMonsInfo != NULL)
             {
-                DebugPrintf("StandardWildEncounter: Dungeon land encounter");
 
                 if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                     return FALSE;
@@ -797,8 +799,6 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                      || (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridgeOverWater(curMetatileBehavior) == TRUE))
                      && dungeonWaterMonsInfo != NULL)
             {
-                DebugPrintf("StandardWildEncounter: Dungeon water encounter");
-
                 if (AreLegendariesInSootopolisPreventingEncounters() == TRUE)
                     return FALSE;
                 else if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())

@@ -12,10 +12,10 @@
 #define I_DUNGEON_TRAINER_COUNT_MAX     4       // Maximum trainers per room
 
 // Reward scoring
-#define DUNGEON_POINTS_PER_TRAINER      20      // Points for defeating a trainer
-#define DUNGEON_POINTS_PER_CATCH        10      // Points for catching a Pokemon
-#define DUNGEON_POINTS_BOSS_POKEMON     50      // Points for defeating boss Pokemon
-#define DUNGEON_POINTS_BOSS_TRAINER     50      // Points for defeating boss trainer
+#define DUNGEON_POINTS_PER_TRAINER      4       // Points for defeating a trainer
+#define DUNGEON_POINTS_PER_CATCH        1       // Points for catching a Pokemon
+#define DUNGEON_POINTS_BOSS_POKEMON     20      // Points for defeating boss Pokemon
+#define DUNGEON_POINTS_BOSS_TRAINER     20      // Points for defeating boss trainer
 
 // === NARRATIVE & MODIFIER SYSTEM ===
 

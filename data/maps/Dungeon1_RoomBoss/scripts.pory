@@ -1,4 +1,33 @@
-mapscripts Dungeon1_RoomBoss_MapScripts {}
+// Object event local IDs (based on array index + 1):
+// 1 = Trainer boss (HIKER)
+// 2 = Pokemon boss (FOSSIL/ONIX)
+// 3 = Bronze reward ball
+// 4 = Silver reward ball
+// 5 = Gold reward ball
+// 6 = Psychic teleporter
+
+mapscripts Dungeon1_RoomBoss_MapScripts {
+	MAP_SCRIPT_ON_TRANSITION {
+		// Boss objects are controlled by FLAG_DUNGEON_BOSS_DEFEATED (set in map.json)
+		// When flag is clear → bosses visible, rewards hidden
+		// When flag is set → bosses hidden, rewards visible
+		checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
+		if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
+			// Show reward objects
+			clearflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
+			clearflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
+			clearflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
+			clearflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
+		}
+		else {
+			// Hide rewards (bosses visible by default)
+			setflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
+			setflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
+			setflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
+			setflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
+		}
+	}
+}
 
 // Test trainer boss at (6, 6) - uses TRAINER_NICOLAS_1 with selectmons
 script DungeonBoss_TrainerTest {
@@ -11,11 +40,8 @@ script DungeonBoss_TrainerTest {
 		releaseall
 		end
 	}
-	// Set starting battle status: Sandstorm for trainer battle
-	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
-	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Select mons battle (player picks 3 party members)
-	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
+	trainerbattle_selectmons(TRAINER_NICOLAS_1, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3) // this is current hardcoded to nicolas, but it needs to find the right trainer based off the narrative config.
 	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
 	releaseall
 	end
@@ -23,11 +49,28 @@ script DungeonBoss_TrainerTest {
 
 script TrainerBoss_OnDefeat {
 	msgbox(TrainerBoss_Victory, MSGBOX_DEFAULT)
-	waitmessage
-	// Mark boss as defeated
-	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	closemessage
 	// Clear starting status var
 	setvar(VAR_STARTING_STATUS_CONTROL, 0)
+	// Slow fade to black
+	fadescreenspeed(FADE_TO_BLACK, 8)
+	waitmessage
+	// Immediately hide boss objects
+	removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
+	removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
+	// Mark boss as defeated (persists so bosses stay hidden)
+	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
+	// Spawn rewards and clear reward flags
+	callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
+	// Immediately show reward objects
+	addobject(3)  // Bronze
+	addobject(4)  // Silver
+	addobject(5)  // Gold
+	addobject(6)  // Psychic
+	special(DrawWholeMapView)
+	// Fade back in
+	fadescreenspeed(FADE_FROM_BLACK, 8)
+	waitmessage
 	return
 }
 
@@ -37,24 +80,45 @@ script DungeonBoss_PokemonTest {
 	faceplayer
 	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
 	closemessage
-	// Set starting battle status: Sandstorm for rock-type boss
-	setvar(VAR_STARTING_STATUS_CONTROL, STARTING_STATUS_SANDSTORM)
-	setvar(VAR_STARTING_STATUS_TIMER, 2)
 	// Set totem boosts: +1 to all stats
 	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)
 	// Create wild Onix level 28 with Hard Stone
-	setwildbattle(SPECIES_ONIX, 28, ITEM_HARD_STONE)
-	setflag(FLAG_SYS_CTRL_OBJ_DELETE)
+	setwildbattle(SPECIES_ONIX, 28, ITEM_HARD_STONE) // this is current hardcoded to onix, but it needs to find the right pokemon based off the narrative config 
+	//setflag(FLAG_SYS_CTRL_OBJ_DELETE)
 	dowildbattle
-	clearflag(FLAG_SYS_CTRL_OBJ_DELETE)
-	// Clear starting status var
-	setvar(VAR_STARTING_STATUS_CONTROL, 0)
+	//clearflag(FLAG_SYS_CTRL_OBJ_DELETE)
+	setflag(FLAG_SMART_WILD_POKEMON)
+	setflag(FLAG_NO_CATCHING)
+	setflag(FLAG_NO_RUNNING)
 	// Check if player won (not fled/lost)
 	if (var(VAR_RESULT) == B_OUTCOME_WON) {
+		lock
+		faceplayer
 		msgbox(PokemonBoss_Defeat, MSGBOX_DEFAULT)
+		closemessage
+		// Slow fade to black
+		fadescreenspeed(FADE_TO_BLACK, 8)
 		waitmessage
-		// Despawn the Pokemon after victory
-		setflag(FLAG_TEMP_2)
+		// Immediately hide boss objects
+		removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
+		removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
+		// Mark boss as defeated (this hides both boss objects via their flags)
+		setflag(FLAG_DUNGEON_BOSS_DEFEATED)
+		setflag(FLAG_NO_CATCHING)
+		setflag(FLAG_NO_RUNNING)
+		// Clear starting status var
+		setvar(VAR_STARTING_STATUS_CONTROL, 0)
+		// Spawn rewards and clear reward flags
+		callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
+		// Immediately show reward objects
+		addobject(3)  // Bronze
+		addobject(4)  // Silver
+		addobject(5)  // Gold
+		addobject(6)  // Psychic
+		special(DrawWholeMapView)
+		// Fade back in
+		fadescreenspeed(FADE_FROM_BLACK, 8)
+		waitmessage
 	}
 	release
 }
@@ -84,4 +148,88 @@ text PokemonBoss_Intro {
 
 text PokemonBoss_Defeat {
 	"The mighty ONIX has been defeated!"
+}
+
+// ========== REWARD ITEM BALLS ==========
+
+script DungeonReward_Bronze {
+	lockall
+	// Get the item for bronze tier (index 0)
+	setvar(VAR_TEMP_0, 0)
+	callnative(Script_Dungeon_GetRewardItem)
+	copyvar(VAR_0x8000, VAR_0x8004)
+	checkitemspace(VAR_0x8000)
+	if (var(VAR_RESULT) == FALSE) {
+		goto(Common_EventScript_ShowBagIsFull)
+	}
+	giveitem(VAR_0x8000)
+	bufferitemname(STR_VAR_1, VAR_0x8000)
+	removeobject(VAR_LAST_TALKED)
+	setflag(FLAG_DUNGEON_TRAINER_0)
+	releaseall
+}
+
+script DungeonReward_Silver {
+	lockall
+	// Check if player earned silver tier
+	callnative(Script_Dungeon_GetRewardTier)
+	if (var(VAR_RESULT) < 2) {
+		msgbox("This reward is locked.\nDefeat more trainers for Silver rank!", MSGBOX_DEFAULT)
+		releaseall
+		end
+	}
+	// Get the item for silver tier (index 1)
+	setvar(VAR_TEMP_0, 1)
+	callnative(Script_Dungeon_GetRewardItem)
+	copyvar(VAR_0x8000, VAR_0x8004)
+	checkitemspace(VAR_0x8000)
+	if (var(VAR_RESULT) == FALSE) {
+		goto(Common_EventScript_ShowBagIsFull)
+	}
+	giveitem(VAR_0x8000)
+	bufferitemname(STR_VAR_1, VAR_0x8000)
+	removeobject(VAR_LAST_TALKED)
+	setflag(FLAG_DUNGEON_TRAINER_1)
+	releaseall
+}
+
+script DungeonReward_Gold {
+	lockall
+	// Check if player earned gold tier
+	callnative(Script_Dungeon_GetRewardTier)
+	if (var(VAR_RESULT) < 3) {
+		msgbox("This reward is locked.\nDefeat all trainers for Gold rank!", MSGBOX_DEFAULT)
+		releaseall
+		end
+	}
+	// Get the item for gold tier (index 2)
+	setvar(VAR_TEMP_0, 2)
+	callnative(Script_Dungeon_GetRewardItem)
+	copyvar(VAR_0x8000, VAR_0x8004)
+	checkitemspace(VAR_0x8000)
+	if (var(VAR_RESULT) == FALSE) {
+		goto(Common_EventScript_ShowBagIsFull)
+	}
+	giveitem(VAR_0x8000)
+	bufferitemname(STR_VAR_1, VAR_0x8000)
+	removeobject(VAR_LAST_TALKED)
+	setflag(FLAG_DUNGEON_TRAINER_2)
+	releaseall
+}
+
+script DungeonExit_Teleporter {
+	lockall
+	faceplayer
+	msgbox("The PSYCHIC offers to teleport you\nout of the dungeon.\pWould you like to leave?", MSGBOX_YESNO)
+	if (var(VAR_RESULT) == YES) {
+		msgbox("The PSYCHIC nods...", MSGBOX_DEFAULT)
+		closemessage
+		callnative(Script_Dungeon_Exit)
+		warp(MAP_DUNGEON1_ENTRANCE, 6, 4)
+		waitstate
+	}
+	else {
+		msgbox("The PSYCHIC will wait here\nif you change your mind.", MSGBOX_DEFAULT)
+	}
+	releaseall
 }
