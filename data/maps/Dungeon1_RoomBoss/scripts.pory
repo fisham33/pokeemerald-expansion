@@ -81,16 +81,64 @@ script DungeonBoss_TrainerTest {
 		releaseall
 		end
 	}
-	// Select mons battle (player picks 3 party members)
-	// VAR_DUNGEON_BOSS_TRAINER was set by Script_Dungeon_SpawnBoss based on narrative
-	trainerbattle_selectmons(VAR_DUNGEON_BOSS_TRAINER, TrainerBoss_Intro, TrainerBoss_Defeat, TrainerBoss_OnDefeat, 3)
-	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+	// Show intro message
+	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
+	closemessage
+
+	// === SELECTMONS BATTLE SETUP ===
+	// Save full party before selection
+	special(SaveSelectMonsParty)
+	// Fade for party selection screen
+	fadescreen(FADE_TO_BLACK)
+	// Set number of pokemon to select (3 for boss battles)
+	setvar(VAR_0x8004, 3)
+	special(ChoosePartyForStandardBattle)
+	waitstate
+	// Check if player cancelled selection
+	if (var(VAR_RESULT) == 0) {
+		special(LoadSelectMonsParty)
+		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+		releaseall
+		end
+	}
+	// Reduce party to selected pokemon
+	special(ReducePlayerPartyToSelectedMons)
+	// Set frontier data for selected mon order
+	setvar(VAR_0x8004, 2)  // FRONTIER_UTIL_FUNC_SET_DATA
+	setvar(VAR_0x8005, 4)  // FRONTIER_DATA_SELECTED_MON_ORDER
+	special(CallFrontierUtilFunc)
+
+	// === START BOSS BATTLE ===
+	// Set VAR_TEMP_1 to indicate selectmons mode for Script_Dungeon_SetupTrainerBattle
+	setvar(VAR_TEMP_1, 1)
+	// Set VAR_0x8004 to trainer ID (function will detect this and use it for boss)
+	copyvar(VAR_0x8004, VAR_DUNGEON_BOSS_TRAINER)
+	callnative(Script_Dungeon_SetupTrainerBattle)
+	waitstate
+
+	// === POST-BATTLE CLEANUP ===
+	// Restore full party
+	special(LoadSelectMonsParty)
+	// Clear VAR_0x8004 and VAR_TEMP_1 so regular trainers work correctly after this
+	setvar(VAR_0x8004, 0)
+	setvar(VAR_TEMP_1, 0)
+	// Get battle outcome
+	special(GetBattleOutcome)
+	// Check if player won
+	if (var(VAR_RESULT) == B_OUTCOME_WON) {
+		call(TrainerBoss_OnDefeat)
+	}
+	else {
+		// Player lost or fled - show post-battle message
+		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+	}
 	releaseall
 	end
 }
 
 script TrainerBoss_OnDefeat {
 	msgbox(TrainerBoss_Victory, MSGBOX_DEFAULT)
+	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
 	closemessage
 	// Clear starting status var
 	setvar(VAR_STARTING_STATUS_CONTROL, 0)

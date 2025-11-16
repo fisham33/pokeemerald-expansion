@@ -1247,41 +1247,75 @@ static const u8 sDungeonTrainerDefeated[] = _("I lost!");
 // gSpecialVar_0x8000 should contain the trainer slot index (0-3)
 void Script_Dungeon_SetupTrainerBattle(void)
 {
-    u8 trainerSlot = gSpecialVar_0x8000;  // Which trainer slot (0-3)
+    // For regular dungeon trainers: gSpecialVar_0x8000 contains the trainer slot (0-3)
+    // For boss trainers: gSpecialVar_0x8004 contains the trainer ID directly
+    u16 trainerId;
 
-    DebugPrintf("SetupTrainerBattle: slot=%d", trainerSlot);
-
-    // Bounds check
-    if (trainerSlot >= DUNGEON_MAX_TRAINERS_PER_ROOM)
+    // Check if VAR_0x8004 is set (boss trainer)
+    if (gSpecialVar_0x8004 != 0)
     {
-        DebugPrintf("ERROR: Invalid trainer slot %d", trainerSlot);
-        return;
+        // Boss trainer - use trainer ID from VAR_0x8004
+        trainerId = gSpecialVar_0x8004;
+        MgbaPrintf(MGBA_LOG_INFO, "SetupTrainerBattle: Boss trainer ID=%d", trainerId);
     }
+    else
+    {
+        // Regular trainer - use slot from VAR_0x8000
+        u8 trainerSlot = gSpecialVar_0x8000;
 
-    // Get trainer ID from the appropriate variable
-    u16 trainerId = VarGet(sDungeonTrainers[trainerSlot].trainerIdVar);
+        MgbaPrintf(MGBA_LOG_INFO, "SetupTrainerBattle: slot=%d", trainerSlot);
 
-    DebugPrintf("SetupTrainerBattle: trainerId=%d from var 0x%04X", trainerId, sDungeonTrainers[trainerSlot].trainerIdVar);
+        // Bounds check
+        if (trainerSlot >= DUNGEON_MAX_TRAINERS_PER_ROOM)
+        {
+            MgbaPrintf(MGBA_LOG_ERROR, "ERROR: Invalid trainer slot %d", trainerSlot);
+            return;
+        }
+
+        // Get trainer ID from the appropriate variable
+        trainerId = VarGet(sDungeonTrainers[trainerSlot].trainerIdVar);
+
+        MgbaPrintf(MGBA_LOG_INFO, "SetupTrainerBattle: trainerId=%d from var 0x%04X",
+            trainerId, sDungeonTrainers[trainerSlot].trainerIdVar);
+    }
 
     // Validate trainer ID
     if (trainerId == 0 || trainerId >= TRAINERS_COUNT)
     {
-        DebugPrintf("ERROR: Invalid trainer ID %d, using fallback", trainerId);
+        MgbaPrintf(MGBA_LOG_ERROR, "ERROR: Invalid trainer ID %d, using fallback", trainerId);
         trainerId = TRAINER_CALVIN_1;
     }
 
     // Initialize battle parameters
     memset(gTrainerBattleParameter.data, 0, sizeof(TrainerBattleParameter));
 
-    // Set up single trainer battle with continue script
-    TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT;
-    TRAINER_BATTLE_PARAM.playMusicA = TRUE;
+    // Check if selectmons mode (VAR_TEMP_1 == 1 for selectmons)
+    bool8 isSelectmons = (VarGet(VAR_TEMP_1) == 1);
+
+    MgbaPrintf(MGBA_LOG_INFO, "SetupTrainerBattle: isSelectmons=%d", isSelectmons);
+
+    // Set battle mode based on selectmons flag
+    if (isSelectmons)
+    {
+        // Selectmons mode - no intro text, player already selected party
+        TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT_NO_INTRO_TEXT;
+        TRAINER_BATTLE_PARAM.playMusicA = TRUE;
+    }
+    else
+    {
+        // Regular mode - with intro text
+        TRAINER_BATTLE_PARAM.mode = TRAINER_BATTLE_CONTINUE_SCRIPT;
+        TRAINER_BATTLE_PARAM.playMusicA = TRUE;
+    }
+
     TRAINER_BATTLE_PARAM.isDoubleBattle = FALSE;
     TRAINER_BATTLE_PARAM.isRematch = FALSE;
 
     TRAINER_BATTLE_PARAM.objEventLocalIdA = gSpecialVar_LastTalked; // The trainer NPC
     TRAINER_BATTLE_PARAM.opponentA = trainerId;                      // Dynamic trainer ID
-    TRAINER_BATTLE_PARAM.introTextA = (u8 *)sDungeonTrainerIntro;   // Intro text (cast away const)
+
+    // For selectmons, intro text was already shown; for regular, use default
+    TRAINER_BATTLE_PARAM.introTextA = isSelectmons ? NULL : (u8 *)sDungeonTrainerIntro;
     TRAINER_BATTLE_PARAM.defeatTextA = (u8 *)sDungeonTrainerDefeated; // Defeat text (cast away const)
     TRAINER_BATTLE_PARAM.battleScriptRetAddrA = NULL;                // No post-battle script (will use gotopostbattlescript)
 
@@ -1295,6 +1329,11 @@ void Script_Dungeon_SetupTrainerBattle(void)
     // No victory/cannot battle text needed
     TRAINER_BATTLE_PARAM.victoryText = NULL;
     TRAINER_BATTLE_PARAM.cannotBattleText = NULL;
+
+    // Start the trainer battle
+    BattleSetup_StartTrainerBattle();
+
+    // Note: VAR_RESULT will be set to battle outcome after waitstate in script
 }
 
 // ==========================================================================
