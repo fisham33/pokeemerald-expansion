@@ -29,8 +29,11 @@
 #include "constants/opponents.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
+#include "constants/characters.h"
 #include "config/dungeon.h"
 #include "debug.h"
+#include "difficulty.h"
+#include "data.h"
 
 // Include data files
 #include "data/dungeon_definitions.h"
@@ -1245,11 +1248,20 @@ static const u8 sDungeonTrainerDefeated[] = _("I lost!");
 //        dotrainerbattle
 //        gotopostbattlescript
 // gSpecialVar_0x8000 should contain the trainer slot index (0-3)
+// Static buffers for randomly selected trainer text (must persist during battle)
+static u8 sTrainerIntroTextBuffer[256];
+static u8 sTrainerDefeatTextBuffer[256];
+
 void Script_Dungeon_SetupTrainerBattle(void)
 {
     // For regular dungeon trainers: gSpecialVar_0x8000 contains the trainer slot (0-3)
     // For boss trainers: gSpecialVar_0x8004 contains the trainer ID directly
     u16 trainerId;
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    const struct DungeonNarrative *narrative = NULL;
+
+    if (dungeonId != 0xFF)
+        narrative = Dungeon_GetActiveNarrative(dungeonId);
 
     // Check if VAR_0x8004 is set (boss trainer)
     if (gSpecialVar_0x8004 != 0)
@@ -1314,9 +1326,41 @@ void Script_Dungeon_SetupTrainerBattle(void)
     TRAINER_BATTLE_PARAM.objEventLocalIdA = gSpecialVar_LastTalked; // The trainer NPC
     TRAINER_BATTLE_PARAM.opponentA = trainerId;                      // Dynamic trainer ID
 
-    // For selectmons, intro text was already shown; for regular, use default
-    TRAINER_BATTLE_PARAM.introTextA = isSelectmons ? NULL : (u8 *)sDungeonTrainerIntro;
-    TRAINER_BATTLE_PARAM.defeatTextA = (u8 *)sDungeonTrainerDefeated; // Defeat text (cast away const)
+    // Select random intro and defeat text from narrative
+    if (narrative != NULL)
+    {
+        // Select random intro text
+        if (narrative->trainerIntroTextCount > 0)
+        {
+            u8 introIndex = Random() % narrative->trainerIntroTextCount;
+            StringCopy(sTrainerIntroTextBuffer, narrative->trainerIntroTexts[introIndex]);
+        }
+        else
+        {
+            StringCopy(sTrainerIntroTextBuffer, sDungeonTrainerIntro);
+        }
+
+        // Select random defeat text
+        if (narrative->trainerDefeatTextCount > 0)
+        {
+            u8 defeatIndex = Random() % narrative->trainerDefeatTextCount;
+            StringCopy(sTrainerDefeatTextBuffer, narrative->trainerDefeatTexts[defeatIndex]);
+        }
+        else
+        {
+            StringCopy(sTrainerDefeatTextBuffer, sDungeonTrainerDefeated);
+        }
+    }
+    else
+    {
+        // No narrative - use defaults
+        StringCopy(sTrainerIntroTextBuffer, sDungeonTrainerIntro);
+        StringCopy(sTrainerDefeatTextBuffer, sDungeonTrainerDefeated);
+    }
+
+    // For selectmons, intro text was already shown; for regular, use selected text
+    TRAINER_BATTLE_PARAM.introTextA = isSelectmons ? NULL : sTrainerIntroTextBuffer;
+    TRAINER_BATTLE_PARAM.defeatTextA = sTrainerDefeatTextBuffer;
     TRAINER_BATTLE_PARAM.battleScriptRetAddrA = NULL;                // No post-battle script (will use gotopostbattlescript)
 
     // Trainer B fields (not used for single battles)
@@ -1330,10 +1374,187 @@ void Script_Dungeon_SetupTrainerBattle(void)
     TRAINER_BATTLE_PARAM.victoryText = NULL;
     TRAINER_BATTLE_PARAM.cannotBattleText = NULL;
 
-    // Start the trainer battle
+    // Start the trainer battle (script will waitstate for it to complete)
     BattleSetup_StartTrainerBattle();
+}
 
-    // Note: VAR_RESULT will be set to battle outcome after waitstate in script
+// ==========================================================================
+// DIALOG TEXT RETRIEVAL
+// ==========================================================================
+
+// Get random trainer intro text and load into gStringVar4
+// Supports merge fields: [PLACEHOLDER] for generic use
+void Script_Dungeon_GetRandomTrainerIntro(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->trainerIntroTextCount == 0)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    // Select random intro text and expand placeholders
+    u8 index = Random() % narrative->trainerIntroTextCount;
+    StringExpandPlaceholders(gStringVar4, narrative->trainerIntroTexts[index]);
+}
+
+// Get random trainer defeat text and load into gStringVar4
+// Supports merge fields: [PLACEHOLDER] for generic use
+void Script_Dungeon_GetRandomTrainerDefeat(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->trainerDefeatTextCount == 0)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    // Select random defeat text and expand placeholders
+    u8 index = Random() % narrative->trainerDefeatTextCount;
+    StringExpandPlaceholders(gStringVar4, narrative->trainerDefeatTexts[index]);
+}
+
+// Get random boss intro text and load into gStringVar4
+// Supports merge fields: [SPECIES], [TRAINERNAME], [PLACEHOLDER]
+void Script_Dungeon_GetRandomBossIntro(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossIntroTextCount == 0)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    // Populate merge field buffers based on boss type
+    if (narrative->bossType == BOSS_TYPE_POKEMON)
+    {
+        // STR_VAR_1 = Species name
+        StringCopy(gStringVar1, GetSpeciesName(narrative->boss.pokemon.species));
+    }
+    else if (narrative->bossType == BOSS_TYPE_TRAINER)
+    {
+        // STR_VAR_1 = Trainer name
+        u16 trainerId = narrative->boss.trainer.trainerId;
+        if (trainerId < TRAINERS_COUNT)
+            StringCopy(gStringVar1, gTrainers[GetCurrentDifficultyLevel()][trainerId].trainerName);
+        else
+            gStringVar1[0] = EOS;
+    }
+    else
+    {
+        gStringVar1[0] = EOS;
+    }
+
+    // Select random intro text and expand placeholders
+    u8 index = Random() % narrative->bossIntroTextCount;
+    StringExpandPlaceholders(gStringVar4, narrative->bossIntroTexts[index]);
+}
+
+// Get random boss defeat text and load into gStringVar4
+// Supports merge fields: [SPECIES], [TRAINERNAME], [PLACEHOLDER]
+void Script_Dungeon_GetRandomBossDefeat(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossDefeatTextCount == 0)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    // Populate merge field buffers based on boss type
+    if (narrative->bossType == BOSS_TYPE_POKEMON)
+    {
+        // STR_VAR_1 = Species name
+        StringCopy(gStringVar1, GetSpeciesName(narrative->boss.pokemon.species));
+    }
+    else if (narrative->bossType == BOSS_TYPE_TRAINER)
+    {
+        // STR_VAR_1 = Trainer name
+        u16 trainerId = narrative->boss.trainer.trainerId;
+        if (trainerId < TRAINERS_COUNT)
+            StringCopy(gStringVar1, gTrainers[GetCurrentDifficultyLevel()][trainerId].trainerName);
+        else
+            gStringVar1[0] = EOS;
+    }
+    else
+    {
+        gStringVar1[0] = EOS;
+    }
+
+    // Select random defeat text and expand placeholders
+    u8 index = Random() % narrative->bossDefeatTextCount;
+    StringExpandPlaceholders(gStringVar4, narrative->bossDefeatTexts[index]);
+}
+
+// Get random boss victory text and load into gStringVar4
+// Supports merge fields: [SPECIES], [TRAINERNAME], [PLACEHOLDER]
+void Script_Dungeon_GetRandomBossVictory(void)
+{
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    if (dungeonId == 0xFF)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    if (narrative == NULL || narrative->bossVictoryTextCount == 0)
+    {
+        gStringVar4[0] = EOS;
+        return;
+    }
+
+    // Populate merge field buffers based on boss type
+    if (narrative->bossType == BOSS_TYPE_POKEMON)
+    {
+        // STR_VAR_1 = Species name
+        StringCopy(gStringVar1, GetSpeciesName(narrative->boss.pokemon.species));
+    }
+    else if (narrative->bossType == BOSS_TYPE_TRAINER)
+    {
+        // STR_VAR_1 = Trainer name
+        u16 trainerId = narrative->boss.trainer.trainerId;
+        if (trainerId < TRAINERS_COUNT)
+            StringCopy(gStringVar1, gTrainers[GetCurrentDifficultyLevel()][trainerId].trainerName);
+        else
+            gStringVar1[0] = EOS;
+    }
+    else
+    {
+        gStringVar1[0] = EOS;
+    }
+
+    // Select random victory text and expand placeholders
+    u8 index = Random() % narrative->bossVictoryTextCount;
+    StringExpandPlaceholders(gStringVar4, narrative->bossVictoryTexts[index]);
 }
 
 // ==========================================================================

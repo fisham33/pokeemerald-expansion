@@ -61,7 +61,7 @@ static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
 };
 
 static const struct WildPokemonInfo sCaveTeamMagma_LandMonsInfo = {
-    .encounterRate = 12,  // 2 out of 256 chance per step
+    .encounterRate = 4,  // 2 out of 256 chance per step
     .wildPokemon = sCaveTeamMagma_LandMons
 };
 
@@ -76,6 +76,100 @@ static const u16 sCaveTeamMagma_RewardItems[] = {
     ITEM_HEAT_ROCK,         // Low score (0-100)
     ITEM_TM_FLAMETHROWER,        // Medium score (101-200)
     ITEM_FIRE_STONE,        // High score (201+)
+};
+
+// === DIALOG TEXT ARRAYS ===
+
+// Cave Test narrative dialog
+static const u8 sCaveTest_TrainerIntro1[] = _("sCaveTest_TrainerIntro1");
+static const u8 sCaveTest_TrainerIntro2[] = _("sCaveTest_TrainerIntro2");
+static const u8 sCaveTest_TrainerIntro3[] = _("sCaveTest_TrainerIntro3");
+
+static const u8 sCaveTest_TrainerDefeat1[] = _("sCaveTest_TrainerDefeat1");
+static const u8 sCaveTest_TrainerDefeat2[] = _("sCaveTest_TrainerDefeat2");
+static const u8 sCaveTest_TrainerDefeat3[] = _("sCaveTest_TrainerDefeat3");
+
+static const u8 sCaveTest_BossIntro1[] = _(
+    "The ground trembles as a massive\n"
+    "{STR_VAR_1} emerges from the shadows!"
+);
+
+static const u8 sCaveTest_BossDefeat1[] = _("...");
+static const u8 sCaveTest_BossVictory1[] = _("The mighty {STR_VAR_1} has been defeated!");
+
+static const u8 * const sCaveTest_TrainerIntroTexts[] = {
+    sCaveTest_TrainerIntro1,
+    sCaveTest_TrainerIntro2,
+    sCaveTest_TrainerIntro3,
+};
+
+static const u8 * const sCaveTest_TrainerDefeatTexts[] = {
+    sCaveTest_TrainerDefeat1,
+    sCaveTest_TrainerDefeat2,
+    sCaveTest_TrainerDefeat3,
+};
+
+static const u8 * const sCaveTest_BossIntroTexts[] = {
+    sCaveTest_BossIntro1,
+};
+
+static const u8 * const sCaveTest_BossDefeatTexts[] = {
+    sCaveTest_BossDefeat1,
+};
+
+static const u8 * const sCaveTest_BossVictoryTexts[] = {
+    sCaveTest_BossVictory1,
+};
+
+// Team Magma narrative dialog
+static const u8 sCaveTeamMagma_TrainerIntro1[] = _("Team Magma will prevail!");
+static const u8 sCaveTeamMagma_TrainerIntro2[] = _("Out of my way, intruder!");
+static const u8 sCaveTeamMagma_TrainerIntro3[] = _("You'll never stop Team Magma!");
+
+static const u8 sCaveTeamMagma_TrainerDefeat1[] = _("Team Magma won't forget this...");
+static const u8 sCaveTeamMagma_TrainerDefeat2[] = _("Impossible!");
+static const u8 sCaveTeamMagma_TrainerDefeat3[] = _("I've failed the mission!");
+
+static const u8 sCaveTeamMagma_BossIntro1[] = _(
+    "{STR_VAR_1}: You've made it this far...\n"
+    "But this is where your run ends!"
+);
+static const u8 sCaveTeamMagma_BossIntro2[] = _(
+    "{STR_VAR_1}: So, you're the one interfering\n"
+    "with Team Magma's operations!"
+);
+
+static const u8 sCaveTeamMagma_BossDefeat1[] = _("{STR_VAR_1}: Impossible...!");
+static const u8 sCaveTeamMagma_BossDefeat2[] = _("{STR_VAR_1}: You're stronger than I thought.");
+
+static const u8 sCaveTeamMagma_BossVictory1[] = _("{STR_VAR_1} has been defeated!");
+static const u8 sCaveTeamMagma_BossVictory2[] = _("Team Magma retreats in defeat!");
+
+static const u8 * const sCaveTeamMagma_TrainerIntroTexts[] = {
+    sCaveTeamMagma_TrainerIntro1,
+    sCaveTeamMagma_TrainerIntro2,
+    sCaveTeamMagma_TrainerIntro3,
+};
+
+static const u8 * const sCaveTeamMagma_TrainerDefeatTexts[] = {
+    sCaveTeamMagma_TrainerDefeat1,
+    sCaveTeamMagma_TrainerDefeat2,
+    sCaveTeamMagma_TrainerDefeat3,
+};
+
+static const u8 * const sCaveTeamMagma_BossIntroTexts[] = {
+    sCaveTeamMagma_BossIntro1,
+    sCaveTeamMagma_BossIntro2,
+};
+
+static const u8 * const sCaveTeamMagma_BossDefeatTexts[] = {
+    sCaveTeamMagma_BossDefeat1,
+    sCaveTeamMagma_BossDefeat2,
+};
+
+static const u8 * const sCaveTeamMagma_BossVictoryTexts[] = {
+    sCaveTeamMagma_BossVictory1,
+    sCaveTeamMagma_BossVictory2,
 };
 
 // Strings for test narrative
@@ -116,12 +210,24 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
             .level = 28,
             .heldItem = ITEM_HARD_STONE,
             .totemBoosts = {1, 1, 1, 1, 1, 1, 1},  // +1 to all stats
-        }
+        }, 
     },
 
     // Rewards
     .rewardItems = sCaveTest_RewardItems,
     .rewardTierCount = ARRAY_COUNT(sCaveTest_RewardItems),
+
+    // Dialog text
+    .trainerIntroTexts = sCaveTest_TrainerIntroTexts,
+    .trainerIntroTextCount = ARRAY_COUNT(sCaveTest_TrainerIntroTexts),
+    .trainerDefeatTexts = sCaveTest_TrainerDefeatTexts,
+    .trainerDefeatTextCount = ARRAY_COUNT(sCaveTest_TrainerDefeatTexts),
+    .bossIntroTexts = sCaveTest_BossIntroTexts,
+    .bossIntroTextCount = ARRAY_COUNT(sCaveTest_BossIntroTexts),
+    .bossDefeatTexts = sCaveTest_BossDefeatTexts,
+    .bossDefeatTextCount = ARRAY_COUNT(sCaveTest_BossDefeatTexts),
+    .bossVictoryTexts = sCaveTest_BossVictoryTexts,
+    .bossVictoryTextCount = ARRAY_COUNT(sCaveTest_BossVictoryTexts),
 };
 
 // Team Magma
@@ -150,6 +256,18 @@ static const struct DungeonNarrative gNarrative_CaveTeamMagma = {
     // Rewards
     .rewardItems = sCaveTeamMagma_RewardItems,
     .rewardTierCount = ARRAY_COUNT(sCaveTeamMagma_RewardItems),
+
+    // Dialog text
+    .trainerIntroTexts = sCaveTeamMagma_TrainerIntroTexts,
+    .trainerIntroTextCount = ARRAY_COUNT(sCaveTeamMagma_TrainerIntroTexts),
+    .trainerDefeatTexts = sCaveTeamMagma_TrainerDefeatTexts,
+    .trainerDefeatTextCount = ARRAY_COUNT(sCaveTeamMagma_TrainerDefeatTexts),
+    .bossIntroTexts = sCaveTeamMagma_BossIntroTexts,
+    .bossIntroTextCount = ARRAY_COUNT(sCaveTeamMagma_BossIntroTexts),
+    .bossDefeatTexts = sCaveTeamMagma_BossDefeatTexts,
+    .bossDefeatTextCount = ARRAY_COUNT(sCaveTeamMagma_BossDefeatTexts),
+    .bossVictoryTexts = sCaveTeamMagma_BossVictoryTexts,
+    .bossVictoryTextCount = ARRAY_COUNT(sCaveTeamMagma_BossVictoryTexts),
 };
 
 // === NARRATIVE POOLS ===
@@ -207,6 +325,16 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
         .bossType = BOSS_TYPE_NONE,
         .rewardItems = NULL,
         .rewardTierCount = 0,
+        .trainerIntroTexts = NULL,
+        .trainerIntroTextCount = 0,
+        .trainerDefeatTexts = NULL,
+        .trainerDefeatTextCount = 0,
+        .bossIntroTexts = NULL,
+        .bossIntroTextCount = 0,
+        .bossDefeatTexts = NULL,
+        .bossDefeatTextCount = 0,
+        .bossVictoryTexts = NULL,
+        .bossVictoryTextCount = 0,
     },
     [NARRATIVE_CAVE_TEST] = gNarrative_CaveTest,
     [NARRATIVE_CAVE_TEAM_MAGMA] = gNarrative_CaveTeamMagma,

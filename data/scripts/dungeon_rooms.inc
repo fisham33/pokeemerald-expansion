@@ -8,16 +8,24 @@ DungeonRoom_Trainer_0::
 # 15 "data/scripts/dungeon_rooms.pory"
 	goto_if_set FLAG_DUNGEON_TRAINER_0, DungeonRoom_Trainer_0_2
 # 21 "data/scripts/dungeon_rooms.pory"
-	setvar VAR_0x8000, 0
-# 22 "data/scripts/dungeon_rooms.pory"
-	callnative Script_Dungeon_SetupTrainerBattle
-# 23 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_Intro, MSGBOX_DEFAULT
+# 22 "data/scripts/dungeon_rooms.pory"
+	closemessage
 # 24 "data/scripts/dungeon_rooms.pory"
-	dotrainerbattle
+	setvar VAR_0x8000, 0
 # 25 "data/scripts/dungeon_rooms.pory"
-	goto DungeonRoom_Trainer_0_PostBattle
-	return
+	callnative Script_Dungeon_SetupTrainerBattle
+# 26 "data/scripts/dungeon_rooms.pory"
+	waitstate
+# 28 "data/scripts/dungeon_rooms.pory"
+	special GetBattleOutcome
+# 29 "data/scripts/dungeon_rooms.pory"
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq DungeonRoom_Trainer_0_5
+DungeonRoom_Trainer_0_4:
+# 34 "data/scripts/dungeon_rooms.pory"
+	releaseall
+	end
 
 DungeonRoom_Trainer_0_2:
 # 16 "data/scripts/dungeon_rooms.pory"
@@ -26,21 +34,14 @@ DungeonRoom_Trainer_0_2:
 	releaseall
 	end
 
-
-DungeonRoom_Trainer_0_PostBattle::
-# 29 "data/scripts/dungeon_rooms.pory"
-	lockall
+DungeonRoom_Trainer_0_5:
 # 30 "data/scripts/dungeon_rooms.pory"
-	faceplayer
-# 31 "data/scripts/dungeon_rooms.pory"
 	callnative Script_Dungeon_OnTrainerDefeated
-# 32 "data/scripts/dungeon_rooms.pory"
+# 31 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_DEFAULT
-# 33 "data/scripts/dungeon_rooms.pory"
+# 32 "data/scripts/dungeon_rooms.pory"
 	setflag FLAG_DUNGEON_TRAINER_0
-# 34 "data/scripts/dungeon_rooms.pory"
-	releaseall
-	end
+	goto DungeonRoom_Trainer_0_4
 
 
 DungeonRoom_Trainer_1::
@@ -53,16 +54,24 @@ DungeonRoom_Trainer_1::
 # 43 "data/scripts/dungeon_rooms.pory"
 	goto_if_set FLAG_DUNGEON_TRAINER_1, DungeonRoom_Trainer_1_2
 # 49 "data/scripts/dungeon_rooms.pory"
-	setvar VAR_0x8000, 1
-# 50 "data/scripts/dungeon_rooms.pory"
-	callnative Script_Dungeon_SetupTrainerBattle
-# 51 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_Intro, MSGBOX_DEFAULT
+# 50 "data/scripts/dungeon_rooms.pory"
+	closemessage
 # 52 "data/scripts/dungeon_rooms.pory"
-	dotrainerbattle
+	setvar VAR_0x8000, 1
 # 53 "data/scripts/dungeon_rooms.pory"
-	goto DungeonRoom_Trainer_1_PostBattle
-	return
+	callnative Script_Dungeon_SetupTrainerBattle
+# 54 "data/scripts/dungeon_rooms.pory"
+	waitstate
+# 56 "data/scripts/dungeon_rooms.pory"
+	special GetBattleOutcome
+# 57 "data/scripts/dungeon_rooms.pory"
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq DungeonRoom_Trainer_1_5
+DungeonRoom_Trainer_1_4:
+# 62 "data/scripts/dungeon_rooms.pory"
+	releaseall
+	end
 
 DungeonRoom_Trainer_1_2:
 # 44 "data/scripts/dungeon_rooms.pory"
@@ -71,21 +80,14 @@ DungeonRoom_Trainer_1_2:
 	releaseall
 	end
 
-
-DungeonRoom_Trainer_1_PostBattle::
-# 57 "data/scripts/dungeon_rooms.pory"
-	lockall
+DungeonRoom_Trainer_1_5:
 # 58 "data/scripts/dungeon_rooms.pory"
-	faceplayer
-# 59 "data/scripts/dungeon_rooms.pory"
 	callnative Script_Dungeon_OnTrainerDefeated
-# 60 "data/scripts/dungeon_rooms.pory"
+# 59 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_DEFAULT
-# 61 "data/scripts/dungeon_rooms.pory"
+# 60 "data/scripts/dungeon_rooms.pory"
 	setflag FLAG_DUNGEON_TRAINER_1
-# 62 "data/scripts/dungeon_rooms.pory"
-	releaseall
-	end
+	goto DungeonRoom_Trainer_1_4
 
 
 DungeonRoom_Trainer_2::
@@ -98,16 +100,24 @@ DungeonRoom_Trainer_2::
 # 71 "data/scripts/dungeon_rooms.pory"
 	goto_if_set FLAG_DUNGEON_TRAINER_2, DungeonRoom_Trainer_2_2
 # 77 "data/scripts/dungeon_rooms.pory"
-	setvar VAR_0x8000, 2
-# 78 "data/scripts/dungeon_rooms.pory"
-	callnative Script_Dungeon_SetupTrainerBattle
-# 79 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_Intro, MSGBOX_DEFAULT
+# 78 "data/scripts/dungeon_rooms.pory"
+	closemessage
 # 80 "data/scripts/dungeon_rooms.pory"
-	dotrainerbattle
+	setvar VAR_0x8000, 2
 # 81 "data/scripts/dungeon_rooms.pory"
-	goto DungeonRoom_Trainer_2_PostBattle
-	return
+	callnative Script_Dungeon_SetupTrainerBattle
+# 82 "data/scripts/dungeon_rooms.pory"
+	waitstate
+# 84 "data/scripts/dungeon_rooms.pory"
+	special GetBattleOutcome
+# 85 "data/scripts/dungeon_rooms.pory"
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq DungeonRoom_Trainer_2_5
+DungeonRoom_Trainer_2_4:
+# 90 "data/scripts/dungeon_rooms.pory"
+	releaseall
+	end
 
 DungeonRoom_Trainer_2_2:
 # 72 "data/scripts/dungeon_rooms.pory"
@@ -116,21 +126,14 @@ DungeonRoom_Trainer_2_2:
 	releaseall
 	end
 
-
-DungeonRoom_Trainer_2_PostBattle::
-# 85 "data/scripts/dungeon_rooms.pory"
-	lockall
+DungeonRoom_Trainer_2_5:
 # 86 "data/scripts/dungeon_rooms.pory"
-	faceplayer
-# 87 "data/scripts/dungeon_rooms.pory"
 	callnative Script_Dungeon_OnTrainerDefeated
-# 88 "data/scripts/dungeon_rooms.pory"
+# 87 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_DEFAULT
-# 89 "data/scripts/dungeon_rooms.pory"
+# 88 "data/scripts/dungeon_rooms.pory"
 	setflag FLAG_DUNGEON_TRAINER_2
-# 90 "data/scripts/dungeon_rooms.pory"
-	releaseall
-	end
+	goto DungeonRoom_Trainer_2_4
 
 
 DungeonRoom_Trainer_3::
@@ -143,16 +146,24 @@ DungeonRoom_Trainer_3::
 # 99 "data/scripts/dungeon_rooms.pory"
 	goto_if_set FLAG_DUNGEON_TRAINER_3, DungeonRoom_Trainer_3_2
 # 105 "data/scripts/dungeon_rooms.pory"
-	setvar VAR_0x8000, 3
-# 106 "data/scripts/dungeon_rooms.pory"
-	callnative Script_Dungeon_SetupTrainerBattle
-# 107 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_Intro, MSGBOX_DEFAULT
+# 106 "data/scripts/dungeon_rooms.pory"
+	closemessage
 # 108 "data/scripts/dungeon_rooms.pory"
-	dotrainerbattle
+	setvar VAR_0x8000, 3
 # 109 "data/scripts/dungeon_rooms.pory"
-	goto DungeonRoom_Trainer_3_PostBattle
-	return
+	callnative Script_Dungeon_SetupTrainerBattle
+# 110 "data/scripts/dungeon_rooms.pory"
+	waitstate
+# 112 "data/scripts/dungeon_rooms.pory"
+	special GetBattleOutcome
+# 113 "data/scripts/dungeon_rooms.pory"
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq DungeonRoom_Trainer_3_5
+DungeonRoom_Trainer_3_4:
+# 118 "data/scripts/dungeon_rooms.pory"
+	releaseall
+	end
 
 DungeonRoom_Trainer_3_2:
 # 100 "data/scripts/dungeon_rooms.pory"
@@ -161,21 +172,14 @@ DungeonRoom_Trainer_3_2:
 	releaseall
 	end
 
-
-DungeonRoom_Trainer_3_PostBattle::
-# 113 "data/scripts/dungeon_rooms.pory"
-	lockall
+DungeonRoom_Trainer_3_5:
 # 114 "data/scripts/dungeon_rooms.pory"
-	faceplayer
-# 115 "data/scripts/dungeon_rooms.pory"
 	callnative Script_Dungeon_OnTrainerDefeated
-# 116 "data/scripts/dungeon_rooms.pory"
+# 115 "data/scripts/dungeon_rooms.pory"
 	msgbox DungeonRoom_PostBattle, MSGBOX_DEFAULT
-# 117 "data/scripts/dungeon_rooms.pory"
+# 116 "data/scripts/dungeon_rooms.pory"
 	setflag FLAG_DUNGEON_TRAINER_3
-# 118 "data/scripts/dungeon_rooms.pory"
-	releaseall
-	end
+	goto DungeonRoom_Trainer_3_4
 
 
 DungeonRoom_ExitTrigger::
@@ -192,13 +196,12 @@ DungeonRoom_ExitTrigger::
 
 DungeonRoom_Intro::
 # 138 "data/scripts/dungeon_rooms.pory"
-	.string "Let's battle!$"
+	.string "del: DungeonRoom_Intro$"
 
 DungeonRoom_PostBattle::
 # 142 "data/scripts/dungeon_rooms.pory"
-	.string "That was a good fight.$"
+	.string "del: DungeonRoom_PostBattle$"
 
 DungeonRoom_Text_NotCleared::
 # 146 "data/scripts/dungeon_rooms.pory"
-	.string "You must defeat all the trainers\n"
-	.string "in this room before proceeding!$"
+	.string "del: DungeonRoom_Text_NotCleared$"

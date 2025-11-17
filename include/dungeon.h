@@ -150,6 +150,19 @@ struct DungeonNarrative {
     // Rewards
     const u16 *rewardItems;                  // Array of ITEM_* based on score tiers
     u8 rewardTierCount;                      // Number of reward tiers
+
+    // Dialog text pools (randomly selected for variety)
+    const u8 * const *trainerIntroTexts;     // Array of regular trainer intro text options
+    u8 trainerIntroTextCount;
+    const u8 * const *trainerDefeatTexts;    // Array of regular trainer defeat text options
+    u8 trainerDefeatTextCount;
+
+    const u8 * const *bossIntroTexts;        // Array of boss intro text options
+    u8 bossIntroTextCount;
+    const u8 * const *bossDefeatTexts;       // Array of boss defeat text options
+    u8 bossDefeatTextCount;
+    const u8 * const *bossVictoryTexts;      // Array of boss victory text options (after player wins)
+    u8 bossVictoryTextCount;
 };
 
 // Daily rotating modifier that affects battle conditions
@@ -253,5 +266,33 @@ void Script_Dungeon_IsActive(void);           // Check if dungeon active (sets V
 void Script_Dungeon_GetCurrentRoom(void);     // Get room number (sets VAR_RESULT)
 void Script_Dungeon_GetRewardScore(void);     // Get reward score (sets VAR_RESULT)
 void Script_Dungeon_SetupTrainerBattle(void); // Setup trainer battle with dynamic ID (reads trainerIdVar from gSpecialVar_0x8000)
+
+// Dialog text retrieval (loads random text from narrative into gStringVar4)
+// These functions support merge field placeholders that are automatically expanded:
+//
+// Available merge fields:
+//   {STR_VAR_1} - Auto-populated by boss functions:
+//                 - Pokemon bosses: Species name (e.g., "ONIX")
+//                 - Trainer bosses: Trainer name (e.g., "Maxie")
+//   {STR_VAR_2} - Available for scripts to populate (e.g., tier, score)
+//   {STR_VAR_3} - Available for scripts to populate (generic placeholder)
+//   {PLAYER}    - Player's name (built-in game placeholder)
+//
+// Usage examples:
+//   "The mighty {STR_VAR_1} has been defeated!"  -> "The mighty ONIX has been defeated!"
+//   "{STR_VAR_1}: You've made it this far..."    -> "Maxie: You've made it this far..."
+//   "You earned {STR_VAR_2} rank!"               -> "You earned Gold rank!" (script sets STR_VAR_2)
+//
+// To use {STR_VAR_2}/{STR_VAR_3} from scripts:
+//   bufferstring(STR_VAR_2, "Gold")  // Sets STR_VAR_2
+//   bufferstring(STR_VAR_3, "450")   // Sets STR_VAR_3
+//   callnative(Script_Dungeon_GetRandomBossVictory)
+//   msgbox(gStringVar4, MSGBOX_DEFAULT)
+//
+void Script_Dungeon_GetRandomTrainerIntro(void);    // Get random trainer intro text
+void Script_Dungeon_GetRandomTrainerDefeat(void);   // Get random trainer defeat text
+void Script_Dungeon_GetRandomBossIntro(void);       // Get random boss intro text (auto-populates {STR_VAR_1})
+void Script_Dungeon_GetRandomBossDefeat(void);      // Get random boss defeat text (auto-populates {STR_VAR_1})
+void Script_Dungeon_GetRandomBossVictory(void);     // Get random boss victory text (auto-populates {STR_VAR_1})
 
 #endif // GUARD_DUNGEON_H

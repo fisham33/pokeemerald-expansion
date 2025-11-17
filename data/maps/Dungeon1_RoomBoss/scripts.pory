@@ -81,8 +81,9 @@ script DungeonBoss_TrainerTest {
 		releaseall
 		end
 	}
-	// Show intro message
-	msgbox(TrainerBoss_Intro, MSGBOX_DEFAULT)
+	// Get random intro text from narrative
+	callnative(Script_Dungeon_GetRandomBossIntro)
+	msgbox(gStringVar4, MSGBOX_DEFAULT)
 	closemessage
 
 	// === SELECTMONS BATTLE SETUP ===
@@ -137,8 +138,12 @@ script DungeonBoss_TrainerTest {
 }
 
 script TrainerBoss_OnDefeat {
-	msgbox(TrainerBoss_Victory, MSGBOX_DEFAULT)
-	msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
+	// Get random victory text
+	callnative(Script_Dungeon_GetRandomBossVictory)
+	msgbox(gStringVar4, MSGBOX_DEFAULT)
+	// Get random defeat text
+	callnative(Script_Dungeon_GetRandomBossDefeat)
+	msgbox(gStringVar4, MSGBOX_DEFAULT)
 	closemessage
 	// Clear starting status var
 	setvar(VAR_STARTING_STATUS_CONTROL, 0)
@@ -174,11 +179,15 @@ script DungeonBoss_PokemonTest {
 	// Check if already defeated this run
 	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
 	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
-		msgbox(PokemonBoss_PostBattle, MSGBOX_DEFAULT)
+		// Get random defeat text
+		callnative(Script_Dungeon_GetRandomBossDefeat)
+		msgbox(gStringVar4, MSGBOX_DEFAULT)
 		release
 		end
 	}
-	msgbox(PokemonBoss_Intro, MSGBOX_DEFAULT)
+	// Get random intro text
+	callnative(Script_Dungeon_GetRandomBossIntro)
+	msgbox(gStringVar4, MSGBOX_DEFAULT)
 	closemessage
 	// Set totem boosts: +1 to all stats
 	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)
@@ -198,7 +207,9 @@ script DungeonBoss_PokemonTest {
 	if (var(VAR_RESULT) == B_OUTCOME_WON) {
 		lock
 		faceplayer
-		msgbox(PokemonBoss_Defeat, MSGBOX_DEFAULT)
+		// Get random victory text
+		callnative(Script_Dungeon_GetRandomBossVictory)
+		msgbox(gStringVar4, MSGBOX_DEFAULT)
 		closemessage
 		// Slow fade to black
 		fadescreenspeed(FADE_TO_BLACK, 8)

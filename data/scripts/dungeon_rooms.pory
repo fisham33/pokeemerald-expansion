@@ -17,20 +17,20 @@ script DungeonRoom_Trainer_0 {
         releaseall
         end
     }
-    // Setup dynamic trainer battle for slot 0
+    // Show intro message and wait for player input
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    closemessage
+    // Setup and start trainer battle for slot 0
     setvar(VAR_0x8000, 0)
     callnative(Script_Dungeon_SetupTrainerBattle)
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
-    dotrainerbattle
-    goto(DungeonRoom_Trainer_0_PostBattle)
-}
-
-script DungeonRoom_Trainer_0_PostBattle {
-    lockall
-    faceplayer
-    callnative(Script_Dungeon_OnTrainerDefeated)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
-    setflag(FLAG_DUNGEON_TRAINER_0)
+    waitstate
+    // Check battle outcome
+    special(GetBattleOutcome)
+    if (var(VAR_RESULT) == B_OUTCOME_WON) {
+        callnative(Script_Dungeon_OnTrainerDefeated)
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        setflag(FLAG_DUNGEON_TRAINER_0)
+    }
     releaseall
     end
 }
@@ -45,20 +45,20 @@ script DungeonRoom_Trainer_1 {
         releaseall
         end
     }
-    // Setup dynamic trainer battle for slot 1
+    // Show intro message and wait for player input
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    closemessage
+    // Setup and start trainer battle for slot 1
     setvar(VAR_0x8000, 1)
     callnative(Script_Dungeon_SetupTrainerBattle)
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
-    dotrainerbattle
-    goto(DungeonRoom_Trainer_1_PostBattle)
-}
-
-script DungeonRoom_Trainer_1_PostBattle {
-    lockall
-    faceplayer
-    callnative(Script_Dungeon_OnTrainerDefeated)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
-    setflag(FLAG_DUNGEON_TRAINER_1)
+    waitstate
+    // Check battle outcome
+    special(GetBattleOutcome)
+    if (var(VAR_RESULT) == B_OUTCOME_WON) {
+        callnative(Script_Dungeon_OnTrainerDefeated)
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        setflag(FLAG_DUNGEON_TRAINER_1)
+    }
     releaseall
     end
 }
@@ -73,20 +73,20 @@ script DungeonRoom_Trainer_2 {
         releaseall
         end
     }
-    // Setup dynamic trainer battle for slot 2
+    // Show intro message and wait for player input
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    closemessage
+    // Setup and start trainer battle for slot 2
     setvar(VAR_0x8000, 2)
     callnative(Script_Dungeon_SetupTrainerBattle)
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
-    dotrainerbattle
-    goto(DungeonRoom_Trainer_2_PostBattle)
-}
-
-script DungeonRoom_Trainer_2_PostBattle {
-    lockall
-    faceplayer
-    callnative(Script_Dungeon_OnTrainerDefeated)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
-    setflag(FLAG_DUNGEON_TRAINER_2)
+    waitstate
+    // Check battle outcome
+    special(GetBattleOutcome)
+    if (var(VAR_RESULT) == B_OUTCOME_WON) {
+        callnative(Script_Dungeon_OnTrainerDefeated)
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        setflag(FLAG_DUNGEON_TRAINER_2)
+    }
     releaseall
     end
 }
@@ -101,20 +101,20 @@ script DungeonRoom_Trainer_3 {
         releaseall
         end
     }
-    // Setup dynamic trainer battle for slot 3
+    // Show intro message and wait for player input
+    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    closemessage
+    // Setup and start trainer battle for slot 3
     setvar(VAR_0x8000, 3)
     callnative(Script_Dungeon_SetupTrainerBattle)
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
-    dotrainerbattle
-    goto(DungeonRoom_Trainer_3_PostBattle)
-}
-
-script DungeonRoom_Trainer_3_PostBattle {
-    lockall
-    faceplayer
-    callnative(Script_Dungeon_OnTrainerDefeated)
-    msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
-    setflag(FLAG_DUNGEON_TRAINER_3)
+    waitstate
+    // Check battle outcome
+    special(GetBattleOutcome)
+    if (var(VAR_RESULT) == B_OUTCOME_WON) {
+        callnative(Script_Dungeon_OnTrainerDefeated)
+        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        setflag(FLAG_DUNGEON_TRAINER_3)
+    }
     releaseall
     end
 }
@@ -136,14 +136,13 @@ script DungeonRoom_ExitTrigger {
 // ============================================
 
 text DungeonRoom_Intro {
-    "Let's battle!"
+    "del: DungeonRoom_Intro$"
 }
 
 text DungeonRoom_PostBattle {
-    "That was a good fight."
+    "del: DungeonRoom_PostBattle$"
 }
 
 text DungeonRoom_Text_NotCleared {
-    "You must defeat all the trainers\n"
-    "in this room before proceeding!"
+    "del: DungeonRoom_Text_NotCleared$"
 }
