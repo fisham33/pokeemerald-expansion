@@ -34,11 +34,11 @@
 
 // Force specific modifier (only when I_DUNGEON_DEBUG_MODE is TRUE)
 // Example: MODIFIER_PERMANENT_SNOW, MODIFIER_INVERSE_BATTLE, etc.
-#define I_DUNGEON_DEBUG_MODIFIER        MODIFIER_PERMANENT_SUN
+#define I_DUNGEON_DEBUG_MODIFIER        MODIFIER_PERMANENT_HAIL
 
 // Force specific narrative (only when I_DUNGEON_DEBUG_MODE is TRUE)
 // Example: NARRATIVE_CAVE_TEST, NARRATIVE_CAVE_MAGMA, etc.
-#define I_DUNGEON_DEBUG_NARRATIVE       NARRATIVE_CAVE_FITNESS
+#define I_DUNGEON_DEBUG_NARRATIVE       NARRATIVE_CAVE_TEST
 
 // Modifier pools (per dungeon)
 // Define which modifiers can appear in each dungeon

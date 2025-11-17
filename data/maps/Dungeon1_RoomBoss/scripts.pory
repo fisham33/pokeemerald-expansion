@@ -1,341 +1,151 @@
-// Object event local IDs (based on array index + 1):
-// 1 = Trainer boss (HIKER)
-// 2 = Pokemon boss (FOSSIL/ONIX)
-// 3 = Bronze reward ball
-// 4 = Silver reward ball
-// 5 = Gold reward ball
-// 6 = Psychic teleporter
+// ========================================
+// DUNGEON 1 (CAVE) - BOSS ROOM SCRIPTS
+// ========================================
+// This is a minimal dungeon-specific boss room script that uses common scripts.
+// Common scripts are defined in data/scripts/DungeonBossRoom_Common.pory
+//
+// DUNGEON-SPECIFIC CONFIGURATION:
+//   - Exit Map: MAP_DUNGEON1_ENTRANCE (6, 4)
+//   - Recommended Local IDs:
+//      - DUNGEONX_BOSS_TRAINER - the boss trainer NPC at the end of the dungeon
+//      - DUNGEONX_BOSS_POKEMON - the boss Pokemon NPC at the end of the dungeon
+//      - DUNGEONX_REWARD_BRONZE - the reward for finishing the dungeon
+//      - DUNGEONX_REWARD_SILVER - the reward for finishing the dungeon & achieving a silver-level score
+//      - DUNGEONX_REWARD_GOLD - the reward for finishing the dungeon & achieving a gold-level score
+//      - DUNGEONX_TELEPORTER - the NPC (psychic, Abra, escape rope etc.) who will teleport the player out of the dungeon when they interact with it
+//      Note: replace X with whatever number this dungeon is.
+//
+// To create a new dungeon's boss room:
+//   1. Copy this entire file
+//   2. Update the configuration values above
+//   3. Update warp destination in DungeonExit_Teleporter (line ~157)
+//   4. Update object IDs in the two boss battle wrappers (lines ~83-92, ~111-120)
+//   5. Ensure your objects in the map.json file (i.e. porymap file) have the same name as what's used in here e.g. DUNGEON1_BOSS_TRAINER, etc.
+
+// ========================================
+// MAP SCRIPTS
+// ========================================
 
 mapscripts Dungeon1_RoomBoss_MapScripts {
 	MAP_SCRIPT_ON_TRANSITION: Dungeon1_RoomBoss_OnTransition
 }
 
 script Dungeon1_RoomBoss_OnTransition {
-	// Spawn boss based on active narrative (sets VAR_OBJ_GFX_ID_4/5 and VAR_DUNGEON_BOSS_TRAINER)
+	// Spawn boss based on active narrative
 	callnative(Script_Dungeon_SpawnBoss)
 
 	// Check if boss already defeated
 	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
 	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
-		call(Dungeon1_RoomBoss_BossDefeated)
+		call(Dungeon1_RoomBoss_BossDefeated_ShowRewards)
 	}
 	else {
-		// Boss not defeated - show appropriate boss
+		// Boss not defeated - show appropriate boss type
 		callnative(Script_Dungeon_GetBossType)
 		copyvar(VAR_TEMP_0, VAR_RESULT)
 		if (var(VAR_TEMP_0) == 1) {
-			call(Dungeon1_RoomBoss_ShowTrainerBoss)
+			call(Common_DungeonBoss_ShowTrainerBoss)
 		}
 		elif (var(VAR_TEMP_0) == 2) {
-			call(Dungeon1_RoomBoss_ShowPokemonBoss)
+			call(Common_DungeonBoss_ShowPokemonBoss)
 		}
 		else {
-			call(Dungeon1_RoomBoss_HideRewards)
+			call(Common_DungeonBoss_HideRewards)
 		}
 	}
 	return
 }
 
-script Dungeon1_RoomBoss_BossDefeated {
+// ========================================
+// BOSS DEFEATED STATE
+// ========================================
+
+script Dungeon1_RoomBoss_BossDefeated_ShowRewards {
 	// Boss defeated - hide both bosses, show rewards
 	setflag(FLAG_TEMP_11)  // Hide trainer boss
 	setflag(FLAG_TEMP_12)  // Hide pokemon boss
-	clearflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
-	clearflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
-	clearflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
-	clearflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
+	call(Common_DungeonBoss_ShowRewards)
 	return
 }
 
-script Dungeon1_RoomBoss_ShowTrainerBoss {
-	// Show trainer boss, hide pokemon boss
-	clearflag(FLAG_TEMP_11)
-	setflag(FLAG_TEMP_12)
-	goto(Dungeon1_RoomBoss_HideRewards)
-}
+// ========================================
+// TRAINER BOSS BATTLE (WRAPPER)
+// ========================================
+// Wraps common battle logic with dungeon-specific object management
 
-script Dungeon1_RoomBoss_ShowPokemonBoss {
-	// Show pokemon boss, hide trainer boss
-	setflag(FLAG_TEMP_11)
-	clearflag(FLAG_TEMP_12)
-	goto(Dungeon1_RoomBoss_HideRewards)
-}
-
-script Dungeon1_RoomBoss_HideRewards {
-	// Hide rewards
-	setflag(FLAG_DUNGEON_TRAINER_0)  // Bronze reward
-	setflag(FLAG_DUNGEON_TRAINER_1)  // Silver reward
-	setflag(FLAG_DUNGEON_TRAINER_2)  // Gold reward
-	setflag(FLAG_DUNGEON_TRAINER_3)  // Teleporter NPC
-	return
-}
-
-// Trainer boss - uses dynamic trainer from narrative
 script DungeonBoss_TrainerTest {
-	lockall
-	faceplayer
-	// Check if already defeated this run
-	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
-	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
-		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
-		releaseall
-		end
-	}
-	// Get random intro text from narrative
-	callnative(Script_Dungeon_GetRandomBossIntro)
-	msgbox(gStringVar4, MSGBOX_DEFAULT)
-	closemessage
-
-	// === SELECTMONS BATTLE SETUP ===
-	// Save full party before selection
-	special(SaveSelectMonsParty)
-	// Fade for party selection screen
-	fadescreen(FADE_TO_BLACK)
-	// Set number of pokemon to select (3 for boss battles)
-	setvar(VAR_0x8004, 3)
-	special(ChoosePartyForStandardBattle)
-	waitstate
-	// Check if player cancelled selection
-	if (var(VAR_RESULT) == 0) {
-		special(LoadSelectMonsParty)
-		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
-		releaseall
-		end
-	}
-	// Reduce party to selected pokemon
-	special(ReducePlayerPartyToSelectedMons)
-	// Set frontier data for selected mon order
-	setvar(VAR_0x8004, 2)  // FRONTIER_UTIL_FUNC_SET_DATA
-	setvar(VAR_0x8005, 4)  // FRONTIER_DATA_SELECTED_MON_ORDER
-	special(CallFrontierUtilFunc)
-
-	// === START BOSS BATTLE ===
-	// Set VAR_TEMP_1 to indicate selectmons mode for Script_Dungeon_SetupTrainerBattle
-	setvar(VAR_TEMP_1, 1)
-	// Set VAR_0x8004 to trainer ID (function will detect this and use it for boss)
-	copyvar(VAR_0x8004, VAR_DUNGEON_BOSS_TRAINER)
-	callnative(Script_Dungeon_SetupTrainerBattle)
-	waitstate
-
-	// === POST-BATTLE CLEANUP ===
-	// Restore full party
-	special(LoadSelectMonsParty)
-	// Clear VAR_0x8004 and VAR_TEMP_1 so regular trainers work correctly after this
-	setvar(VAR_0x8004, 0)
-	setvar(VAR_TEMP_1, 0)
-	// Get battle outcome
-	special(GetBattleOutcome)
-	// Check if player won
-	if (var(VAR_RESULT) == B_OUTCOME_WON) {
-		call(TrainerBoss_OnDefeat)
-	}
-	else {
-		// Player lost or fled - show post-battle message
-		msgbox(TrainerBoss_PostBattle, MSGBOX_DEFAULT)
-	}
-	releaseall
-	end
-}
-
-script TrainerBoss_OnDefeat {
-	// Get random victory text
-	callnative(Script_Dungeon_GetRandomBossVictory)
-	msgbox(gStringVar4, MSGBOX_DEFAULT)
-	// Get random defeat text
-	callnative(Script_Dungeon_GetRandomBossDefeat)
-	msgbox(gStringVar4, MSGBOX_DEFAULT)
-	closemessage
-	// Clear starting status var
-	setvar(VAR_STARTING_STATUS_CONTROL, 0)
-	// Slow fade to black
-	fadescreenspeed(FADE_TO_BLACK, 8)
-	waitmessage
-	// Mark boss as defeated first (for persistence)
-	setflag(FLAG_DUNGEON_BOSS_DEFEATED)
-	// Hide both boss objects using their visibility flags
-	setflag(FLAG_TEMP_11)  // Hide trainer boss
-	setflag(FLAG_TEMP_12)  // Hide pokemon boss
-	// Remove boss objects immediately
-	removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
-	removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
-	// Spawn rewards and clear reward flags
-	callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
-	// Immediately show reward objects
-	addobject(3)  // Bronze
-	addobject(4)  // Silver
-	addobject(5)  // Gold
-	addobject(6)  // Psychic
-	special(DrawWholeMapView)
-	// Fade back in
-	fadescreenspeed(FADE_FROM_BLACK, 8)
-	waitmessage
-	return
-}
-
-// Pokemon boss - uses dynamic species/level/item from narrative
-script DungeonBoss_PokemonTest {
-	lock
-	faceplayer
-	// Check if already defeated this run
-	checkflag(FLAG_DUNGEON_BOSS_DEFEATED)
-	if (flag(FLAG_DUNGEON_BOSS_DEFEATED)) {
-		// Get random defeat text
-		callnative(Script_Dungeon_GetRandomBossDefeat)
-		msgbox(gStringVar4, MSGBOX_DEFAULT)
-		release
-		end
-	}
-	// Get random intro text
-	callnative(Script_Dungeon_GetRandomBossIntro)
-	msgbox(gStringVar4, MSGBOX_DEFAULT)
-	closemessage
-	// Set totem boosts: +1 to all stats
-	settotemboost(1, 1, 1, 1, 1, 1, 1, 1)
-	// Prepare wild battle from narrative (creates the encounter)
-	callnative(Script_Dungeon_StartBossPokemonBattle)
-	// Set flags for boss battle
-	setflag(FLAG_SMART_WILD_POKEMON)
-	setflag(FLAG_NO_CATCHING)
-	setflag(FLAG_NO_RUNNING)
-	// Start the battle (dowildbattle sets VAR_RESULT with the outcome)
-	dowildbattle
-	// Clear battle flags
-	clearflag(FLAG_SMART_WILD_POKEMON)
-	clearflag(FLAG_NO_CATCHING)
-	clearflag(FLAG_NO_RUNNING)
-	// Check if player won (dowildbattle automatically sets VAR_RESULT)
-	if (var(VAR_RESULT) == B_OUTCOME_WON) {
-		lock
-		faceplayer
-		// Get random victory text
-		callnative(Script_Dungeon_GetRandomBossVictory)
-		msgbox(gStringVar4, MSGBOX_DEFAULT)
-		closemessage
-		// Slow fade to black
-		fadescreenspeed(FADE_TO_BLACK, 8)
-		waitmessage
-		// Mark boss as defeated first (for persistence)
-		setflag(FLAG_DUNGEON_BOSS_DEFEATED)
-		// Hide both boss objects using their visibility flags
-		setflag(FLAG_TEMP_11)  // Hide trainer boss
-		setflag(FLAG_TEMP_12)  // Hide pokemon boss
-		// Remove boss objects immediately
+	// Call common battle logic
+	call(Common_DungeonBoss_TrainerBattle)
+	// Check if player won (VAR_TEMP_2 set by common script)
+	if (var(VAR_TEMP_2) == 1) {
+		// Player won - handle victory sequence
+		call(Common_DungeonBoss_TrainerVictory)
+		// Remove boss objects (UPDATE THESE IDs FOR YOUR DUNGEON)
 		removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
 		removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
-		// Clear starting status var
-		setvar(VAR_STARTING_STATUS_CONTROL, 0)
-		// Spawn rewards and clear reward flags
+		// Spawn rewards
 		callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
-		// Immediately show reward objects
-		addobject(3)  // Bronze
-		addobject(4)  // Silver
-		addobject(5)  // Gold
-		addobject(6)  // Psychic
+		// Show reward objects (UPDATE THESE IDs FOR YOUR DUNGEON)
+		addobject(DUNGEON1_REWARD_BRONZE)  // Bronze
+		addobject(DUNGEON1_REWARD_SILVER)  // Silver
+		addobject(DUNGEON1_REWARD_GOLD)  // Gold
+		addobject(DUNGEON1_TELEPORTER)  // Psychic
 		special(DrawWholeMapView)
 		// Fade back in
 		fadescreenspeed(FADE_FROM_BLACK, 8)
 		waitmessage
 	}
-	release
+	end
 }
 
-// Text strings
-text TrainerBoss_Intro {
-	"You've made it this far...\n"
-	"But this is where your run ends!"
+// ========================================
+// POKEMON BOSS BATTLE (WRAPPER)
+// ========================================
+// Wraps common battle logic with dungeon-specific object management
+
+script DungeonBoss_PokemonTest {
+	// Call common battle logic
+	call(Common_DungeonBoss_PokemonBattle)
+	// Check if player won (VAR_TEMP_2 set by common script)
+	if (var(VAR_TEMP_2) == 1) {
+		// Remove boss objects (UPDATE THESE IDs FOR YOUR DUNGEON)
+		removeobject(DUNGEON1_BOSS_TRAINER)  // Trainer boss
+		removeobject(DUNGEON1_BOSS_POKEMON)  // Pokemon boss
+		// Spawn rewards
+		callnative(Script_Dungeon_OnBossDefeated_SpawnRewards)
+		// Show reward objects (UPDATE THESE IDs FOR YOUR DUNGEON)
+		addobject(DUNGEON1_REWARD_BRONZE)  // Bronze
+		addobject(DUNGEON1_REWARD_SILVER)  // Silver
+		addobject(DUNGEON1_REWARD_GOLD)  // Gold
+		addobject(DUNGEON1_TELEPORTER)  // Psychic
+		special(DrawWholeMapView)
+		// Complete victory sequence
+		call(Common_DungeonBoss_PokemonVictoryEnd)
+	}
+	end
 }
 
-text TrainerBoss_Defeat {
-	"Impossible...!"
-}
-
-text TrainerBoss_Victory {
-	"Boss trainer defeated!"
-}
-
-text TrainerBoss_PostBattle {
-	"You're stronger than I thought."
-}
-
-text PokemonBoss_Intro {
-	"The ground trembles as a massive\n"
-	"ONIX emerges from the shadows!"
-}
-
-text PokemonBoss_Defeat {
-	"The mighty ONIX has been defeated!"
-}
-
-text PokemonBoss_PostBattle {
-	"..."
-}
-
-// ========== REWARD ITEM BALLS ==========
+// ========================================
+// REWARD ITEM BALLS
+// ========================================
+// Simple wrappers to common reward scripts
 
 script DungeonReward_Bronze {
-	lockall
-	// Get the item for bronze tier (index 0)
-	setvar(VAR_TEMP_0, 0)
-	callnative(Script_Dungeon_GetRewardItem)
-	copyvar(VAR_0x8000, VAR_0x8004)
-	checkitemspace(VAR_0x8000)
-	if (var(VAR_RESULT) == FALSE) {
-		goto(Common_EventScript_ShowBagIsFull)
-	}
-	giveitem(VAR_0x8000)
-	bufferitemname(STR_VAR_1, VAR_0x8000)
-	removeobject(VAR_LAST_TALKED)
-	setflag(FLAG_DUNGEON_TRAINER_0)
-	releaseall
+	goto(Common_DungeonReward_Bronze)
 }
 
 script DungeonReward_Silver {
-	lockall
-	// Check if player earned silver tier
-	callnative(Script_Dungeon_GetRewardTier)
-	if (var(VAR_RESULT) < 2) {
-		msgbox("This reward is locked.\nDefeat more trainers for Silver rank!", MSGBOX_DEFAULT)
-		releaseall
-		end
-	}
-	// Get the item for silver tier (index 1)
-	setvar(VAR_TEMP_0, 1)
-	callnative(Script_Dungeon_GetRewardItem)
-	copyvar(VAR_0x8000, VAR_0x8004)
-	checkitemspace(VAR_0x8000)
-	if (var(VAR_RESULT) == FALSE) {
-		goto(Common_EventScript_ShowBagIsFull)
-	}
-	giveitem(VAR_0x8000)
-	bufferitemname(STR_VAR_1, VAR_0x8000)
-	removeobject(VAR_LAST_TALKED)
-	setflag(FLAG_DUNGEON_TRAINER_1)
-	releaseall
+	goto(Common_DungeonReward_Silver)
 }
 
 script DungeonReward_Gold {
-	lockall
-	// Check if player earned gold tier
-	callnative(Script_Dungeon_GetRewardTier)
-	if (var(VAR_RESULT) < 3) {
-		msgbox("This reward is locked.\nDefeat all trainers for Gold rank!", MSGBOX_DEFAULT)
-		releaseall
-		end
-	}
-	// Get the item for gold tier (index 2)
-	setvar(VAR_TEMP_0, 2)
-	callnative(Script_Dungeon_GetRewardItem)
-	copyvar(VAR_0x8000, VAR_0x8004)
-	checkitemspace(VAR_0x8000)
-	if (var(VAR_RESULT) == FALSE) {
-		goto(Common_EventScript_ShowBagIsFull)
-	}
-	giveitem(VAR_0x8000)
-	bufferitemname(STR_VAR_1, VAR_0x8000)
-	removeobject(VAR_LAST_TALKED)
-	setflag(FLAG_DUNGEON_TRAINER_2)
-	releaseall
+	goto(Common_DungeonReward_Gold)
 }
+
+// ========================================
+// EXIT TELEPORTER
+// ========================================
+// UPDATE WARP DESTINATION FOR YOUR DUNGEON
 
 script DungeonExit_Teleporter {
 	lockall
@@ -345,7 +155,7 @@ script DungeonExit_Teleporter {
 		msgbox("The PSYCHIC nods...", MSGBOX_DEFAULT)
 		closemessage
 		callnative(Script_Dungeon_Exit)
-		warp(MAP_DUNGEON1_ENTRANCE, 6, 4)
+		warp(MAP_ROUTE102, 21, 4)  // UPDATE THIS WARP
 		waitstate
 	}
 	else {
