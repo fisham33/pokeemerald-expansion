@@ -1,0 +1,66 @@
+// this file is not used - ignore for now but it may be deleted.
+
+mapscripts Dungeon1_RoomEnd_MapScripts {
+	MAP_SCRIPT_ON_FRAME_TABLE [
+		VAR_TEMP_1, 0: Dungeon1_RoomEnd_ShowResults
+	]
+}
+
+script Dungeon1_RoomEnd_ShowResults {
+	lockall
+	// Prevent script from running again
+	setvar(VAR_TEMP_1, 1)
+
+	// Get dungeon stats for display
+	callnative(Script_Dungeon_GetRewardScore)
+	copyvar(VAR_TEMP_2, VAR_RESULT)  // Store score
+
+	callnative(Script_Dungeon_GetRewardTier)
+	copyvar(VAR_TEMP_3, VAR_RESULT)  // Store tier (1-3)
+
+	// Display completion message
+	msgbox("Dungeon Complete!", MSGBOX_DEFAULT)
+
+	// Show score and tier
+	buffernumberstring(STR_VAR_2, VAR_TEMP_2)  // Score
+
+	// Set rank name based on tier
+	switch(var(VAR_TEMP_3)) {
+		case 1:
+			bufferstring(STR_VAR_3, "Bronze$")
+		case 2:
+			bufferstring(STR_VAR_3, "Silver$")
+		case 3:
+			bufferstring(STR_VAR_3, "Gold$")
+	}
+
+	msgbox("Dungeon Complete!\nYour Score: {STR_VAR_2}\nRank: {STR_VAR_3}", MSGBOX_DEFAULT)
+
+	// Distribute rewards
+	callnative(Script_Dungeon_DistributeRewards)
+
+	// Check if reward was successfully given
+	if (var(VAR_RESULT) == TRUE) {
+		// VAR_0x8004 contains the item ID
+		bufferitemname(STR_VAR_1, VAR_0x8004)
+		playfanfare(MUS_OBTAIN_ITEM)
+		message("You received {STR_VAR_1}!")
+		waitmessage
+		waitfanfare
+	}
+	else {
+		// Bag was full or no rewards
+		msgbox("Your Bag is full!\nCouldn't receive reward item.", MSGBOX_DEFAULT)
+	}
+
+	msgbox("Would you like to exit the dungeon?", MSGBOX_YESNO)
+	if (var(VAR_RESULT) == YES) {
+		// Exit dungeon
+		callnative(Script_Dungeon_Exit)
+		// Warp back to entrance or previous location
+		warp(MAP_DUNGEON1_ENTRANCE, 9, 18)
+		waitstate
+	}
+
+	releaseall
+}

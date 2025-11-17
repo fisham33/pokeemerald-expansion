@@ -38,8 +38,6 @@
 // Include data files
 #include "data/dungeon_definitions.h"
 #include "data/dungeon_rooms.h"
-#include "data/dungeon_trainers.h"
-#include "data/dungeon_encounters.h"
 #include "data/dungeon_bosses.h"
 #include "data/dungeon_narratives.h"
 #include "data/dungeon_modifiers.h"
