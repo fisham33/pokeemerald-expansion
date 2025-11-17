@@ -35,6 +35,7 @@
 static const u8 sCaveNarrativePool[] = {
     NARRATIVE_CAVE_TEST,
     NARRATIVE_CAVE_TEAM_MAGMA,
+    NARRATIVE_CAVE_FITNESS,
     // Future narratives:
     // NARRATIVE_CAVE_PROFESSOR,
     // NARRATIVE_CAVE_MAGMA,
@@ -98,6 +99,7 @@ static const struct DungeonNarrative gDungeonNarratives[NARRATIVE_COUNT] = {
     },
     [NARRATIVE_CAVE_TEST] = gNarrative_CaveTest,
     [NARRATIVE_CAVE_TEAM_MAGMA] = gNarrative_CaveTeamMagma,
+    [NARRATIVE_CAVE_FITNESS] = gNarrative_CaveFitness,
     // Future narratives will be added here as they are defined
 };
 

@@ -327,4 +327,136 @@ static const struct DungeonNarrative gNarrative_CaveTeamMagma = {
     .bossVictoryTextCount = ARRAY_COUNT(sCaveTeamMagma_BossVictoryTexts),
 };
 
+// ========================================
+// NARRATIVE 2: FITNESS CLUB
+// ========================================
+
+// --- TRAINER POOL ---
+static const struct DungeonTrainerEntry sCaveFitness_TrainerPool[] = {
+    { .trainerId = TRAINER_ALYSSA, .graphicsId = OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F },
+    { .trainerId = TRAINER_PAULA, .graphicsId = OBJ_EVENT_GFX_GIRL_3 },
+    { .trainerId = TRAINER_NOB_2, .graphicsId = OBJ_EVENT_GFX_BLACK_BELT },
+    { .trainerId = TRAINER_JACOB, .graphicsId = OBJ_EVENT_GFX_CYCLING_TRIATHLETE_M },
+};
+
+// --- WILD ENCOUNTER TABLE ---
+static const struct WildPokemon sCaveFitness_LandMons[] = {
+    { 18, 20, SPECIES_VOLTORB_HISUI },      // 20%
+    { 18, 20, SPECIES_LINOONE_GALAR },   // 20%
+    { 19, 21, SPECIES_VOLTORB_HISUI },      // 10%
+    { 19, 21, SPECIES_LINOONE_GALAR },   // 10%
+    { 18, 20, SPECIES_PAWMO }, // 10%
+    { 19, 21, SPECIES_PAWMO }, // 10%
+    { 20, 22, SPECIES_VAROOM },         // 5%
+    { 20, 22, SPECIES_VAROOM },         // 5%
+    { 21, 23, SPECIES_CYCLIZAR },       // 4%
+    { 21, 23, SPECIES_CYCLIZAR },       // 4%
+    { 22, 24, SPECIES_CYCLIZAR },       // 1%
+    { 22, 24, SPECIES_CYCLIZAR },       // 1%
+};
+
+static const struct WildPokemonInfo sCaveFitness_LandMonsInfo = {
+    .encounterRate = 4,
+    .wildPokemon = sCaveFitness_LandMons
+};
+
+// --- REWARD ITEMS ---
+static const u16 sCaveFitness_RewardItems[] = {
+    ITEM_CARBOS,
+    ITEM_TM_TRAILBLAZE,
+    ITEM_CHOICE_SCARF,
+};
+
+// --- DIALOG TEXT ---
+static const u8 sCaveFitness_TrainerIntro1[] = _("Gotta go fast!");
+static const u8 sCaveFitness_TrainerIntro2[] = _("I could use a break!");
+static const u8 sCaveFitness_TrainerIntro3[] = _("Can you keep up?");
+
+static const u8 sCaveFitness_TrainerDefeat1[] = _("I could use another break.");
+static const u8 sCaveFitness_TrainerDefeat2[] = _("So fast!");
+static const u8 sCaveFitness_TrainerDefeat3[] = _("Can you slow down?");
+
+static const u8 sCaveFitness_BossIntro1[] = _(
+    "{STR_VAR_1}: You want to join the run club?\n"
+    "It's pretty exclusive!$"
+);
+static const u8 sCaveFitness_BossIntro2[] = _(
+    "{STR_VAR_1}: Are you lost?$"
+);
+
+static const u8 sCaveFitness_BossDefeat1[] = _("{STR_VAR_1}: Alright, you should be here.");
+static const u8 sCaveFitness_BossDefeat2[] = _("{STR_VAR_1}: I get it!");
+
+static const u8 sCaveFitness_BossVictory1[] = _("{STR_VAR_1} has been defeated!");
+static const u8 sCaveFitness_BossVictory2[] = _("It's time for a ice bath!");
+
+static const u8 * const sCaveFitness_TrainerIntroTexts[] = {
+    sCaveFitness_TrainerIntro1,
+    sCaveFitness_TrainerIntro2,
+    sCaveFitness_TrainerIntro3,
+};
+
+static const u8 * const sCaveFitness_TrainerDefeatTexts[] = {
+    sCaveFitness_TrainerDefeat1,
+    sCaveFitness_TrainerDefeat2,
+    sCaveFitness_TrainerDefeat3,
+};
+
+static const u8 * const sCaveFitness_BossIntroTexts[] = {
+    sCaveFitness_BossIntro1,
+    sCaveFitness_BossIntro2,
+};
+
+static const u8 * const sCaveFitness_BossDefeatTexts[] = {
+    sCaveFitness_BossDefeat1,
+    sCaveFitness_BossDefeat2,
+};
+
+static const u8 * const sCaveFitness_BossVictoryTexts[] = {
+    sCaveFitness_BossVictory1,
+    sCaveFitness_BossVictory2,
+};
+
+// --- NARRATIVE DEFINITION ---
+static const u8 sCaveFitness_Name[] = _("Fitness Club");
+static const u8 sCaveFitness_Description[] = _(
+    "A group of personal trainers and\p"
+    "fitness enthusiasts have started training\n"
+    "in the cave!$"
+);
+
+static const struct DungeonNarrative gNarrative_CaveFitness = {
+    .id = NARRATIVE_CAVE_FITNESS,
+    .name = sCaveFitness_Name,
+    .description = sCaveFitness_Description,
+
+    .trainerCount = ARRAY_COUNT(sCaveFitness_TrainerPool),
+    .trainerPool = sCaveFitness_TrainerPool,
+
+    .landEncounters = &sCaveFitness_LandMonsInfo,
+    .waterEncounters = NULL,
+
+    .bossType = BOSS_TYPE_TRAINER,
+    .boss = {
+        .trainer = {
+            .trainerId = TRAINER_DYLAN_2,
+            .graphicsId = OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M,
+        }
+    },
+
+    .rewardItems = sCaveFitness_RewardItems,
+    .rewardTierCount = ARRAY_COUNT(sCaveFitness_RewardItems),
+
+    .trainerIntroTexts = sCaveFitness_TrainerIntroTexts,
+    .trainerIntroTextCount = ARRAY_COUNT(sCaveFitness_TrainerIntroTexts),
+    .trainerDefeatTexts = sCaveFitness_TrainerDefeatTexts,
+    .trainerDefeatTextCount = ARRAY_COUNT(sCaveFitness_TrainerDefeatTexts),
+    .bossIntroTexts = sCaveFitness_BossIntroTexts,
+    .bossIntroTextCount = ARRAY_COUNT(sCaveFitness_BossIntroTexts),
+    .bossDefeatTexts = sCaveFitness_BossDefeatTexts,
+    .bossDefeatTextCount = ARRAY_COUNT(sCaveFitness_BossDefeatTexts),
+    .bossVictoryTexts = sCaveFitness_BossVictoryTexts,
+    .bossVictoryTextCount = ARRAY_COUNT(sCaveFitness_BossVictoryTexts),
+};
+
 #endif // GUARD_DATA_NARRATIVES_CAVE_H
