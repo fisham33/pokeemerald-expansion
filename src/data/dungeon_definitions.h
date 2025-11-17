@@ -3,6 +3,7 @@
 
 #include "constants/dungeons.h"
 #include "constants/maps.h"
+#include "dungeon_rooms.h"  // Include room pool definitions (same directory)
 
 // TODO: Replace MAP placeholders with actual map constants once maps are created
 
@@ -15,6 +16,8 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .levelRange = 5,  // Level range: 15-25
         .roomCount = 5,
         .entranceMap = MAP_UNDEFINED, // TODO: Replace with MAP_DUNGEON_CAVE_ENTRANCE
+        .roomPool = sCaveRooms,
+        .roomPoolSize = ARRAY_COUNT(sCaveRooms),
     },
     [DUNGEON_MID_FOREST] = {
         .id = DUNGEON_MID_FOREST,
@@ -24,6 +27,8 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .levelRange = 5,  // Level range: 35-45
         .roomCount = 5,
         .entranceMap = MAP_UNDEFINED, // TODO: Replace with MAP_DUNGEON_FOREST_ENTRANCE
+        .roomPool = sForestRooms,
+        .roomPoolSize = ARRAY_COUNT(sForestRooms),
     },
     [DUNGEON_LATE_MOUNTAIN] = {
         .id = DUNGEON_LATE_MOUNTAIN,
@@ -33,5 +38,7 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .levelRange = 5,  // Level range: 55-65
         .roomCount = 5,
         .entranceMap = MAP_UNDEFINED, // TODO: Replace with MAP_DUNGEON_MOUNTAIN_ENTRANCE
+        .roomPool = sMountainRooms,
+        .roomPoolSize = ARRAY_COUNT(sMountainRooms),
     },
 };

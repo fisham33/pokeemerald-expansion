@@ -1,3 +1,6 @@
+#ifndef GUARD_DATA_DUNGEON_ROOMS_H
+#define GUARD_DATA_DUNGEON_ROOMS_H
+
 // Dungeon Room Definitions
 // This file defines the room pools for each dungeon
 
@@ -9,7 +12,7 @@
 // === EARLY CAVE DUNGEON ROOMS ===
 static const struct DungeonRoom sCaveRooms[] = {
     {
-        .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_CAVE_ROOM1
+        .mapConstant = MAP_DUNGEON1_ROOM1,
         .trainerCountMin = 1,
         .trainerCountMax = 2,
         .spawnX = 9,
@@ -18,7 +21,7 @@ static const struct DungeonRoom sCaveRooms[] = {
         .exitY = 9,
     },
     {
-        .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_CAVE_ROOM2
+        .mapConstant = MAP_DUNGEON1_ROOM2,
         .trainerCountMin = 2,
         .trainerCountMax = 3,
         .spawnX = 9,
@@ -27,7 +30,7 @@ static const struct DungeonRoom sCaveRooms[] = {
         .exitY = 9,
     },
     {
-        .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_CAVE_ROOM3
+        .mapConstant = MAP_DUNGEON1_ROOM3,
         .trainerCountMin = 2,
         .trainerCountMax = 4,
         .spawnX = 9,
@@ -36,7 +39,7 @@ static const struct DungeonRoom sCaveRooms[] = {
         .exitY = 9,
     },
     {
-        .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_CAVE_ROOM4
+        .mapConstant = MAP_DUNGEON1_ROOM4,
         .trainerCountMin = 2,
         .trainerCountMax = 4,
         .spawnX = 9,
@@ -45,7 +48,7 @@ static const struct DungeonRoom sCaveRooms[] = {
         .exitY = 9,
     },
     {
-        .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_CAVE_ROOM5
+        .mapConstant = MAP_DUNGEON1_ROOM5,
         .trainerCountMin = 3,
         .trainerCountMax = 4,
         .spawnX = 9,
@@ -152,3 +155,5 @@ static const struct DungeonRoom sMountainRooms[] = {
         .exitY = 9,
     },
 };
+
+#endif // GUARD_DATA_DUNGEON_ROOMS_H

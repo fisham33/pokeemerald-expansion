@@ -36,6 +36,8 @@ enum DungeonTier {
 #define Dungeon_GetTrainersDefeated()    (gSaveBlock2Ptr->dungeonTrainersDefeated)
 #define Dungeon_SetRewardScore(val)      (gSaveBlock2Ptr->dungeonRewardScore = (val))
 #define Dungeon_GetRewardScore()         (gSaveBlock2Ptr->dungeonRewardScore)
+#define Dungeon_GetRoomOrder(idx)        (gSaveBlock2Ptr->dungeonRoomOrder[idx])
+#define Dungeon_SetRoomOrder(idx, val)   (gSaveBlock2Ptr->dungeonRoomOrder[idx] = (val))
 
 // === FLAGS ===
 // Note: All dungeon flags are defined in include/constants/flags.h

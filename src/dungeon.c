@@ -55,6 +55,37 @@ static void Dungeon_WarpToBossRoom(void);
 // DUNGEON ENTRY/EXIT
 // ==========================================================================
 
+// Shuffle room order using Fisher-Yates algorithm
+// Selects 'count' rooms from pool and shuffles them
+static void ShuffleRoomOrder(const struct Dungeon *dungeon)
+{
+    u8 i, j, temp;
+    u8 roomsToSelect = dungeon->roomCount;
+    u8 poolSize = dungeon->roomPoolSize;
+
+    // Clamp to pool size
+    if (roomsToSelect > poolSize)
+        roomsToSelect = poolSize;
+
+    // Initialize with sequential indices from pool
+    for (i = 0; i < roomsToSelect; i++)
+        Dungeon_SetRoomOrder(i, i);
+
+    // Fisher-Yates shuffle
+    for (i = roomsToSelect - 1; i > 0; i--)
+    {
+        j = Random() % (i + 1);
+        // Swap
+        temp = Dungeon_GetRoomOrder(i);
+        Dungeon_SetRoomOrder(i, Dungeon_GetRoomOrder(j));
+        Dungeon_SetRoomOrder(j, temp);
+    }
+
+    MgbaPrintf(MGBA_LOG_INFO, "ShuffleRoomOrder: Selected %d rooms from pool of %d", roomsToSelect, poolSize);
+    for (i = 0; i < roomsToSelect; i++)
+        MgbaPrintf(MGBA_LOG_INFO, "  Room %d: Pool index %d", i, Dungeon_GetRoomOrder(i));
+}
+
 void Dungeon_Enter(u8 dungeonId)
 {
     if (dungeonId >= DUNGEON_COUNT)
@@ -75,6 +106,11 @@ void Dungeon_Enter(u8 dungeonId)
     VarSet(VAR_TEMP_0, dungeonId);
 
     DebugPrintf("Dungeon_Enter: Set active, room=0, dungeonId stored in VAR_TEMP_0=%d", VarGet(VAR_TEMP_0));
+
+    // Shuffle room order for this run
+    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
+    if (dungeon != NULL && dungeon->roomPool != NULL)
+        ShuffleRoomOrder(dungeon);
 
     // Clear all trainer flags
     Dungeon_ClearTrainerFlags();
@@ -946,13 +982,20 @@ void Script_Dungeon_PrepareNextRoom(void)
     }
     else
     {
-        // Regular room (cycle through Room1-5)
-        switch (nextRoom % 5) {
-            case 0: mapConstant = MAP_DUNGEON1_ROOM1; break;
-            case 1: mapConstant = MAP_DUNGEON1_ROOM2; break;
-            case 2: mapConstant = MAP_DUNGEON1_ROOM3; break;
-            case 3: mapConstant = MAP_DUNGEON1_ROOM4; break;
-            default: mapConstant = MAP_DUNGEON1_ROOM5; break;
+        // Get room from shuffled order
+        u8 roomPoolIndex = Dungeon_GetRoomOrder(nextRoom);
+
+        // Safety check
+        if (roomPoolIndex >= dungeon->roomPoolSize || dungeon->roomPool == NULL)
+        {
+            MgbaPrintf(MGBA_LOG_ERROR, "PrepareNextRoom: Invalid room index %d", roomPoolIndex);
+            mapConstant = MAP_DUNGEON1_ROOM1;  // Fallback
+        }
+        else
+        {
+            const struct DungeonRoom *room = &dungeon->roomPool[roomPoolIndex];
+            mapConstant = room->mapConstant;
+            MgbaPrintf(MGBA_LOG_INFO, "PrepareNextRoom: Room %d -> Pool[%d] -> Map %d", nextRoom, roomPoolIndex, mapConstant);
         }
     }
 
