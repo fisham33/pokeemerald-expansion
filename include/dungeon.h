@@ -31,8 +31,6 @@ struct DungeonRoom {
     u8 trainerCountMax;    // Maximum trainers in this room
     u8 spawnX;             // Player spawn X coordinate
     u8 spawnY;             // Player spawn Y coordinate
-    u8 exitX;              // Exit warp X coordinate
-    u8 exitY;              // Exit warp Y coordinate
 };
 
 // === WILD ENCOUNTER POOL ===

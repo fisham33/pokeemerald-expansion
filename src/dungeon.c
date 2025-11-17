@@ -974,11 +974,14 @@ void Script_Dungeon_PrepareNextRoom(void)
 
     // Determine which map to warp to
     u16 mapConstant;
+    u8 spawnX, spawnY;
 
     if (nextRoom >= dungeon->roomCount)
     {
-        // Boss room
+        // Boss room - hardcoded coordinates
         mapConstant = MAP_DUNGEON1_ROOM_BOSS;
+        spawnX = 10;  // Boss room spawn (20x20 map center)
+        spawnY = 10;
     }
     else
     {
@@ -990,12 +993,17 @@ void Script_Dungeon_PrepareNextRoom(void)
         {
             MgbaPrintf(MGBA_LOG_ERROR, "PrepareNextRoom: Invalid room index %d", roomPoolIndex);
             mapConstant = MAP_DUNGEON1_ROOM1;  // Fallback
+            spawnX = 9;
+            spawnY = 8;
         }
         else
         {
             const struct DungeonRoom *room = &dungeon->roomPool[roomPoolIndex];
             mapConstant = room->mapConstant;
-            MgbaPrintf(MGBA_LOG_INFO, "PrepareNextRoom: Room %d -> Pool[%d] -> Map %d", nextRoom, roomPoolIndex, mapConstant);
+            spawnX = room->spawnX;
+            spawnY = room->spawnY;
+            MgbaPrintf(MGBA_LOG_INFO, "PrepareNextRoom: Room %d -> Pool[%d] -> Map %d at (%d,%d)",
+                nextRoom, roomPoolIndex, mapConstant, spawnX, spawnY);
         }
     }
 
@@ -1003,12 +1011,8 @@ void Script_Dungeon_PrepareNextRoom(void)
     u8 mapGroup = MAP_GROUP(mapConstant);
     u8 mapNum = MAP_NUM(mapConstant);
 
-    // Set warp destination and execute teleport
-    // Script handles the locking and delay, we just do the warp
-    // Use center of map (10, 10) for 20x20 boss room, (7, 7) for 15x15 regular rooms
-    u8 x = (mapConstant == MAP_DUNGEON1_ROOM_BOSS) ? 10 : 9;
-    u8 y = (mapConstant == MAP_DUNGEON1_ROOM_BOSS) ? 10 : 8;
-    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, x, y);
+    // Set warp destination and execute teleport using room's spawn coordinates
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, spawnX, spawnY);
     DoTeleportTileWarp();
     ResetInitialPlayerAvatarState();
 }

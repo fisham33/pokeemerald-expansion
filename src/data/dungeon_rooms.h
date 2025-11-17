@@ -15,10 +15,8 @@ static const struct DungeonRoom sCaveRooms[] = {
         .mapConstant = MAP_DUNGEON1_ROOM1,
         .trainerCountMin = 1,
         .trainerCountMax = 2,
-        .spawnX = 9,
-        .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
+        .spawnX = 3,
+        .spawnY = 3,
     },
     {
         .mapConstant = MAP_DUNGEON1_ROOM2,
@@ -26,35 +24,27 @@ static const struct DungeonRoom sCaveRooms[] = {
         .trainerCountMax = 3,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_DUNGEON1_ROOM3,
         .trainerCountMin = 2,
         .trainerCountMax = 4,
-        .spawnX = 9,
-        .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
+        .spawnX = 11,
+        .spawnY = 9,
     },
     {
         .mapConstant = MAP_DUNGEON1_ROOM4,
         .trainerCountMin = 2,
         .trainerCountMax = 4,
-        .spawnX = 9,
-        .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
+        .spawnX = 8,
+        .spawnY = 1,
     },
     {
         .mapConstant = MAP_DUNGEON1_ROOM5,
         .trainerCountMin = 3,
         .trainerCountMax = 4,
-        .spawnX = 9,
+        .spawnX = 12,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
 };
 
@@ -66,8 +56,6 @@ static const struct DungeonRoom sForestRooms[] = {
         .trainerCountMax = 2,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_FOREST_ROOM2
@@ -75,8 +63,6 @@ static const struct DungeonRoom sForestRooms[] = {
         .trainerCountMax = 3,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_FOREST_ROOM3
@@ -84,8 +70,6 @@ static const struct DungeonRoom sForestRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_FOREST_ROOM4
@@ -93,8 +77,6 @@ static const struct DungeonRoom sForestRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_FOREST_ROOM5
@@ -102,8 +84,6 @@ static const struct DungeonRoom sForestRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
 };
 
@@ -115,8 +95,6 @@ static const struct DungeonRoom sMountainRooms[] = {
         .trainerCountMax = 3,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_MOUNTAIN_ROOM2
@@ -124,8 +102,6 @@ static const struct DungeonRoom sMountainRooms[] = {
         .trainerCountMax = 3,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_MOUNTAIN_ROOM3
@@ -133,8 +109,6 @@ static const struct DungeonRoom sMountainRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_MOUNTAIN_ROOM4
@@ -142,8 +116,6 @@ static const struct DungeonRoom sMountainRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
     {
         .mapConstant = MAP_UNDEFINED,  // TODO: MAP_DUNGEON_MOUNTAIN_ROOM5
@@ -151,8 +123,6 @@ static const struct DungeonRoom sMountainRooms[] = {
         .trainerCountMax = 4,
         .spawnX = 9,
         .spawnY = 8,
-        .exitX = 9,
-        .exitY = 9,
     },
 };
 
