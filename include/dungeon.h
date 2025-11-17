@@ -148,8 +148,9 @@ struct DungeonNarrative {
     } boss;
 
     // Rewards
-    const u16 *rewardItems;                  // Array of ITEM_* based on score tiers
-    u8 rewardTierCount;                      // Number of reward tiers
+    const u16 * const *rewardItemPools;      // Array of item pools per tier (bronze/silver/gold)
+    const u8 *rewardPoolSizes;               // Array of pool sizes per tier
+    u8 rewardTierCount;                      // Number of reward tiers (typically 3)
 
     // Dialog text pools (randomly selected for variety)
     const u8 * const *trainerIntroTexts;     // Array of regular trainer intro text options

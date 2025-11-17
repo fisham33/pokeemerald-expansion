@@ -31,6 +31,8 @@ script DungeonRoom_Trainer_0 {
         msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_0)
     }
+    // Lock trainer in place after battle (win or lose)
+    setobjectmovementtype(VAR_LAST_TALKED, MOVEMENT_TYPE_FACE_DOWN)
     releaseall
     end
 }
@@ -59,6 +61,8 @@ script DungeonRoom_Trainer_1 {
         msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_1)
     }
+    // Lock trainer in place after battle (win or lose)
+    setobjectmovementtype(VAR_LAST_TALKED, MOVEMENT_TYPE_FACE_DOWN)
     releaseall
     end
 }
@@ -87,6 +91,8 @@ script DungeonRoom_Trainer_2 {
         msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_2)
     }
+    // Lock trainer in place after battle (win or lose)
+    setobjectmovementtype(VAR_LAST_TALKED, MOVEMENT_TYPE_FACE_DOWN)
     releaseall
     end
 }
@@ -115,6 +121,8 @@ script DungeonRoom_Trainer_3 {
         msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_3)
     }
+    // Lock trainer in place after battle (win or lose)
+    setobjectmovementtype(VAR_LAST_TALKED, MOVEMENT_TYPE_FACE_DOWN)
     releaseall
     end
 }

@@ -612,7 +612,7 @@ void Dungeon_DistributeRewards(void)
     }
 
     // Check if narrative has rewards defined
-    if (narrative->rewardItems == NULL || narrative->rewardTierCount == 0)
+    if (narrative->rewardItemPools == NULL || narrative->rewardTierCount == 0)
     {
         DebugPrintf("Dungeon_DistributeRewards: Narrative has no rewards defined");
         gSpecialVar_Result = FALSE;
@@ -623,14 +623,26 @@ void Dungeon_DistributeRewards(void)
     u16 tier = Dungeon_CalculateRewardTier();
 
     // Convert tier to array index (tier 1 = index 0, tier 2 = index 1, tier 3 = index 2)
-    u8 rewardIndex = tier - 1;
+    u8 tierIndex = tier - 1;
 
     // Clamp index to available tiers
-    if (rewardIndex >= narrative->rewardTierCount)
-        rewardIndex = narrative->rewardTierCount - 1;
+    if (tierIndex >= narrative->rewardTierCount)
+        tierIndex = narrative->rewardTierCount - 1;
 
-    // Get the reward item for this tier
-    u16 itemId = narrative->rewardItems[rewardIndex];
+    // Get pool for this tier
+    const u16 *pool = narrative->rewardItemPools[tierIndex];
+    u8 poolSize = narrative->rewardPoolSizes[tierIndex];
+
+    if (pool == NULL || poolSize == 0)
+    {
+        DebugPrintf("Dungeon_DistributeRewards: No items in reward pool for tier %d", tierIndex);
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    // Randomly select item from pool
+    u8 randomIndex = Random() % poolSize;
+    u16 itemId = pool[randomIndex];
 
     DebugPrintf("Dungeon_DistributeRewards: score=%d, tier=%d, itemId=%d",
                 Dungeon_GetRewardScore(), tier, itemId);
@@ -1204,6 +1216,32 @@ void Script_Dungeon_OnBossDefeated_SpawnRewards(void)
     // Award bonus points for defeating boss
     Dungeon_IncrementRewardScore(DUNGEON_POINTS_BOSS_TRAINER);
 
+    // Get narrative to check reward types
+    u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+
+    // Set reward object graphics based on item type (TM ball vs regular ball)
+    if (narrative != NULL && narrative->rewardItemPools != NULL)
+    {
+        // Check each tier and set appropriate graphics
+        for (u8 tier = 0; tier < narrative->rewardTierCount && tier < 3; tier++)
+        {
+            if (narrative->rewardPoolSizes[tier] > 0)
+            {
+                // Get first item in pool to determine type (all items in pool should be same type)
+                u16 itemId = narrative->rewardItemPools[tier][0];
+                u16 gfxId = OBJ_EVENT_GFX_ITEM_BALL;  // Default
+
+                // Check if it's a TM
+                if (gItemsInfo[itemId].pocket == POCKET_TM_HM)
+                    gfxId = OBJ_EVENT_GFX_TM_BALL;
+
+                // Set graphics var for this reward object (3/4/5 = bronze/silver/gold)
+                VarSet(VAR_OBJ_GFX_ID_3 + tier, gfxId);
+            }
+        }
+    }
+
     // Clear flags to show reward item balls (FLAGS_DUNGEON_TRAINER_0/1/2)
     FlagClear(FLAG_DUNGEON_TRAINER_0);  // Bronze reward
     FlagClear(FLAG_DUNGEON_TRAINER_1);  // Silver reward
@@ -1213,7 +1251,7 @@ void Script_Dungeon_OnBossDefeated_SpawnRewards(void)
     FlagClear(FLAG_DUNGEON_TRAINER_3);
 }
 
-// Get individual reward item by tier index
+// Get individual reward item by tier index (randomly selected from pool)
 // Reads tier index from VAR_TEMP_0, sets item ID in VAR_0x8004
 // Usage: setvar VAR_TEMP_0, <tier_index>
 //        callnative Script_Dungeon_GetRewardItem
@@ -1227,7 +1265,7 @@ void Script_Dungeon_GetRewardItem(void)
     }
 
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
-    if (narrative == NULL || narrative->rewardItems == NULL || narrative->rewardTierCount == 0)
+    if (narrative == NULL || narrative->rewardItemPools == NULL || narrative->rewardTierCount == 0)
     {
         gSpecialVar_0x8004 = ITEM_NONE;
         return;
@@ -1240,8 +1278,22 @@ void Script_Dungeon_GetRewardItem(void)
     if (tierIndex >= narrative->rewardTierCount)
         tierIndex = narrative->rewardTierCount - 1;
 
-    // Set item ID
-    gSpecialVar_0x8004 = narrative->rewardItems[tierIndex];
+    // Get pool for this tier
+    const u16 *pool = narrative->rewardItemPools[tierIndex];
+    u8 poolSize = narrative->rewardPoolSizes[tierIndex];
+
+    if (pool == NULL || poolSize == 0)
+    {
+        gSpecialVar_0x8004 = ITEM_NONE;
+        return;
+    }
+
+    // Randomly select item from pool
+    u8 randomIndex = Random() % poolSize;
+    gSpecialVar_0x8004 = pool[randomIndex];
+
+    MgbaPrintf(MGBA_LOG_INFO, "GetRewardItem: Tier %d, Pool size %d, Selected index %d, Item %d",
+               tierIndex, poolSize, randomIndex, pool[randomIndex]);
 }
 
 // Distribute rewards at end of dungeon
