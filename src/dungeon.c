@@ -1541,21 +1541,29 @@ void Script_Dungeon_OnBossDefeated_SpawnRewards(void)
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
 
-    // Set reward object graphics based on item type (TM ball vs regular ball)
-    if (narrative != NULL && narrative->rewardItemPools != NULL)
+    // Set reward object graphics based on reward type
+    if (narrative != NULL && narrative->rewardPools != NULL)
     {
         // Check each tier and set appropriate graphics
         for (u8 tier = 0; tier < narrative->rewardTierCount && tier < 3; tier++)
         {
-            if (narrative->rewardPoolSizes[tier] > 0)
+            if (narrative->rewardPoolSizes[tier] > 0 && narrative->rewardPools[tier] != NULL)
             {
-                // Get first item in pool to determine type (all items in pool should be same type)
-                u16 itemId = narrative->rewardItemPools[tier][0];
+                // Get first reward in pool to determine graphic type
+                const struct DungeonReward *reward = &narrative->rewardPools[tier][0];
                 u16 gfxId = OBJ_EVENT_GFX_ITEM_BALL;  // Default
 
-                // Check if it's a TM
-                if (gItemsInfo[itemId].pocket == POCKET_TM_HM)
-                    gfxId = OBJ_EVENT_GFX_TM_BALL;
+                if (reward->type == REWARD_TYPE_ITEM)
+                {
+                    // Check if it's a TM/HM for special graphic
+                    if (gItemsInfo[reward->data.itemId].pocket == POCKET_TM_HM)
+                        gfxId = OBJ_EVENT_GFX_TM_BALL;
+                }
+                else if (reward->type == REWARD_TYPE_POKEMON)
+                {
+                    // Use regular Poke Ball graphic for Pokemon rewards
+                    gfxId = OBJ_EVENT_GFX_ITEM_BALL;
+                }
 
                 // Set graphics var for this reward object (3/4/5 = bronze/silver/gold)
                 VarSet(VAR_OBJ_GFX_ID_3 + tier, gfxId);
@@ -1572,8 +1580,10 @@ void Script_Dungeon_OnBossDefeated_SpawnRewards(void)
     FlagClear(FLAG_DUNGEON_TRAINER_3);
 }
 
-// Get individual reward item by tier index (randomly selected from pool)
-// Reads tier index from VAR_TEMP_0, sets item ID in VAR_0x8004
+// Get individual reward by tier index (randomly selected from pool)
+// Reads tier index from VAR_TEMP_0
+// Sets VAR_0x8004 to item ID or Pokemon species
+// Sets VAR_0x8005 to reward type (REWARD_TYPE_ITEM or REWARD_TYPE_POKEMON)
 // Usage: setvar VAR_TEMP_0, <tier_index>
 //        callnative Script_Dungeon_GetRewardItem
 void Script_Dungeon_GetRewardItem(void)
@@ -1582,13 +1592,15 @@ void Script_Dungeon_GetRewardItem(void)
     if (dungeonId == 0xFF)
     {
         gSpecialVar_0x8004 = ITEM_NONE;
+        gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
         return;
     }
 
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
-    if (narrative == NULL || narrative->rewardItemPools == NULL || narrative->rewardTierCount == 0)
+    if (narrative == NULL || narrative->rewardPools == NULL || narrative->rewardTierCount == 0)
     {
         gSpecialVar_0x8004 = ITEM_NONE;
+        gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
         return;
     }
 
@@ -1600,21 +1612,42 @@ void Script_Dungeon_GetRewardItem(void)
         tierIndex = narrative->rewardTierCount - 1;
 
     // Get pool for this tier
-    const u16 *pool = narrative->rewardItemPools[tierIndex];
+    const struct DungeonReward *pool = narrative->rewardPools[tierIndex];
     u8 poolSize = narrative->rewardPoolSizes[tierIndex];
 
     if (pool == NULL || poolSize == 0)
     {
         gSpecialVar_0x8004 = ITEM_NONE;
+        gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
         return;
     }
 
-    // Randomly select item from pool
+    // Randomly select reward from pool
     u8 randomIndex = Random() % poolSize;
-    gSpecialVar_0x8004 = pool[randomIndex];
+    const struct DungeonReward *reward = &pool[randomIndex];
 
-    MgbaPrintf(MGBA_LOG_INFO, "GetRewardItem: Tier %d, Pool size %d, Selected index %d, Item %d",
-               tierIndex, poolSize, randomIndex, pool[randomIndex]);
+    // Set reward type
+    gSpecialVar_0x8005 = reward->type;
+
+    // Set reward data (item ID or species)
+    if (reward->type == REWARD_TYPE_ITEM)
+    {
+        gSpecialVar_0x8004 = reward->data.itemId;
+        MgbaPrintf(MGBA_LOG_INFO, "GetRewardItem: Tier %d, Type=ITEM, Item=%d",
+                   tierIndex, reward->data.itemId);
+    }
+    else if (reward->type == REWARD_TYPE_POKEMON)
+    {
+        gSpecialVar_0x8004 = reward->data.pokemon.species;
+        MgbaPrintf(MGBA_LOG_INFO, "GetRewardItem: Tier %d, Type=POKEMON, Species=%d",
+                   tierIndex, reward->data.pokemon.species);
+    }
+    else
+    {
+        // Unknown type - default to ITEM_NONE
+        gSpecialVar_0x8004 = ITEM_NONE;
+        gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
+    }
 }
 
 // Distribute rewards at end of dungeon
