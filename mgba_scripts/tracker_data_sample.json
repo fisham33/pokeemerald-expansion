@@ -1,0 +1,159 @@
+{
+  "timestamp": 1700000000,
+  "trainer": {
+    "name": "ASH",
+    "gender": 0,
+    "playTime": {
+      "hours": 12,
+      "minutes": 34,
+      "seconds": 56
+    }
+  },
+  "party": [
+    {
+      "species": 257,
+      "speciesName": "BLAZIKEN",
+      "level": 45,
+      "hp": 142,
+      "maxHP": 142,
+      "attack": 120,
+      "defense": 70,
+      "speed": 80,
+      "spAttack": 110,
+      "spDefense": 70,
+      "moves": [299, 68, 10, 52],
+      "moveNames": ["Blaze Kick", "Sky Uppercut", "Slash", "Flamethrower"],
+      "nickname": "",
+      "personality": 3145728000,
+      "otId": 12345,
+      "experience": 91125,
+      "friendship": 220,
+      "isShiny": false
+    },
+    {
+      "species": 260,
+      "speciesName": "SWAMPERT",
+      "level": 43,
+      "hp": 115,
+      "maxHP": 158,
+      "attack": 110,
+      "defense": 90,
+      "speed": 60,
+      "spAttack": 85,
+      "spDefense": 90,
+      "moves": [55, 56, 127, 352],
+      "moveNames": ["Surf", "Hydro Pump", "Earthquake", "Water Pulse"],
+      "nickname": "MUDDY",
+      "personality": 2145728000,
+      "otId": 12345,
+      "experience": 79507,
+      "friendship": 180,
+      "isShiny": false
+    },
+    {
+      "species": 373,
+      "speciesName": "SALAMENCE",
+      "level": 50,
+      "hp": 95,
+      "maxHP": 165,
+      "attack": 135,
+      "defense": 80,
+      "speed": 100,
+      "spAttack": 110,
+      "spDefense": 80,
+      "moves": [337, 406, 200, 82],
+      "moveNames": ["Dragon Claw", "Dragon Dance", "Fly", "Dragon Rage"],
+      "nickname": "",
+      "personality": 3999999999,
+      "otId": 12345,
+      "experience": 125000,
+      "friendship": 35,
+      "isShiny": true
+    },
+    {
+      "species": 282,
+      "speciesName": "GARDEVOIR",
+      "level": 44,
+      "hp": 108,
+      "maxHP": 138,
+      "attack": 65,
+      "defense": 65,
+      "speed": 80,
+      "spAttack": 125,
+      "spDefense": 115,
+      "moves": [94, 248, 85, 129],
+      "moveNames": ["Psychic", "Future Sight", "Thunderbolt", "Calm Mind"],
+      "nickname": "GRACE",
+      "personality": 1845728000,
+      "otId": 12345,
+      "experience": 85184,
+      "friendship": 255,
+      "isShiny": false
+    },
+    {
+      "species": 376,
+      "speciesName": "METAGROSS",
+      "level": 47,
+      "hp": 80,
+      "maxHP": 165,
+      "attack": 135,
+      "defense": 130,
+      "speed": 70,
+      "spAttack": 95,
+      "spDefense": 90,
+      "moves": [334, 232, 063, 428],
+      "moveNames": ["Meteor Mash", "Metal Claw", "Psychic", "Zen Headbutt"],
+      "nickname": "",
+      "personality": 2945728000,
+      "otId": 12345,
+      "experience": 103823,
+      "friendship": 100,
+      "isShiny": false
+    },
+    {
+      "species": 149,
+      "speciesName": "DRAGONITE",
+      "level": 46,
+      "hp": 155,
+      "maxHP": 172,
+      "attack": 134,
+      "defense": 95,
+      "speed": 80,
+      "spAttack": 100,
+      "spDefense": 100,
+      "moves": [200, 406, 225, 82],
+      "moveNames": ["Fly", "Dragon Dance", "Dragon Rage", "Outrage"],
+      "nickname": "DRAGO",
+      "personality": 3345728000,
+      "otId": 12345,
+      "experience": 97336,
+      "friendship": 140,
+      "isShiny": false
+    }
+  ],
+  "badges": [true, true, true, true, true, false, false, false],
+  "badgeCount": 5,
+  "boxes": {
+    "0": {
+      "number": 0,
+      "pokemon": [
+        {
+          "species": 25,
+          "speciesName": "PIKACHU",
+          "slot": 0
+        },
+        {
+          "species": 133,
+          "speciesName": "EEVEE",
+          "slot": 1
+        },
+        {
+          "species": 143,
+          "speciesName": "SNORLAX",
+          "slot": 2
+        }
+      ]
+    }
+  },
+  "error": null
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Emerald - Live Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎮 Pokemon Emerald - Live Tracker</h1>
+            <div class="status" id="status">
+                <span class="status-indicator" id="statusIndicator">●</span>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Trainer Info -->
+        <section class="card trainer-card">
+            <h2>👤 Trainer Info</h2>
+            <div class="trainer-info">
+                <div class="info-row">
+                    <span class="label">Name:</span>
+                    <span class="value" id="trainerName">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Gender:</span>
+                    <span class="value" id="trainerGender">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Play Time:</span>
+                    <span class="value" id="playTime">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Badges:</span>
+                    <span class="value" id="badgeCount">0/8</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges -->
+        <section class="card badges-card">
+            <h2>🏅 Hoenn Badges</h2>
+            <div class="badges" id="badgesContainer">
+                <!-- Badges will be populated here -->
+            </div>
+        </section>
+
+        <!-- Party Pokemon -->
+        <section class="card party-card">
+            <h2>🎒 Party Pokemon (<span id="partyCount">0</span>/6)</h2>
+            <div class="party" id="partyContainer">
+                <!-- Party Pokemon will be populated here -->
+            </div>
+        </section>
+
+        <!-- PC Boxes -->
+        <section class="card boxes-card">
+            <h2>📦 PC Boxes</h2>
+            <div class="boxes-info" id="boxesInfo">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <!-- Debug Info -->
+        <section class="card debug-card" id="debugCard">
+            <h2>🔧 Debug Info</h2>
+            <div class="debug-info">
+                <div class="info-row">
+                    <span class="label">Last Update:</span>
+                    <span class="value" id="lastUpdate">Never</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Update Interval:</span>
+                    <span class="value">1 second</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Error:</span>
+                    <span class="value error" id="errorMsg">None</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
