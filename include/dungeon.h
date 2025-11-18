@@ -111,6 +111,26 @@ struct DungeonBoss {
     } data;
 };
 
+// === REWARD SYSTEM ===
+
+// Single reward entry (can be item or Pokemon)
+struct DungeonReward {
+    u8 type;                     // REWARD_TYPE_ITEM or REWARD_TYPE_POKEMON
+    union {
+        u16 itemId;              // If REWARD_TYPE_ITEM
+        struct {
+            u16 species;         // Pokemon species (SPECIES_*)
+            u8 level;            // Level (0 = use dungeon level)
+            u16 heldItem;        // Held item (ITEM_NONE = none)
+            u8 ivs;              // IV spread (0-31, or 32 = random)
+            u8 shinyOdds;        // SHINY_ODDS_* constant
+            u8 nature;           // Nature (NUM_NATURES = random)
+            u8 abilityNum;       // Ability slot (0/1/2, or 255 = random)
+            u16 moves[MAX_MON_MOVES];  // Custom moves (MOVE_NONE = level-up moveset)
+        } pokemon;
+    } data;
+};
+
 // === NARRATIVE SYSTEM ===
 
 #define BOSS_TYPE_NONE    0
@@ -153,9 +173,9 @@ struct DungeonNarrative {
     } boss;
 
     // Rewards
-    const u16 * const *rewardItemPools;      // Array of item pools per tier (bronze/silver/gold)
-    const u8 *rewardPoolSizes;               // Array of pool sizes per tier
-    u8 rewardTierCount;                      // Number of reward tiers (typically 3)
+    const struct DungeonReward * const *rewardPools;  // Array of reward pools per tier (bronze/silver/gold)
+    const u8 *rewardPoolSizes;                        // Array of pool sizes per tier
+    u8 rewardTierCount;                               // Number of reward tiers (typically 3)
 
     // Dialog text pools (randomly selected for variety)
     const u8 * const *trainerIntroTexts;     // Array of regular trainer intro text options

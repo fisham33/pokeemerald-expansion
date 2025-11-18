@@ -23,6 +23,7 @@
 #include "constants/maps.h"
 #include "constants/items.h"
 #include "constants/species.h"
+#include "constants/pokemon.h"
 #include "constants/battle.h"
 #include "constants/battle_setup.h"
 #include "constants/weather.h"
@@ -641,7 +642,7 @@ void Dungeon_DistributeRewards(void)
     }
 
     // Check if narrative has rewards defined
-    if (narrative->rewardItemPools == NULL || narrative->rewardTierCount == 0)
+    if (narrative->rewardPools == NULL || narrative->rewardTierCount == 0)
     {
         DebugPrintf("Dungeon_DistributeRewards: Narrative has no rewards defined");
         gSpecialVar_Result = FALSE;
@@ -659,44 +660,143 @@ void Dungeon_DistributeRewards(void)
         tierIndex = narrative->rewardTierCount - 1;
 
     // Get pool for this tier
-    const u16 *pool = narrative->rewardItemPools[tierIndex];
+    const struct DungeonReward *pool = narrative->rewardPools[tierIndex];
     u8 poolSize = narrative->rewardPoolSizes[tierIndex];
 
     if (pool == NULL || poolSize == 0)
     {
-        DebugPrintf("Dungeon_DistributeRewards: No items in reward pool for tier %d", tierIndex);
+        DebugPrintf("Dungeon_DistributeRewards: No rewards in pool for tier %d", tierIndex);
         gSpecialVar_Result = FALSE;
         return;
     }
 
-    // Randomly select item from pool
+    // Randomly select reward from pool
     u8 randomIndex = Random() % poolSize;
-    u16 itemId = pool[randomIndex];
+    const struct DungeonReward *reward = &pool[randomIndex];
 
-    DebugPrintf("Dungeon_DistributeRewards: score=%d, tier=%d, itemId=%d",
-                Dungeon_GetRewardScore(), tier, itemId);
+    DebugPrintf("Dungeon_DistributeRewards: score=%d, tier=%d, rewardType=%d",
+                Dungeon_GetRewardScore(), tier, reward->type);
 
-    // Check if bag has space
-    if (!CheckBagHasSpace(itemId, 1))
+    // Handle reward based on type
+    if (reward->type == REWARD_TYPE_ITEM)
     {
-        DebugPrintf("Dungeon_DistributeRewards: Bag full, cannot give item");
-        gSpecialVar_Result = FALSE;
-        gSpecialVar_0x8004 = itemId; // Store item ID for script to display "bag full" message
-        return;
+        u16 itemId = reward->data.itemId;
+
+        // Check if bag has space
+        if (!CheckBagHasSpace(itemId, 1))
+        {
+            DebugPrintf("Dungeon_DistributeRewards: Bag full, cannot give item");
+            gSpecialVar_Result = FALSE;
+            gSpecialVar_0x8004 = itemId;
+            gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
+            return;
+        }
+
+        // Give the item to the player
+        if (AddBagItem(itemId, 1))
+        {
+            DebugPrintf("Dungeon_DistributeRewards: Successfully gave item %d", itemId);
+            gSpecialVar_Result = TRUE;
+            gSpecialVar_0x8004 = itemId;
+            gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
+        }
+        else
+        {
+            DebugPrintf("Dungeon_DistributeRewards: Failed to give item %d", itemId);
+            gSpecialVar_Result = FALSE;
+            gSpecialVar_0x8004 = itemId;
+            gSpecialVar_0x8005 = REWARD_TYPE_ITEM;
+        }
     }
-
-    // Give the item to the player
-    if (AddBagItem(itemId, 1))
+    else if (reward->type == REWARD_TYPE_POKEMON)
     {
-        DebugPrintf("Dungeon_DistributeRewards: Successfully gave item %d", itemId);
-        gSpecialVar_Result = TRUE;
-        gSpecialVar_0x8004 = itemId; // Store item ID for script to display reward message
+        // Pokemon reward logic
+        u8 level = reward->data.pokemon.level;
+
+        // Use dungeon level if level = 0
+        if (level == 0)
+            level = Dungeon_GetCurrentLevel();
+
+        // Determine if shiny
+        bool8 isShiny = FALSE;
+        switch (reward->data.pokemon.shinyOdds)
+        {
+            case SHINY_ODDS_NEVER:
+                isShiny = FALSE;
+                break;
+            case SHINY_ODDS_NORMAL:
+                // Use 1/4096 odds (or config default)
+                isShiny = (Random() % 4096) == 0;
+                break;
+            case SHINY_ODDS_BOOSTED:
+                // Use 1/512 odds (Masuda Method-like)
+                isShiny = (Random() % 512) == 0;
+                break;
+            case SHINY_ODDS_GUARANTEED:
+                isShiny = TRUE;
+                break;
+        }
+
+        // Prepare IV spread
+        u8 ivs[NUM_STATS];
+        u8 ivSpread = reward->data.pokemon.ivs;
+
+        if (ivSpread == 32)  // Random IVs
+        {
+            for (u8 i = 0; i < NUM_STATS; i++)
+                ivs[i] = Random() % 32;
+        }
+        else  // Fixed IV spread
+        {
+            for (u8 i = 0; i < NUM_STATS; i++)
+                ivs[i] = ivSpread;
+        }
+
+        // Prepare EVs (all 0)
+        u8 evs[NUM_STATS] = {0, 0, 0, 0, 0, 0};
+
+        // Use BirchCase_GiveMonParameterized for full control
+        u32 result = BirchCase_GiveMonParameterized(
+            reward->data.pokemon.species,
+            level,
+            reward->data.pokemon.heldItem,
+            ITEM_POKE_BALL,  // Default ball
+            reward->data.pokemon.nature,
+            reward->data.pokemon.abilityNum,
+            MON_GENDERLESS,  // Let game decide gender
+            evs,
+            ivs,
+            (u16*)reward->data.pokemon.moves,
+            FALSE,  // Not GMax
+            TYPE_NONE,  // No Tera type
+            isShiny
+        );
+
+        if (result == MON_GIVEN_TO_PARTY || result == MON_GIVEN_TO_PC)
+        {
+            DebugPrintf("Dungeon_DistributeRewards: Successfully gave Pokemon %d (shiny=%d)",
+                        reward->data.pokemon.species, isShiny);
+            gSpecialVar_Result = TRUE;
+            gSpecialVar_0x8004 = reward->data.pokemon.species;  // Store species
+            gSpecialVar_0x8005 = REWARD_TYPE_POKEMON;
+            gSpecialVar_0x8006 = result;  // MON_GIVEN_TO_PARTY or MON_GIVEN_TO_PC
+            gSpecialVar_0x8007 = isShiny;  // For scripts to show shiny message
+        }
+        else
+        {
+            // Party and PC both full (shouldn't happen normally)
+            DebugPrintf("Dungeon_DistributeRewards: Failed to give Pokemon (party and PC full)");
+            gSpecialVar_Result = FALSE;
+            gSpecialVar_0x8004 = reward->data.pokemon.species;
+            gSpecialVar_0x8005 = REWARD_TYPE_POKEMON;
+            gSpecialVar_0x8006 = 0;  // Failure
+        }
     }
     else
     {
-        DebugPrintf("Dungeon_DistributeRewards: Failed to give item %d", itemId);
+        // Unknown reward type
+        DebugPrintf("Dungeon_DistributeRewards: Unknown reward type %d", reward->type);
         gSpecialVar_Result = FALSE;
-        gSpecialVar_0x8004 = itemId;
     }
 }
 

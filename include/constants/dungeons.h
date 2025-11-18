@@ -42,6 +42,20 @@ enum DungeonLockoutMode {
     LOCKOUT_WEEKLY,       // Rewards once per week (based on RTC)
 };
 
+// Reward types (items vs Pokemon)
+enum DungeonRewardType {
+    REWARD_TYPE_ITEM,     // Item reward (goes to bag)
+    REWARD_TYPE_POKEMON,  // Pokemon reward (goes to party or PC)
+};
+
+// Shiny odds for Pokemon rewards
+enum DungeonShinyOdds {
+    SHINY_ODDS_NEVER = 0,      // Never shiny
+    SHINY_ODDS_NORMAL = 1,     // Normal odds (1/4096 or config default)
+    SHINY_ODDS_BOOSTED = 2,    // Boosted odds (1/512, like Masuda Method)
+    SHINY_ODDS_GUARANTEED = 3, // Always shiny
+};
+
 // === STATE ACCESSOR MACROS ===
 #define Dungeon_SetActive(val)           (gSaveBlock2Ptr->dungeonActive = (val))
 #define Dungeon_IsActive()               (gSaveBlock2Ptr->dungeonActive)

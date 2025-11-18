@@ -67,39 +67,66 @@ static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
     .wildPokemon = sCaveTest_LandMons
 };
 
-// --- REWARD ITEMS ---
-// Items given to player based on performance score (randomly selected from pools)
+// --- REWARDS ---
+// Rewards given to player based on performance score (randomly selected from pools)
 // Bronze tier = low score, Silver = medium score, Gold = high score
-// Score thresholds defined in src/dungeon.c (typically 0-100, 101-200, 201+)
-// NOTE: All items in a pool should be the same type (all TMs or all regular items) for correct graphics
-static const u16 sCaveTest_BronzeRewardPool[] = {
-    ITEM_POKE_BALL,
-    ITEM_POTION,
-    ITEM_ANTIDOTE,
+// Score thresholds defined in include/config/dungeon.h
+// Rewards can be items or Pokemon with full customization
+
+// Bronze tier - Basic items only
+static const struct DungeonReward sCaveTest_BronzeRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_POKE_BALL },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_POTION },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_ANTIDOTE },
 };
 
-static const u16 sCaveTest_SilverRewardPool[] = {
-    ITEM_GREAT_BALL,
-    ITEM_SUPER_POTION,
-    ITEM_FULL_HEAL,
+// Silver tier - Better items + common Pokemon
+static const struct DungeonReward sCaveTest_SilverRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_GREAT_BALL },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_SUPER_POTION },
+    {
+        .type = REWARD_TYPE_POKEMON,
+        .data.pokemon = {
+            .species = SPECIES_GEODUDE,
+            .level = 0,  // Use dungeon level
+            .heldItem = ITEM_NONE,
+            .ivs = 20,   // 20 IVs across the board
+            .shinyOdds = SHINY_ODDS_NORMAL,
+            .nature = NUM_NATURES,  // Random nature
+            .abilityNum = 255,      // Random ability
+            .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE}  // Level-up moveset
+        }
+    },
 };
 
-static const u16 sCaveTest_GoldRewardPool[] = {
-    ITEM_ULTRA_BALL,
-    ITEM_HYPER_POTION,
-    ITEM_MAX_REVIVE,
+// Gold tier - Best items + rare Pokemon with good IVs
+static const struct DungeonReward sCaveTest_GoldRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_ULTRA_BALL },
+    {
+        .type = REWARD_TYPE_POKEMON,
+        .data.pokemon = {
+            .species = SPECIES_LARVITAR,
+            .level = 0,  // Use dungeon level
+            .heldItem = ITEM_FOCUS_BAND,
+            .ivs = 31,   // Perfect IVs
+            .shinyOdds = SHINY_ODDS_BOOSTED,  // 1/512 chance
+            .nature = NATURE_ADAMANT,
+            .abilityNum = 1,  // Hidden Ability
+            .moves = {MOVE_DRAGON_DANCE, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_CRUNCH}
+        }
+    },
 };
 
-static const u16 * const sCaveTest_RewardPools[] = {
-    sCaveTest_BronzeRewardPool,
-    sCaveTest_SilverRewardPool,
-    sCaveTest_GoldRewardPool,
+static const struct DungeonReward * const sCaveTest_RewardPools[] = {
+    sCaveTest_BronzeRewards,
+    sCaveTest_SilverRewards,
+    sCaveTest_GoldRewards,
 };
 
 static const u8 sCaveTest_RewardPoolSizes[] = {
-    ARRAY_COUNT(sCaveTest_BronzeRewardPool),
-    ARRAY_COUNT(sCaveTest_SilverRewardPool),
-    ARRAY_COUNT(sCaveTest_GoldRewardPool),
+    ARRAY_COUNT(sCaveTest_BronzeRewards),
+    ARRAY_COUNT(sCaveTest_SilverRewards),
+    ARRAY_COUNT(sCaveTest_GoldRewards),
 };
 
 // --- DIALOG TEXT ---
@@ -203,7 +230,7 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
     // },
 
     // Reward configuration
-    .rewardItemPools = sCaveTest_RewardPools,
+    .rewardPools = sCaveTest_RewardPools,
     .rewardPoolSizes = sCaveTest_RewardPoolSizes,
     .rewardTierCount = ARRAY_COUNT(sCaveTest_RewardPools),
 
@@ -251,32 +278,32 @@ static const struct WildPokemonInfo sCaveTeamMagma_LandMonsInfo = {
     .wildPokemon = sCaveTeamMagma_LandMons
 };
 
-// --- REWARD ITEMS ---
-static const u16 sCaveTeamMagma_BronzeRewardPool[] = {
-    ITEM_HEAT_ROCK,
-    ITEM_CHARCOAL,
+// --- REWARDS ---
+static const struct DungeonReward sCaveTeamMagma_BronzeRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_HEAT_ROCK },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_CHARCOAL },
 };
 
-static const u16 sCaveTeamMagma_SilverRewardPool[] = {
-    ITEM_TM_FLAMETHROWER,
-    ITEM_TM_FIRE_BLAST,
+static const struct DungeonReward sCaveTeamMagma_SilverRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_TM_FLAMETHROWER },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_TM_FIRE_BLAST },
 };
 
-static const u16 sCaveTeamMagma_GoldRewardPool[] = {
-    ITEM_FIRE_STONE,
-    ITEM_LEFTOVERS,
+static const struct DungeonReward sCaveTeamMagma_GoldRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_FIRE_STONE },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_LEFTOVERS },
 };
 
-static const u16 * const sCaveTeamMagma_RewardPools[] = {
-    sCaveTeamMagma_BronzeRewardPool,
-    sCaveTeamMagma_SilverRewardPool,
-    sCaveTeamMagma_GoldRewardPool,
+static const struct DungeonReward * const sCaveTeamMagma_RewardPools[] = {
+    sCaveTeamMagma_BronzeRewards,
+    sCaveTeamMagma_SilverRewards,
+    sCaveTeamMagma_GoldRewards,
 };
 
 static const u8 sCaveTeamMagma_RewardPoolSizes[] = {
-    ARRAY_COUNT(sCaveTeamMagma_BronzeRewardPool),
-    ARRAY_COUNT(sCaveTeamMagma_SilverRewardPool),
-    ARRAY_COUNT(sCaveTeamMagma_GoldRewardPool),
+    ARRAY_COUNT(sCaveTeamMagma_BronzeRewards),
+    ARRAY_COUNT(sCaveTeamMagma_SilverRewards),
+    ARRAY_COUNT(sCaveTeamMagma_GoldRewards),
 };
 
 // --- DIALOG TEXT ---
@@ -357,7 +384,7 @@ static const struct DungeonNarrative gNarrative_CaveTeamMagma = {
         }
     },
 
-    .rewardItemPools = sCaveTeamMagma_RewardPools,
+    .rewardPools = sCaveTeamMagma_RewardPools,
     .rewardPoolSizes = sCaveTeamMagma_RewardPoolSizes,
     .rewardTierCount = ARRAY_COUNT(sCaveTeamMagma_RewardPools),
 
@@ -406,33 +433,33 @@ static const struct WildPokemonInfo sCaveFitness_LandMonsInfo = {
     .wildPokemon = sCaveFitness_LandMons
 };
 
-// --- REWARD ITEMS ---
-static const u16 sCaveFitness_BronzeRewardPool[] = {
-    ITEM_CARBOS,
-    ITEM_PROTEIN,
-    ITEM_ZINC,
+// --- REWARDS ---
+static const struct DungeonReward sCaveFitness_BronzeRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_CARBOS },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_PROTEIN },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_ZINC },
 };
 
-static const u16 sCaveFitness_SilverRewardPool[] = {
-    ITEM_TM_TRAILBLAZE,
-    ITEM_TM_BODY_PRESS,
+static const struct DungeonReward sCaveFitness_SilverRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_TM_TRAILBLAZE },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_TM_BODY_PRESS },
 };
 
-static const u16 sCaveFitness_GoldRewardPool[] = {
-    ITEM_CHOICE_SCARF,
-    ITEM_CHOICE_BAND,
+static const struct DungeonReward sCaveFitness_GoldRewards[] = {
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_CHOICE_SCARF },
+    { .type = REWARD_TYPE_ITEM, .data.itemId = ITEM_CHOICE_BAND },
 };
 
-static const u16 * const sCaveFitness_RewardPools[] = {
-    sCaveFitness_BronzeRewardPool,
-    sCaveFitness_SilverRewardPool,
-    sCaveFitness_GoldRewardPool,
+static const struct DungeonReward * const sCaveFitness_RewardPools[] = {
+    sCaveFitness_BronzeRewards,
+    sCaveFitness_SilverRewards,
+    sCaveFitness_GoldRewards,
 };
 
 static const u8 sCaveFitness_RewardPoolSizes[] = {
-    ARRAY_COUNT(sCaveFitness_BronzeRewardPool),
-    ARRAY_COUNT(sCaveFitness_SilverRewardPool),
-    ARRAY_COUNT(sCaveFitness_GoldRewardPool),
+    ARRAY_COUNT(sCaveFitness_BronzeRewards),
+    ARRAY_COUNT(sCaveFitness_SilverRewards),
+    ARRAY_COUNT(sCaveFitness_GoldRewards),
 };
 
 // --- DIALOG TEXT ---
@@ -512,7 +539,7 @@ static const struct DungeonNarrative gNarrative_CaveFitness = {
         }
     },
 
-    .rewardItemPools = sCaveFitness_RewardPools,
+    .rewardPools = sCaveFitness_RewardPools,
     .rewardPoolSizes = sCaveFitness_RewardPoolSizes,
     .rewardTierCount = ARRAY_COUNT(sCaveFitness_RewardPools),
 
