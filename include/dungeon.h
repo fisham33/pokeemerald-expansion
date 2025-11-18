@@ -24,6 +24,9 @@ struct Dungeon {
     u8 modifierRefreshMode;   // REFRESH_* mode for modifier rotation
     u8 fixedNarrativeId;      // Used when narrativeRefreshMode = REFRESH_FIXED (NARRATIVE_* constant)
     u8 fixedModifierId;       // Used when modifierRefreshMode = REFRESH_FIXED (MODIFIER_* constant)
+
+    // Lockout configuration
+    u8 lockoutMode;           // LOCKOUT_* mode for reward eligibility
 };
 
 // === ROOM DEFINITION ===
@@ -297,5 +300,14 @@ void Script_Dungeon_GetRandomTrainerDefeat(void);   // Get random trainer defeat
 void Script_Dungeon_GetRandomBossIntro(void);       // Get random boss intro text (auto-populates {STR_VAR_1})
 void Script_Dungeon_GetRandomBossDefeat(void);      // Get random boss defeat text (auto-populates {STR_VAR_1})
 void Script_Dungeon_GetRandomBossVictory(void);     // Get random boss victory text (auto-populates {STR_VAR_1})
+
+// Lockout system
+bool8 Dungeon_IsEligibleForRewards(u8 dungeonId);   // Check if player can receive rewards (based on lockout timer)
+void Dungeon_MarkCompleted(u8 dungeonId);           // Mark dungeon as completed (updates lockout timestamp)
+u32 Dungeon_GetDaysUntilNextReward(u8 dungeonId);   // Get days until next reward (0 = eligible now)
+
+void Script_Dungeon_IsEligibleForRewards(void);     // Check reward eligibility (sets VAR_RESULT)
+void Script_Dungeon_MarkCompleted(void);            // Mark as completed (reads dungeonId from VAR_0x8000)
+void Script_Dungeon_GetDaysUntilNextReward(void);   // Get days remaining (sets VAR_RESULT)
 
 #endif // GUARD_DUNGEON_H

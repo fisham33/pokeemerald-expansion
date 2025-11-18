@@ -30,6 +30,9 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .modifierRefreshMode = DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE,
         .fixedNarrativeId = DUNGEON_DEFAULT_FIXED_NARRATIVE_ID,
         .fixedModifierId = DUNGEON_DEFAULT_FIXED_MODIFIER_ID,
+
+        // Lockout mode
+        .lockoutMode = LOCKOUT_DAILY,  // Rewards once per day
     },
     [DUNGEON_MID_FOREST] = {
         .baseLevel = 40,
@@ -44,6 +47,9 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .modifierRefreshMode = DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE,
         .fixedNarrativeId = DUNGEON_DEFAULT_FIXED_NARRATIVE_ID,
         .fixedModifierId = DUNGEON_DEFAULT_FIXED_MODIFIER_ID,
+
+        // Lockout mode
+        .lockoutMode = LOCKOUT_DAILY,  // Rewards once per day
     },
     [DUNGEON_LATE_MOUNTAIN] = {
         .baseLevel = 60,
@@ -58,5 +64,8 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .modifierRefreshMode = DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE,
         .fixedNarrativeId = DUNGEON_DEFAULT_FIXED_NARRATIVE_ID,
         .fixedModifierId = DUNGEON_DEFAULT_FIXED_MODIFIER_ID,
+
+        // Lockout mode
+        .lockoutMode = LOCKOUT_WEEKLY,  // Rewards once per week (harder dungeon)
     },
 };

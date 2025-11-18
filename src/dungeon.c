@@ -1009,6 +1009,100 @@ void Dungeon_ShowEntranceInfo(u8 dungeonId)
 }
 
 // ==========================================================================
+// LOCKOUT SYSTEM
+// ==========================================================================
+
+// Check if player is eligible for rewards based on lockout timer
+bool8 Dungeon_IsEligibleForRewards(u8 dungeonId)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return FALSE;
+
+    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
+    if (dungeon == NULL)
+        return FALSE;
+
+    // No lockout = always eligible
+    if (dungeon->lockoutMode == LOCKOUT_NONE)
+        return TRUE;
+
+    u32 lastCompleted = gSaveBlock2Ptr->dungeonLastCompleted[dungeonId];
+
+    // Never completed = eligible
+    if (lastCompleted == 0)
+        return TRUE;
+
+    // Get current day count
+    u32 currentDayCount = RtcGetLocalDayCount();
+
+    // Calculate days since last completion
+    u32 daysSince = currentDayCount - lastCompleted;
+
+    // Check lockout mode
+    switch (dungeon->lockoutMode)
+    {
+        case LOCKOUT_DAILY:
+            return daysSince >= 1;  // At least 1 day must pass
+        case LOCKOUT_WEEKLY:
+            return daysSince >= 7;  // At least 7 days must pass
+        default:
+            return TRUE;
+    }
+}
+
+// Mark dungeon as completed (called after reward distribution)
+void Dungeon_MarkCompleted(u8 dungeonId)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return;
+
+    // Store current day count as last completed timestamp
+    gSaveBlock2Ptr->dungeonLastCompleted[dungeonId] = RtcGetLocalDayCount();
+
+    DebugPrintf("Dungeon_MarkCompleted: Dungeon %d marked as completed on day %u",
+                dungeonId, gSaveBlock2Ptr->dungeonLastCompleted[dungeonId]);
+}
+
+// Get days until next reward eligibility (for UI display)
+// Returns 0 if eligible now
+u32 Dungeon_GetDaysUntilNextReward(u8 dungeonId)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return 0;
+
+    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
+    if (dungeon == NULL || dungeon->lockoutMode == LOCKOUT_NONE)
+        return 0;  // No lockout
+
+    u32 lastCompleted = gSaveBlock2Ptr->dungeonLastCompleted[dungeonId];
+    if (lastCompleted == 0)
+        return 0;  // Never completed
+
+    u32 currentDayCount = RtcGetLocalDayCount();
+    u32 daysSince = currentDayCount - lastCompleted;
+
+    u32 requiredDays;
+    switch (dungeon->lockoutMode)
+    {
+        case LOCKOUT_DAILY:
+            requiredDays = 1;
+            break;
+        case LOCKOUT_WEEKLY:
+            requiredDays = 7;
+            break;
+        default:
+            return 0;
+    }
+
+    // If enough days have passed, eligible now
+    if (daysSince >= requiredDays)
+        return 0;
+
+    // Return days remaining
+    return requiredDays - daysSince;
+}
+
+// ==========================================================================
 // SCRIPT-CALLABLE WRAPPERS (for callnative)
 // ==========================================================================
 // These functions are designed to be called from Pory scripts using callnative.
@@ -1846,4 +1940,41 @@ void Dungeon_ApplyModifierForBattle(void)
 
     // Note: Level modifiers, exp multipliers, and money multipliers
     // will be handled in separate hooks during battle calculations
+}
+
+// Check if player is eligible for rewards (sets VAR_RESULT)
+// Usage: setvar VAR_0x8000, DUNGEON_EARLY_CAVE
+//        callnative Script_Dungeon_IsEligibleForRewards
+//        if (var(VAR_RESULT) == FALSE) { ... }
+void Script_Dungeon_IsEligibleForRewards(void)
+{
+    u8 dungeonId = gSpecialVar_0x8000;
+    bool8 eligible = Dungeon_IsEligibleForRewards(dungeonId);
+    gSpecialVar_Result = eligible;
+
+    DebugPrintf("Script_Dungeon_IsEligibleForRewards: dungeonId=%d, eligible=%d",
+                dungeonId, eligible);
+}
+
+// Mark dungeon as completed (called after giving rewards)
+// Usage: setvar VAR_0x8000, DUNGEON_EARLY_CAVE
+//        callnative Script_Dungeon_MarkCompleted
+void Script_Dungeon_MarkCompleted(void)
+{
+    u8 dungeonId = gSpecialVar_0x8000;
+    Dungeon_MarkCompleted(dungeonId);
+}
+
+// Get days until next reward (sets VAR_RESULT)
+// Usage: setvar VAR_0x8000, DUNGEON_EARLY_CAVE
+//        callnative Script_Dungeon_GetDaysUntilNextReward
+//        buffernumber STR_VAR_1, VAR_RESULT
+void Script_Dungeon_GetDaysUntilNextReward(void)
+{
+    u8 dungeonId = gSpecialVar_0x8000;
+    u32 daysRemaining = Dungeon_GetDaysUntilNextReward(dungeonId);
+    gSpecialVar_Result = daysRemaining;
+
+    DebugPrintf("Script_Dungeon_GetDaysUntilNextReward: dungeonId=%d, days=%u",
+                dungeonId, daysRemaining);
 }

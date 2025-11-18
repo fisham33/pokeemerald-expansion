@@ -594,11 +594,12 @@ struct SaveBlock2
     /*0x92*/ u8 dungeonNarratives[3];        // Narrative system: Active narrative ID per dungeon
     /*0x95*/ u8 dungeonModifiers[3];         // Narrative system: Active modifier ID per dungeon
     /*0x98*/ u8 dungeonRoomOrder[8];         // Dungeon system: Shuffled room indices for current run
-    /*0xA0*/ struct Time localTimeOffset;
-    /*0xA8*/ struct Time lastBerryTreeUpdate;
-    /*0xB0*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
-    /*0xB4*/ u32 encryptionKey;
-    /*0xB8*/ struct PlayersApprentice playerApprentice;
+    /*0xA0*/ u32 dungeonLastCompleted[3];    // Lockout system: Days since epoch when dungeon was last completed (0 = never)
+    /*0xAC*/ struct Time localTimeOffset;
+    /*0xB4*/ struct Time lastBerryTreeUpdate;
+    /*0xBC*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
+    /*0xC0*/ u32 encryptionKey;
+    /*0xC4*/ struct PlayersApprentice playerApprentice;
     /*0xDC*/ struct Apprentice apprentices[APPRENTICE_COUNT];
     /*0x1EC*/ struct BerryCrush berryCrush;
 #if FREE_POKEMON_JUMP == FALSE

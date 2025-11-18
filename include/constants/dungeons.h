@@ -35,6 +35,13 @@ enum DungeonRefreshMode {
     REFRESH_WEEKLY,       // Changes once per week (based on RTC, persists in save)
 };
 
+// Lockout modes for reward eligibility (how often player can receive rewards)
+enum DungeonLockoutMode {
+    LOCKOUT_NONE,         // No lockout - freely repeatable with rewards
+    LOCKOUT_DAILY,        // Rewards once per day (based on RTC)
+    LOCKOUT_WEEKLY,       // Rewards once per week (based on RTC)
+};
+
 // === STATE ACCESSOR MACROS ===
 #define Dungeon_SetActive(val)           (gSaveBlock2Ptr->dungeonActive = (val))
 #define Dungeon_IsActive()               (gSaveBlock2Ptr->dungeonActive)
