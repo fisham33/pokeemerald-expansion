@@ -186,16 +186,63 @@ For **Sound Effects**:
 
 - **Log Window**: Check the operation log for detailed next steps after each insertion
 
-## Limitations
+## What This Tool Does vs. What You Must Do
 
-This tool handles **file copying and organization only**. You must still manually:
+### ✓ Automated by the Tool
 
-- Edit C header files to add constants
-- Edit data files to add sprite/item/Pokemon data
-- Modify build files (Makefile, spritesheet_rules.mk)
-- Add game logic (stats, moves, abilities, etc.)
+The tool **automatically** handles:
+- ✓ Copying files to the correct project directories
+- ✓ Organizing graphics with proper naming conventions
+- ✓ Creating directory structures if they don't exist
+- ✓ Validating file paths and names
 
-Think of this tool as a **file organization assistant** that saves you from manually copying files to the correct directories and helps remind you of the remaining manual steps.
+After each insertion, you'll see a **"✓ AUTOMATED STEPS COMPLETED"** section showing exactly what was done.
+
+### ⚠ Manual Steps Required
+
+The tool **CANNOT** do these automatically - you must edit code files manually:
+- ⚠ Adding constants to header files (.h)
+- ⚠ Adding data structures to C files (.c, .h)
+- ⚠ Updating build rules (Makefile, spritesheet_rules.mk)
+- ⚠ Adding game logic (stats, moves, abilities, etc.)
+- ⚠ Converting audio formats (ffmpeg for cries)
+
+After each insertion, you'll see a **"⚠ MANUAL STEPS REQUIRED"** section with:
+- Numbered step-by-step instructions
+- Exact file paths to edit
+- Ready-to-use code snippets you can copy/paste
+- Specific locations within files to make changes
+
+### Example Output
+
+When you insert a Pokemon, the log shows:
+
+```
+═══ ✓ AUTOMATED STEPS COMPLETED ═══
+[SUCCESS] Files copied to: graphics/pokemon/pikachu/
+[SUCCESS] Graphics files: anim_front.png, back.png, icon.png
+[SUCCESS] ✓ File organization complete!
+
+═══ ⚠ MANUAL STEPS REQUIRED ═══
+[WARNING] The tool CANNOT do these automatically - you must edit code files:
+[MANUAL]   1. Add species constant to include/constants/species.h
+[CODE]      #define SPECIES_PIKACHU  XXXX  // Replace XXXX with next number
+[MANUAL]   2. Add graphics references to src/data/graphics/pokemon.h
+[CODE]      const u32 gMonFrontPic_Pikachu[] = INCBIN_U32("graphics/pokemon/pikachu/anim_front.4bpp.lz");
+[MANUAL]   3. Add species entry to src/data/pokemon/species_info.h
+... (and so on)
+```
+
+**Color-coded log entries** make it easy to distinguish:
+- 🟢 Green = What was automated
+- 🔴 Red = What you must do manually
+- 🔵 Blue = Section headers
+- 🟢 Green monospace = Code snippets to copy
+
+Think of this tool as a **smart file organizer** that:
+1. Handles the tedious file copying
+2. Gives you exact instructions for code integration
+3. Provides ready-to-use code snippets
 
 ## Troubleshooting
 

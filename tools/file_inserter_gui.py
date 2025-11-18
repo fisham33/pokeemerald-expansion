@@ -294,13 +294,29 @@ class FileInserterGUI:
 
         # Configure tags for different log levels
         self.log_text.tag_config("info", foreground="black")
-        self.log_text.tag_config("success", foreground="green")
+        self.log_text.tag_config("success", foreground="green", font=("TkDefaultFont", 9, "bold"))
         self.log_text.tag_config("warning", foreground="orange")
-        self.log_text.tag_config("error", foreground="red")
+        self.log_text.tag_config("error", foreground="red", font=("TkDefaultFont", 9, "bold"))
+        self.log_text.tag_config("section", foreground="blue", font=("TkDefaultFont", 10, "bold"))
+        self.log_text.tag_config("manual", foreground="darkred", font=("TkDefaultFont", 9))
+        self.log_text.tag_config("code", foreground="darkgreen", font=("Courier", 8))
 
         self.log_text.insert(tk.END, f"[{level}] {message}\n", color_tag)
         self.log_text.see(tk.END)
         self.log_text.config(state=tk.DISABLED)
+
+    def log_section(self, title: str):
+        """Add a section header to the log."""
+        self.log("", "INFO")  # Blank line
+        self.log(f"═══ {title} ═══", "SECTION")
+
+    def log_manual_step(self, step_num: int, description: str):
+        """Add a manual step to the log."""
+        self.log(f"  {step_num}. {description}", "MANUAL")
+
+    def log_code(self, code: str):
+        """Add a code snippet to the log."""
+        self.log(f"     {code}", "CODE")
 
     def clear_log(self):
         """Clear the log panel."""
@@ -380,14 +396,69 @@ class FileInserterGUI:
                     shutil.copy2(source_path, dest_path)
                     self.log(f"Copied {dest_name}", "SUCCESS")
 
-            self.log(f"Pokemon graphics inserted successfully to: {pokemon_dir}", "SUCCESS")
-            self.log("NEXT STEPS:", "INFO")
-            self.log("1. Add species constant to include/constants/species.h", "INFO")
-            self.log("2. Add species data to src/data/pokemon/species_info.h", "INFO")
-            self.log("3. Add graphics references to src/data/graphics/pokemon.h", "INFO")
-            self.log("See docs/tutorials/how_to_new_pokemon.md for details", "INFO")
+            # Summary of what was done
+            self.log_section("✓ AUTOMATED STEPS COMPLETED")
+            self.log(f"Files copied to: graphics/pokemon/{species_name}/", "SUCCESS")
 
-            messagebox.showinfo("Success", f"Pokemon graphics inserted!\n\nLocation: {pokemon_dir}\n\nCheck the log for next steps.")
+            files_copied = []
+            for key, dest_name in file_mapping.items():
+                if self.pokemon_files[key].get().strip():
+                    files_copied.append(dest_name)
+
+            if files_copied:
+                self.log(f"Graphics files: {', '.join(files_copied)}", "SUCCESS")
+
+            if self.copy_from_existing_var.get():
+                self.log(f"Template copied from: {source_species}", "SUCCESS")
+
+            self.log("✓ File organization complete!", "SUCCESS")
+
+            # Clear manual steps
+            self.log_section("⚠ MANUAL STEPS REQUIRED")
+            self.log("The tool CANNOT do these automatically - you must edit code files:", "WARNING")
+
+            species_upper = species_name.upper()
+            species_title = species_name.replace('_', ' ').title().replace(' ', '')
+
+            self.log_manual_step(1, f"Add species constant to include/constants/species.h")
+            self.log_code(f"#define SPECIES_{species_upper}  XXXX  // Replace XXXX with next number")
+            self.log_code(f"// Also update #define SPECIES_EGG to be (SPECIES_{species_upper} + 1)")
+
+            self.log_manual_step(2, f"Add graphics references to src/data/graphics/pokemon.h")
+            self.log_code(f"const u32 gMonFrontPic_{species_title}[] = INCBIN_U32(\"graphics/pokemon/{species_name}/anim_front.4bpp.lz\");")
+            self.log_code(f"const u32 gMonBackPic_{species_title}[] = INCBIN_U32(\"graphics/pokemon/{species_name}/back.4bpp.lz\");")
+            self.log_code(f"const u16 gMonPalette_{species_title}[] = INCBIN_U16(\"graphics/pokemon/{species_name}/normal.gbapal\");")
+            self.log_code(f"const u16 gMonShinyPalette_{species_title}[] = INCBIN_U16(\"graphics/pokemon/{species_name}/shiny.gbapal\");")
+            self.log_code(f"const u8 gMonIcon_{species_title}[] = INCBIN_U8(\"graphics/pokemon/{species_name}/icon.4bpp\");")
+            self.log_code(f"const u8 gMonFootprint_{species_title}[] = INCBIN_U8(\"graphics/pokemon/{species_name}/footprint.1bpp\");")
+
+            self.log_manual_step(3, f"Add species entry to src/data/pokemon/species_info.h")
+            self.log_code(f"[SPECIES_{species_upper}] = {{")
+            self.log_code(f"    .baseHP = 100,  // Set your stats")
+            self.log_code(f"    .types = MON_TYPES(TYPE_NORMAL),")
+            self.log_code(f"    .speciesName = _(\"YourName\"),")
+            self.log_code(f"    .frontPic = gMonFrontPic_{species_title},")
+            self.log_code(f"    .palette = gMonPalette_{species_title},")
+            self.log_code(f"    // ... etc (see tutorial)")
+            self.log_code(f"}},")
+
+            self.log_manual_step(4, f"Add to National Dex in include/constants/pokedex.h")
+            self.log_code(f"NATIONAL_DEX_{species_upper},")
+
+            self.log_manual_step(5, f"Add level-up learnset to src/data/pokemon/level_up_learnsets/gen_9.h")
+            self.log_manual_step(6, f"Add teachable learnset to src/data/pokemon/teachable_learnsets.h")
+
+            self.log("", "INFO")
+            self.log("📖 Full tutorial: docs/tutorials/how_to_new_pokemon.md", "INFO")
+            self.log("", "INFO")
+
+            messagebox.showinfo("Success",
+                f"✓ FILES COPIED SUCCESSFULLY!\n\n"
+                f"Location: graphics/pokemon/{species_name}/\n\n"
+                f"⚠ IMPORTANT: Manual code editing required!\n"
+                f"Check the Operation Log below for detailed steps.\n\n"
+                f"The tool has organized your files, but you must\n"
+                f"still edit the C code to integrate the Pokemon.")
 
         except Exception as e:
             self.log(f"Error inserting Pokemon graphics: {e}", "ERROR")
@@ -424,14 +495,44 @@ class FileInserterGUI:
                 shutil.copy2(palette, dest_pal)
                 self.log(f"Copied palette to {dest_pal}", "SUCCESS")
 
-            self.log("Trainer graphics inserted successfully!", "SUCCESS")
-            self.log("NEXT STEPS:", "INFO")
-            self.log("1. Add graphics references to src/data/graphics/trainers.h", "INFO")
-            self.log("2. Add trainer sprite entry to src/data/graphics/trainers.h", "INFO")
-            self.log("3. Add TRAINER_PIC constant to include/constants/trainers.h", "INFO")
-            self.log("See docs/tutorials/how_to_trainer_front_pic.md for details", "INFO")
+            # Summary of what was done
+            self.log_section("✓ AUTOMATED STEPS COMPLETED")
+            self.log(f"Front pic copied to: graphics/trainers/front_pics/{trainer_name}.png", "SUCCESS")
+            if palette and os.path.exists(palette):
+                self.log(f"Palette copied to: graphics/trainers/palettes/{trainer_name}.gbapal", "SUCCESS")
+            self.log("✓ File organization complete!", "SUCCESS")
 
-            messagebox.showinfo("Success", "Trainer graphics inserted!\n\nCheck the log for next steps.")
+            # Clear manual steps
+            self.log_section("⚠ MANUAL STEPS REQUIRED")
+            self.log("The tool CANNOT do these automatically - you must edit code files:", "WARNING")
+
+            trainer_upper = trainer_name.upper()
+            trainer_title = trainer_name.replace('_', ' ').title().replace(' ', '')
+
+            self.log_manual_step(1, f"Add graphics references to src/data/graphics/trainers.h")
+            self.log("   Find the section near the bottom with other trainers and add:")
+            self.log_code(f"const u32 gTrainerFrontPic_{trainer_title}[] = INCBIN_U32(\"graphics/trainers/front_pics/{trainer_name}.4bpp.smol\");")
+            self.log_code(f"const u16 gTrainerPalette_{trainer_title}[] = INCBIN_U16(\"graphics/trainers/palettes/{trainer_name}.gbapal\");")
+
+            self.log_manual_step(2, f"Add trainer sprite to gTrainerSprites[] in src/data/graphics/trainers.h")
+            self.log("   Find the const struct TrainerSprite gTrainerSprites[] array and add:")
+            self.log_code(f"TRAINER_SPRITE(TRAINER_PIC_{trainer_upper}, gTrainerFrontPic_{trainer_title}, gTrainerPalette_{trainer_title}),")
+
+            self.log_manual_step(3, f"Add constant to include/constants/trainers.h")
+            self.log("   Find the #define TRAINER_PIC_XXX section and add:")
+            self.log_code(f"#define TRAINER_PIC_{trainer_upper}  XX  // Replace XX with next number in sequence")
+
+            self.log("", "INFO")
+            self.log("📖 Full tutorial: docs/tutorials/how_to_trainer_front_pic.md", "INFO")
+            self.log("", "INFO")
+
+            messagebox.showinfo("Success",
+                f"✓ FILES COPIED SUCCESSFULLY!\n\n"
+                f"Front pic: graphics/trainers/front_pics/{trainer_name}.png\n\n"
+                f"⚠ IMPORTANT: Manual code editing required!\n"
+                f"Check the Operation Log below for detailed steps.\n\n"
+                f"The tool has organized your files, but you must\n"
+                f"edit 2 C files to integrate the trainer pic.")
 
         except Exception as e:
             self.log(f"Error inserting trainer graphics: {e}", "ERROR")
@@ -468,13 +569,51 @@ class FileInserterGUI:
                 shutil.copy2(palette, dest_pal)
                 self.log(f"Copied palette to {dest_pal}", "SUCCESS")
 
-            self.log("Item graphics inserted successfully!", "SUCCESS")
-            self.log("NEXT STEPS:", "INFO")
-            self.log("1. Add item constant to include/constants/items.h", "INFO")
-            self.log("2. Add item data to src/data/items.h", "INFO")
-            self.log("3. Add graphics references to src/data/graphics/items.h", "INFO")
+            # Summary of what was done
+            self.log_section("✓ AUTOMATED STEPS COMPLETED")
+            self.log(f"Icon copied to: graphics/items/icons/{item_name}.png", "SUCCESS")
+            if palette and os.path.exists(palette):
+                self.log(f"Palette copied to: graphics/items/icon_palettes/{item_name}.gbapal", "SUCCESS")
+            self.log("✓ File organization complete!", "SUCCESS")
 
-            messagebox.showinfo("Success", "Item graphics inserted!\n\nCheck the log for next steps.")
+            # Clear manual steps
+            self.log_section("⚠ MANUAL STEPS REQUIRED")
+            self.log("The tool CANNOT do these automatically - you must edit code files:", "WARNING")
+
+            item_upper = item_name.upper()
+            item_title = item_name.replace('_', ' ').title().replace(' ', '')
+
+            self.log_manual_step(1, f"Add item constant to include/constants/items.h")
+            self.log("   Find the appropriate section (Medicine, Balls, etc.) and add:")
+            self.log_code(f"#define ITEM_{item_upper}  XXXX  // Replace XXXX with next number")
+
+            self.log_manual_step(2, f"Add graphics references to src/data/graphics/items.h")
+            self.log("   Add near other similar items:")
+            self.log_code(f"const u32 gItemIcon_{item_title}[] = INCBIN_U32(\"graphics/items/icons/{item_name}.4bpp.smol\");")
+            self.log_code(f"const u16 gItemIconPalette_{item_title}[] = INCBIN_U16(\"graphics/items/icon_palettes/{item_name}.gbapal\");")
+
+            self.log_manual_step(3, f"Add item data to src/data/items.h")
+            self.log("   Find the [ITEM_XXX] section and add a new entry:")
+            self.log_code(f"[ITEM_{item_upper}] =")
+            self.log_code(f"{{")
+            self.log_code(f"    .name = _(\"YourItem\"),")
+            self.log_code(f"    .price = 200,")
+            self.log_code(f"    .description = COMPOUND_STRING(\"Description here\"),")
+            self.log_code(f"    .pocket = POCKET_ITEMS,")
+            self.log_code(f"    .type = ITEM_USE_BAG_MENU,")
+            self.log_code(f"    .iconPic = gItemIcon_{item_title},")
+            self.log_code(f"    .iconPalette = gItemIconPalette_{item_title},")
+            self.log_code(f"}},")
+
+            self.log("", "INFO")
+            self.log("", "INFO")
+
+            messagebox.showinfo("Success",
+                f"✓ FILES COPIED SUCCESSFULLY!\n\n"
+                f"Icon: graphics/items/icons/{item_name}.png\n\n"
+                f"⚠ IMPORTANT: Manual code editing required!\n"
+                f"Check the Operation Log below for detailed steps.\n\n"
+                f"You must edit 3 files to integrate the item.")
 
         except Exception as e:
             self.log(f"Error inserting item graphics: {e}", "ERROR")
@@ -518,15 +657,72 @@ class FileInserterGUI:
                 shutil.copy2(palette_file, dest_pal)
                 self.log(f"Copied palette to {dest_pal}", "SUCCESS")
 
-            self.log("Overworld sprite inserted successfully!", "SUCCESS")
-            self.log("NEXT STEPS:", "INFO")
-            self.log("1. Add sprite references to src/data/object_events/object_event_graphics.h", "INFO")
-            self.log(f"2. Add build rule to spritesheet_rules.mk with -mwidth {width} -mheight {height}", "INFO")
-            self.log("3. Add pic table to src/data/object_events/object_event_pic_tables.h", "INFO")
-            self.log("4. Add graphics info to src/data/object_events/object_event_graphics_info.h", "INFO")
-            self.log("5. Add constant to include/constants/event_objects.h", "INFO")
+            # Summary of what was done
+            self.log_section("✓ AUTOMATED STEPS COMPLETED")
+            self.log(f"Sprite copied to: graphics/object_events/pics/people/{sprite_name}.png", "SUCCESS")
+            if palette_file and os.path.exists(palette_file):
+                self.log(f"Palette copied to: graphics/object_events/palettes/{sprite_name}.gbapal", "SUCCESS")
+            self.log("✓ File organization complete!", "SUCCESS")
 
-            messagebox.showinfo("Success", "Overworld sprite inserted!\n\nCheck the log for next steps.")
+            # Clear manual steps
+            self.log_section("⚠ MANUAL STEPS REQUIRED")
+            self.log("The tool CANNOT do these automatically - you must edit code files:", "WARNING")
+
+            sprite_upper = sprite_name.upper()
+            sprite_title = sprite_name.replace('_', ' ').title().replace(' ', '')
+
+            self.log_manual_step(1, f"Add sprite references to src/data/object_events/object_event_graphics.h")
+            self.log("   Add near the end of the file:")
+            self.log_code(f"const u32 gObjectEventPic_{sprite_title}[] = INCBIN_U32(\"graphics/object_events/pics/people/{sprite_name}.4bpp\");")
+            self.log_code(f"const u16 gObjectEventPal_{sprite_title}[] = INCBIN_U16(\"graphics/object_events/palettes/{sprite_name}.gbapal\");")
+
+            self.log_manual_step(2, f"Add build rule to spritesheet_rules.mk")
+            self.log(f"   Add this rule (dimensions are {width}x{height} tiles = {width*8}x{height*8} pixels):")
+            self.log_code(f"$(OBJEVENTGFXDIR)/people/{sprite_name}.4bpp: %.4bpp: %.png")
+            self.log_code(f"\t$(GFX) $< $@ -mwidth {width} -mheight {height}")
+
+            self.log_manual_step(3, f"Add palette tag to src/event_object_movement.c (if using unique palette)")
+            self.log_code(f"#define OBJ_EVENT_PAL_{sprite_upper} 0x11XX  // Pick unused palette tag")
+            self.log("   Then add to sObjectEventSpritePalettes[] array:")
+            self.log_code(f"{{gObjectEventPal_{sprite_title}, OBJ_EVENT_PAL_{sprite_upper}}},")
+
+            self.log_manual_step(4, f"Add pic table to src/data/object_events/object_event_pic_tables.h")
+            self.log_code(f"const struct SpriteFrameImage gObjectEventPicTable_{sprite_title}[] = {{")
+            self.log_code(f"    overworld_frame(gObjectEventPic_{sprite_title}, {width}, {height}, 0),")
+            self.log_code(f"    overworld_frame(gObjectEventPic_{sprite_title}, {width}, {height}, 1),")
+            self.log_code(f"    // ... add more frames as needed")
+            self.log_code(f"}};")
+
+            self.log_manual_step(5, f"Add graphics info to src/data/object_events/object_event_graphics_info.h")
+            self.log_code(f"const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_{sprite_title} = {{")
+            self.log_code(f"    .tileTag = 0xFFFF,")
+            self.log_code(f"    .paletteTag = OBJ_EVENT_PAL_{sprite_upper},  // or OBJ_EVENT_PAL_TAG_NPC_1")
+            self.log_code(f"    .width = {width*8}, .height = {height*8},")
+            self.log_code(f"    .pics = gObjectEventPicTable_{sprite_title},")
+            self.log_code(f"    // ... other fields")
+            self.log_code(f"}};")
+
+            self.log_manual_step(6, f"Add to object_event_graphics_info_pointers.h")
+            self.log_code(f"const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[] = {{")
+            self.log_code(f"    // ... existing entries")
+            self.log_code(f"    [OBJ_EVENT_GFX_{sprite_upper}] = &gObjectEventGraphicsInfo_{sprite_title},")
+            self.log_code(f"}};")
+
+            self.log_manual_step(7, f"Add constant to include/constants/event_objects.h")
+            self.log_code(f"#define OBJ_EVENT_GFX_{sprite_upper}  XXX  // Use next available number")
+            self.log_code(f"// Also update #define NUM_OBJ_EVENT_GFX")
+
+            self.log("", "INFO")
+            self.log("⚠ This is the most complex insertion type!", "WARNING")
+            self.log("   Consider reviewing existing entries as templates.", "INFO")
+            self.log("", "INFO")
+
+            messagebox.showinfo("Success",
+                f"✓ FILES COPIED SUCCESSFULLY!\n\n"
+                f"Sprite: graphics/object_events/pics/people/{sprite_name}.png\n\n"
+                f"⚠ IMPORTANT: Manual code editing required!\n"
+                f"This is COMPLEX - you must edit 6+ files!\n\n"
+                f"Check the Operation Log for detailed steps.")
 
         except Exception as e:
             self.log(f"Error inserting overworld sprite: {e}", "ERROR")
@@ -554,38 +750,94 @@ class FileInserterGUI:
                 dest = self.project_root / "sound" / "direct_sound_samples" / "cries" / f"{audio_name}{Path(audio_file).suffix}"
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(audio_file, dest)
-                self.log(f"Copied cry file to {dest}", "SUCCESS")
 
-                self.log("NEXT STEPS:", "INFO")
-                self.log(f"1. Convert to AIF: ffmpeg -i {dest} -c:a pcm_s8 -ac 1 -ar 13379 sound/direct_sound_samples/cries/{audio_name}.aif", "INFO")
-                self.log("2. Add cry to sound/direct_sound_data.inc", "INFO")
-                self.log("3. Add cry ID to include/constants/cries.h", "INFO")
-                self.log("4. Add cry to sound/cry_tables.inc", "INFO")
+                self.log_section("✓ AUTOMATED STEPS COMPLETED")
+                self.log(f"Cry file copied to: sound/direct_sound_samples/cries/{audio_name}{Path(audio_file).suffix}", "SUCCESS")
+                self.log("✓ File organization complete!", "SUCCESS")
+
+                self.log_section("⚠ MANUAL STEPS REQUIRED")
+                self.log("The tool CANNOT do these automatically - you must convert and edit code:", "WARNING")
+
+                cry_upper = audio_name.upper()
+                cry_title = audio_name.replace('_', ' ').title().replace(' ', '')
+
+                self.log_manual_step(1, f"Convert audio to AIF format using ffmpeg")
+                self.log("   Run this command in your terminal:")
+                self.log_code(f"ffmpeg -i sound/direct_sound_samples/cries/{audio_name}{Path(audio_file).suffix} -c:a pcm_s8 -ac 1 -ar 13379 sound/direct_sound_samples/cries/{audio_name}.aif")
+                self.log("   Then delete the original MP3/WAV file after verifying the AIF works")
+
+                self.log_manual_step(2, f"Add cry to sound/direct_sound_data.inc")
+                self.log("   Add before the bottom of the file:")
+                self.log_code(f"    .align 2")
+                self.log_code(f"Cry_{cry_title}::")
+                self.log_code(f"    .incbin \"sound/direct_sound_samples/cries/{audio_name}.bin\"")
+
+                self.log_manual_step(3, f"Add cry constant to include/constants/cries.h")
+                self.log("   Add in the enum PokemonCry section, before CRY_COUNT:")
+                self.log_code(f"    CRY_{cry_upper},")
+
+                self.log_manual_step(4, f"Add cry to both tables in sound/cry_tables.inc")
+                self.log("   Add to the cry table:")
+                self.log_code(f"    cry Cry_{cry_title}")
+                self.log("   AND add to the cry_reverse table:")
+                self.log_code(f"    cry_reverse Cry_{cry_title}")
+
+                self.log_manual_step(5, f"Reference in your Pokemon's species data")
+                self.log("   In src/data/pokemon/species_info.h:")
+                self.log_code(f"    .cryId = CRY_{cry_upper},")
 
             elif audio_type == "music":
                 # Copy to songs/midi directory
                 dest = self.project_root / "sound" / "songs" / "midi" / f"{audio_name}.mid"
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(audio_file, dest)
-                self.log(f"Copied MIDI file to {dest}", "SUCCESS")
 
-                self.log("NEXT STEPS:", "INFO")
-                self.log("1. Add song to sound/song_table.inc", "INFO")
-                self.log("2. Add song constant to include/constants/songs.h", "INFO")
+                self.log_section("✓ AUTOMATED STEPS COMPLETED")
+                self.log(f"MIDI file copied to: sound/songs/midi/{audio_name}.mid", "SUCCESS")
+                self.log("✓ File organization complete!", "SUCCESS")
+
+                self.log_section("⚠ MANUAL STEPS REQUIRED")
+                self.log("The tool CANNOT do these automatically - you must edit code:", "WARNING")
+
+                music_upper = audio_name.upper()
+
+                self.log_manual_step(1, f"Add song to sound/song_table.inc")
+                self.log("   Add before the end of the table:")
+                self.log_code(f"    song mus_{audio_name}, 0, 0")
+
+                self.log_manual_step(2, f"Add song constant to include/constants/songs.h")
+                self.log("   Add in the appropriate section:")
+                self.log_code(f"#define MUS_{music_upper}  XXX  // Use next available number")
 
             else:  # sfx
                 # Copy to songs directory
                 dest = self.project_root / "sound" / "songs" / f"se_{audio_name}.s"
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(audio_file, dest)
-                self.log(f"Copied SFX file to {dest}", "SUCCESS")
 
-                self.log("NEXT STEPS:", "INFO")
-                self.log("1. Add sound effect to sound/song_table.inc", "INFO")
-                self.log("2. Add SE constant to include/constants/songs.h", "INFO")
+                self.log_section("✓ AUTOMATED STEPS COMPLETED")
+                self.log(f"SFX file copied to: sound/songs/se_{audio_name}.s", "SUCCESS")
+                self.log("✓ File organization complete!", "SUCCESS")
 
-            self.log("Audio file inserted successfully!", "SUCCESS")
-            messagebox.showinfo("Success", "Audio file inserted!\n\nCheck the log for next steps.")
+                self.log_section("⚠ MANUAL STEPS REQUIRED")
+                self.log("The tool CANNOT do these automatically - you must edit code:", "WARNING")
+
+                sfx_upper = audio_name.upper()
+
+                self.log_manual_step(1, f"Add sound effect to sound/song_table.inc")
+                self.log("   Add in the SE section:")
+                self.log_code(f"    song se_{audio_name}, 1, 1")
+
+                self.log_manual_step(2, f"Add SE constant to include/constants/songs.h")
+                self.log("   Add in the sound effects section:")
+                self.log_code(f"#define SE_{sfx_upper}  XXX  // Use next available number")
+
+            self.log("", "INFO")
+            messagebox.showinfo("Success",
+                f"✓ FILE COPIED SUCCESSFULLY!\n\n"
+                f"⚠ IMPORTANT: Manual steps required!\n"
+                f"Check the Operation Log below for detailed steps.\n\n"
+                f"Audio files require format conversion and code edits.")
 
         except Exception as e:
             self.log(f"Error inserting audio file: {e}", "ERROR")
