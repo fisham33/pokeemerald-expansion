@@ -13,12 +13,14 @@ script DungeonRoom_Trainer_0 {
     // Check if already defeated this floor
     checkflag(FLAG_DUNGEON_TRAINER_0)
     if (flag(FLAG_DUNGEON_TRAINER_0)) {
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         releaseall
         end
     }
-    // Show intro message and wait for player input
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    // Show intro message from narrative and wait for player input
+    callnative(Script_Dungeon_GetRandomTrainerIntro)
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
     closemessage
     // Setup and start trainer battle for slot 0
     setvar(VAR_0x8000, 0)
@@ -28,7 +30,8 @@ script DungeonRoom_Trainer_0 {
     special(GetBattleOutcome)
     if (var(VAR_RESULT) == B_OUTCOME_WON) {
         callnative(Script_Dungeon_OnTrainerDefeated)
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_0)
     }
     // Lock trainer in place after battle (win or lose)
@@ -43,12 +46,14 @@ script DungeonRoom_Trainer_1 {
     // Check if already defeated this floor
     checkflag(FLAG_DUNGEON_TRAINER_1)
     if (flag(FLAG_DUNGEON_TRAINER_1)) {
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         releaseall
         end
     }
-    // Show intro message and wait for player input
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    // Show intro message from narrative and wait for player input
+    callnative(Script_Dungeon_GetRandomTrainerIntro)
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
     closemessage
     // Setup and start trainer battle for slot 1
     setvar(VAR_0x8000, 1)
@@ -58,7 +63,8 @@ script DungeonRoom_Trainer_1 {
     special(GetBattleOutcome)
     if (var(VAR_RESULT) == B_OUTCOME_WON) {
         callnative(Script_Dungeon_OnTrainerDefeated)
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_1)
     }
     // Lock trainer in place after battle (win or lose)
@@ -73,12 +79,14 @@ script DungeonRoom_Trainer_2 {
     // Check if already defeated this floor
     checkflag(FLAG_DUNGEON_TRAINER_2)
     if (flag(FLAG_DUNGEON_TRAINER_2)) {
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         releaseall
         end
     }
-    // Show intro message and wait for player input
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    // Show intro message from narrative and wait for player input
+    callnative(Script_Dungeon_GetRandomTrainerIntro)
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
     closemessage
     // Setup and start trainer battle for slot 2
     setvar(VAR_0x8000, 2)
@@ -88,7 +96,8 @@ script DungeonRoom_Trainer_2 {
     special(GetBattleOutcome)
     if (var(VAR_RESULT) == B_OUTCOME_WON) {
         callnative(Script_Dungeon_OnTrainerDefeated)
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_2)
     }
     // Lock trainer in place after battle (win or lose)
@@ -103,12 +112,14 @@ script DungeonRoom_Trainer_3 {
     // Check if already defeated this floor
     checkflag(FLAG_DUNGEON_TRAINER_3)
     if (flag(FLAG_DUNGEON_TRAINER_3)) {
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         releaseall
         end
     }
-    // Show intro message and wait for player input
-    msgbox(DungeonRoom_Intro, MSGBOX_DEFAULT)
+    // Show intro message from narrative and wait for player input
+    callnative(Script_Dungeon_GetRandomTrainerIntro)
+    msgbox(gStringVar4, MSGBOX_DEFAULT)
     closemessage
     // Setup and start trainer battle for slot 3
     setvar(VAR_0x8000, 3)
@@ -118,7 +129,8 @@ script DungeonRoom_Trainer_3 {
     special(GetBattleOutcome)
     if (var(VAR_RESULT) == B_OUTCOME_WON) {
         callnative(Script_Dungeon_OnTrainerDefeated)
-        msgbox(DungeonRoom_PostBattle, MSGBOX_DEFAULT)
+        callnative(Script_Dungeon_GetRandomTrainerDefeat)
+        msgbox(gStringVar4, MSGBOX_DEFAULT)
         setflag(FLAG_DUNGEON_TRAINER_3)
     }
     // Lock trainer in place after battle (win or lose)
@@ -142,15 +154,7 @@ script DungeonRoom_ExitTrigger {
 // ============================================
 // TEXT STRINGS
 // ============================================
-
-text DungeonRoom_Intro {
-    "del: DungeonRoom_Intro$"
-}
-
-text DungeonRoom_PostBattle {
-    "del: DungeonRoom_PostBattle$"
-}
-
-text DungeonRoom_Text_NotCleared {
-    "del: DungeonRoom_Text_NotCleared$"
-}
+// Note: Trainer intro/defeat text is now dynamically loaded from the active
+// narrative using Script_Dungeon_GetRandomTrainerIntro() and
+// Script_Dungeon_GetRandomTrainerDefeat(). This allows text to vary based on
+// the current narrative (Team Magma, Professor's Expedition, etc.).
