@@ -45,6 +45,10 @@
 // Forward declarations for static functions
 static void Dungeon_WarpToRoom(u8 roomIndex);
 static void Dungeon_WarpToBossRoom(void);
+static u16 Dungeon_GetWeeklySeed(void);
+static u16 Dungeon_GetSeedForMode(u8 dungeonId, u8 refreshMode);
+static u8 Dungeon_SelectNarrative(u8 dungeonId, u16 seed);
+static u8 Dungeon_SelectModifier(u8 dungeonId, u16 seed);
 
 // Note: Boss is now defined per narrative, not stored statically
 // Use Dungeon_GetActiveNarrative()->boss instead
@@ -94,6 +98,30 @@ void Dungeon_Enter(u8 dungeonId)
 
     DebugPrintf("Dungeon_Enter: Entering dungeon %d", dungeonId);
 
+    // Get dungeon definition
+    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
+
+    // Handle REFRESH_PER_ENTRY mode: increment counter and refresh narrative/modifier
+    if (dungeon != NULL)
+    {
+        // Increment entry counter
+        gSaveBlock2Ptr->dungeonEntryCounters[dungeonId]++;
+
+        // Refresh narrative if using per-entry mode
+        if (dungeon->narrativeRefreshMode == REFRESH_PER_ENTRY)
+        {
+            u16 seed = Dungeon_GetSeedForMode(dungeonId, REFRESH_PER_ENTRY);
+            gSaveBlock2Ptr->dungeonNarratives[dungeonId] = Dungeon_SelectNarrative(dungeonId, seed);
+        }
+
+        // Refresh modifier if using per-entry mode
+        if (dungeon->modifierRefreshMode == REFRESH_PER_ENTRY)
+        {
+            u16 seed = Dungeon_GetSeedForMode(dungeonId, REFRESH_PER_ENTRY);
+            gSaveBlock2Ptr->dungeonModifiers[dungeonId] = Dungeon_SelectModifier(dungeonId, seed);
+        }
+    }
+
     // Initialize dungeon state
     Dungeon_SetActive(TRUE);
     Dungeon_SetRoom(0);
@@ -106,7 +134,6 @@ void Dungeon_Enter(u8 dungeonId)
     DebugPrintf("Dungeon_Enter: Set active, room=0, dungeonId stored in VAR_TEMP_0=%d", VarGet(VAR_TEMP_0));
 
     // Shuffle room order for this run
-    const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
     if (dungeon != NULL && dungeon->roomPool != NULL)
         ShuffleRoomOrder(dungeon);
 
@@ -676,16 +703,17 @@ u16 Dungeon_CalculateRewardTier(void)
     u16 score = Dungeon_GetRewardScore();
 
     // Tier calculation based on performance
-    // 0-20 = Tier 1 (Bronze) - Boss only
-    // 21-40 = Tier 2 (Silver) - Boss + 1-5 trainers
-    // 41+ = Tier 3 (Gold) - Boss + 6+ trainers (or many catches)
+    // Thresholds are configurable in include/config/dungeon.h
+    // Tier 1 (Bronze): Below DUNGEON_REWARD_TIER_SILVER
+    // Tier 2 (Silver): DUNGEON_REWARD_TIER_SILVER to DUNGEON_REWARD_TIER_GOLD - 1
+    // Tier 3 (Gold):   DUNGEON_REWARD_TIER_GOLD and above
 
-    if (score >= 41)
-        return 3;
-    else if (score >= 21)
-        return 2;
+    if (score >= DUNGEON_REWARD_TIER_GOLD)
+        return 3;  // Gold tier
+    else if (score >= DUNGEON_REWARD_TIER_SILVER)
+        return 2;  // Silver tier
     else
-        return 1;
+        return 1;  // Bronze tier
 }
 
 // ==========================================================================
@@ -736,6 +764,53 @@ u16 Dungeon_GetDailySeed(void)
     return seed;
 }
 
+// Generate weekly seed based on current RTC date
+static u16 Dungeon_GetWeeklySeed(void)
+{
+    struct DateTime dateTime;
+
+    RtcCalcLocalTime();
+    ConvertTimeToDateTime(&dateTime, &gLocalTime);
+
+    // Calculate week number (simplified: days since start of year / 7)
+    u16 dayOfYear = (dateTime.month * 30) + dateTime.day;  // Approximate
+    u16 weekOfYear = dayOfYear / 7;
+
+    // Create seed from year and week
+    u16 seed = (dateTime.year << 6) | weekOfYear;
+
+    return seed;
+}
+
+// Get seed for a dungeon based on its refresh mode
+static u16 Dungeon_GetSeedForMode(u8 dungeonId, u8 refreshMode)
+{
+    if (dungeonId >= DUNGEON_COUNT)
+        return 0;
+
+    switch (refreshMode)
+    {
+    case REFRESH_FIXED:
+        // Fixed mode always returns 0 (will use fixedNarrativeId/fixedModifierId instead)
+        return 0;
+
+    case REFRESH_PER_ENTRY:
+        // Use entry counter as seed
+        return gSaveBlock2Ptr->dungeonEntryCounters[dungeonId];
+
+    case REFRESH_DAILY:
+        // Use daily seed
+        return Dungeon_GetDailySeed();
+
+    case REFRESH_WEEKLY:
+        // Use weekly seed
+        return Dungeon_GetWeeklySeed();
+
+    default:
+        return Dungeon_GetDailySeed();
+    }
+}
+
 // Select narrative for a dungeon based on seed
 static u8 Dungeon_SelectNarrative(u8 dungeonId, u16 seed)
 {
@@ -770,14 +845,14 @@ static u8 Dungeon_SelectModifier(u8 dungeonId, u16 seed)
     return pool[(seed + 7) % count];
 }
 
-// Check if daily rotation needs to be updated
+// Check if rotation needs to be updated for any dungeon
 void Dungeon_CheckDailyRotation(void)
 {
 #if I_DUNGEON_DAILY_ROTATION == FALSE
     return; // Daily rotation disabled
 #endif
 
-    u16 currentSeed = Dungeon_GetDailySeed();
+    u16 currentDailySeed = Dungeon_GetDailySeed();
     bool8 needsInit = FALSE;
 
     // Check if this is first run (seed is 0 or narratives/modifiers look uninitialized)
@@ -791,17 +866,67 @@ void Dungeon_CheckDailyRotation(void)
             needsInit = TRUE;
     }
 
-    // Check if seed has changed (new day) or needs initialization
-    if (needsInit || gSaveBlock2Ptr->dungeonDailySeed != currentSeed)
-    {
-        // Update seed
-        gSaveBlock2Ptr->dungeonDailySeed = currentSeed;
+    // Check if daily seed has changed or needs initialization
+    bool8 dailySeedChanged = (gSaveBlock2Ptr->dungeonDailySeed != currentDailySeed);
 
-        // Update narratives and modifiers for all dungeons
+    if (needsInit || dailySeedChanged)
+    {
+        // Update daily seed
+        gSaveBlock2Ptr->dungeonDailySeed = currentDailySeed;
+
+        // Update each dungeon based on its refresh mode
         for (u8 i = 0; i < DUNGEON_COUNT; i++)
         {
-            gSaveBlock2Ptr->dungeonNarratives[i] = Dungeon_SelectNarrative(i, currentSeed);
-            gSaveBlock2Ptr->dungeonModifiers[i] = Dungeon_SelectModifier(i, currentSeed);
+            const struct Dungeon *dungeon = &sDungeons[i];
+
+            // Handle narrative refresh
+            if (needsInit)
+            {
+                // On first initialization, always set narratives/modifiers
+                u16 narrativeSeed = Dungeon_GetSeedForMode(i, dungeon->narrativeRefreshMode);
+                u16 modifierSeed = Dungeon_GetSeedForMode(i, dungeon->modifierRefreshMode);
+
+                if (dungeon->narrativeRefreshMode == REFRESH_FIXED)
+                    gSaveBlock2Ptr->dungeonNarratives[i] = dungeon->fixedNarrativeId;
+                else
+                    gSaveBlock2Ptr->dungeonNarratives[i] = Dungeon_SelectNarrative(i, narrativeSeed);
+
+                if (dungeon->modifierRefreshMode == REFRESH_FIXED)
+                    gSaveBlock2Ptr->dungeonModifiers[i] = dungeon->fixedModifierId;
+                else
+                    gSaveBlock2Ptr->dungeonModifiers[i] = Dungeon_SelectModifier(i, modifierSeed);
+            }
+            else
+            {
+                // Update narrative if its refresh mode matches the change
+                if (dungeon->narrativeRefreshMode == REFRESH_DAILY && dailySeedChanged)
+                {
+                    u16 seed = Dungeon_GetSeedForMode(i, dungeon->narrativeRefreshMode);
+                    gSaveBlock2Ptr->dungeonNarratives[i] = Dungeon_SelectNarrative(i, seed);
+                }
+                else if (dungeon->narrativeRefreshMode == REFRESH_WEEKLY && dailySeedChanged)
+                {
+                    // Check if week has changed
+                    u16 currentWeeklySeed = Dungeon_GetWeeklySeed();
+                    u16 narrativeSeed = Dungeon_GetSeedForMode(i, dungeon->narrativeRefreshMode);
+                    if (currentWeeklySeed != narrativeSeed)
+                        gSaveBlock2Ptr->dungeonNarratives[i] = Dungeon_SelectNarrative(i, narrativeSeed);
+                }
+
+                // Update modifier if its refresh mode matches the change
+                if (dungeon->modifierRefreshMode == REFRESH_DAILY && dailySeedChanged)
+                {
+                    u16 seed = Dungeon_GetSeedForMode(i, dungeon->modifierRefreshMode);
+                    gSaveBlock2Ptr->dungeonModifiers[i] = Dungeon_SelectModifier(i, seed);
+                }
+                else if (dungeon->modifierRefreshMode == REFRESH_WEEKLY && dailySeedChanged)
+                {
+                    u16 currentWeeklySeed = Dungeon_GetWeeklySeed();
+                    u16 modifierSeed = Dungeon_GetSeedForMode(i, dungeon->modifierRefreshMode);
+                    if (currentWeeklySeed != modifierSeed)
+                        gSaveBlock2Ptr->dungeonModifiers[i] = Dungeon_SelectModifier(i, modifierSeed);
+                }
+            }
         }
     }
 }

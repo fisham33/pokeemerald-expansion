@@ -23,6 +23,8 @@ static const u8 sModifierStrongWinds_Name[] = _("Strong Winds");
 static const u8 sModifierStrongWinds_Description[] = _("Mysterious strong winds\pblow throughout the dungeon.$");
 static const u8 sModifierTrickRoom_Name[] = _("Trick Room");
 static const u8 sModifierTrickRoom_Description[] = _("Trick Room is active for\p5 turns at battle start.$");
+static const u8 sModifierGravity_Name[] = _("Intense Gravity");
+static const u8 sModifierGravity_Description[] = _("Gravity intensifies for\p5 turns at battle start.$");
 static const u8 sModifierInverse_Name[] = _("Inverse Battle");
 static const u8 sModifierInverse_Description[] = _("Type matchups are\pinverted in all battles.$");
 static const u8 sModifierDoubleExp_Name[] = _("Double Experience");
@@ -134,6 +136,19 @@ static const struct DungeonModifier gModifier_TrickRoom = {
     .moneyMultiplier = 1,
 };
 
+// Gravity (5 turns)
+static const struct DungeonModifier gModifier_Gravity = {
+    .id = MODIFIER_GRAVITY,
+    .name = sModifierGravity_Name,
+    .description = sModifierGravity_Description,
+    .weatherOrTerrain = STARTING_STATUS_GRAVITY,
+    .weatherDuration = 5,
+    .battleTypeFlags = 0,
+    .levelModifier = 0,
+    .expMultiplier = 1,
+    .moneyMultiplier = 1,
+};
+
 // Inverse Battle
 // Note: Inverse battles are handled via FLAG_ENABLE_INVERSE_BATTLE, not battleTypeFlags
 static const struct DungeonModifier gModifier_InverseBattle = {
@@ -217,6 +232,7 @@ static const struct DungeonModifier gDungeonModifiers[MODIFIER_COUNT] = {
     [MODIFIER_PERMANENT_SNOW] = gModifier_PermanentSnow,
     [MODIFIER_PERMANENT_STRONG_WINDS] = gModifier_PermanentStrongWinds,
     [MODIFIER_TRICK_ROOM] = gModifier_TrickRoom,
+    [MODIFIER_GRAVITY] = gModifier_Gravity,
     [MODIFIER_INVERSE_BATTLE] = gModifier_InverseBattle,
     [MODIFIER_DOUBLE_EXP] = gModifier_DoubleExp,
     [MODIFIER_EXPERT_CHALLENGE] = gModifier_ExpertChallenge,

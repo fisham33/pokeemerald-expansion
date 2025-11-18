@@ -27,6 +27,14 @@ enum DungeonTier {
     DUNGEON_TIER_COUNT
 };
 
+// Refresh modes for narratives and modifiers
+enum DungeonRefreshMode {
+    REFRESH_FIXED,        // Never changes (uses fixed narrative/modifier)
+    REFRESH_PER_ENTRY,    // Changes every time player enters dungeon
+    REFRESH_DAILY,        // Changes once per day (based on RTC)
+    REFRESH_WEEKLY,       // Changes once per week (based on RTC)
+};
+
 // === STATE ACCESSOR MACROS ===
 #define Dungeon_SetActive(val)           (gSaveBlock2Ptr->dungeonActive = (val))
 #define Dungeon_IsActive()               (gSaveBlock2Ptr->dungeonActive)
@@ -92,6 +100,7 @@ enum DungeonModifiers {
     MODIFIER_PERMANENT_SNOW,      // Snow throughout
     MODIFIER_PERMANENT_STRONG_WINDS, // Strong winds (Delta Stream) throughout
     MODIFIER_TRICK_ROOM,          // Trick Room (5 turns)
+    MODIFIER_GRAVITY,             // Gravity (5 turns)
     MODIFIER_INVERSE_BATTLE,      // Type matchups inverted
     MODIFIER_DOUBLE_EXP,          // 2x experience
     MODIFIER_EXPERT_CHALLENGE,    // +5 levels to all enemies

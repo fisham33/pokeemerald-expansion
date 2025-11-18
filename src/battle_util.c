@@ -3473,6 +3473,12 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                                                B_ANIM_SWAMP,
                                                &gSideTimers[B_SIDE_OPPONENT].swampTimer);
                 break;
+            case STARTING_STATUS_GRAVITY:
+                effect = SetStartingFieldStatus(STATUS_FIELD_GRAVITY,
+                                                B_MSG_SET_GRAVITY,
+                                                B_ANIM_GRAVITY,
+                                                &gFieldTimers.gravityTimer);
+                break;
             case STARTING_STATUS_RAIN:
                 effect = SetStartingWeather(B_WEATHER_RAIN_NORMAL, WEATHER_RAIN, B_ANIM_RAIN_CONTINUES);
                 effect = (effect == 1) ? 3 : 0;

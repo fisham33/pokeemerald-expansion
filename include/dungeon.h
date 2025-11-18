@@ -22,6 +22,12 @@ struct Dungeon {
     u16 entranceMap;       // MAP_DUNGEON_EARLY_ENTRANCE, etc.
     const struct DungeonRoom *roomPool;  // Pointer to array of available rooms
     u8 roomPoolSize;       // Number of rooms in the pool
+
+    // Refresh mode configuration
+    u8 narrativeRefreshMode;  // REFRESH_* mode for narrative rotation
+    u8 modifierRefreshMode;   // REFRESH_* mode for modifier rotation
+    u8 fixedNarrativeId;      // Used when narrativeRefreshMode = REFRESH_FIXED (NARRATIVE_* constant)
+    u8 fixedModifierId;       // Used when modifierRefreshMode = REFRESH_FIXED (MODIFIER_* constant)
 };
 
 // === ROOM DEFINITION ===

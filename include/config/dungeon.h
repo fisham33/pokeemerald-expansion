@@ -17,6 +17,11 @@
 #define DUNGEON_POINTS_BOSS_POKEMON     20      // Points for defeating boss Pokemon
 #define DUNGEON_POINTS_BOSS_TRAINER     20      // Points for defeating boss trainer
 
+// Reward tier thresholds
+#define DUNGEON_REWARD_TIER_GOLD        70      // Score needed for gold tier (best rewards)
+#define DUNGEON_REWARD_TIER_SILVER      45      // Score needed for silver tier (medium rewards)
+// Bronze tier is anything below DUNGEON_REWARD_TIER_SILVER
+
 // === NARRATIVE & MODIFIER SYSTEM ===
 
 // Enable daily rotation
@@ -26,11 +31,20 @@
 // 1 = daily, 7 = weekly
 #define I_DUNGEON_ROTATION_INTERVAL     1
 
+// Default refresh modes (can be overridden per-dungeon in dungeon_definitions.h)
+// Options: REFRESH_FIXED, REFRESH_PER_ENTRY, REFRESH_DAILY, REFRESH_WEEKLY
+#define DUNGEON_DEFAULT_NARRATIVE_REFRESH_MODE  REFRESH_DAILY
+#define DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE   REFRESH_DAILY
+
+// Default fixed IDs (used when refresh mode is REFRESH_FIXED)
+#define DUNGEON_DEFAULT_FIXED_NARRATIVE_ID      NARRATIVE_NONE
+#define DUNGEON_DEFAULT_FIXED_MODIFIER_ID       MODIFIER_NONE
+
 // === DEBUG & TESTING ===
 
 // Enable debug mode to force specific narratives/modifiers
 // Set to TRUE to override daily rotation for testing
-#define I_DUNGEON_DEBUG_MODE            TRUE
+#define I_DUNGEON_DEBUG_MODE            FALSE
 
 // Force specific modifier (only when I_DUNGEON_DEBUG_MODE is TRUE)
 // Example: MODIFIER_PERMANENT_SNOW, MODIFIER_INVERSE_BATTLE, etc.
