@@ -101,24 +101,27 @@ void Dungeon_Enter(u8 dungeonId)
     // Get dungeon definition
     const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
 
-    // Handle REFRESH_PER_ENTRY mode: increment counter and refresh narrative/modifier
+    // Handle REFRESH_PER_ENTRY mode: randomize on each entry
     if (dungeon != NULL)
     {
-        // Increment entry counter
-        gSaveBlock2Ptr->dungeonEntryCounters[dungeonId]++;
-
         // Refresh narrative if using per-entry mode
         if (dungeon->narrativeRefreshMode == REFRESH_PER_ENTRY)
         {
             u16 seed = Dungeon_GetSeedForMode(dungeonId, REFRESH_PER_ENTRY);
+            u8 oldNarrative = gSaveBlock2Ptr->dungeonNarratives[dungeonId];
             gSaveBlock2Ptr->dungeonNarratives[dungeonId] = Dungeon_SelectNarrative(dungeonId, seed);
+            DebugPrintf("Dungeon_Enter: Narrative randomized - old=%d, new=%d",
+                        oldNarrative, gSaveBlock2Ptr->dungeonNarratives[dungeonId]);
         }
 
         // Refresh modifier if using per-entry mode
         if (dungeon->modifierRefreshMode == REFRESH_PER_ENTRY)
         {
             u16 seed = Dungeon_GetSeedForMode(dungeonId, REFRESH_PER_ENTRY);
+            u8 oldModifier = gSaveBlock2Ptr->dungeonModifiers[dungeonId];
             gSaveBlock2Ptr->dungeonModifiers[dungeonId] = Dungeon_SelectModifier(dungeonId, seed);
+            DebugPrintf("Dungeon_Enter: Modifier randomized - old=%d, new=%d",
+                        oldModifier, gSaveBlock2Ptr->dungeonModifiers[dungeonId]);
         }
     }
 
@@ -795,8 +798,8 @@ static u16 Dungeon_GetSeedForMode(u8 dungeonId, u8 refreshMode)
         return 0;
 
     case REFRESH_PER_ENTRY:
-        // Use entry counter as seed
-        return gSaveBlock2Ptr->dungeonEntryCounters[dungeonId];
+        // Random every time you enter
+        return Random();
 
     case REFRESH_DAILY:
         // Use daily seed

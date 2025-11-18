@@ -30,9 +30,9 @@ enum DungeonTier {
 // Refresh modes for narratives and modifiers
 enum DungeonRefreshMode {
     REFRESH_FIXED,        // Never changes (uses fixed narrative/modifier)
-    REFRESH_PER_ENTRY,    // Changes every time player enters dungeon
-    REFRESH_DAILY,        // Changes once per day (based on RTC)
-    REFRESH_WEEKLY,       // Changes once per week (based on RTC)
+    REFRESH_PER_ENTRY,    // Randomizes every time player enters dungeon (no save required)
+    REFRESH_DAILY,        // Changes once per day (based on RTC, persists in save)
+    REFRESH_WEEKLY,       // Changes once per week (based on RTC, persists in save)
 };
 
 // === STATE ACCESSOR MACROS ===

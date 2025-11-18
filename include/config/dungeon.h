@@ -32,9 +32,13 @@
 #define I_DUNGEON_ROTATION_INTERVAL     1
 
 // Default refresh modes (can be overridden per-dungeon in dungeon_definitions.h)
-// Options: REFRESH_FIXED, REFRESH_PER_ENTRY, REFRESH_DAILY, REFRESH_WEEKLY
-#define DUNGEON_DEFAULT_NARRATIVE_REFRESH_MODE  REFRESH_DAILY
-#define DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE   REFRESH_DAILY
+// Options:
+//   REFRESH_FIXED      - Never changes (uses fixed IDs below)
+//   REFRESH_PER_ENTRY  - Random every entry (no save needed - works even on reset!)
+//   REFRESH_DAILY      - Changes once per day (persists in save)
+//   REFRESH_WEEKLY     - Changes once per week (persists in save)
+#define DUNGEON_DEFAULT_NARRATIVE_REFRESH_MODE  REFRESH_PER_ENTRY
+#define DUNGEON_DEFAULT_MODIFIER_REFRESH_MODE   REFRESH_PER_ENTRY
 
 // Default fixed IDs (used when refresh mode is REFRESH_FIXED)
 #define DUNGEON_DEFAULT_FIXED_NARRATIVE_ID      NARRATIVE_NONE
