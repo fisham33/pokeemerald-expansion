@@ -48,6 +48,7 @@
 #include "constants/songs.h"
 #include "region_map.h"
 #include "field_move.h"
+#include "camping.h"
 #include "field_control_avatar.h"
 
 static void SetUpItemUseCallback(u8);
@@ -1126,6 +1127,22 @@ void ItemUseOutOfBattle_EscapeRope(u8 taskId)
     {
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
+}
+
+void ItemUseOutOfBattle_CampingEquipment(u8 taskId)
+{
+    // Don't allow camping if already in campsite
+    if (Camping_IsActive())
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        return;
+    }
+
+    // Set up the camping session
+    Camping_SetupCamp();
+
+    // Close the bag menu and return to field (camping kit is not consumed)
+    Task_CloseBagAndReturnToField(taskId);
 }
 
 void ItemUseOutOfBattle_EvolutionStone(u8 taskId)

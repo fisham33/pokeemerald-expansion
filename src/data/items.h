@@ -14615,6 +14615,24 @@ const struct Item gItemsInfo[] =
         .iconPic = gItemIcon_QuestionMark,
         .iconPalette = gItemIconPalette_QuestionMark,
     },
+
+    [ITEM_CAMPING_EQUIPMENT] =
+    {
+        .name = ITEM_NAME("Camping Kit"),
+        .pluralName = ITEM_PLURAL_NAME("Camping Kits"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A compact camping\n"
+            "kit. Set up camp\n"
+            "to relax with your\n"
+            "Pokémon."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_CampingEquipment,
+        .iconPic = gItemIcon_QuestionMark,
+        .iconPalette = gItemIconPalette_QuestionMark,
+    },
 };
 
 #undef ITEM_NAME
