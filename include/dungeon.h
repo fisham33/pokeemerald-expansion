@@ -13,13 +13,9 @@ struct DungeonTrainer {
 
 // === DUNGEON DEFINITION ===
 struct Dungeon {
-    u8 id;                 // DUNGEON_ID
-    u8 tier;               // DUNGEON_TIER (affects level scaling)
-    u8 biome;              // DUNGEON_BIOME (affects encounters)
     u8 baseLevel;          // Base level for encounters/trainers
     u8 levelRange;         // ±range for variation (e.g., 20±5 = 15-25)
     u8 roomCount;          // Number of rooms before boss
-    u16 entranceMap;       // MAP_DUNGEON_EARLY_ENTRANCE, etc.
     const struct DungeonRoom *roomPool;  // Pointer to array of available rooms
     u8 roomPoolSize;       // Number of rooms in the pool
 
