@@ -4,19 +4,28 @@ let pokemonData = null;
 // Load Pokemon data when page loads
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Try to load from parent directory (for local development)
-        const response = await fetch('../pokemon_data.json');
+        // Load pokemon_data.json from the same directory
+        const response = await fetch('pokemon_data.json');
         if (!response.ok) {
-            throw new Error('Failed to load Pokemon data');
+            throw new Error(`Failed to load Pokemon data: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
         pokemonData = data.pokemon;
         console.log(`Loaded ${pokemonData.length} Pokemon`);
+
+        // Update placeholder to show ready state
+        document.getElementById('results').innerHTML = `
+            <p class="placeholder">
+                ✓ Loaded ${pokemonData.length} Pokemon<br><br>
+                Enter filter criteria and click "Filter" to see results
+            </p>
+        `;
     } catch (error) {
         console.error('Error loading Pokemon data:', error);
         document.getElementById('results').innerHTML = `
             <p class="placeholder" style="color: red;">
-                Error loading Pokemon data. Please ensure pokemon_data.json is accessible.
+                Error loading Pokemon data: ${error.message}<br><br>
+                Please ensure pokemon_data.json is in the same directory.
             </p>
         `;
     }
