@@ -42,11 +42,11 @@ script Dungeon1_RoomBoss_OnTransition {
 	else {
 		// Boss not defeated - show appropriate boss type
 		callnative(Script_Dungeon_GetBossType)
-		copyvar(VAR_TEMP_0, VAR_RESULT)
-		if (var(VAR_TEMP_0) == 1) {
+		copyvar(VAR_TEMP_3, VAR_RESULT)  // Use VAR_TEMP_3 to avoid overwriting dungeon ID in VAR_TEMP_0
+		if (var(VAR_TEMP_3) == 1) {
 			call(Common_DungeonBoss_ShowTrainerBoss)
 		}
-		elif (var(VAR_TEMP_0) == 2) {
+		elif (var(VAR_TEMP_3) == 2) {
 			call(Common_DungeonBoss_ShowPokemonBoss)
 		}
 		else {

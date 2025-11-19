@@ -1906,29 +1906,42 @@ void Script_Dungeon_GetRandomTrainerDefeat(void)
 void Script_Dungeon_GetRandomBossIntro(void)
 {
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    DebugPrintf("Script_Dungeon_GetRandomBossIntro: dungeonId=%d", dungeonId);
+
     if (dungeonId == 0xFF)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossIntro: Invalid dungeon ID, returning empty");
         gStringVar4[0] = EOS;
         return;
     }
 
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    DebugPrintf("Script_Dungeon_GetRandomBossIntro: narrative=%p, textCount=%d",
+                narrative, narrative ? narrative->bossIntroTextCount : 0);
+
     if (narrative == NULL || narrative->bossIntroTextCount == 0)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossIntro: No narrative or no text, returning empty");
         gStringVar4[0] = EOS;
         return;
     }
+
+    DebugPrintf("Script_Dungeon_GetRandomBossIntro: bossType=%d", narrative->bossType);
 
     // Populate merge field buffers based on boss type
     if (narrative->bossType == BOSS_TYPE_POKEMON)
     {
         // STR_VAR_1 = Species name
         StringCopy(gStringVar1, GetSpeciesName(narrative->boss.pokemon.species));
+        DebugPrintf("Script_Dungeon_GetRandomBossIntro: Pokemon boss, species=%d",
+                    narrative->boss.pokemon.species);
     }
     else if (narrative->bossType == BOSS_TYPE_TRAINER)
     {
         // STR_VAR_1 = Trainer name
         u16 trainerId = narrative->boss.trainer.trainerId;
+        DebugPrintf("Script_Dungeon_GetRandomBossIntro: Trainer boss, trainerId=%d", trainerId);
+
         if (trainerId < TRAINERS_COUNT)
             StringCopy(gStringVar1, gTrainers[GetCurrentDifficultyLevel()][trainerId].trainerName);
         else
@@ -1942,6 +1955,7 @@ void Script_Dungeon_GetRandomBossIntro(void)
     // Select random intro text and expand placeholders
     u8 index = Random() % narrative->bossIntroTextCount;
     StringExpandPlaceholders(gStringVar4, narrative->bossIntroTexts[index]);
+    DebugPrintf("Script_Dungeon_GetRandomBossIntro: Generated text (first 20 chars): %.20s", gStringVar4);
 }
 
 // Get random boss defeat text and load into gStringVar4
@@ -1949,15 +1963,22 @@ void Script_Dungeon_GetRandomBossIntro(void)
 void Script_Dungeon_GetRandomBossDefeat(void)
 {
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    DebugPrintf("Script_Dungeon_GetRandomBossDefeat: dungeonId=%d", dungeonId);
+
     if (dungeonId == 0xFF)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossDefeat: Invalid dungeon ID");
         gStringVar4[0] = EOS;
         return;
     }
 
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    DebugPrintf("Script_Dungeon_GetRandomBossDefeat: narrative=%p, textCount=%d",
+                narrative, narrative ? narrative->bossDefeatTextCount : 0);
+
     if (narrative == NULL || narrative->bossDefeatTextCount == 0)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossDefeat: No narrative or no text");
         gStringVar4[0] = EOS;
         return;
     }
@@ -1985,6 +2006,7 @@ void Script_Dungeon_GetRandomBossDefeat(void)
     // Select random defeat text and expand placeholders
     u8 index = Random() % narrative->bossDefeatTextCount;
     StringExpandPlaceholders(gStringVar4, narrative->bossDefeatTexts[index]);
+    DebugPrintf("Script_Dungeon_GetRandomBossDefeat: Generated text (first 20 chars): %.20s", gStringVar4);
 }
 
 // Get random boss victory text and load into gStringVar4
@@ -1992,15 +2014,22 @@ void Script_Dungeon_GetRandomBossDefeat(void)
 void Script_Dungeon_GetRandomBossVictory(void)
 {
     u8 dungeonId = Dungeon_GetCurrentDungeonId();
+    DebugPrintf("Script_Dungeon_GetRandomBossVictory: dungeonId=%d", dungeonId);
+
     if (dungeonId == 0xFF)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossVictory: Invalid dungeon ID");
         gStringVar4[0] = EOS;
         return;
     }
 
     const struct DungeonNarrative *narrative = Dungeon_GetActiveNarrative(dungeonId);
+    DebugPrintf("Script_Dungeon_GetRandomBossVictory: narrative=%p, textCount=%d",
+                narrative, narrative ? narrative->bossVictoryTextCount : 0);
+
     if (narrative == NULL || narrative->bossVictoryTextCount == 0)
     {
+        DebugPrintf("Script_Dungeon_GetRandomBossVictory: No narrative or no text");
         gStringVar4[0] = EOS;
         return;
     }
@@ -2028,6 +2057,7 @@ void Script_Dungeon_GetRandomBossVictory(void)
     // Select random victory text and expand placeholders
     u8 index = Random() % narrative->bossVictoryTextCount;
     StringExpandPlaceholders(gStringVar4, narrative->bossVictoryTexts[index]);
+    DebugPrintf("Script_Dungeon_GetRandomBossVictory: Generated text (first 20 chars): %.20s", gStringVar4);
 }
 
 // ==========================================================================
