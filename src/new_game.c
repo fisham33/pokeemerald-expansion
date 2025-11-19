@@ -205,6 +205,10 @@ void NewGameInitData(void)
     RunScriptImmediately(EventScript_ResetAllMapFlags);
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
+
+    // Initialize dungeon lockout system
+    gSaveBlock2Ptr->dungeonDailyResetDay = 0;
+    gSaveBlock2Ptr->dungeonCompletedToday = 0;
     InitLilycoveLady();
     ResetAllApprenticeData();
     ClearRankingHallRecords();

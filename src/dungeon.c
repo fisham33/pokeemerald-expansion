@@ -1126,6 +1126,15 @@ bool8 Dungeon_IsEligibleForRewards(u8 dungeonId)
     if (dungeon->lockoutMode == LOCKOUT_NONE)
         return TRUE;
 
+    // Initialize lockout fields if they appear uninitialized (defensive check for old saves)
+    // If dungeonDailyResetDay is 0xFFFF or very large, it's probably garbage data
+    if (gSaveBlock2Ptr->dungeonDailyResetDay > 50000)
+    {
+        gSaveBlock2Ptr->dungeonDailyResetDay = 0;
+        gSaveBlock2Ptr->dungeonCompletedToday = 0;
+        DebugPrintf("Dungeon_IsEligibleForRewards: Initialized lockout fields (was garbage)");
+    }
+
     // Check if new day - if so, player is eligible
     u16 today = RtcGetLocalDayCount() & 0xFFFF;
     if (today != gSaveBlock2Ptr->dungeonDailyResetDay)
@@ -1140,6 +1149,14 @@ void Dungeon_MarkCompleted(u8 dungeonId)
 {
     if (dungeonId >= DUNGEON_COUNT)
         return;
+
+    // Initialize lockout fields if they appear uninitialized (defensive check for old saves)
+    if (gSaveBlock2Ptr->dungeonDailyResetDay > 50000)
+    {
+        gSaveBlock2Ptr->dungeonDailyResetDay = 0;
+        gSaveBlock2Ptr->dungeonCompletedToday = 0;
+        DebugPrintf("Dungeon_MarkCompleted: Initialized lockout fields (was garbage)");
+    }
 
     // Auto-reset flags if day changed
     u16 today = RtcGetLocalDayCount() & 0xFFFF;
@@ -1167,6 +1184,13 @@ u32 Dungeon_GetDaysUntilNextReward(u8 dungeonId)
     const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
     if (dungeon == NULL || dungeon->lockoutMode == LOCKOUT_NONE)
         return 0;  // No lockout = always eligible
+
+    // Initialize lockout fields if they appear uninitialized (defensive check for old saves)
+    if (gSaveBlock2Ptr->dungeonDailyResetDay > 50000)
+    {
+        gSaveBlock2Ptr->dungeonDailyResetDay = 0;
+        gSaveBlock2Ptr->dungeonCompletedToday = 0;
+    }
 
     // Check if eligible (same logic as Dungeon_IsEligibleForRewards)
     u16 today = RtcGetLocalDayCount() & 0xFFFF;
