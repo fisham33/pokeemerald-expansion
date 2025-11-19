@@ -14,6 +14,7 @@
 #include "pokeblock.h"
 #include "dewford_trend.h"
 #include "berry.h"
+#include "camping.h"
 #include "rtc.h"
 #include "easy_chat.h"
 #include "event_data.h"
@@ -201,6 +202,7 @@ void NewGameInitData(void)
     InitDewfordTrend();
     ResetFanClub();
     ResetLotteryCorner();
+    Camping_Init();
     WarpToTruck();
     RunScriptImmediately(EventScript_ResetAllMapFlags);
     ResetMiniGamesRecords();
