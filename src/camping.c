@@ -299,9 +299,22 @@ void Camping_InteractWithPokemon(void)
     u8 objectEventId = gSelectedObjectEvent;
     u8 i;
 
+    // Safety check: if camping data wasn't initialized, bail out
+    if (gCampingData.numSpawnedPokemon > PARTY_SIZE || gCampingData.numSpawnedPokemon == 0)
+    {
+        // Set default values to prevent crash
+        gSpecialVar_0x8004 = SPECIES_BULBASAUR;
+        StringCopy(gStringVar1, _("???"));
+        return;
+    }
+
     // Validate object event ID
     if (objectEventId >= OBJECT_EVENTS_COUNT)
+    {
+        gSpecialVar_0x8004 = SPECIES_BULBASAUR;
+        StringCopy(gStringVar1, _("???"));
         return;
+    }
 
     // Find which party slot this Pokemon belongs to by object event ID
     for (i = 0; i < gCampingData.numSpawnedPokemon; i++)
@@ -313,10 +326,22 @@ void Camping_InteractWithPokemon(void)
 
             // Validate party slot
             if (partySlot >= PARTY_SIZE)
+            {
+                gSpecialVar_0x8004 = SPECIES_BULBASAUR;
+                StringCopy(gStringVar1, _("???"));
                 return;
+            }
 
             struct Pokemon *mon = &gPlayerParty[partySlot];
             u16 species = GetMonData(mon, MON_DATA_SPECIES);
+
+            // Validate species
+            if (species == SPECIES_NONE || species >= SPECIES_EGG)
+            {
+                gSpecialVar_0x8004 = SPECIES_BULBASAUR;
+                StringCopy(gStringVar1, _("???"));
+                return;
+            }
 
             // Set VAR_0x8004 to species for cry
             gSpecialVar_0x8004 = species;
@@ -328,4 +353,8 @@ void Camping_InteractWithPokemon(void)
             return;
         }
     }
+
+    // Didn't find matching Pokemon - set defaults
+    gSpecialVar_0x8004 = SPECIES_BULBASAUR;
+    StringCopy(gStringVar1, _("???"));
 }
