@@ -13,6 +13,7 @@ struct CampingData
     u8 active;                          // Is camping currently active
     u8 partyObjectIds[PARTY_SIZE];     // Object IDs of spawned party Pokemon
     u8 numSpawnedPokemon;               // Number of Pokemon spawned
+    bool8 hadFollowerEnabled;           // Was follower Pokemon enabled before camping
 };
 
 // Global camping data
@@ -31,5 +32,6 @@ void Camping_StartMealCutscene(u8 pokeblockId);
 void Camping_SelectPokeblock(void);
 void Camping_ExitCamping(void);
 void Camping_SpawnParty(void);
+void Camping_InteractWithPokemon(void);
 
 #endif // GUARD_CAMPING_H

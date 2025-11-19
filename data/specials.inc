@@ -572,3 +572,4 @@ gSpecials::
 	def_special Camping_SelectPokeblock
 	def_special Camping_ExitCamping
 	def_special Camping_SpawnParty
+	def_special Camping_InteractWithPokemon

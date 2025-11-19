@@ -40,3 +40,14 @@ script Campsite_EventScript_MealCutscene {
     msgbox("Everyone's HP was restored!")
     return
 }
+
+script Campsite_EventScript_CampingPokemon {
+    lock
+    faceplayer
+    special(Camping_InteractWithPokemon)
+    playmoncry(VAR_0x8004, CRY_MODE_NORMAL)
+    msgbox(format("{STR_VAR_1} seems happy!"))
+    waitmoncry
+    release
+    end
+}

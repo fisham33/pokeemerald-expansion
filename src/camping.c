@@ -18,10 +18,14 @@
 #include "sprite.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
+#include "constants/flags.h"
 #include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/trainer_types.h"
+
+// External script declarations
+extern const u8 Campsite_EventScript_CampingPokemon[];
 
 // Local IDs for party Pokemon objects (starting at a safe range)
 #define CAMPING_PARTY1_LOCALID 10
@@ -46,6 +50,7 @@ void Camping_Init(void)
 
     gCampingData.active = FALSE;
     gCampingData.numSpawnedPokemon = 0;
+    gCampingData.hadFollowerEnabled = FALSE;
     gCampingData.returnLocation.mapGroup = 0;
     gCampingData.returnLocation.mapNum = 0;
     gCampingData.returnLocation.warpId = WARP_ID_NONE;
@@ -63,6 +68,12 @@ void Camping_SetupCamp(void)
 {
     Camping_SaveReturnLocation();
     gCampingData.active = TRUE;
+
+    // Save follower state and disable follower
+    gCampingData.hadFollowerEnabled = FlagGet(FLAG_POKEMON_FOLLOWERS);
+    if (gCampingData.hadFollowerEnabled)
+        FlagClear(FLAG_POKEMON_FOLLOWERS);
+
     Camping_WarpToCampsite();
 }
 
@@ -71,6 +82,11 @@ void Camping_ExitCamp(void)
 {
     Camping_DespawnPartyPokemon();
     gCampingData.active = FALSE;
+
+    // Restore follower state
+    if (gCampingData.hadFollowerEnabled)
+        FlagSet(FLAG_POKEMON_FOLLOWERS);
+
     Camping_WarpBack();
 }
 
@@ -149,7 +165,7 @@ void Camping_SpawnPartyPokemon(void)
             objectTemplate.movementRangeY = 3;
             objectTemplate.trainerType = TRAINER_TYPE_NONE;
             objectTemplate.trainerRange_berryTreeId = 0;
-            objectTemplate.script = NULL;
+            objectTemplate.script = Campsite_EventScript_CampingPokemon;
             objectTemplate.flagId = 0;
 
             // Spawn the object using TrySpawnObjectEventTemplate
@@ -269,4 +285,32 @@ void Camping_ExitCamping(void)
 void Camping_SpawnParty(void)
 {
     Camping_SpawnPartyPokemon();
+}
+
+// Special function: Handle camping Pokemon interaction
+void Camping_InteractWithPokemon(void)
+{
+    u8 localId = gSpecialVar_LastTalked;
+    u8 i;
+
+    // Find which party slot this Pokemon belongs to
+    for (i = 0; i < gCampingData.numSpawnedPokemon; i++)
+    {
+        struct ObjectEvent *obj = &gObjectEvents[gCampingData.partyObjectIds[i]];
+        if (obj->localId == localId)
+        {
+            // Found the Pokemon - get its species and nickname
+            struct Pokemon *mon = &gPlayerParty[i];
+            u16 species = GetMonData(mon, MON_DATA_SPECIES);
+
+            // Set VAR_0x8004 to species for cry
+            gSpecialVar_0x8004 = species;
+
+            // Buffer the Pokemon's nickname to STR_VAR_1
+            GetMonData(mon, MON_DATA_NICKNAME, gStringVar1);
+            StringGetEnd10(gStringVar1);
+
+            return;
+        }
+    }
 }
