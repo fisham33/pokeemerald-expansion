@@ -729,8 +729,8 @@ void Dungeon_DistributeRewards(void)
                 isShiny = (Random() % 4096) == 0;
                 break;
             case SHINY_ODDS_BOOSTED:
-                // Use 1/512 odds (Masuda Method-like)
-                isShiny = (Random() % 512) == 0;
+                // Use 1/16 odds (high chance for dungeon rewards)
+                isShiny = (Random() % 16) == 0;
                 break;
             case SHINY_ODDS_GUARANTEED:
                 isShiny = TRUE;
@@ -1126,28 +1126,13 @@ bool8 Dungeon_IsEligibleForRewards(u8 dungeonId)
     if (dungeon->lockoutMode == LOCKOUT_NONE)
         return TRUE;
 
-    u32 lastCompleted = gSaveBlock2Ptr->dungeonLastCompleted[dungeonId];
+    // Check if new day - if so, player is eligible
+    u16 today = RtcGetLocalDayCount() & 0xFFFF;
+    if (today != gSaveBlock2Ptr->dungeonDailyResetDay)
+        return TRUE;  // New day = all dungeons eligible
 
-    // Never completed = eligible
-    if (lastCompleted == 0)
-        return TRUE;
-
-    // Get current day count
-    u32 currentDayCount = RtcGetLocalDayCount();
-
-    // Calculate days since last completion
-    u32 daysSince = currentDayCount - lastCompleted;
-
-    // Check lockout mode
-    switch (dungeon->lockoutMode)
-    {
-        case LOCKOUT_DAILY:
-            return daysSince >= 1;  // At least 1 day must pass
-        case LOCKOUT_WEEKLY:
-            return daysSince >= 7;  // At least 7 days must pass
-        default:
-            return TRUE;
-    }
+    // Same day - check if this dungeon was completed today
+    return !(gSaveBlock2Ptr->dungeonCompletedToday & (1 << dungeonId));
 }
 
 // Mark dungeon as completed (called after reward distribution)
@@ -1156,15 +1141,24 @@ void Dungeon_MarkCompleted(u8 dungeonId)
     if (dungeonId >= DUNGEON_COUNT)
         return;
 
-    // Store current day count as last completed timestamp
-    gSaveBlock2Ptr->dungeonLastCompleted[dungeonId] = RtcGetLocalDayCount();
+    // Auto-reset flags if day changed
+    u16 today = RtcGetLocalDayCount() & 0xFFFF;
+    if (today != gSaveBlock2Ptr->dungeonDailyResetDay)
+    {
+        gSaveBlock2Ptr->dungeonCompletedToday = 0;  // Clear all completion flags
+        gSaveBlock2Ptr->dungeonDailyResetDay = today;
+        DebugPrintf("Dungeon_MarkCompleted: New day detected (%u), reset all flags", today);
+    }
 
-    DebugPrintf("Dungeon_MarkCompleted: Dungeon %d marked as completed on day %u",
-                dungeonId, gSaveBlock2Ptr->dungeonLastCompleted[dungeonId]);
+    // Mark this dungeon as completed today
+    gSaveBlock2Ptr->dungeonCompletedToday |= (1 << dungeonId);
+
+    DebugPrintf("Dungeon_MarkCompleted: Dungeon %d marked as completed (flags=0x%04X)",
+                dungeonId, gSaveBlock2Ptr->dungeonCompletedToday);
 }
 
 // Get days until next reward eligibility (for UI display)
-// Returns 0 if eligible now
+// Returns 0 if eligible now, 1 if must wait until tomorrow
 u32 Dungeon_GetDaysUntilNextReward(u8 dungeonId)
 {
     if (dungeonId >= DUNGEON_COUNT)
@@ -1172,34 +1166,18 @@ u32 Dungeon_GetDaysUntilNextReward(u8 dungeonId)
 
     const struct Dungeon *dungeon = Dungeon_GetDefinition(dungeonId);
     if (dungeon == NULL || dungeon->lockoutMode == LOCKOUT_NONE)
-        return 0;  // No lockout
+        return 0;  // No lockout = always eligible
 
-    u32 lastCompleted = gSaveBlock2Ptr->dungeonLastCompleted[dungeonId];
-    if (lastCompleted == 0)
-        return 0;  // Never completed
+    // Check if eligible (same logic as Dungeon_IsEligibleForRewards)
+    u16 today = RtcGetLocalDayCount() & 0xFFFF;
+    if (today != gSaveBlock2Ptr->dungeonDailyResetDay)
+        return 0;  // New day = eligible
 
-    u32 currentDayCount = RtcGetLocalDayCount();
-    u32 daysSince = currentDayCount - lastCompleted;
+    // Check if completed today
+    if (gSaveBlock2Ptr->dungeonCompletedToday & (1 << dungeonId))
+        return 1;  // Completed today - come back tomorrow
 
-    u32 requiredDays;
-    switch (dungeon->lockoutMode)
-    {
-        case LOCKOUT_DAILY:
-            requiredDays = 1;
-            break;
-        case LOCKOUT_WEEKLY:
-            requiredDays = 7;
-            break;
-        default:
-            return 0;
-    }
-
-    // If enough days have passed, eligible now
-    if (daysSince >= requiredDays)
-        return 0;
-
-    // Return days remaining
-    return requiredDays - daysSince;
+    return 0;  // Not completed today = eligible
 }
 
 // ==========================================================================

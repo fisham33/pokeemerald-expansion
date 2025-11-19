@@ -594,25 +594,26 @@ struct SaveBlock2
     /*0x92*/ u8 dungeonNarratives[3];        // Narrative system: Active narrative ID per dungeon
     /*0x95*/ u8 dungeonModifiers[3];         // Narrative system: Active modifier ID per dungeon
     /*0x98*/ u8 dungeonRoomOrder[8];         // Dungeon system: Shuffled room indices for current run
-    /*0xA0*/ u32 dungeonLastCompleted[3];    // Lockout system: Days since epoch when dungeon was last completed (0 = never)
-    /*0xAC*/ struct Time localTimeOffset;
-    /*0xB4*/ struct Time lastBerryTreeUpdate;
-    /*0xBC*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
-    /*0xC0*/ u32 encryptionKey;
-    /*0xC4*/ struct PlayersApprentice playerApprentice;
-    /*0xDC*/ struct Apprentice apprentices[APPRENTICE_COUNT];
-    /*0x1EC*/ struct BerryCrush berryCrush;
+    /*0xA0*/ u16 dungeonDailyResetDay;       // Lockout system: Last RTC day when completion flags were reset
+    /*0xA2*/ u16 dungeonCompletedToday;      // Lockout system: Bit flags for dungeons completed today (1 bit per dungeon)
+    /*0xA4*/ struct Time localTimeOffset;
+    /*0xAC*/ struct Time lastBerryTreeUpdate;
+    /*0xB4*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
+    /*0xB8*/ u32 encryptionKey;
+    /*0xBC*/ struct PlayersApprentice playerApprentice;
+    /*0xD4*/ struct Apprentice apprentices[APPRENTICE_COUNT];
+    /*0x1E4*/ struct BerryCrush berryCrush;
 #if FREE_POKEMON_JUMP == FALSE
-    /*0x1FC*/ struct PokemonJumpRecords pokeJump;
+    /*0x1F4*/ struct PokemonJumpRecords pokeJump;
 #endif //FREE_POKEMON_JUMP
-    /*0x20C*/ struct BerryPickingResults berryPick;
+    /*0x204*/ struct BerryPickingResults berryPick;
 #if FREE_RECORD_MIXING_HALL_RECORDS == FALSE
-    /*0x21C*/ struct RankingHall1P hallRecords1P[HALL_FACILITIES_COUNT][FRONTIER_LVL_MODE_COUNT][HALL_RECORDS_COUNT]; // From record mixing.
-    /*0x57C*/ struct RankingHall2P hallRecords2P[FRONTIER_LVL_MODE_COUNT][HALL_RECORDS_COUNT]; // From record mixing.
+    /*0x214*/ struct RankingHall1P hallRecords1P[HALL_FACILITIES_COUNT][FRONTIER_LVL_MODE_COUNT][HALL_RECORDS_COUNT]; // From record mixing.
+    /*0x574*/ struct RankingHall2P hallRecords2P[FRONTIER_LVL_MODE_COUNT][HALL_RECORDS_COUNT]; // From record mixing.
 #endif //FREE_RECORD_MIXING_HALL_RECORDS
-    /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
-    /*0x64C*/ struct BattleFrontier frontier;
-}; // sizeof=0xF2C
+    /*0x61C*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
+    /*0x644*/ struct BattleFrontier frontier;
+}; // sizeof=0xF24
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 

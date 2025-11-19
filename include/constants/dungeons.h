@@ -39,7 +39,6 @@ enum DungeonRefreshMode {
 enum DungeonLockoutMode {
     LOCKOUT_NONE,         // No lockout - freely repeatable with rewards
     LOCKOUT_DAILY,        // Rewards once per day (based on RTC)
-    LOCKOUT_WEEKLY,       // Rewards once per week (based on RTC)
 };
 
 // Reward types (items vs Pokemon)
@@ -52,7 +51,7 @@ enum DungeonRewardType {
 enum DungeonShinyOdds {
     SHINY_ODDS_NEVER = 0,      // Never shiny
     SHINY_ODDS_NORMAL = 1,     // Normal odds (1/4096 or config default)
-    SHINY_ODDS_BOOSTED = 2,    // Boosted odds (1/512, like Masuda Method)
+    SHINY_ODDS_BOOSTED = 2,    // Boosted odds (1/16, high chance for dungeon rewards)
     SHINY_ODDS_GUARANTEED = 3, // Always shiny
 };
 

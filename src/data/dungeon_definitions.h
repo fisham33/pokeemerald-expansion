@@ -66,6 +66,6 @@ static const struct Dungeon sDungeons[DUNGEON_COUNT] = {
         .fixedModifierId = DUNGEON_DEFAULT_FIXED_MODIFIER_ID,
 
         // Lockout mode
-        .lockoutMode = LOCKOUT_WEEKLY,  // Rewards once per week (harder dungeon)
+        .lockoutMode = LOCKOUT_DAILY,  // Rewards once per day
     },
 };
