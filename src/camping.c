@@ -15,13 +15,13 @@
 #include "sound.h"
 #include "string_util.h"
 #include "task.h"
-#include "follower_helper.h"
 #include "sprite.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/species.h"
+#include "constants/trainer_types.h"
 
 // Local IDs for party Pokemon objects (starting at a safe range)
 #define CAMPING_PARTY1_LOCALID 10
@@ -116,7 +116,6 @@ void Camping_SpawnPartyPokemon(void)
     struct Pokemon *mon;
     struct ObjectEventTemplate objectTemplate;
     u8 objectEventId;
-    struct ObjectEvent *objectEvent;
 
     // Starting positions for Pokemon (adjust these coordinates as needed)
     const s16 partyPositions[][2] = {
@@ -134,14 +133,14 @@ void Camping_SpawnPartyPokemon(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         mon = &gPlayerParty[i];
-        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        u16 monSpecies = GetMonData(mon, MON_DATA_SPECIES);
         u16 hp = GetMonData(mon, MON_DATA_HP);
 
-        if (species != SPECIES_NONE && species != SPECIES_EGG && hp > 0)
+        if (monSpecies != SPECIES_NONE && monSpecies != SPECIES_EGG && hp > 0)
         {
             // Set up object template
             objectTemplate.localId = CAMPING_PARTY1_LOCALID + partyIndex;
-            objectTemplate.graphicsId = OBJ_EVENT_GFX_SPECIES(species);
+            objectTemplate.graphicsId = OBJ_EVENT_GFX_SPECIES(monSpecies);
             objectTemplate.x = partyPositions[partyIndex][0];
             objectTemplate.y = partyPositions[partyIndex][1];
             objectTemplate.elevation = 0;
@@ -153,8 +152,11 @@ void Camping_SpawnPartyPokemon(void)
             objectTemplate.script = NULL;
             objectTemplate.flagId = 0;
 
-            // Spawn the object
-            objectEventId = TrySpawnObjectEvent(&objectTemplate, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+            // Spawn the object using TrySpawnObjectEventTemplate
+            objectEventId = TrySpawnObjectEventTemplate(&objectTemplate,
+                gSaveBlock1Ptr->location.mapNum,
+                gSaveBlock1Ptr->location.mapGroup,
+                0, 0); // camera coordinates (not used for spawning)
 
             if (objectEventId != OBJECT_EVENTS_COUNT)
             {
