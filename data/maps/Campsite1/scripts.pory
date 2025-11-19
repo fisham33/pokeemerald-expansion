@@ -1,8 +1,10 @@
+mapscripts Campsite1_MapScripts {}
+
 script Campsite_EventScript_Table {
     lockall
     msgbox("Would you like to have a meal?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
-        special(Campsite_SelectPokeblock)
+        special(Camping_SelectPokeblock)
         if (var(VAR_RESULT) != 0) {
             call(Campsite_EventScript_MealCutscene)
         }
@@ -15,7 +17,7 @@ script Campsite_EventScript_Tent {
     lockall
     msgbox("Rest and pack up camp?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
-        special(Campsite_ExitCamping)
+        special(Camping_ExitCamping)
     }
     releaseall
     end
