@@ -1,4 +1,7 @@
 mapscripts Campsite1_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION {
+        clearflag(FLAG_POKEMON_FOLLOWERS)
+    }
     MAP_SCRIPT_ON_FRAME_TABLE [
         VAR_TEMP_0, 0: Campsite1_EventScript_SpawnParty
     ]

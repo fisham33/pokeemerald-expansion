@@ -23,7 +23,6 @@
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/trainer_types.h"
-#include "follower_npc.h"
 
 // External script declarations
 extern const u8 Campsite_EventScript_CampingPokemon[];
@@ -70,10 +69,8 @@ void Camping_SetupCamp(void)
     Camping_SaveReturnLocation();
     gCampingData.active = TRUE;
 
-    // Save follower state and disable follower
+    // Save follower state (flag will be cleared by map script)
     gCampingData.hadFollowerEnabled = FlagGet(FLAG_POKEMON_FOLLOWERS);
-    if (gCampingData.hadFollowerEnabled)
-        FlagClear(FLAG_POKEMON_FOLLOWERS);
 
     Camping_WarpToCampsite();
 }
@@ -286,19 +283,6 @@ void Camping_ExitCamping(void)
 // Special function: Spawn party Pokemon (called from MapScripts)
 void Camping_SpawnParty(void)
 {
-    struct ObjectEvent *follower;
-
-    // Remove follower Pokemon if it exists
-    follower = GetFollowerObject();
-    if (follower != NULL)
-    {
-        RemoveObjectEvent(follower);
-    }
-
-    // Destroy follower NPC if it exists
-    DestroyFollowerNPC();
-
-    // Spawn camping party
     Camping_SpawnPartyPokemon();
 }
 
