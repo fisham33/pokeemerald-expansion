@@ -140,7 +140,7 @@ void Camping_SpawnPartyPokemon(void)
         {
             // Set up object template
             objectTemplate.localId = CAMPING_PARTY1_LOCALID + partyIndex;
-            objectTemplate.graphicsId = OBJ_EVENT_GFX_SPECIES(monSpecies);
+            objectTemplate.graphicsId = monSpecies + OBJ_EVENT_MON;
             objectTemplate.x = partyPositions[partyIndex][0];
             objectTemplate.y = partyPositions[partyIndex][1];
             objectTemplate.elevation = 0;
