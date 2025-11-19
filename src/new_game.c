@@ -206,9 +206,15 @@ void NewGameInitData(void)
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
 
-    // Initialize dungeon lockout system
+    // Initialize dungeon system
     gSaveBlock2Ptr->dungeonDailyResetDay = 0;
     gSaveBlock2Ptr->dungeonCompletedToday = 0;
+    gSaveBlock2Ptr->dungeonDailySeed = 0;  // Will trigger initialization on first dungeon access
+    for (u8 i = 0; i < 3; i++)
+    {
+        gSaveBlock2Ptr->dungeonNarratives[i] = 0;
+        gSaveBlock2Ptr->dungeonModifiers[i] = 0;
+    }
     InitLilycoveLady();
     ResetAllApprenticeData();
     ClearRankingHallRecords();

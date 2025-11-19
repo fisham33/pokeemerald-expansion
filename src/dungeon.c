@@ -1045,10 +1045,20 @@ const struct DungeonNarrative *Dungeon_GetActiveNarrative(u8 dungeonId)
 #else
     // Production: Use daily rotation system
     u8 narrativeId = gSaveBlock2Ptr->dungeonNarratives[dungeonId];
-#endif
 
+    // Defensive check: If narrative ID is invalid (garbage data from old save),
+    // initialize the rotation system
     if (narrativeId >= NARRATIVE_COUNT)
-        return NULL;
+    {
+        DebugPrintf("Dungeon_GetActiveNarrative: Invalid narrativeId %d, initializing rotation", narrativeId);
+        Dungeon_CheckDailyRotation();
+        narrativeId = gSaveBlock2Ptr->dungeonNarratives[dungeonId];
+
+        // If still invalid after initialization, return NULL
+        if (narrativeId >= NARRATIVE_COUNT)
+            return NULL;
+    }
+#endif
 
     return &gDungeonNarratives[narrativeId];
 }
@@ -1065,10 +1075,20 @@ const struct DungeonModifier *Dungeon_GetActiveModifier(u8 dungeonId)
 #else
     // Production: Use daily rotation system
     u8 modifierId = gSaveBlock2Ptr->dungeonModifiers[dungeonId];
-#endif
 
+    // Defensive check: If modifier ID is invalid (garbage data from old save),
+    // initialize the rotation system
     if (modifierId >= MODIFIER_COUNT)
-        return NULL;
+    {
+        DebugPrintf("Dungeon_GetActiveModifier: Invalid modifierId %d, initializing rotation", modifierId);
+        Dungeon_CheckDailyRotation();
+        modifierId = gSaveBlock2Ptr->dungeonModifiers[dungeonId];
+
+        // If still invalid after initialization, return NULL
+        if (modifierId >= MODIFIER_COUNT)
+            return NULL;
+    }
+#endif
 
     return &gDungeonModifiers[modifierId];
 }
