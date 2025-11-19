@@ -27,6 +27,9 @@
 // External script declarations
 extern const u8 Campsite_EventScript_CampingPokemon[];
 
+// Fallback string for errors
+static const u8 sCampingFallbackName[] = "???";
+
 // Local IDs for party Pokemon objects (starting at a safe range)
 #define CAMPING_PARTY1_LOCALID 10
 #define CAMPING_PARTY2_LOCALID 11
@@ -304,7 +307,7 @@ void Camping_InteractWithPokemon(void)
     {
         // Set default values to prevent crash
         gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-        StringCopy(gStringVar1, gText_ThreeQuestionMarks);
+        StringCopy(gStringVar1, sCampingFallbackName);
         return;
     }
 
@@ -312,7 +315,7 @@ void Camping_InteractWithPokemon(void)
     if (objectEventId >= OBJECT_EVENTS_COUNT)
     {
         gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-        StringCopy(gStringVar1, gText_ThreeQuestionMarks);
+        StringCopy(gStringVar1, sCampingFallbackName);
         return;
     }
 
@@ -328,7 +331,7 @@ void Camping_InteractWithPokemon(void)
             if (partySlot >= PARTY_SIZE)
             {
                 gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-                StringCopy(gStringVar1, gText_ThreeQuestionMarks);
+                StringCopy(gStringVar1, sCampingFallbackName);
                 return;
             }
 
@@ -339,7 +342,7 @@ void Camping_InteractWithPokemon(void)
             if (species == SPECIES_NONE || species >= SPECIES_EGG)
             {
                 gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-                StringCopy(gStringVar1, gText_ThreeQuestionMarks);
+                StringCopy(gStringVar1, sCampingFallbackName);
                 return;
             }
 
@@ -356,5 +359,5 @@ void Camping_InteractWithPokemon(void)
 
     // Didn't find matching Pokemon - set defaults
     gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-    StringCopy(gStringVar1, gText_ThreeQuestionMarks);
+    StringCopy(gStringVar1, sCampingFallbackName);
 }
