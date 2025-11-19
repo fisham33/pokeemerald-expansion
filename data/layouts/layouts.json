@@ -4420,6 +4420,16 @@
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Campsite/border.bin",
       "blockdata_filepath": "data/layouts/Campsite/map.bin"
+    },
+    {
+      "id": "LAYOUT_CAMPSITE1",
+      "name": "Campsite1_Layout",
+      "width": 15,
+      "height": 15,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Petalburg",
+      "border_filepath": "data/layouts/Campsite1/border.bin",
+      "blockdata_filepath": "data/layouts/Campsite1/map.bin"
     }
   ]
 }

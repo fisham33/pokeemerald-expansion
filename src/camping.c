@@ -79,7 +79,7 @@ static void Camping_SaveReturnLocation(void)
 static void Camping_WarpToCampsite(void)
 {
     // Warp to center of campsite (coordinates can be adjusted)
-    SetWarpDestination(MAP_GROUP(CAMPSITE), MAP_NUM(CAMPSITE), WARP_ID_NONE, 7, 6);
+    SetWarpDestination(MAP_GROUP(MAP_CAMPSITE1), MAP_NUM(MAP_CAMPSITE1), WARP_ID_NONE, 7, 6);
     WarpIntoMap();
     SetMainCallback2(CB2_LoadMap);
 }

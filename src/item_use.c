@@ -1142,7 +1142,7 @@ void ItemUseOutOfBattle_CampingEquipment(u8 taskId)
     Camping_SetupCamp();
 
     // Close the bag menu and return to field (camping kit is not consumed)
-    Task_CloseBagAndReturnToField(taskId);
+    Task_FadeAndCloseBagMenu(taskId);
 }
 
 void ItemUseOutOfBattle_EvolutionStone(u8 taskId)

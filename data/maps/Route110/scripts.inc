@@ -801,95 +801,95 @@ Route110_EventScript_PlayBrendanMusic::
 # 401 "data/maps/Route110/scripts.pory"
 Route110_EventScript_MayBattle::
 # 402 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_MayLetsBattle, MSGBOX_DEFAULT
+	switch VAR_STARTER_MON
 # 403 "data/maps/Route110/scripts.pory"
-	switch VAR_STARTER_MON
-# 404 "data/maps/Route110/scripts.pory"
 	case 0, Route110_EventScript_MayBattleTreecko
-# 405 "data/maps/Route110/scripts.pory"
+# 404 "data/maps/Route110/scripts.pory"
 	case 1, Route110_EventScript_MayBattleTorchic
-# 406 "data/maps/Route110/scripts.pory"
+# 405 "data/maps/Route110/scripts.pory"
 	case 2, Route110_EventScript_MayBattleMudkip
+# 406 "data/maps/Route110/scripts.pory"
+	end
 # 407 "data/maps/Route110/scripts.pory"
-	end
+
 # 408 "data/maps/Route110/scripts.pory"
-
-# 409 "data/maps/Route110/scripts.pory"
 Route110_EventScript_MayBattleTreecko::
+# 409 "data/maps/Route110/scripts.pory"
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_TREECKO, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
 # 410 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_TREECKO, Route110_Text_MayDefeated
+	end
 # 411 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_MayDefeated
+
 # 412 "data/maps/Route110/scripts.pory"
-	end
-# 413 "data/maps/Route110/scripts.pory"
-
-# 414 "data/maps/Route110/scripts.pory"
 Route110_EventScript_MayBattleTorchic::
+# 413 "data/maps/Route110/scripts.pory"
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_TORCHIC, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
+# 414 "data/maps/Route110/scripts.pory"
+	end
 # 415 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_TORCHIC, Route110_Text_MayDefeated
+
 # 416 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_MayDefeated
-# 417 "data/maps/Route110/scripts.pory"
-	end
-# 418 "data/maps/Route110/scripts.pory"
-
-# 419 "data/maps/Route110/scripts.pory"
 Route110_EventScript_MayBattleMudkip::
+# 417 "data/maps/Route110/scripts.pory"
+	trainerbattle_selectmons TRAINER_MAY_ROUTE_110_MUDKIP, Route110_Text_MayLetsBattle, Route110_Text_MayDefeated, Route110_EventScript_MayPostBattle, 3
+# 418 "data/maps/Route110/scripts.pory"
+	end
+# 419 "data/maps/Route110/scripts.pory"
+
 # 420 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_MAY_ROUTE_110_MUDKIP, Route110_Text_MayDefeated
+Route110_EventScript_MayPostBattle::
 # 421 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_MayDefeated
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
 # 422 "data/maps/Route110/scripts.pory"
-	end
+	switch VAR_RESULT
 # 423 "data/maps/Route110/scripts.pory"
-
+	case 1, Route110_EventScript_MayDefeated
 # 424 "data/maps/Route110/scripts.pory"
-Route110_EventScript_MayDefeated::
+	case 0, Route110_EventScript_RivalExit
 # 425 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_MayTakeThis, MSGBOX_DEFAULT
+	end
 # 426 "data/maps/Route110/scripts.pory"
-	call Route110_EventScript_GiveItemfinder
+
 # 427 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_MayExplainItemfinder, MSGBOX_DEFAULT
+Route110_EventScript_MayDefeated::
 # 428 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_RivalExit
+	msgbox Route110_Text_MayTakeThis, MSGBOX_DEFAULT
 # 429 "data/maps/Route110/scripts.pory"
-	end
+	call Route110_EventScript_GiveItemfinder
 # 430 "data/maps/Route110/scripts.pory"
-
+	msgbox Route110_Text_MayExplainItemfinder, MSGBOX_DEFAULT
 # 431 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BrendanBattle::
+	goto Route110_EventScript_RivalExit
 # 432 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_BrendanLetsBattle, MSGBOX_DEFAULT
+	end
 # 433 "data/maps/Route110/scripts.pory"
-	switch VAR_STARTER_MON
+
 # 434 "data/maps/Route110/scripts.pory"
-	case 0, Route110_EventScript_BrendanBattleTreecko
+Route110_EventScript_BrendanBattle::
 # 435 "data/maps/Route110/scripts.pory"
-	case 1, Route110_EventScript_BrendanBattleTorchic
+	switch VAR_STARTER_MON
 # 436 "data/maps/Route110/scripts.pory"
-	case 2, Route110_EventScript_BrendanBattleMudkip
+	case 0, Route110_EventScript_BrendanBattleTreecko
 # 437 "data/maps/Route110/scripts.pory"
-	end
+	case 1, Route110_EventScript_BrendanBattleTorchic
 # 438 "data/maps/Route110/scripts.pory"
-
+	case 2, Route110_EventScript_BrendanBattleMudkip
 # 439 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BrendanBattleTreecko::
-# 440 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_Text_BrendanDefeated
-# 441 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BrendanDefeated
-# 442 "data/maps/Route110/scripts.pory"
 	end
-# 443 "data/maps/Route110/scripts.pory"
+# 440 "data/maps/Route110/scripts.pory"
 
+# 441 "data/maps/Route110/scripts.pory"
+Route110_EventScript_BrendanBattleTreecko::
+# 442 "data/maps/Route110/scripts.pory"
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
+# 443 "data/maps/Route110/scripts.pory"
+	end
 # 444 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BrendanBattleTorchic::
+
 # 445 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_Text_BrendanDefeated
+Route110_EventScript_BrendanBattleTorchic::
 # 446 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BrendanDefeated
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
 # 447 "data/maps/Route110/scripts.pory"
 	end
 # 448 "data/maps/Route110/scripts.pory"
@@ -897,213 +897,213 @@ Route110_EventScript_BrendanBattleTorchic::
 # 449 "data/maps/Route110/scripts.pory"
 Route110_EventScript_BrendanBattleMudkip::
 # 450 "data/maps/Route110/scripts.pory"
-	trainerbattle_no_intro TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_Text_BrendanDefeated
+	trainerbattle_selectmons TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_Text_BrendanLetsBattle, Route110_Text_BrendanDefeated, Route110_EventScript_BrendanPostBattle, 3
 # 451 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BrendanDefeated
+	end
 # 452 "data/maps/Route110/scripts.pory"
-	end
+
 # 453 "data/maps/Route110/scripts.pory"
-
+Route110_EventScript_BrendanPostBattle::
 # 454 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BrendanDefeated::
+	@ VAR_RESULT contains battle outcome: 1 = win, 0 = loss
 # 455 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_BrendanTakeThis, MSGBOX_DEFAULT
+	switch VAR_RESULT
 # 456 "data/maps/Route110/scripts.pory"
-	call Route110_EventScript_GiveItemfinder
+	case 1, Route110_EventScript_BrendanDefeated
 # 457 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_BrendanExplainItemfinder, MSGBOX_DEFAULT
+	case 0, Route110_EventScript_RivalExit
 # 458 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_RivalExit
+	end
 # 459 "data/maps/Route110/scripts.pory"
-	end
+
 # 460 "data/maps/Route110/scripts.pory"
-
+Route110_EventScript_BrendanDefeated::
 # 461 "data/maps/Route110/scripts.pory"
-Route110_EventScript_GiveItemfinder::
+	msgbox Route110_Text_BrendanTakeThis, MSGBOX_DEFAULT
 # 462 "data/maps/Route110/scripts.pory"
-	giveitem ITEM_DOWSING_MACHINE
+	call Route110_EventScript_GiveItemfinder
 # 463 "data/maps/Route110/scripts.pory"
-	return
+	msgbox Route110_Text_BrendanExplainItemfinder, MSGBOX_DEFAULT
 # 464 "data/maps/Route110/scripts.pory"
-
+	goto Route110_EventScript_RivalExit
 # 465 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalExit::
-# 466 "data/maps/Route110/scripts.pory"
-	closemessage
-# 467 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 1, Route110_EventScript_MoveRival1
-# 468 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 2, Route110_EventScript_MoveRival2
-# 469 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 3, Route110_EventScript_MoveRival3
-# 470 "data/maps/Route110/scripts.pory"
-	setobjectmovementtype LOCALID_ROUTE110_RIVAL, MOVEMENT_TYPE_FACE_RIGHT
-# 471 "data/maps/Route110/scripts.pory"
-	setobjectmovementtype LOCALID_ROUTE110_RIVAL_ON_BIKE, MOVEMENT_TYPE_FACE_RIGHT
-# 472 "data/maps/Route110/scripts.pory"
-	removeobject LOCALID_ROUTE110_RIVAL
-# 473 "data/maps/Route110/scripts.pory"
-	addobject LOCALID_ROUTE110_RIVAL_ON_BIKE
-# 474 "data/maps/Route110/scripts.pory"
-	delay 45
-# 475 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 1, Route110_EventScript_RivalExit1
-# 476 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 2, Route110_EventScript_RivalExit2
-# 477 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 3, Route110_EventScript_RivalExit3
-# 478 "data/maps/Route110/scripts.pory"
-	removeobject LOCALID_ROUTE110_RIVAL_ON_BIKE
-# 479 "data/maps/Route110/scripts.pory"
-	setvar VAR_ROUTE110_STATE, 1
-# 480 "data/maps/Route110/scripts.pory"
-	savebgm MUS_DUMMY
-# 481 "data/maps/Route110/scripts.pory"
-	fadedefaultbgm
-# 482 "data/maps/Route110/scripts.pory"
-	releaseall
-# 483 "data/maps/Route110/scripts.pory"
 	end
+# 466 "data/maps/Route110/scripts.pory"
+
+# 467 "data/maps/Route110/scripts.pory"
+Route110_EventScript_GiveItemfinder::
+# 468 "data/maps/Route110/scripts.pory"
+	giveitem ITEM_DOWSING_MACHINE
+# 469 "data/maps/Route110/scripts.pory"
+	return
+# 470 "data/maps/Route110/scripts.pory"
+
+# 471 "data/maps/Route110/scripts.pory"
+Route110_EventScript_RivalExit::
+# 472 "data/maps/Route110/scripts.pory"
+	closemessage
+# 473 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 1, Route110_EventScript_MoveRival1
+# 474 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 2, Route110_EventScript_MoveRival2
+# 475 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 3, Route110_EventScript_MoveRival3
+# 476 "data/maps/Route110/scripts.pory"
+	setobjectmovementtype LOCALID_ROUTE110_RIVAL, MOVEMENT_TYPE_FACE_RIGHT
+# 477 "data/maps/Route110/scripts.pory"
+	setobjectmovementtype LOCALID_ROUTE110_RIVAL_ON_BIKE, MOVEMENT_TYPE_FACE_RIGHT
+# 478 "data/maps/Route110/scripts.pory"
+	removeobject LOCALID_ROUTE110_RIVAL
+# 479 "data/maps/Route110/scripts.pory"
+	addobject LOCALID_ROUTE110_RIVAL_ON_BIKE
+# 480 "data/maps/Route110/scripts.pory"
+	delay 45
+# 481 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 1, Route110_EventScript_RivalExit1
+# 482 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 2, Route110_EventScript_RivalExit2
+# 483 "data/maps/Route110/scripts.pory"
+	call_if_eq VAR_0x8008, 3, Route110_EventScript_RivalExit3
 # 484 "data/maps/Route110/scripts.pory"
-
+	removeobject LOCALID_ROUTE110_RIVAL_ON_BIKE
 # 485 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalApproachPlayer1::
+	setvar VAR_ROUTE110_STATE, 1
 # 486 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer1
+	savebgm MUS_DUMMY
 # 487 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	fadedefaultbgm
 # 488 "data/maps/Route110/scripts.pory"
-	return
+	releaseall
 # 489 "data/maps/Route110/scripts.pory"
-
+	end
 # 490 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalApproachPlayer2::
+
 # 491 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer2
+Route110_EventScript_RivalApproachPlayer1::
 # 492 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer1
 # 493 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 494 "data/maps/Route110/scripts.pory"
-
+	return
 # 495 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalApproachPlayer3::
+
 # 496 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer3
+Route110_EventScript_RivalApproachPlayer2::
 # 497 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer2
 # 498 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 499 "data/maps/Route110/scripts.pory"
-
+	return
 # 500 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalExit1::
+
 # 501 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit1
+Route110_EventScript_RivalApproachPlayer3::
 # 502 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_RIVAL, Route110_Movement_RivalApproachPlayer3
 # 503 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 504 "data/maps/Route110/scripts.pory"
-
+	return
 # 505 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalExit2::
+
 # 506 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit2
+Route110_EventScript_RivalExit1::
 # 507 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit1
 # 508 "data/maps/Route110/scripts.pory"
-	return
-# 509 "data/maps/Route110/scripts.pory"
-
-# 510 "data/maps/Route110/scripts.pory"
-Route110_EventScript_RivalExit3::
-# 511 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit3
-# 512 "data/maps/Route110/scripts.pory"
 	waitmovement 0
+# 509 "data/maps/Route110/scripts.pory"
+	return
+# 510 "data/maps/Route110/scripts.pory"
+
+# 511 "data/maps/Route110/scripts.pory"
+Route110_EventScript_RivalExit2::
+# 512 "data/maps/Route110/scripts.pory"
+	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit2
 # 513 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 514 "data/maps/Route110/scripts.pory"
-
+	return
 # 515 "data/maps/Route110/scripts.pory"
-Route110_EventScript_MoveRival1::
+
 # 516 "data/maps/Route110/scripts.pory"
-	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 33, 55
+Route110_EventScript_RivalExit3::
 # 517 "data/maps/Route110/scripts.pory"
-	return
+	applymovement LOCALID_ROUTE110_RIVAL_ON_BIKE, Route110_Movement_RivalExit3
 # 518 "data/maps/Route110/scripts.pory"
-
+	waitmovement 0
 # 519 "data/maps/Route110/scripts.pory"
-Route110_EventScript_MoveRival2::
+	return
 # 520 "data/maps/Route110/scripts.pory"
-	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 34, 55
+
 # 521 "data/maps/Route110/scripts.pory"
-	return
+Route110_EventScript_MoveRival1::
 # 522 "data/maps/Route110/scripts.pory"
-
+	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 33, 55
 # 523 "data/maps/Route110/scripts.pory"
-Route110_EventScript_MoveRival3::
-# 524 "data/maps/Route110/scripts.pory"
-	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 35, 55
-# 525 "data/maps/Route110/scripts.pory"
 	return
-# 526 "data/maps/Route110/scripts.pory"
+# 524 "data/maps/Route110/scripts.pory"
 
+# 525 "data/maps/Route110/scripts.pory"
+Route110_EventScript_MoveRival2::
+# 526 "data/maps/Route110/scripts.pory"
+	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 34, 55
 # 527 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalApproachPlayer1:
+	return
 # 528 "data/maps/Route110/scripts.pory"
-	walk_down
+
 # 529 "data/maps/Route110/scripts.pory"
-	walk_left
+Route110_EventScript_MoveRival3::
 # 530 "data/maps/Route110/scripts.pory"
-	walk_in_place_faster_down
+	setobjectxyperm LOCALID_ROUTE110_RIVAL_ON_BIKE, 35, 55
 # 531 "data/maps/Route110/scripts.pory"
-	step_end
+	return
 # 532 "data/maps/Route110/scripts.pory"
 
 # 533 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalApproachPlayer2:
+Route110_Movement_RivalApproachPlayer1:
 # 534 "data/maps/Route110/scripts.pory"
 	walk_down
 # 535 "data/maps/Route110/scripts.pory"
-	step_end
+	walk_left
 # 536 "data/maps/Route110/scripts.pory"
-
-# 537 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalApproachPlayer3:
-# 538 "data/maps/Route110/scripts.pory"
-	walk_down
-# 539 "data/maps/Route110/scripts.pory"
-	walk_right
-# 540 "data/maps/Route110/scripts.pory"
 	walk_in_place_faster_down
+# 537 "data/maps/Route110/scripts.pory"
+	step_end
+# 538 "data/maps/Route110/scripts.pory"
+
+# 539 "data/maps/Route110/scripts.pory"
+Route110_Movement_RivalApproachPlayer2:
+# 540 "data/maps/Route110/scripts.pory"
+	walk_down
 # 541 "data/maps/Route110/scripts.pory"
 	step_end
 # 542 "data/maps/Route110/scripts.pory"
 
 # 543 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalExit1:
+Route110_Movement_RivalApproachPlayer3:
 # 544 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	walk_down
 # 545 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	walk_right
 # 546 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	walk_in_place_faster_down
 # 547 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	step_end
 # 548 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+
 # 549 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+Route110_Movement_RivalExit1:
 # 550 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 551 "data/maps/Route110/scripts.pory"
-	step_end
+	walk_fast_up
 # 552 "data/maps/Route110/scripts.pory"
-
+	walk_fast_up
 # 553 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalExit2:
+	walk_fast_up
 # 554 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 555 "data/maps/Route110/scripts.pory"
@@ -1111,279 +1111,279 @@ Route110_Movement_RivalExit2:
 # 556 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 557 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	step_end
 # 558 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+
 # 559 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+Route110_Movement_RivalExit2:
 # 560 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 561 "data/maps/Route110/scripts.pory"
-	walk_fast_down
+	walk_fast_up
 # 562 "data/maps/Route110/scripts.pory"
-	step_end
+	walk_fast_up
 # 563 "data/maps/Route110/scripts.pory"
-
+	walk_fast_up
 # 564 "data/maps/Route110/scripts.pory"
-Route110_Movement_RivalExit3:
+	walk_fast_up
 # 565 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 566 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 567 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	walk_fast_down
 # 568 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+	step_end
 # 569 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+
 # 570 "data/maps/Route110/scripts.pory"
-	walk_fast_up
+Route110_Movement_RivalExit3:
 # 571 "data/maps/Route110/scripts.pory"
 	walk_fast_up
 # 572 "data/maps/Route110/scripts.pory"
-	step_end
+	walk_fast_up
 # 573 "data/maps/Route110/scripts.pory"
-
+	walk_fast_up
 # 574 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchScene1::
+	walk_fast_up
 # 575 "data/maps/Route110/scripts.pory"
-	lockall
+	walk_fast_up
 # 576 "data/maps/Route110/scripts.pory"
-	setvar VAR_0x8008, 1
+	walk_fast_up
 # 577 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BirchScene
+	walk_fast_up
 # 578 "data/maps/Route110/scripts.pory"
-
+	step_end
 # 579 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchScene2::
+
 # 580 "data/maps/Route110/scripts.pory"
-	lockall
+Route110_EventScript_BirchScene1::
 # 581 "data/maps/Route110/scripts.pory"
-	setvar VAR_0x8008, 2
+	lockall
 # 582 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BirchScene
+	setvar VAR_0x8008, 1
 # 583 "data/maps/Route110/scripts.pory"
-
+	goto Route110_EventScript_BirchScene
 # 584 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchScene3::
+
 # 585 "data/maps/Route110/scripts.pory"
-	lockall
+Route110_EventScript_BirchScene2::
 # 586 "data/maps/Route110/scripts.pory"
-	setvar VAR_0x8008, 3
-# 587 "data/maps/Route110/scripts.pory"
-	goto Route110_EventScript_BirchScene
-# 588 "data/maps/Route110/scripts.pory"
-
-# 589 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchScene4::
-# 590 "data/maps/Route110/scripts.pory"
 	lockall
-# 591 "data/maps/Route110/scripts.pory"
-	setvar VAR_0x8008, 4
-# 592 "data/maps/Route110/scripts.pory"
+# 587 "data/maps/Route110/scripts.pory"
+	setvar VAR_0x8008, 2
+# 588 "data/maps/Route110/scripts.pory"
 	goto Route110_EventScript_BirchScene
-# 593 "data/maps/Route110/scripts.pory"
+# 589 "data/maps/Route110/scripts.pory"
 
+# 590 "data/maps/Route110/scripts.pory"
+Route110_EventScript_BirchScene3::
+# 591 "data/maps/Route110/scripts.pory"
+	lockall
+# 592 "data/maps/Route110/scripts.pory"
+	setvar VAR_0x8008, 3
+# 593 "data/maps/Route110/scripts.pory"
+	goto Route110_EventScript_BirchScene
 # 594 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchScene::
+
 # 595 "data/maps/Route110/scripts.pory"
-	addobject LOCALID_ROUTE110_BIRCH
+Route110_EventScript_BirchScene4::
 # 596 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchEntrance
+	lockall
 # 597 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	setvar VAR_0x8008, 4
 # 598 "data/maps/Route110/scripts.pory"
-	playse SE_PIN
+	goto Route110_EventScript_BirchScene
 # 599 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_ExclamationMark
+
 # 600 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+Route110_EventScript_BirchScene::
 # 601 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_Delay48
+	addobject LOCALID_ROUTE110_BIRCH
 # 602 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchEntrance
 # 603 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchApproachPlayer1
+	waitmovement 0
 # 604 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 2, Route110_EventScript_BirchApproachPlayer2
+	playse SE_PIN
 # 605 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 3, Route110_EventScript_BirchApproachPlayer3
+	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_ExclamationMark
 # 606 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 4, Route110_EventScript_BirchApproachPlayer4
+	waitmovement 0
 # 607 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_ImagineSeeingYouHere, MSGBOX_DEFAULT
+	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_Delay48
 # 608 "data/maps/Route110/scripts.pory"
-	closemessage
+	waitmovement 0
 # 609 "data/maps/Route110/scripts.pory"
-	delay 20
+	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchApproachPlayer1
 # 610 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterLeft
+	call_if_eq VAR_0x8008, 2, Route110_EventScript_BirchApproachPlayer2
 # 611 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	call_if_eq VAR_0x8008, 3, Route110_EventScript_BirchApproachPlayer3
 # 612 "data/maps/Route110/scripts.pory"
-	delay 10
+	call_if_eq VAR_0x8008, 4, Route110_EventScript_BirchApproachPlayer4
 # 613 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterRight
+	msgbox Route110_Text_ImagineSeeingYouHere, MSGBOX_DEFAULT
 # 614 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	closemessage
 # 615 "data/maps/Route110/scripts.pory"
 	delay 20
 # 616 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterDown
+	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterLeft
 # 617 "data/maps/Route110/scripts.pory"
 	waitmovement 0
 # 618 "data/maps/Route110/scripts.pory"
-	delay 30
+	delay 10
 # 619 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_HeardYouInstallMatchCall, MSGBOX_DEFAULT
+	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterRight
 # 620 "data/maps/Route110/scripts.pory"
-	closemessage
+	waitmovement 0
 # 621 "data/maps/Route110/scripts.pory"
-	delay 30
+	delay 20
 # 622 "data/maps/Route110/scripts.pory"
-	playfanfare MUS_REGISTER_MATCH_CALL
+	applymovement LOCALID_ROUTE110_BIRCH, Common_Movement_WalkInPlaceFasterDown
 # 623 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_RegisteredBirchInPokenav, MSGBOX_DEFAULT
+	waitmovement 0
 # 624 "data/maps/Route110/scripts.pory"
-	waitfanfare
-# 625 "data/maps/Route110/scripts.pory"
-	closemessage
-# 626 "data/maps/Route110/scripts.pory"
 	delay 30
-# 627 "data/maps/Route110/scripts.pory"
-	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
-# 628 "data/maps/Route110/scripts.pory"
-	msgbox Route110_Text_KeepAnEyeOutForRival, MSGBOX_DEFAULT
-# 629 "data/maps/Route110/scripts.pory"
+# 625 "data/maps/Route110/scripts.pory"
+	msgbox Route110_Text_HeardYouInstallMatchCall, MSGBOX_DEFAULT
+# 626 "data/maps/Route110/scripts.pory"
 	closemessage
+# 627 "data/maps/Route110/scripts.pory"
+	delay 30
+# 628 "data/maps/Route110/scripts.pory"
+	playfanfare MUS_REGISTER_MATCH_CALL
+# 629 "data/maps/Route110/scripts.pory"
+	msgbox Route110_Text_RegisteredBirchInPokenav, MSGBOX_DEFAULT
 # 630 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchExit1
+	waitfanfare
 # 631 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 2, Route110_EventScript_BirchExit2
+	closemessage
 # 632 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 3, Route110_EventScript_BirchExit3
+	delay 30
 # 633 "data/maps/Route110/scripts.pory"
-	call_if_eq VAR_0x8008, 4, Route110_EventScript_BirchExit4
+	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
 # 634 "data/maps/Route110/scripts.pory"
-	removeobject LOCALID_ROUTE110_BIRCH
+	msgbox Route110_Text_KeepAnEyeOutForRival, MSGBOX_DEFAULT
 # 635 "data/maps/Route110/scripts.pory"
-	setvar VAR_REGISTER_BIRCH_STATE, 2
+	closemessage
 # 636 "data/maps/Route110/scripts.pory"
-	releaseall
+	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchExit1
 # 637 "data/maps/Route110/scripts.pory"
-	end
+	call_if_eq VAR_0x8008, 2, Route110_EventScript_BirchExit2
 # 638 "data/maps/Route110/scripts.pory"
-
+	call_if_eq VAR_0x8008, 3, Route110_EventScript_BirchExit3
 # 639 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchApproachPlayer1::
+	call_if_eq VAR_0x8008, 4, Route110_EventScript_BirchExit4
 # 640 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer1
+	removeobject LOCALID_ROUTE110_BIRCH
 # 641 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	setvar VAR_REGISTER_BIRCH_STATE, 2
 # 642 "data/maps/Route110/scripts.pory"
-	return
+	releaseall
 # 643 "data/maps/Route110/scripts.pory"
-
+	end
 # 644 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchApproachPlayer2::
+
 # 645 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer2
+Route110_EventScript_BirchApproachPlayer1::
 # 646 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer1
 # 647 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 648 "data/maps/Route110/scripts.pory"
-
+	return
 # 649 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchApproachPlayer3::
+
 # 650 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer3
+Route110_EventScript_BirchApproachPlayer2::
 # 651 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer2
 # 652 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 653 "data/maps/Route110/scripts.pory"
-
+	return
 # 654 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchApproachPlayer4::
+
 # 655 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer4
+Route110_EventScript_BirchApproachPlayer3::
 # 656 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer3
 # 657 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 658 "data/maps/Route110/scripts.pory"
-
+	return
 # 659 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchExit1::
+
 # 660 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit1
+Route110_EventScript_BirchApproachPlayer4::
 # 661 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchApproachPlayer4
 # 662 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 663 "data/maps/Route110/scripts.pory"
-
+	return
 # 664 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchExit2::
+
 # 665 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit2
+Route110_EventScript_BirchExit1::
 # 666 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit1
 # 667 "data/maps/Route110/scripts.pory"
-	return
+	waitmovement 0
 # 668 "data/maps/Route110/scripts.pory"
-
+	return
 # 669 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchExit3::
+
 # 670 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit3
+Route110_EventScript_BirchExit2::
 # 671 "data/maps/Route110/scripts.pory"
-	waitmovement 0
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit2
 # 672 "data/maps/Route110/scripts.pory"
-	return
-# 673 "data/maps/Route110/scripts.pory"
-
-# 674 "data/maps/Route110/scripts.pory"
-Route110_EventScript_BirchExit4::
-# 675 "data/maps/Route110/scripts.pory"
-	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit4
-# 676 "data/maps/Route110/scripts.pory"
 	waitmovement 0
-# 677 "data/maps/Route110/scripts.pory"
+# 673 "data/maps/Route110/scripts.pory"
 	return
-# 678 "data/maps/Route110/scripts.pory"
+# 674 "data/maps/Route110/scripts.pory"
 
+# 675 "data/maps/Route110/scripts.pory"
+Route110_EventScript_BirchExit3::
+# 676 "data/maps/Route110/scripts.pory"
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit3
+# 677 "data/maps/Route110/scripts.pory"
+	waitmovement 0
+# 678 "data/maps/Route110/scripts.pory"
+	return
 # 679 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchEntrance:
+
 # 680 "data/maps/Route110/scripts.pory"
-	walk_down
+Route110_EventScript_BirchExit4::
 # 681 "data/maps/Route110/scripts.pory"
-	walk_down
+	applymovement LOCALID_ROUTE110_BIRCH, Route110_Movement_BirchExit4
 # 682 "data/maps/Route110/scripts.pory"
-	walk_down
+	waitmovement 0
 # 683 "data/maps/Route110/scripts.pory"
-	step_end
+	return
 # 684 "data/maps/Route110/scripts.pory"
 
 # 685 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchApproachPlayer1:
+Route110_Movement_BirchEntrance:
 # 686 "data/maps/Route110/scripts.pory"
 	walk_down
 # 687 "data/maps/Route110/scripts.pory"
-	walk_left
+	walk_down
 # 688 "data/maps/Route110/scripts.pory"
-	walk_left
+	walk_down
 # 689 "data/maps/Route110/scripts.pory"
-	walk_down
-# 690 "data/maps/Route110/scripts.pory"
 	step_end
-# 691 "data/maps/Route110/scripts.pory"
+# 690 "data/maps/Route110/scripts.pory"
 
+# 691 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchApproachPlayer1:
 # 692 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchApproachPlayer2:
-# 693 "data/maps/Route110/scripts.pory"
 	walk_down
+# 693 "data/maps/Route110/scripts.pory"
+	walk_left
 # 694 "data/maps/Route110/scripts.pory"
 	walk_left
 # 695 "data/maps/Route110/scripts.pory"
@@ -1393,21 +1393,21 @@ Route110_Movement_BirchApproachPlayer2:
 # 697 "data/maps/Route110/scripts.pory"
 
 # 698 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchApproachPlayer3:
+Route110_Movement_BirchApproachPlayer2:
 # 699 "data/maps/Route110/scripts.pory"
 	walk_down
 # 700 "data/maps/Route110/scripts.pory"
-	walk_down
+	walk_left
 # 701 "data/maps/Route110/scripts.pory"
-	step_end
-# 702 "data/maps/Route110/scripts.pory"
-
-# 703 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchApproachPlayer4:
-# 704 "data/maps/Route110/scripts.pory"
 	walk_down
+# 702 "data/maps/Route110/scripts.pory"
+	step_end
+# 703 "data/maps/Route110/scripts.pory"
+
+# 704 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchApproachPlayer3:
 # 705 "data/maps/Route110/scripts.pory"
-	walk_right
+	walk_down
 # 706 "data/maps/Route110/scripts.pory"
 	walk_down
 # 707 "data/maps/Route110/scripts.pory"
@@ -1415,25 +1415,25 @@ Route110_Movement_BirchApproachPlayer4:
 # 708 "data/maps/Route110/scripts.pory"
 
 # 709 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchExit1:
+Route110_Movement_BirchApproachPlayer4:
 # 710 "data/maps/Route110/scripts.pory"
-	walk_up
+	walk_down
 # 711 "data/maps/Route110/scripts.pory"
-	walk_up
-# 712 "data/maps/Route110/scripts.pory"
 	walk_right
+# 712 "data/maps/Route110/scripts.pory"
+	walk_down
 # 713 "data/maps/Route110/scripts.pory"
-	walk_up
-# 714 "data/maps/Route110/scripts.pory"
-	walk_up
-# 715 "data/maps/Route110/scripts.pory"
-	walk_up
-# 716 "data/maps/Route110/scripts.pory"
 	step_end
-# 717 "data/maps/Route110/scripts.pory"
+# 714 "data/maps/Route110/scripts.pory"
 
+# 715 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchExit1:
+# 716 "data/maps/Route110/scripts.pory"
+	walk_up
+# 717 "data/maps/Route110/scripts.pory"
+	walk_up
 # 718 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchExit2:
+	walk_right
 # 719 "data/maps/Route110/scripts.pory"
 	walk_up
 # 720 "data/maps/Route110/scripts.pory"
@@ -1441,15 +1441,15 @@ Route110_Movement_BirchExit2:
 # 721 "data/maps/Route110/scripts.pory"
 	walk_up
 # 722 "data/maps/Route110/scripts.pory"
-	walk_up
-# 723 "data/maps/Route110/scripts.pory"
-	walk_up
-# 724 "data/maps/Route110/scripts.pory"
 	step_end
-# 725 "data/maps/Route110/scripts.pory"
+# 723 "data/maps/Route110/scripts.pory"
 
+# 724 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchExit2:
+# 725 "data/maps/Route110/scripts.pory"
+	walk_up
 # 726 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchExit3:
+	walk_up
 # 727 "data/maps/Route110/scripts.pory"
 	walk_up
 # 728 "data/maps/Route110/scripts.pory"
@@ -1457,15 +1457,15 @@ Route110_Movement_BirchExit3:
 # 729 "data/maps/Route110/scripts.pory"
 	walk_up
 # 730 "data/maps/Route110/scripts.pory"
-	walk_up
-# 731 "data/maps/Route110/scripts.pory"
-	walk_up
-# 732 "data/maps/Route110/scripts.pory"
 	step_end
-# 733 "data/maps/Route110/scripts.pory"
+# 731 "data/maps/Route110/scripts.pory"
 
+# 732 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchExit3:
+# 733 "data/maps/Route110/scripts.pory"
+	walk_up
 # 734 "data/maps/Route110/scripts.pory"
-Route110_Movement_BirchExit4:
+	walk_up
 # 735 "data/maps/Route110/scripts.pory"
 	walk_up
 # 736 "data/maps/Route110/scripts.pory"
@@ -1473,506 +1473,518 @@ Route110_Movement_BirchExit4:
 # 737 "data/maps/Route110/scripts.pory"
 	walk_up
 # 738 "data/maps/Route110/scripts.pory"
-	walk_up
-# 739 "data/maps/Route110/scripts.pory"
-	walk_up
-# 740 "data/maps/Route110/scripts.pory"
 	step_end
+# 739 "data/maps/Route110/scripts.pory"
+
+# 740 "data/maps/Route110/scripts.pory"
+Route110_Movement_BirchExit4:
 # 741 "data/maps/Route110/scripts.pory"
-
+	walk_up
 # 742 "data/maps/Route110/scripts.pory"
-Route110_Text_WeCantTalkAboutAquaActivities:
+	walk_up
 # 743 "data/maps/Route110/scripts.pory"
-	.string "TEAM AQUA's activities…\n"
+	walk_up
 # 744 "data/maps/Route110/scripts.pory"
-	.string "We can't talk about them yet.$"
+	walk_up
 # 745 "data/maps/Route110/scripts.pory"
-
+	walk_up
 # 746 "data/maps/Route110/scripts.pory"
-Route110_Text_KickUpARuckus:
+	step_end
 # 747 "data/maps/Route110/scripts.pory"
-	.string "I want to get going to SLATEPORT and\n"
+
 # 748 "data/maps/Route110/scripts.pory"
-	.string "kick up a ruckus!$"
+Route110_Text_WeCantTalkAboutAquaActivities:
 # 749 "data/maps/Route110/scripts.pory"
-
+	.string "TEAM AQUA's activities…\n"
 # 750 "data/maps/Route110/scripts.pory"
-Route110_Text_MyFirstJobInAqua:
+	.string "We can't talk about them yet.$"
 # 751 "data/maps/Route110/scripts.pory"
-	.string "This is my first job after joining\n"
+
 # 752 "data/maps/Route110/scripts.pory"
-	.string "TEAM AQUA. It's a little scary.$"
+Route110_Text_KickUpARuckus:
 # 753 "data/maps/Route110/scripts.pory"
-
+	.string "I want to get going to SLATEPORT and\n"
 # 754 "data/maps/Route110/scripts.pory"
-Route110_Text_AquaActionsBringSmiles:
+	.string "kick up a ruckus!$"
 # 755 "data/maps/Route110/scripts.pory"
-	.string "TEAM AQUA's actions should bring\n"
+
 # 756 "data/maps/Route110/scripts.pory"
-	.string "smiles to people's faces!$"
+Route110_Text_MyFirstJobInAqua:
 # 757 "data/maps/Route110/scripts.pory"
-
+	.string "This is my first job after joining\n"
 # 758 "data/maps/Route110/scripts.pory"
-Route110_Text_MayLetsBattle:
+	.string "TEAM AQUA. It's a little scary.$"
 # 759 "data/maps/Route110/scripts.pory"
-	.string "MAY: Hi, {PLAYER}{KUN}, long time no see!\p"
+
 # 760 "data/maps/Route110/scripts.pory"
-	.string "While I was searching for other\n"
+Route110_Text_AquaActionsBringSmiles:
 # 761 "data/maps/Route110/scripts.pory"
-	.string "POKéMON, my POKéMON grew stronger.\p"
+	.string "TEAM AQUA's actions should bring\n"
 # 762 "data/maps/Route110/scripts.pory"
-	.string "So…\n"
+	.string "smiles to people's faces!$"
 # 763 "data/maps/Route110/scripts.pory"
-	.string "How about a little battle?$"
+
 # 764 "data/maps/Route110/scripts.pory"
-
+Route110_Text_MayLetsBattle:
 # 765 "data/maps/Route110/scripts.pory"
-Route110_Text_MayDefeated:
+	.string "MAY: Hi, {PLAYER}{KUN}, long time no see!\p"
 # 766 "data/maps/Route110/scripts.pory"
-	.string "Yikes!\n"
+	.string "While I was searching for other\n"
 # 767 "data/maps/Route110/scripts.pory"
-	.string "You're better than I expected!$"
+	.string "POKéMON, my POKéMON grew stronger.\p"
 # 768 "data/maps/Route110/scripts.pory"
-
+	.string "So…\n"
 # 769 "data/maps/Route110/scripts.pory"
-Route110_Text_MayTakeThis:
+	.string "How about a little battle?$"
 # 770 "data/maps/Route110/scripts.pory"
-	.string "MAY: {PLAYER}{KUN}, you've been busy\n"
+
 # 771 "data/maps/Route110/scripts.pory"
-	.string "training, too, haven't you?\p"
+Route110_Text_MayDefeated:
 # 772 "data/maps/Route110/scripts.pory"
-	.string "I think you deserve a reward!\n"
+	.string "Yikes!\n"
 # 773 "data/maps/Route110/scripts.pory"
-	.string "This is from me!$"
+	.string "You're better than I expected!$"
 # 774 "data/maps/Route110/scripts.pory"
 
 # 775 "data/maps/Route110/scripts.pory"
-Route110_Text_MayExplainItemfinder:
+Route110_Text_MayTakeThis:
 # 776 "data/maps/Route110/scripts.pory"
-	.string "MAY: That's an ITEMFINDER.\p"
+	.string "MAY: {PLAYER}{KUN}, you've been busy\n"
 # 777 "data/maps/Route110/scripts.pory"
-	.string "Try it out. If there is an item that's\n"
+	.string "training, too, haven't you?\p"
 # 778 "data/maps/Route110/scripts.pory"
-	.string "not visible, it emits a sound.\p"
+	.string "I think you deserve a reward!\n"
 # 779 "data/maps/Route110/scripts.pory"
-	.string "Okay, {PLAYER}{KUN}, let's meet again!\p"
+	.string "This is from me!$"
 # 780 "data/maps/Route110/scripts.pory"
-	.string "I know it's a little silly coming from\n"
+
 # 781 "data/maps/Route110/scripts.pory"
-	.string "me, but I think you should train a lot\l"
+Route110_Text_MayExplainItemfinder:
 # 782 "data/maps/Route110/scripts.pory"
-	.string "harder for the next time.$"
+	.string "MAY: That's an ITEMFINDER.\p"
 # 783 "data/maps/Route110/scripts.pory"
-
+	.string "Try it out. If there is an item that's\n"
 # 784 "data/maps/Route110/scripts.pory"
-Route110_Text_BrendanLetsBattle:
+	.string "not visible, it emits a sound.\p"
 # 785 "data/maps/Route110/scripts.pory"
-	.string "BRENDAN: Hey, {PLAYER}.\n"
+	.string "Okay, {PLAYER}{KUN}, let's meet again!\p"
 # 786 "data/maps/Route110/scripts.pory"
-	.string "So this is where you were.\l"
+	.string "I know it's a little silly coming from\n"
 # 787 "data/maps/Route110/scripts.pory"
-	.string "How's it going?\p"
+	.string "me, but I think you should train a lot\l"
 # 788 "data/maps/Route110/scripts.pory"
-	.string "Have you been raising your POKéMON?\n"
+	.string "harder for the next time.$"
 # 789 "data/maps/Route110/scripts.pory"
-	.string "I'll check for you.$"
+
 # 790 "data/maps/Route110/scripts.pory"
-
+Route110_Text_BrendanLetsBattle:
 # 791 "data/maps/Route110/scripts.pory"
-Route110_Text_BrendanDefeated:
+	.string "BRENDAN: Hey, {PLAYER}.\n"
 # 792 "data/maps/Route110/scripts.pory"
-	.string "Hmm…\n"
+	.string "So this is where you were.\l"
 # 793 "data/maps/Route110/scripts.pory"
-	.string "You're pretty good.$"
+	.string "How's it going?\p"
 # 794 "data/maps/Route110/scripts.pory"
-
+	.string "Have you been raising your POKéMON?\n"
 # 795 "data/maps/Route110/scripts.pory"
-Route110_Text_BrendanTakeThis:
+	.string "I'll check for you.$"
 # 796 "data/maps/Route110/scripts.pory"
-	.string "BRENDAN: {PLAYER}, you've trained\n"
+
 # 797 "data/maps/Route110/scripts.pory"
-	.string "without me noticing…\p"
+Route110_Text_BrendanDefeated:
 # 798 "data/maps/Route110/scripts.pory"
-	.string "Good enough!\n"
+	.string "Hmm…\n"
 # 799 "data/maps/Route110/scripts.pory"
-	.string "Here, take this.$"
+	.string "You're pretty good.$"
 # 800 "data/maps/Route110/scripts.pory"
 
 # 801 "data/maps/Route110/scripts.pory"
-Route110_Text_BrendanExplainItemfinder:
+Route110_Text_BrendanTakeThis:
 # 802 "data/maps/Route110/scripts.pory"
-	.string "BRENDAN: That's an ITEMFINDER.\p"
+	.string "BRENDAN: {PLAYER}, you've trained\n"
 # 803 "data/maps/Route110/scripts.pory"
-	.string "Use it to root around for items that\n"
+	.string "without me noticing…\p"
 # 804 "data/maps/Route110/scripts.pory"
-	.string "aren't visible.\p"
+	.string "Good enough!\n"
 # 805 "data/maps/Route110/scripts.pory"
-	.string "If it senses something, it emits\n"
+	.string "Here, take this.$"
 # 806 "data/maps/Route110/scripts.pory"
-	.string "a sound.\p"
+
 # 807 "data/maps/Route110/scripts.pory"
-	.string "Anyway, I'm off to look for new\n"
+Route110_Text_BrendanExplainItemfinder:
 # 808 "data/maps/Route110/scripts.pory"
-	.string "POKéMON.$"
+	.string "BRENDAN: That's an ITEMFINDER.\p"
 # 809 "data/maps/Route110/scripts.pory"
-
+	.string "Use it to root around for items that\n"
 # 810 "data/maps/Route110/scripts.pory"
-Route110_Text_RideBikeAtFullSpeed:
+	.string "aren't visible.\p"
 # 811 "data/maps/Route110/scripts.pory"
-	.string "Wouldn't it be great to ride a BIKE\n"
+	.string "If it senses something, it emits\n"
 # 812 "data/maps/Route110/scripts.pory"
-	.string "at full speed on CYCLING ROAD?$"
+	.string "a sound.\p"
 # 813 "data/maps/Route110/scripts.pory"
-
+	.string "Anyway, I'm off to look for new\n"
 # 814 "data/maps/Route110/scripts.pory"
-Route110_Text_HairStreamsBehindMe:
+	.string "POKéMON.$"
 # 815 "data/maps/Route110/scripts.pory"
-	.string "How do you like the way my raven-\n"
-# 816 "data/maps/Route110/scripts.pory"
-	.string "colored hair streams behind me?\p"
-# 817 "data/maps/Route110/scripts.pory"
-	.string "I grew my hair out just for that.$"
-# 818 "data/maps/Route110/scripts.pory"
 
+# 816 "data/maps/Route110/scripts.pory"
+Route110_Text_RideBikeAtFullSpeed:
+# 817 "data/maps/Route110/scripts.pory"
+	.string "Wouldn't it be great to ride a BIKE\n"
+# 818 "data/maps/Route110/scripts.pory"
+	.string "at full speed on CYCLING ROAD?$"
 # 819 "data/maps/Route110/scripts.pory"
-Route110_Text_YouGotBikeFromRydel:
+
 # 820 "data/maps/Route110/scripts.pory"
-	.string "Oh, hey, you got that BIKE from RYDEL!\p"
+Route110_Text_HairStreamsBehindMe:
 # 821 "data/maps/Route110/scripts.pory"
-	.string "Oh, it's glaringly obvious.\n"
+	.string "How do you like the way my raven-\n"
 # 822 "data/maps/Route110/scripts.pory"
-	.string "It says right on your bike…\p"
+	.string "colored hair streams behind me?\p"
 # 823 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
+	.string "I grew my hair out just for that.$"
 # 824 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
+
 # 825 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
+Route110_Text_YouGotBikeFromRydel:
 # 826 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
+	.string "Oh, hey, you got that BIKE from RYDEL!\p"
 # 827 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
+	.string "Oh, it's glaringly obvious.\n"
 # 828 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
+	.string "It says right on your bike…\p"
 # 829 "data/maps/Route110/scripts.pory"
 	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
 # 830 "data/maps/Route110/scripts.pory"
 	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
 # 831 "data/maps/Route110/scripts.pory"
-	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL…\n"
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
 # 832 "data/maps/Route110/scripts.pory"
-	.string "That name's everywhere.\p"
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
 # 833 "data/maps/Route110/scripts.pory"
-	.string "You should ride it around all over\n"
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
 # 834 "data/maps/Route110/scripts.pory"
-	.string "the place--it's good advertising!$"
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
 # 835 "data/maps/Route110/scripts.pory"
-
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\n"
 # 836 "data/maps/Route110/scripts.pory"
-Route110_Text_TwoRoads:
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL,\p"
 # 837 "data/maps/Route110/scripts.pory"
-	.string "The two roads, one above, one below…\p"
+	.string "RYDEL, RYDEL, RYDEL, RYDEL, RYDEL…\n"
 # 838 "data/maps/Route110/scripts.pory"
-	.string "A road each for people and POKéMON.\n"
+	.string "That name's everywhere.\p"
 # 839 "data/maps/Route110/scripts.pory"
-	.string "Perhaps that is right and fair.$"
+	.string "You should ride it around all over\n"
 # 840 "data/maps/Route110/scripts.pory"
-
+	.string "the place--it's good advertising!$"
 # 841 "data/maps/Route110/scripts.pory"
-Route110_Text_WalkOnTheLowRoad:
-# 842 "data/maps/Route110/scripts.pory"
-	.string "I don't have a BIKE, so I'll take\n"
-# 843 "data/maps/Route110/scripts.pory"
-	.string "a leisurely walk on the low road.$"
-# 844 "data/maps/Route110/scripts.pory"
 
+# 842 "data/maps/Route110/scripts.pory"
+Route110_Text_TwoRoads:
+# 843 "data/maps/Route110/scripts.pory"
+	.string "The two roads, one above, one below…\p"
+# 844 "data/maps/Route110/scripts.pory"
+	.string "A road each for people and POKéMON.\n"
 # 845 "data/maps/Route110/scripts.pory"
-Route110_Text_BikeTechniques:
+	.string "Perhaps that is right and fair.$"
 # 846 "data/maps/Route110/scripts.pory"
-	.string "Learning techniques will make BIKE\n"
+
 # 847 "data/maps/Route110/scripts.pory"
-	.string "riding even more fun.\p"
+Route110_Text_WalkOnTheLowRoad:
 # 848 "data/maps/Route110/scripts.pory"
-	.string "There are some places that you can\n"
+	.string "I don't have a BIKE, so I'll take\n"
 # 849 "data/maps/Route110/scripts.pory"
-	.string "reach only by using a BIKE technique.$"
+	.string "a leisurely walk on the low road.$"
 # 850 "data/maps/Route110/scripts.pory"
 
 # 851 "data/maps/Route110/scripts.pory"
-Route110_Text_WhichShouldIChoose:
+Route110_Text_BikeTechniques:
 # 852 "data/maps/Route110/scripts.pory"
-	.string "Which should I choose?\p"
+	.string "Learning techniques will make BIKE\n"
 # 853 "data/maps/Route110/scripts.pory"
-	.string "Make a beeline for MAUVILLE on\n"
+	.string "riding even more fun.\p"
 # 854 "data/maps/Route110/scripts.pory"
-	.string "CYCLING ROAD, or take the low road\l"
+	.string "There are some places that you can\n"
 # 855 "data/maps/Route110/scripts.pory"
-	.string "and look for POKéMON?$"
+	.string "reach only by using a BIKE technique.$"
 # 856 "data/maps/Route110/scripts.pory"
 
 # 857 "data/maps/Route110/scripts.pory"
-Route110_Text_CyclingChallengeResultSummary:
+Route110_Text_WhichShouldIChoose:
 # 858 "data/maps/Route110/scripts.pory"
-	.string "Number of collisions:\n"
+	.string "Which should I choose?\p"
 # 859 "data/maps/Route110/scripts.pory"
-	.string "… … {STR_VAR_1}!\p"
+	.string "Make a beeline for MAUVILLE on\n"
 # 860 "data/maps/Route110/scripts.pory"
-	.string "Total time:\n"
+	.string "CYCLING ROAD, or take the low road\l"
 # 861 "data/maps/Route110/scripts.pory"
-	.string "… … {STR_VAR_2}!$"
+	.string "and look for POKéMON?$"
 # 862 "data/maps/Route110/scripts.pory"
 
 # 863 "data/maps/Route110/scripts.pory"
-Route110_Text_ChallengeReactionBest:
+Route110_Text_CyclingChallengeResultSummary:
 # 864 "data/maps/Route110/scripts.pory"
-	.string "Bravo! Splendid showing!\p"
+	.string "Number of collisions:\n"
 # 865 "data/maps/Route110/scripts.pory"
-	.string "Your love of cycling comes from deep\n"
+	.string "… … {STR_VAR_1}!\p"
 # 866 "data/maps/Route110/scripts.pory"
-	.string "within your heart.\l"
+	.string "Total time:\n"
 # 867 "data/maps/Route110/scripts.pory"
-	.string "You've shaken me to my very soul!$"
+	.string "… … {STR_VAR_2}!$"
 # 868 "data/maps/Route110/scripts.pory"
 
 # 869 "data/maps/Route110/scripts.pory"
-Route110_Text_ChallengeReactionGood:
+Route110_Text_ChallengeReactionBest:
 # 870 "data/maps/Route110/scripts.pory"
-	.string "Your technique is remarkable.\p"
+	.string "Bravo! Splendid showing!\p"
 # 871 "data/maps/Route110/scripts.pory"
-	.string "I suggest you speed up a bit while\n"
+	.string "Your love of cycling comes from deep\n"
 # 872 "data/maps/Route110/scripts.pory"
-	.string "still avoiding collisions.$"
+	.string "within your heart.\l"
 # 873 "data/maps/Route110/scripts.pory"
-
+	.string "You've shaken me to my very soul!$"
 # 874 "data/maps/Route110/scripts.pory"
-Route110_Text_ChallengeReactionOk:
+
 # 875 "data/maps/Route110/scripts.pory"
-	.string "I would consider you a work in\n"
+Route110_Text_ChallengeReactionGood:
 # 876 "data/maps/Route110/scripts.pory"
-	.string "progress.\p"
+	.string "Your technique is remarkable.\p"
 # 877 "data/maps/Route110/scripts.pory"
-	.string "Still, I hope you don't forget the\n"
+	.string "I suggest you speed up a bit while\n"
 # 878 "data/maps/Route110/scripts.pory"
-	.string "sheer pleasure of cycling.$"
+	.string "still avoiding collisions.$"
 # 879 "data/maps/Route110/scripts.pory"
 
 # 880 "data/maps/Route110/scripts.pory"
-Route110_Text_ChallengeReactionBad:
+Route110_Text_ChallengeReactionOk:
 # 881 "data/maps/Route110/scripts.pory"
-	.string "My word… Your cycling skills border\n"
+	.string "I would consider you a work in\n"
 # 882 "data/maps/Route110/scripts.pory"
-	.string "on terrifying.\p"
+	.string "progress.\p"
 # 883 "data/maps/Route110/scripts.pory"
-	.string "Most certainly, you need much more\n"
+	.string "Still, I hope you don't forget the\n"
 # 884 "data/maps/Route110/scripts.pory"
-	.string "practice riding.$"
+	.string "sheer pleasure of cycling.$"
 # 885 "data/maps/Route110/scripts.pory"
 
 # 886 "data/maps/Route110/scripts.pory"
-Route110_Text_ChallengeReactionWorst:
+Route110_Text_ChallengeReactionBad:
 # 887 "data/maps/Route110/scripts.pory"
-	.string "…I am aghast…\p"
+	.string "My word… Your cycling skills border\n"
 # 888 "data/maps/Route110/scripts.pory"
-	.string "You're perhaps not cut out for this\n"
+	.string "on terrifying.\p"
 # 889 "data/maps/Route110/scripts.pory"
-	.string "unfortunate cycling business.\p"
+	.string "Most certainly, you need much more\n"
 # 890 "data/maps/Route110/scripts.pory"
-	.string "You ought to give serious thought to\n"
+	.string "practice riding.$"
 # 891 "data/maps/Route110/scripts.pory"
-	.string "returning that BIKE to RYDEL.$"
+
 # 892 "data/maps/Route110/scripts.pory"
-
+Route110_Text_ChallengeReactionWorst:
 # 893 "data/maps/Route110/scripts.pory"
-Route110_Text_RatedForNumberOfCollisions:
+	.string "…I am aghast…\p"
 # 894 "data/maps/Route110/scripts.pory"
-	.string "This is CYCLING ROAD.\p"
+	.string "You're perhaps not cut out for this\n"
 # 895 "data/maps/Route110/scripts.pory"
-	.string "If you were to ride from MAUVILLE to\n"
+	.string "unfortunate cycling business.\p"
 # 896 "data/maps/Route110/scripts.pory"
-	.string "SLATEPORT on a MACH BIKE, you would\l"
+	.string "You ought to give serious thought to\n"
 # 897 "data/maps/Route110/scripts.pory"
-	.string "be rated for the number of collisions\l"
+	.string "returning that BIKE to RYDEL.$"
 # 898 "data/maps/Route110/scripts.pory"
-	.string "and your total time.$"
+
 # 899 "data/maps/Route110/scripts.pory"
-
+Route110_Text_RatedForNumberOfCollisions:
 # 900 "data/maps/Route110/scripts.pory"
-Route110_Text_AlwaysAimHigher:
+	.string "This is CYCLING ROAD.\p"
 # 901 "data/maps/Route110/scripts.pory"
-	.string "Regardless of the results, I count on\n"
+	.string "If you were to ride from MAUVILLE to\n"
 # 902 "data/maps/Route110/scripts.pory"
-	.string "seeing more challenges from you.\l"
+	.string "SLATEPORT on a MACH BIKE, you would\l"
 # 903 "data/maps/Route110/scripts.pory"
-	.string "Always aim higher!$"
+	.string "be rated for the number of collisions\l"
 # 904 "data/maps/Route110/scripts.pory"
-
+	.string "and your total time.$"
 # 905 "data/maps/Route110/scripts.pory"
-Route110_Text_AcroBikesDoNotQualify:
+
 # 906 "data/maps/Route110/scripts.pory"
-	.string "On this CYCLING ROAD, those riding\n"
+Route110_Text_AlwaysAimHigher:
 # 907 "data/maps/Route110/scripts.pory"
-	.string "MACH BIKES are rated for their number\l"
+	.string "Regardless of the results, I count on\n"
 # 908 "data/maps/Route110/scripts.pory"
-	.string "of collisions and their total times.\p"
+	.string "seeing more challenges from you.\l"
 # 909 "data/maps/Route110/scripts.pory"
-	.string "ACRO BIKES do not qualify for rating.\n"
+	.string "Always aim higher!$"
 # 910 "data/maps/Route110/scripts.pory"
-	.string "They are easy to turn, so it's not fair.$"
+
 # 911 "data/maps/Route110/scripts.pory"
-
+Route110_Text_AcroBikesDoNotQualify:
 # 912 "data/maps/Route110/scripts.pory"
-Route110_Text_SlateportCitySign:
+	.string "On this CYCLING ROAD, those riding\n"
 # 913 "data/maps/Route110/scripts.pory"
-	.string "ROUTE 110\n"
+	.string "MACH BIKES are rated for their number\l"
 # 914 "data/maps/Route110/scripts.pory"
-	.string "{DOWN_ARROW} SLATEPORT CITY$"
+	.string "of collisions and their total times.\p"
 # 915 "data/maps/Route110/scripts.pory"
-
+	.string "ACRO BIKES do not qualify for rating.\n"
 # 916 "data/maps/Route110/scripts.pory"
-Route110_Text_CyclingRoadSign:
+	.string "They are easy to turn, so it's not fair.$"
 # 917 "data/maps/Route110/scripts.pory"
-	.string "SEASIDE CYCLING ROAD$"
+
 # 918 "data/maps/Route110/scripts.pory"
-
+Route110_Text_SlateportCitySign:
 # 919 "data/maps/Route110/scripts.pory"
-Route110_Text_AquaWasHere:
+	.string "ROUTE 110\n"
 # 920 "data/maps/Route110/scripts.pory"
-	.string "“TEAM AQUA was here!”\p"
+	.string "{DOWN_ARROW} SLATEPORT CITY$"
 # 921 "data/maps/Route110/scripts.pory"
-	.string "Someone painted that onto this sign,\n"
+
 # 922 "data/maps/Route110/scripts.pory"
-	.string "but then someone else painted over it.\p"
+Route110_Text_CyclingRoadSign:
 # 923 "data/maps/Route110/scripts.pory"
-	.string "“TEAM MAGMA rules!” is what it\n"
+	.string "SEASIDE CYCLING ROAD$"
 # 924 "data/maps/Route110/scripts.pory"
-	.string "says now.$"
+
 # 925 "data/maps/Route110/scripts.pory"
-
+Route110_Text_AquaWasHere:
 # 926 "data/maps/Route110/scripts.pory"
-Route110_Text_Route103Sign:
+	.string "“TEAM AQUA was here!”\p"
 # 927 "data/maps/Route110/scripts.pory"
-	.string "ROUTE 110\n"
+	.string "Someone painted that onto this sign,\n"
 # 928 "data/maps/Route110/scripts.pory"
-	.string "{LEFT_ARROW} ROUTE 103$"
+	.string "but then someone else painted over it.\p"
 # 929 "data/maps/Route110/scripts.pory"
-
+	.string "“TEAM MAGMA rules!” is what it\n"
 # 930 "data/maps/Route110/scripts.pory"
-Route110_Text_SeasideParkingSign:
+	.string "says now.$"
 # 931 "data/maps/Route110/scripts.pory"
-	.string "SEASIDE PARKING$"
+
 # 932 "data/maps/Route110/scripts.pory"
-
+Route110_Text_Route103Sign:
 # 933 "data/maps/Route110/scripts.pory"
-Route110_Text_MauvilleCitySign:
-# 934 "data/maps/Route110/scripts.pory"
 	.string "ROUTE 110\n"
+# 934 "data/maps/Route110/scripts.pory"
+	.string "{LEFT_ARROW} ROUTE 103$"
 # 935 "data/maps/Route110/scripts.pory"
-	.string "{UP_ARROW} MAUVILLE CITY$"
+
 # 936 "data/maps/Route110/scripts.pory"
-
+Route110_Text_SeasideParkingSign:
 # 937 "data/maps/Route110/scripts.pory"
-Route110_Text_TrainerTipsPrlzSleep:
+	.string "SEASIDE PARKING$"
 # 938 "data/maps/Route110/scripts.pory"
-	.string "TRAINER TIPS\p"
+
 # 939 "data/maps/Route110/scripts.pory"
-	.string "The foe can be made helpless by\n"
+Route110_Text_MauvilleCitySign:
 # 940 "data/maps/Route110/scripts.pory"
-	.string "paralyzing it or causing it to sleep.\p"
+	.string "ROUTE 110\n"
 # 941 "data/maps/Route110/scripts.pory"
-	.string "It is an important technique for\n"
+	.string "{UP_ARROW} MAUVILLE CITY$"
 # 942 "data/maps/Route110/scripts.pory"
-	.string "POKéMON battles.$"
+
 # 943 "data/maps/Route110/scripts.pory"
-
+Route110_Text_TrainerTipsPrlzSleep:
 # 944 "data/maps/Route110/scripts.pory"
-Route110_Text_TrainerTipsRegisterItems:
-# 945 "data/maps/Route110/scripts.pory"
 	.string "TRAINER TIPS\p"
+# 945 "data/maps/Route110/scripts.pory"
+	.string "The foe can be made helpless by\n"
 # 946 "data/maps/Route110/scripts.pory"
-	.string "The items in the BAG can be reorganized\n"
+	.string "paralyzing it or causing it to sleep.\p"
 # 947 "data/maps/Route110/scripts.pory"
-	.string "by pressing SELECT.$"
+	.string "It is an important technique for\n"
 # 948 "data/maps/Route110/scripts.pory"
-
+	.string "POKéMON battles.$"
 # 949 "data/maps/Route110/scripts.pory"
-Route110_Text_TrickHouseSign:
+
 # 950 "data/maps/Route110/scripts.pory"
-	.string "“Three steps {RIGHT_ARROW} and two steps {UP_ARROW}\n"
+Route110_Text_TrainerTipsRegisterItems:
 # 951 "data/maps/Route110/scripts.pory"
-	.string "to reach the wondrous TRICK HOUSE.”$"
+	.string "TRAINER TIPS\p"
 # 952 "data/maps/Route110/scripts.pory"
-
+	.string "The items in the BAG can be reorganized\n"
 # 953 "data/maps/Route110/scripts.pory"
-Route110_Text_BestRecord:
+	.string "by pressing SELECT.$"
 # 954 "data/maps/Route110/scripts.pory"
-	.string "THE BEST RECORD TO DATE…\p"
+
 # 955 "data/maps/Route110/scripts.pory"
-	.string "No. of collisions: {STR_VAR_1}\p"
+Route110_Text_TrickHouseSign:
 # 956 "data/maps/Route110/scripts.pory"
-	.string "Elapsed time: {STR_VAR_2}$"
+	.string "“Three steps {RIGHT_ARROW} and two steps {UP_ARROW}\n"
 # 957 "data/maps/Route110/scripts.pory"
-
+	.string "to reach the wondrous TRICK HOUSE.”$"
 # 958 "data/maps/Route110/scripts.pory"
-Route110_Text_ThereIsNoRecord:
+
 # 959 "data/maps/Route110/scripts.pory"
-	.string "THE BEST RECORD TO DATE…\p"
+Route110_Text_BestRecord:
 # 960 "data/maps/Route110/scripts.pory"
-	.string "No one seems to have taken the\n"
+	.string "THE BEST RECORD TO DATE…\p"
 # 961 "data/maps/Route110/scripts.pory"
-	.string "challenge. There is no record…$"
+	.string "No. of collisions: {STR_VAR_1}\p"
 # 962 "data/maps/Route110/scripts.pory"
-
+	.string "Elapsed time: {STR_VAR_2}$"
 # 963 "data/maps/Route110/scripts.pory"
-Route110_Text_ImagineSeeingYouHere:
+
 # 964 "data/maps/Route110/scripts.pory"
-	.string "PROF. BIRCH: Oh, {PLAYER}{KUN}!\n"
+Route110_Text_ThereIsNoRecord:
 # 965 "data/maps/Route110/scripts.pory"
-	.string "Imagine seeing you here!\p"
+	.string "THE BEST RECORD TO DATE…\p"
 # 966 "data/maps/Route110/scripts.pory"
-	.string "And where might my {RIVAL} be?$"
+	.string "No one seems to have taken the\n"
 # 967 "data/maps/Route110/scripts.pory"
-
+	.string "challenge. There is no record…$"
 # 968 "data/maps/Route110/scripts.pory"
-Route110_Text_HeardYouInstallMatchCall:
+
 # 969 "data/maps/Route110/scripts.pory"
-	.string "Oh, I see!\n"
+Route110_Text_ImagineSeeingYouHere:
 # 970 "data/maps/Route110/scripts.pory"
-	.string "You two are running separately.\l"
+	.string "PROF. BIRCH: Oh, {PLAYER}{KUN}!\n"
 # 971 "data/maps/Route110/scripts.pory"
-	.string "Well, that's fine.\p"
+	.string "Imagine seeing you here!\p"
 # 972 "data/maps/Route110/scripts.pory"
-	.string "Oh, yes, I heard that your POKéNAV\n"
+	.string "And where might my {RIVAL} be?$"
 # 973 "data/maps/Route110/scripts.pory"
-	.string "had the MATCH CALL system installed.\p"
+
 # 974 "data/maps/Route110/scripts.pory"
-	.string "Well, then, I should register you in\n"
+Route110_Text_HeardYouInstallMatchCall:
 # 975 "data/maps/Route110/scripts.pory"
-	.string "my POKéNAV as well.\p"
+	.string "Oh, I see!\n"
 # 976 "data/maps/Route110/scripts.pory"
-	.string "That way, even when we're apart,\n"
+	.string "You two are running separately.\l"
 # 977 "data/maps/Route110/scripts.pory"
-	.string "I can rate your POKéDEX anytime.\p"
+	.string "Well, that's fine.\p"
 # 978 "data/maps/Route110/scripts.pory"
-	.string "… … … … … …$"
+	.string "Oh, yes, I heard that your POKéNAV\n"
 # 979 "data/maps/Route110/scripts.pory"
-
+	.string "had the MATCH CALL system installed.\p"
 # 980 "data/maps/Route110/scripts.pory"
-Route110_Text_RegisteredBirchInPokenav:
+	.string "Well, then, I should register you in\n"
 # 981 "data/maps/Route110/scripts.pory"
-	.string "Registered PROF. BIRCH\n"
+	.string "my POKéNAV as well.\p"
 # 982 "data/maps/Route110/scripts.pory"
-	.string "in the POKéNAV.$"
+	.string "That way, even when we're apart,\n"
 # 983 "data/maps/Route110/scripts.pory"
-
+	.string "I can rate your POKéDEX anytime.\p"
 # 984 "data/maps/Route110/scripts.pory"
-Route110_Text_KeepAnEyeOutForRival:
+	.string "… … … … … …$"
 # 985 "data/maps/Route110/scripts.pory"
-	.string "PROF. BIRCH: {PLAYER}{KUN}…\p"
+
 # 986 "data/maps/Route110/scripts.pory"
-	.string "Please keep an eye out for my {RIVAL}.\n"
+Route110_Text_RegisteredBirchInPokenav:
 # 987 "data/maps/Route110/scripts.pory"
-	.string "… … … … … …\p"
+	.string "Registered PROF. BIRCH\n"
 # 988 "data/maps/Route110/scripts.pory"
-	.string "Well, I had better get going.\n"
+	.string "in the POKéNAV.$"
 # 989 "data/maps/Route110/scripts.pory"
+
+# 990 "data/maps/Route110/scripts.pory"
+Route110_Text_KeepAnEyeOutForRival:
+# 991 "data/maps/Route110/scripts.pory"
+	.string "PROF. BIRCH: {PLAYER}{KUN}…\p"
+# 992 "data/maps/Route110/scripts.pory"
+	.string "Please keep an eye out for my {RIVAL}.\n"
+# 993 "data/maps/Route110/scripts.pory"
+	.string "… … … … … …\p"
+# 994 "data/maps/Route110/scripts.pory"
+	.string "Well, I had better get going.\n"
+# 995 "data/maps/Route110/scripts.pory"
 	.string "See you again, {PLAYER}{KUN}!$"
