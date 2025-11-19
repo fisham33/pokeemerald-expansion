@@ -30,5 +30,6 @@ void Camping_StartMealCutscene(u8 pokeblockId);
 // Special functions (called from scripts)
 void Camping_SelectPokeblock(void);
 void Camping_ExitCamping(void);
+void Camping_SpawnParty(void);
 
 #endif // GUARD_CAMPING_H

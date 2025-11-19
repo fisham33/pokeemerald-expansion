@@ -571,3 +571,4 @@ gSpecials::
 	def_special SetHiddenNature
 	def_special Camping_SelectPokeblock
 	def_special Camping_ExitCamping
+	def_special Camping_SpawnParty

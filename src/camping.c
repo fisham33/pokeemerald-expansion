@@ -2,6 +2,7 @@
 #include "camping.h"
 #include "event_data.h"
 #include "event_object_movement.h"
+#include "event_object_lock.h"
 #include "field_effect.h"
 #include "field_player_avatar.h"
 #include "fieldmap.h"
@@ -14,11 +15,21 @@
 #include "sound.h"
 #include "string_util.h"
 #include "task.h"
+#include "follower_helper.h"
+#include "sprite.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/species.h"
+
+// Local IDs for party Pokemon objects (starting at a safe range)
+#define CAMPING_PARTY1_LOCALID 10
+#define CAMPING_PARTY2_LOCALID 11
+#define CAMPING_PARTY3_LOCALID 12
+#define CAMPING_PARTY4_LOCALID 13
+#define CAMPING_PARTY5_LOCALID 14
+#define CAMPING_PARTY6_LOCALID 15
 
 // Global camping data
 EWRAM_DATA struct CampingData gCampingData = {0};
@@ -101,24 +112,56 @@ static void Camping_WarpBack(void)
 // Spawn party Pokemon as overworld objects
 void Camping_SpawnPartyPokemon(void)
 {
-    // TODO: Implement Pokemon spawning
-    // This will be implemented in the next phase
-    u8 i;
+    u8 i, partyIndex;
     struct Pokemon *mon;
+    struct ObjectEventTemplate objectTemplate;
+    u8 objectEventId;
+    struct ObjectEvent *objectEvent;
+
+    // Starting positions for Pokemon (adjust these coordinates as needed)
+    const s16 partyPositions[][2] = {
+        {4, 4},   // Party slot 1
+        {10, 4},  // Party slot 2
+        {4, 10},  // Party slot 3
+        {10, 10}, // Party slot 4
+        {7, 3},   // Party slot 5
+        {7, 11}   // Party slot 6
+    };
 
     gCampingData.numSpawnedPokemon = 0;
+    partyIndex = 0;
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
         mon = &gPlayerParty[i];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        u16 hp = GetMonData(mon, MON_DATA_HP);
 
-        if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE
-            && GetMonData(mon, MON_DATA_SPECIES) != SPECIES_EGG
-            && GetMonData(mon, MON_DATA_HP) > 0)
+        if (species != SPECIES_NONE && species != SPECIES_EGG && hp > 0)
         {
-            // Spawn Pokemon object
-            // We'll implement the actual spawning logic later
-            gCampingData.numSpawnedPokemon++;
+            // Set up object template
+            objectTemplate.localId = CAMPING_PARTY1_LOCALID + partyIndex;
+            objectTemplate.graphicsId = OBJ_EVENT_GFX_SPECIES(species);
+            objectTemplate.x = partyPositions[partyIndex][0];
+            objectTemplate.y = partyPositions[partyIndex][1];
+            objectTemplate.elevation = 0;
+            objectTemplate.movementType = MOVEMENT_TYPE_WANDER_AROUND;
+            objectTemplate.movementRangeX = 3;
+            objectTemplate.movementRangeY = 3;
+            objectTemplate.trainerType = TRAINER_TYPE_NONE;
+            objectTemplate.trainerRange_berryTreeId = 0;
+            objectTemplate.script = NULL;
+            objectTemplate.flagId = 0;
+
+            // Spawn the object
+            objectEventId = TrySpawnObjectEvent(&objectTemplate, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+
+            if (objectEventId != OBJECT_EVENTS_COUNT)
+            {
+                gCampingData.partyObjectIds[partyIndex] = objectEventId;
+                gCampingData.numSpawnedPokemon++;
+                partyIndex++;
+            }
         }
     }
 }
@@ -126,13 +169,23 @@ void Camping_SpawnPartyPokemon(void)
 // Despawn all party Pokemon objects
 void Camping_DespawnPartyPokemon(void)
 {
-    // TODO: Implement Pokemon despawning
     u8 i;
+    struct ObjectEvent *objectEvent;
 
     for (i = 0; i < gCampingData.numSpawnedPokemon; i++)
     {
-        // Despawn Pokemon object
-        // We'll implement the actual despawning logic later
+        objectEvent = &gObjectEvents[gCampingData.partyObjectIds[i]];
+
+        if (objectEvent->active)
+        {
+            RemoveObjectEventByLocalIdAndMap(
+                objectEvent->localId,
+                gSaveBlock1Ptr->location.mapNum,
+                gSaveBlock1Ptr->location.mapGroup
+            );
+        }
+
+        gCampingData.partyObjectIds[i] = 0;
     }
 
     gCampingData.numSpawnedPokemon = 0;
@@ -208,4 +261,10 @@ void Camping_SelectPokeblock(void)
 void Camping_ExitCamping(void)
 {
     Camping_ExitCamp();
+}
+
+// Special function: Spawn party Pokemon (called from MapScripts)
+void Camping_SpawnParty(void)
+{
+    Camping_SpawnPartyPokemon();
 }

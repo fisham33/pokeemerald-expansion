@@ -1,4 +1,14 @@
-mapscripts Campsite1_MapScripts {}
+mapscripts Campsite1_MapScripts {
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_TEMP_0, 0: Campsite1_EventScript_SpawnParty
+    ]
+}
+
+script Campsite1_EventScript_SpawnParty {
+    special(Camping_SpawnParty)
+    setvar(VAR_TEMP_0, 1)
+    end
+}
 
 script Campsite_EventScript_Table {
     lockall
