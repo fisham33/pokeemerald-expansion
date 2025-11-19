@@ -308,7 +308,7 @@ void Camping_InteractWithPokemon(void)
 
             // Buffer the Pokemon's nickname to STR_VAR_1
             GetMonData(mon, MON_DATA_NICKNAME, gStringVar1);
-            StringGetEnd10(gStringVar1);
+            StringGet_Nickname(gStringVar1);
 
             return;
         }
