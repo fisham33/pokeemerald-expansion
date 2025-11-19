@@ -304,7 +304,7 @@ void Camping_InteractWithPokemon(void)
     {
         // Set default values to prevent crash
         gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-        StringCopy(gStringVar1, _("???"));
+        StringCopy(gStringVar1, gText_ThreeQuestionMarks);
         return;
     }
 
@@ -312,7 +312,7 @@ void Camping_InteractWithPokemon(void)
     if (objectEventId >= OBJECT_EVENTS_COUNT)
     {
         gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-        StringCopy(gStringVar1, _("???"));
+        StringCopy(gStringVar1, gText_ThreeQuestionMarks);
         return;
     }
 
@@ -328,7 +328,7 @@ void Camping_InteractWithPokemon(void)
             if (partySlot >= PARTY_SIZE)
             {
                 gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-                StringCopy(gStringVar1, _("???"));
+                StringCopy(gStringVar1, gText_ThreeQuestionMarks);
                 return;
             }
 
@@ -339,7 +339,7 @@ void Camping_InteractWithPokemon(void)
             if (species == SPECIES_NONE || species >= SPECIES_EGG)
             {
                 gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-                StringCopy(gStringVar1, _("???"));
+                StringCopy(gStringVar1, gText_ThreeQuestionMarks);
                 return;
             }
 
@@ -356,5 +356,5 @@ void Camping_InteractWithPokemon(void)
 
     // Didn't find matching Pokemon - set defaults
     gSpecialVar_0x8004 = SPECIES_BULBASAUR;
-    StringCopy(gStringVar1, _("???"));
+    StringCopy(gStringVar1, gText_ThreeQuestionMarks);
 }
