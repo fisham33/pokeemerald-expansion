@@ -12,6 +12,7 @@ struct CampingData
     struct WarpData returnLocation;     // Where to return when exiting camp
     u8 active;                          // Is camping currently active
     u8 partyObjectIds[PARTY_SIZE];     // Object IDs of spawned party Pokemon
+    u8 partySlotNumbers[PARTY_SIZE];   // Which party slot each spawned Pokemon came from
     u8 numSpawnedPokemon;               // Number of Pokemon spawned
     bool8 hadFollowerEnabled;           // Was follower Pokemon enabled before camping
 };

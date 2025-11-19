@@ -23,6 +23,7 @@
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/trainer_types.h"
+#include "follower_npc.h"
 
 // External script declarations
 extern const u8 Campsite_EventScript_CampingPokemon[];
@@ -177,6 +178,7 @@ void Camping_SpawnPartyPokemon(void)
             if (objectEventId != OBJECT_EVENTS_COUNT)
             {
                 gCampingData.partyObjectIds[partyIndex] = objectEventId;
+                gCampingData.partySlotNumbers[partyIndex] = i; // Track which party slot this is
                 gCampingData.numSpawnedPokemon++;
                 partyIndex++;
             }
@@ -284,6 +286,19 @@ void Camping_ExitCamping(void)
 // Special function: Spawn party Pokemon (called from MapScripts)
 void Camping_SpawnParty(void)
 {
+    struct ObjectEvent *follower;
+
+    // Remove follower Pokemon if it exists
+    follower = GetFollowerObject();
+    if (follower != NULL)
+    {
+        RemoveObjectEvent(follower);
+    }
+
+    // Destroy follower NPC if it exists
+    DestroyFollowerNPC();
+
+    // Spawn camping party
     Camping_SpawnPartyPokemon();
 }
 
@@ -299,8 +314,9 @@ void Camping_InteractWithPokemon(void)
         struct ObjectEvent *obj = &gObjectEvents[gCampingData.partyObjectIds[i]];
         if (obj->localId == localId)
         {
-            // Found the Pokemon - get its species and nickname
-            struct Pokemon *mon = &gPlayerParty[i];
+            // Found the Pokemon - get its species and nickname from correct party slot
+            u8 partySlot = gCampingData.partySlotNumbers[i];
+            struct Pokemon *mon = &gPlayerParty[partySlot];
             u16 species = GetMonData(mon, MON_DATA_SPECIES);
 
             // Set VAR_0x8004 to species for cry
