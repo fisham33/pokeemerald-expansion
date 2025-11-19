@@ -292,14 +292,27 @@ void Camping_InteractWithPokemon(void)
     u8 localId = gSpecialVar_LastTalked;
     u8 i;
 
-    // Find which party slot this Pokemon belongs to
+    // Find which party slot this Pokemon belongs to by local ID
     for (i = 0; i < gCampingData.numSpawnedPokemon; i++)
     {
-        struct ObjectEvent *obj = &gObjectEvents[gCampingData.partyObjectIds[i]];
-        if (obj->localId == localId)
+        u8 objectEventId = gCampingData.partyObjectIds[i];
+
+        // Validate object event ID
+        if (objectEventId >= OBJECT_EVENTS_COUNT)
+            continue;
+
+        struct ObjectEvent *obj = &gObjectEvents[objectEventId];
+
+        // Verify object is active and matches the local ID
+        if (obj->active && obj->localId == localId)
         {
             // Found the Pokemon - get its species and nickname from correct party slot
             u8 partySlot = gCampingData.partySlotNumbers[i];
+
+            // Validate party slot
+            if (partySlot >= PARTY_SIZE)
+                return;
+
             struct Pokemon *mon = &gPlayerParty[partySlot];
             u16 species = GetMonData(mon, MON_DATA_SPECIES);
 
