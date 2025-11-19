@@ -131,6 +131,13 @@ void Camping_SpawnPartyPokemon(void)
     struct ObjectEventTemplate objectTemplate;
     u8 objectEventId;
 
+    // Safety: Initialize camping data if it wasn't initialized (old saves)
+    // Check if data looks uninitialized (numSpawnedPokemon > PARTY_SIZE)
+    if (gCampingData.numSpawnedPokemon > PARTY_SIZE)
+    {
+        Camping_Init();
+    }
+
     // Starting positions for Pokemon (adjust these coordinates as needed)
     const s16 partyPositions[][2] = {
         {4, 4},   // Party slot 1
@@ -289,22 +296,17 @@ void Camping_SpawnParty(void)
 // Special function: Handle camping Pokemon interaction
 void Camping_InteractWithPokemon(void)
 {
-    u8 localId = gSpecialVar_LastTalked;
+    u8 objectEventId = gSelectedObjectEvent;
     u8 i;
 
-    // Find which party slot this Pokemon belongs to by local ID
+    // Validate object event ID
+    if (objectEventId >= OBJECT_EVENTS_COUNT)
+        return;
+
+    // Find which party slot this Pokemon belongs to by object event ID
     for (i = 0; i < gCampingData.numSpawnedPokemon; i++)
     {
-        u8 objectEventId = gCampingData.partyObjectIds[i];
-
-        // Validate object event ID
-        if (objectEventId >= OBJECT_EVENTS_COUNT)
-            continue;
-
-        struct ObjectEvent *obj = &gObjectEvents[objectEventId];
-
-        // Verify object is active and matches the local ID
-        if (obj->active && obj->localId == localId)
+        if (gCampingData.partyObjectIds[i] == objectEventId)
         {
             // Found the Pokemon - get its species and nickname from correct party slot
             u8 partySlot = gCampingData.partySlotNumbers[i];
