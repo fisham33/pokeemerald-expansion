@@ -1,1331 +1,342 @@
-# Pokemon Trainer Tools V2 - Complete Rebuild Prompt
+# Pokemon Trainer Tools V2 - Modular Architecture Build Instructions
 
-## Task Overview
+## Project Goal
 
-You are tasked with building a **modular, extensible Pokemon filtering and data management application** optimized for GitHub Pages deployment. This is a complete rewrite (V2) of an existing toolset with the following goals:
+Build a **modular, extensible web application** for filtering Pokemon data from the pokeemerald-expansion ROM hack codebase. The application should:
 
-1. **Eliminate code duplication** - Share core logic across all interfaces
-2. **Enable extensibility** - Plugin system for community contributions
-3. **Improve maintainability** - Clean architecture with clear separation of concerns
-4. **Optimize for web** - Fast, static site hosted on GitHub Pages
-5. **Automate deployment** - Build pipeline for data generation and publishing
-
----
-
-## Context Files to Review
-
-Before starting, review these files from the current V1 implementation to understand the data structures and business logic:
-
-### **Required Files** (must review):
-1. `tools/trainer_gen/pokemon_data.json` - Pokemon data structure (first 100 lines)
-2. `tools/trainer_gen/move_data.json` - Move data structure (first 100 lines)
-3. `tools/trainer_gen/web/filter.js` - Current filtering logic (lines 103-157)
-4. `tools/trainer_gen/web/index.html` - Current UI structure
-5. `tools/trainer_gen/web/styles.css` - Current styling and theme
-
-### **Optional Files** (for deeper understanding):
-6. `tools/trainer_gen/extract_pokemon_data.py` - How Pokemon data is extracted
-7. `tools/trainer_gen/filter_pokemon.py` - CLI filter implementation
-8. `tools/trainer_gen/README.md` - Overview of all tools
+1. Extract Pokemon data from C source files into JSON
+2. Provide a filterable web interface hosted on GitHub Pages
+3. Use a plugin architecture for easy extensibility
+4. Eliminate code duplication through a shared core library
 
 ---
 
-## Project Structure
-
-Create this exact directory structure:
-
-```
-pokemon-tools-v2/
-├── core/                           # Shared core library (pure JavaScript)
-│   ├── data/
-│   │   ├── loaders/
-│   │   │   ├── base-loader.js
-│   │   │   ├── json-loader.js
-│   │   │   └── cached-loader.js
-│   │   ├── models/
-│   │   │   ├── pokemon.js
-│   │   │   └── move.js
-│   │   └── stores/
-│   │       ├── pokemon-store.js
-│   │       └── filter-store.js
-│   ├── filters/
-│   │   ├── base-filter.js
-│   │   ├── generation-filter.js
-│   │   ├── type-filter.js
-│   │   ├── ability-filter.js
-│   │   ├── stat-filter.js
-│   │   ├── bst-filter.js
-│   │   └── filter-registry.js
-│   ├── services/
-│   │   ├── pokemon-service.js
-│   │   ├── filter-service.js
-│   │   └── export-service.js
-│   └── utils/
-│       ├── fuzzy-match.js
-│       ├── validators.js
-│       └── logger.js
-│
-├── web/                            # GitHub Pages application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── filters/
-│   │   │   │   ├── FilterPanel.js
-│   │   │   │   ├── GenerationFilter.js
-│   │   │   │   ├── TypeFilter.js
-│   │   │   │   ├── AbilityFilter.js
-│   │   │   │   └── StatFilter.js
-│   │   │   ├── results/
-│   │   │   │   ├── PokemonCard.js
-│   │   │   │   ├── PokemonList.js
-│   │   │   │   └── ResultsHeader.js
-│   │   │   └── shared/
-│   │   │       ├── TypeBadge.js
-│   │   │       ├── StatBar.js
-│   │   │       └── LoadingSpinner.js
-│   │   ├── views/
-│   │   │   ├── FilterView.js
-│   │   │   ├── CompareView.js
-│   │   │   └── QueryView.js
-│   │   ├── app.js
-│   │   ├── router.js
-│   │   └── config.js
-│   ├── public/
-│   │   ├── data/
-│   │   │   ├── pokemon.json
-│   │   │   └── moves.json
-│   │   ├── styles/
-│   │   │   ├── main.css
-│   │   │   ├── components.css
-│   │   │   └── themes.css
-│   │   └── assets/
-│   ├── index.html
-│   └── README.md
-│
-├── plugins/                        # Example plugins
-│   ├── filters/
-│   │   └── evolution-stage-filter.js
-│   └── README.md
-│
-├── build/                          # Build scripts
-│   ├── generate-data.js
-│   ├── optimize.js
-│   └── deploy.sh
-│
-├── tests/                          # Test suite
-│   ├── core/
-│   │   ├── filters.test.js
-│   │   └── services.test.js
-│   └── web/
-│       └── components.test.js
-│
-├── package.json
-├── .gitignore
-└── README.md
-```
-
----
-
-## Implementation Instructions
-
-Build the application in this exact order:
-
-### **Phase 1: Core Library** (Build First)
-
-#### Step 1.1: Base Filter System
-
-Create `core/filters/base-filter.js`:
-
-```javascript
-/**
- * Base class for all filters
- * All custom filters must extend this class
- */
-export class BaseFilter {
-  constructor(config) {
-    this.name = config.name;           // Unique identifier (e.g., 'generation')
-    this.type = config.type;           // UI type: 'number', 'select', 'multi-select', 'range', 'text'
-    this.label = config.label;         // Display label (e.g., 'Generation')
-    this.options = config.options;     // For select types
-    this.placeholder = config.placeholder;
-  }
-
-  /**
-   * Apply the filter to a Pokemon
-   * @param {Object} pokemon - Pokemon object to test
-   * @param {any} value - Filter value from user input
-   * @returns {boolean} - True if Pokemon passes the filter
-   */
-  apply(pokemon, value) {
-    throw new Error('apply() must be implemented by subclass');
-  }
-
-  /**
-   * Validate user input
-   * @param {any} value - Value to validate
-   * @returns {boolean} - True if valid
-   */
-  validate(value) {
-    return true; // Override if validation needed
-  }
-
-  /**
-   * Get filter configuration for UI rendering
-   * @returns {Object} - Filter configuration
-   */
-  getConfig() {
-    return {
-      name: this.name,
-      type: this.type,
-      label: this.label,
-      options: this.options,
-      placeholder: this.placeholder
-    };
-  }
-}
-```
-
-#### Step 1.2: Implement Concrete Filters
-
-Create `core/filters/generation-filter.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-
-export class GenerationFilter extends BaseFilter {
-  constructor() {
-    super({
-      name: 'generation',
-      type: 'number',
-      label: 'Generation',
-      placeholder: '1-9'
-    });
-  }
-
-  apply(pokemon, generation) {
-    if (!generation) return true;
-    return pokemon.generation === parseInt(generation);
-  }
-
-  validate(value) {
-    const gen = parseInt(value);
-    return gen >= 1 && gen <= 9;
-  }
-}
-```
-
-Create `core/filters/type-filter.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-
-export class TypeFilter extends BaseFilter {
-  constructor() {
-    super({
-      name: 'types',
-      type: 'multi-select',
-      label: 'Type(s)',
-      options: [
-        'Normal', 'Fire', 'Water', 'Electric',
-        'Grass', 'Ice', 'Fighting', 'Poison',
-        'Ground', 'Flying', 'Psychic', 'Bug',
-        'Rock', 'Ghost', 'Dragon', 'Dark',
-        'Steel', 'Fairy'
-      ],
-      placeholder: 'e.g., Fire, Dragon'
-    });
-  }
-
-  apply(pokemon, selectedTypes) {
-    if (!selectedTypes || selectedTypes.length === 0) {
-      return true;
-    }
-
-    // Pokemon passes if it has ANY of the selected types
-    return pokemon.types.some(type =>
-      selectedTypes.includes(type)
-    );
-  }
-
-  validate(value) {
-    if (!Array.isArray(value)) return false;
-    return value.every(type => this.options.includes(type));
-  }
-}
-```
-
-Create `core/filters/ability-filter.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-
-export class AbilityFilter extends BaseFilter {
-  constructor() {
-    super({
-      name: 'ability',
-      type: 'text',
-      label: 'Ability',
-      placeholder: 'e.g., Intimidate (partial match)'
-    });
-  }
-
-  apply(pokemon, searchText) {
-    if (!searchText || !searchText.trim()) {
-      return true;
-    }
-
-    const search = searchText.toLowerCase();
-
-    // Check normal abilities
-    const hasNormalAbility = pokemon.abilities.some(ability =>
-      ability.toLowerCase().includes(search)
-    );
-
-    // Check hidden ability
-    const hasHiddenAbility = pokemon.hiddenAbility &&
-      pokemon.hiddenAbility.toLowerCase().includes(search);
-
-    return hasNormalAbility || hasHiddenAbility;
-  }
-}
-```
-
-Create `core/filters/stat-filter.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-
-export class StatFilter extends BaseFilter {
-  constructor(statName) {
-    super({
-      name: statName.toLowerCase(),
-      type: 'range',
-      label: statName,
-      placeholder: 'Min - Max'
-    });
-    this.statName = statName.toLowerCase();
-  }
-
-  apply(pokemon, range) {
-    if (!range || (!range.min && !range.max)) {
-      return true;
-    }
-
-    const statValue = pokemon.baseStats[this.statName];
-
-    if (range.min && statValue < range.min) return false;
-    if (range.max && statValue > range.max) return false;
-
-    return true;
-  }
-
-  validate(value) {
-    if (!value) return true;
-    if (value.min && value.min < 0) return false;
-    if (value.max && value.max < 0) return false;
-    if (value.min && value.max && value.min > value.max) return false;
-    return true;
-  }
-}
-```
-
-Create `core/filters/bst-filter.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-
-export class BSTFilter extends BaseFilter {
-  constructor() {
-    super({
-      name: 'bst',
-      type: 'range',
-      label: 'Base Stat Total',
-      placeholder: 'Min - Max'
-    });
-  }
-
-  apply(pokemon, range) {
-    if (!range || (!range.min && !range.max)) {
-      return true;
-    }
-
-    if (range.min && pokemon.bst < range.min) return false;
-    if (range.max && pokemon.bst > range.max) return false;
-
-    return true;
-  }
-
-  validate(value) {
-    if (!value) return true;
-    if (value.min && value.min < 0) return false;
-    if (value.max && value.max > 720) return false; // Max possible BST
-    if (value.min && value.max && value.min > value.max) return false;
-    return true;
-  }
-}
-```
-
-#### Step 1.3: Filter Registry
-
-Create `core/filters/filter-registry.js`:
-
-```javascript
-import { BaseFilter } from './base-filter.js';
-import { GenerationFilter } from './generation-filter.js';
-import { TypeFilter } from './type-filter.js';
-import { AbilityFilter } from './ability-filter.js';
-import { StatFilter } from './stat-filter.js';
-import { BSTFilter } from './bst-filter.js';
-
-/**
- * Central registry for all filters
- * Supports dynamic filter registration for plugins
- */
-export class FilterRegistry {
-  static filters = new Map();
-  static initialized = false;
-
-  /**
-   * Initialize with built-in filters
-   */
-  static init() {
-    if (this.initialized) return;
-
-    // Register built-in filters
-    this.register(new GenerationFilter());
-    this.register(new TypeFilter());
-    this.register(new AbilityFilter());
-    this.register(new BSTFilter());
-
-    // Register individual stat filters
-    this.register(new StatFilter('hp'));
-    this.register(new StatFilter('atk'));
-    this.register(new StatFilter('def'));
-    this.register(new StatFilter('spa'));
-    this.register(new StatFilter('spd'));
-    this.register(new StatFilter('spe'));
-
-    this.initialized = true;
-  }
-
-  /**
-   * Register a filter
-   * @param {BaseFilter} filter - Filter instance
-   */
-  static register(filter) {
-    if (!(filter instanceof BaseFilter)) {
-      throw new Error('Filter must extend BaseFilter');
-    }
-
-    if (this.filters.has(filter.name)) {
-      console.warn(`Filter '${filter.name}' already registered, overwriting`);
-    }
-
-    this.filters.set(filter.name, filter);
-  }
-
-  /**
-   * Get a filter by name
-   * @param {string} name - Filter name
-   * @returns {BaseFilter|undefined}
-   */
-  static get(name) {
-    return this.filters.get(name);
-  }
-
-  /**
-   * Get all registered filters
-   * @returns {BaseFilter[]}
-   */
-  static getAll() {
-    return Array.from(this.filters.values());
-  }
-
-  /**
-   * Get all filter names
-   * @returns {string[]}
-   */
-  static getNames() {
-    return Array.from(this.filters.keys());
-  }
-
-  /**
-   * Remove a filter
-   * @param {string} name - Filter name
-   */
-  static unregister(name) {
-    this.filters.delete(name);
-  }
-
-  /**
-   * Clear all filters
-   */
-  static clear() {
-    this.filters.clear();
-    this.initialized = false;
-  }
-}
-```
-
-#### Step 1.4: Data Loaders
-
-Create `core/data/loaders/base-loader.js`:
-
-```javascript
-/**
- * Base class for data loaders
- */
-export class BaseLoader {
-  async load(source) {
-    throw new Error('load() must be implemented by subclass');
-  }
-}
-```
-
-Create `core/data/loaders/json-loader.js`:
-
-```javascript
-import { BaseLoader } from './base-loader.js';
-
-/**
- * Load data from JSON files
- */
-export class JSONLoader extends BaseLoader {
-  async load(url) {
-    try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(`Failed to load ${url}:`, error);
-      throw error;
-    }
-  }
-}
-```
-
-Create `core/data/loaders/cached-loader.js`:
-
-```javascript
-import { BaseLoader } from './base-loader.js';
-
-/**
- * Wrapper loader that caches results
- */
-export class CachedLoader extends BaseLoader {
-  constructor(loader, ttl = 3600000) { // 1 hour default
-    super();
-    this.loader = loader;
-    this.ttl = ttl;
-    this.cache = new Map();
-  }
-
-  async load(source) {
-    const cached = this.cache.get(source);
-
-    // Return cached data if still valid
-    if (cached && Date.now() - cached.timestamp < this.ttl) {
-      console.log(`Cache hit: ${source}`);
-      return cached.data;
-    }
-
-    // Load fresh data
-    console.log(`Cache miss: ${source}`);
-    const data = await this.loader.load(source);
-
-    // Store in cache
-    this.cache.set(source, {
-      data,
-      timestamp: Date.now()
-    });
-
-    return data;
-  }
-
-  /**
-   * Clear cache
-   */
-  clear() {
-    this.cache.clear();
-  }
-
-  /**
-   * Clear specific cached item
-   */
-  clearItem(source) {
-    this.cache.delete(source);
-  }
-}
-```
-
-#### Step 1.5: Services
-
-Create `core/services/pokemon-service.js`:
-
-```javascript
-/**
- * Service for Pokemon data management
- */
-export class PokemonService {
-  constructor(loader) {
-    this.loader = loader;
-    this.pokemon = [];
-    this.loaded = false;
-  }
-
-  /**
-   * Initialize - load Pokemon data
-   */
-  async initialize(url) {
-    if (this.loaded) {
-      console.log('Pokemon data already loaded');
-      return;
-    }
-
-    const data = await this.loader.load(url);
-    this.pokemon = data.pokemon || data; // Handle different formats
-
-    console.log(`Loaded ${this.pokemon.length} Pokemon`);
-    this.loaded = true;
-  }
-
-  /**
-   * Get all Pokemon
-   */
-  getAll() {
-    return [...this.pokemon];
-  }
-
-  /**
-   * Get Pokemon by national dex number
-   */
-  getByDexNum(num) {
-    return this.pokemon.find(p => p.natDexNum === num);
-  }
-
-  /**
-   * Get Pokemon by species constant
-   */
-  getBySpecies(species) {
-    return this.pokemon.find(p => p.species === species);
-  }
-
-  /**
-   * Search Pokemon by name (fuzzy)
-   */
-  search(query) {
-    if (!query) return this.pokemon;
-
-    const normalized = query.toLowerCase();
-    return this.pokemon.filter(p =>
-      p.name.toLowerCase().includes(normalized) ||
-      p.species.toLowerCase().includes(normalized)
-    );
-  }
-
-  /**
-   * Get count
-   */
-  getCount() {
-    return this.pokemon.length;
-  }
-}
-```
-
-Create `core/services/filter-service.js`:
-
-```javascript
-import { FilterRegistry } from '../filters/filter-registry.js';
-
-/**
- * Service for filtering Pokemon
- */
-export class FilterService {
-  constructor() {
-    FilterRegistry.init();
-  }
-
-  /**
-   * Apply filters to Pokemon array
-   * @param {Object[]} pokemon - Array of Pokemon
-   * @param {Object} filterValues - Object with filter values {filterName: value}
-   * @returns {Object[]} - Filtered Pokemon
-   */
-  apply(pokemon, filterValues) {
-    return pokemon.filter(p => {
-      // Test each filter
-      for (const [filterName, value] of Object.entries(filterValues)) {
-        const filter = FilterRegistry.get(filterName);
-
-        if (!filter) {
-          console.warn(`Unknown filter: ${filterName}`);
-          continue;
-        }
-
-        // Skip empty/null values
-        if (value === null || value === undefined || value === '') {
-          continue;
-        }
-
-        // Validate
-        if (!filter.validate(value)) {
-          console.warn(`Invalid value for ${filterName}:`, value);
-          continue;
-        }
-
-        // Apply filter
-        if (!filter.apply(p, value)) {
-          return false; // Pokemon doesn't match this filter
-        }
-      }
-
-      return true; // Pokemon passed all filters
-    });
-  }
-
-  /**
-   * Get all available filters
-   */
-  getAvailableFilters() {
-    return FilterRegistry.getAll();
-  }
-
-  /**
-   * Get filter by name
-   */
-  getFilter(name) {
-    return FilterRegistry.get(name);
-  }
-}
-```
-
----
-
-### **Phase 2: Web Application** (Build Second)
-
-#### Step 2.1: Configuration
-
-Create `web/src/config.js`:
-
-```javascript
-/**
- * Application configuration
- */
-export const config = {
-  // Data sources
-  data: {
-    sources: {
-      pokemon: '/data/pokemon.json',
-      moves: '/data/moves.json'
+## Phase 1: Data Extraction System
+
+### Step 1.1: Parse Pokemon Stats from C Files
+
+**Source Files:**
+- `src/data/pokemon/species_info/gen_1.h` through `gen_9.h`
+
+**Data to Extract:**
+
+Each Pokemon is defined as a C struct like this:
+```c
+#if P_FAMILY_BULBASAUR
+    [SPECIES_BULBASAUR] =
+    {
+        .baseHP        = 45,
+        .baseAttack    = 49,
+        .baseDefense   = 49,
+        .baseSpeed     = 45,
+        .baseSpAttack  = 65,
+        .baseSpDefense = 65,
+        .types = MON_TYPES(TYPE_GRASS, TYPE_POISON),
+        .abilities = { ABILITY_OVERGROW },
+        .hiddenAbility = ABILITY_CHLOROPHYLL,
+        .speciesName = _("Bulbasaur"),
+        .natDexNum = NATIONAL_DEX_BULBASAUR,
+        // ... more fields
     },
-    cache: {
-      enabled: true,
-      ttl: 3600000 // 1 hour
-    }
-  },
+#endif
+```
 
-  // UI settings
-  ui: {
-    theme: 'purple-gradient',
-    resultsPerPage: 50,
-    enableAnimations: true,
-    typeColors: {
-      normal: '#A8A878',
-      fire: '#F08030',
-      water: '#6890F0',
-      electric: '#F8D030',
-      grass: '#78C850',
-      ice: '#98D8D8',
-      fighting: '#C03028',
-      poison: '#A040A0',
-      ground: '#E0C068',
-      flying: '#A890F0',
-      psychic: '#F85888',
-      bug: '#A8B820',
-      rock: '#B8A038',
-      ghost: '#705898',
-      dragon: '#7038F8',
-      dark: '#705848',
-      steel: '#B8B8D0',
-      fairy: '#EE99AC'
-    }
-  },
+**Extraction Requirements:**
 
-  // Feature flags
-  features: {
-    comparison: false,   // Coming soon
-    export: false,       // Coming soon
-    teamBuilder: false   // Coming soon
-  }
+1. **Parse with brace counting** - Use a brace counting algorithm, NOT regex, because structs have nested braces
+2. **Extract family mappings** - Map each species to its family using `#if P_FAMILY_*` directives
+3. **Parse COMPOUND_STRING macros** - Handle multi-line string definitions for species names
+4. **Map type constants** - Convert `TYPE_FIRE` to `"Fire"`, etc.
+5. **Map ability constants** - Convert `ABILITY_OVERGROW` to `"Overgrow"`
+6. **Calculate BST** - Sum all base stats (HP + Atk + Def + SpA + SpD + Spe)
+7. **Determine generation** - Track which gen_X.h file each Pokemon came from
+
+**Output Format:**
+
+Generate `pokemon_data.json`:
+```json
+{
+  "metadata": {
+    "total_pokemon": 1082,
+    "source": "pokeemerald-expansion",
+    "extracted_at": "2025-01-20T12:00:00Z"
+  },
+  "pokemon": [
+    {
+      "species": "BULBASAUR",
+      "name": "Bulbasaur",
+      "natDexNum": 1,
+      "baseStats": {
+        "hp": 45,
+        "atk": 49,
+        "def": 49,
+        "spa": 65,
+        "spd": 65,
+        "spe": 45
+      },
+      "types": ["Grass", "Poison"],
+      "abilities": ["Overgrow"],
+      "hiddenAbility": "Chlorophyll",
+      "bst": 318,
+      "generation": 1,
+      "family": "P_FAMILY_BULBASAUR"
+    }
+  ]
+}
+```
+
+**Implementation Instructions:**
+
+1. Read all gen_*.h files from `src/data/pokemon/species_info/`
+2. For each file, track the generation number from filename
+3. Find all `#if P_FAMILY_*` blocks and map species to families
+4. Find all `[SPECIES_*] = {` entries
+5. Use brace counting to extract complete struct (count opening/closing braces)
+6. Parse each field using regex patterns
+7. Build Pokemon objects and add to array
+8. Sort by national dex number
+9. Write to JSON file with proper formatting
+
+---
+
+### Step 1.2: Parse Move Data from C Files
+
+**Source Files:**
+- `src/data/pokemon/level_up_learnsets/gen_1.h` through `gen_9.h` - Level-up moves
+- `src/data/pokemon/teachable_learnsets.h` - TM/HM/Tutor moves
+- `src/data/pokemon/egg_moves/gen_1.h` through `gen_9.h` - Egg moves
+
+**Level-Up Move Format:**
+```c
+static const struct LevelUpMove sBulbasaurLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 1, MOVE_TACKLE),
+    LEVEL_UP_MOVE( 3, MOVE_VINE_WHIP),
+    LEVEL_UP_MOVE( 6, MOVE_GROWTH),
+    // ...
+    LEVEL_UP_END
 };
 ```
 
-#### Step 2.2: Main Application
-
-Create `web/src/app.js`:
-
-```javascript
-import { JSONLoader } from '../../core/data/loaders/json-loader.js';
-import { CachedLoader } from '../../core/data/loaders/cached-loader.js';
-import { PokemonService } from '../../core/services/pokemon-service.js';
-import { FilterService } from '../../core/services/filter-service.js';
-import { FilterView } from './views/FilterView.js';
-import { config } from './config.js';
-
-/**
- * Main application class
- */
-class App {
-  constructor() {
-    this.pokemonService = null;
-    this.filterService = null;
-    this.currentView = null;
-  }
-
-  /**
-   * Initialize the application
-   */
-  async init() {
-    console.log('Initializing Pokemon Tools V2...');
-
-    try {
-      // Show loading
-      this.showLoading();
-
-      // Initialize data loader
-      const loader = config.data.cache.enabled
-        ? new CachedLoader(new JSONLoader(), config.data.cache.ttl)
-        : new JSONLoader();
-
-      // Initialize services
-      this.pokemonService = new PokemonService(loader);
-      this.filterService = new FilterService();
-
-      // Load Pokemon data
-      await this.pokemonService.initialize(config.data.sources.pokemon);
-
-      // Initialize default view
-      this.currentView = new FilterView({
-        pokemonService: this.pokemonService,
-        filterService: this.filterService
-      });
-
-      this.currentView.render();
-
-      console.log('Application initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize application:', error);
-      this.showError(error.message);
-    }
-  }
-
-  showLoading() {
-    document.getElementById('app').innerHTML = `
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Loading Pokemon data...</p>
-      </div>
-    `;
-  }
-
-  showError(message) {
-    document.getElementById('app').innerHTML = `
-      <div class="error">
-        <h2>Error</h2>
-        <p>${message}</p>
-        <button onclick="location.reload()">Retry</button>
-      </div>
-    `;
-  }
-}
-
-// Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  const app = new App();
-  app.init();
-});
+**Teachable Move Format:**
+```c
+static const u16 sBulbasaurTeachableLearnset[] = {
+    MOVE_BODY_SLAM,
+    MOVE_CUT,
+    MOVE_SOLAR_BEAM,
+    // ...
+    TEACHABLE_LEARNSET_END
+};
 ```
 
-#### Step 2.3: Filter View
-
-Create `web/src/views/FilterView.js`:
-
-```javascript
-import { FilterPanel } from '../components/filters/FilterPanel.js';
-import { PokemonList } from '../components/results/PokemonList.js';
-import { ResultsHeader } from '../components/results/ResultsHeader.js';
-
-/**
- * Main filter view
- */
-export class FilterView {
-  constructor({ pokemonService, filterService }) {
-    this.pokemonService = pokemonService;
-    this.filterService = filterService;
-    this.results = [];
-  }
-
-  render() {
-    const container = document.getElementById('app');
-
-    container.innerHTML = `
-      <div class="container">
-        <header>
-          <h1>Pokemon Stat Filter</h1>
-          <p class="subtitle">Filter Pokemon by generation, type, ability, and stats</p>
-        </header>
-
-        <div id="filter-panel"></div>
-        <div id="results-container"></div>
-
-        <footer>
-          <p>Data from pokeemerald-expansion |
-             <a href="https://github.com/fisham33/pokeemerald-expansion" target="_blank">GitHub</a>
-          </p>
-        </footer>
-      </div>
-    `;
-
-    // Initialize components
-    this.filterPanel = new FilterPanel(
-      document.getElementById('filter-panel'),
-      this.filterService
-    );
-
-    this.resultsHeader = new ResultsHeader(
-      document.getElementById('results-container')
-    );
-
-    this.pokemonList = new PokemonList(
-      document.getElementById('results-container')
-    );
-
-    // Wire up events
-    this.filterPanel.onApply = (filterValues) => {
-      this.applyFilters(filterValues);
-    };
-
-    this.filterPanel.onClear = () => {
-      this.clearFilters();
-    };
-
-    this.filterPanel.onShowAll = () => {
-      this.showAll();
-    };
-
-    // Render components
-    this.filterPanel.render();
-    this.showInitialMessage();
-  }
-
-  applyFilters(filterValues) {
-    const allPokemon = this.pokemonService.getAll();
-    this.results = this.filterService.apply(allPokemon, filterValues);
-
-    this.resultsHeader.render(this.results.length);
-    this.pokemonList.render(this.results);
-  }
-
-  clearFilters() {
-    this.filterPanel.clear();
-    this.showInitialMessage();
-  }
-
-  showAll() {
-    this.results = this.pokemonService.getAll();
-    this.resultsHeader.render(this.results.length);
-    this.pokemonList.render(this.results);
-  }
-
-  showInitialMessage() {
-    const container = document.getElementById('results-container');
-    container.innerHTML = `
-      <div class="placeholder">
-        ✓ Loaded ${this.pokemonService.getCount()} Pokemon<br><br>
-        Enter filter criteria and click "Filter" to see results
-      </div>
-    `;
-  }
-}
+**Egg Move Format:**
+```c
+#if P_FAMILY_BULBASAUR
+    egg_moves(BULBASAUR,
+        MOVE_CURSE,
+        MOVE_ENDURE,
+        MOVE_GIGA_DRAIN),
+#endif
 ```
 
-#### Step 2.4: Filter Panel Component
+**Extraction Requirements:**
 
-Create `web/src/components/filters/FilterPanel.js`:
+1. **Parse level-up moves** - Extract level and move constant pairs
+2. **Parse teachable moves** - Extract move constant lists
+3. **Parse egg moves** - Extract from `egg_moves()` macro
+4. **Propagate egg moves to families** - All Pokemon in a family get the same egg moves
+5. **Handle name variants** - Match `BASCULIN_WHITE_STRIPED` to `BASCULIN` family
+6. **Handle gender variants** - Propagate from `_MALE`/`_FEMALE` to base form
+7. **Clean move names** - Convert `MOVE_SOLAR_BEAM` to `"Solar Beam"`
 
-```javascript
-import { GenerationFilter } from '../../../core/filters/generation-filter.js';
-import { TypeFilter } from '../../../core/filters/type-filter.js';
-import { AbilityFilter } from '../../../core/filters/ability-filter.js';
-import { BSTFilter } from '../../../core/filters/bst-filter.js';
-import { StatFilter } from '../../../core/filters/stat-filter.js';
+**Output Format:**
 
-/**
- * Filter panel component
- */
-export class FilterPanel {
-  constructor(container, filterService) {
-    this.container = container;
-    this.filterService = filterService;
-    this.onApply = null;
-    this.onClear = null;
-    this.onShowAll = null;
-  }
-
-  render() {
-    this.container.innerHTML = `
-      <div class="filters-container">
-        <div class="filter-group">
-          <label for="generation">Generation:</label>
-          <input type="number" id="generation" min="1" max="9" placeholder="1-9">
-        </div>
-
-        <div class="filter-group">
-          <label for="types">Type(s):</label>
-          <input type="text" id="types" placeholder="e.g., Fire, Dragon">
-          <span class="hint">Comma-separated</span>
-        </div>
-
-        <div class="filter-group">
-          <label for="ability">Ability:</label>
-          <input type="text" id="ability" placeholder="e.g., Intimidate">
-          <span class="hint">Partial match</span>
-        </div>
-
-        <div class="filter-group">
-          <label>BST Range:</label>
-          <div class="range-inputs">
-            <input type="number" id="minBst" placeholder="Min">
-            <span>to</span>
-            <input type="number" id="maxBst" placeholder="Max">
-          </div>
-        </div>
-
-        <div class="stat-filters">
-          <h3>Individual Stats</h3>
-          <div class="stat-grid">
-            ${this.renderStatFilters()}
-          </div>
-        </div>
-
-        <div class="button-group">
-          <button id="filterBtn" class="btn btn-primary">Filter</button>
-          <button id="clearBtn" class="btn btn-secondary">Clear</button>
-          <button id="showAllBtn" class="btn btn-secondary">Show All</button>
-        </div>
-      </div>
-    `;
-
-    this.attachEvents();
-  }
-
-  renderStatFilters() {
-    const stats = ['HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed'];
-    const statKeys = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
-
-    return stats.map((stat, i) => `
-      <div class="stat-filter">
-        <label>${stat}:</label>
-        <input type="number" id="min${statKeys[i]}" placeholder="Min">
-        <span>-</span>
-        <input type="number" id="max${statKeys[i]}" placeholder="Max">
-      </div>
-    `).join('');
-  }
-
-  attachEvents() {
-    document.getElementById('filterBtn').addEventListener('click', () => {
-      if (this.onApply) {
-        this.onApply(this.getFilterValues());
-      }
-    });
-
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      if (this.onClear) {
-        this.onClear();
-      }
-    });
-
-    document.getElementById('showAllBtn').addEventListener('click', () => {
-      if (this.onShowAll) {
-        this.onShowAll();
-      }
-    });
-
-    // Enter key triggers filter
-    this.container.querySelectorAll('input').forEach(input => {
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && this.onApply) {
-          this.onApply(this.getFilterValues());
-        }
-      });
-    });
-  }
-
-  getFilterValues() {
-    const values = {};
-
-    // Generation
-    const gen = document.getElementById('generation').value;
-    if (gen) values.generation = parseInt(gen);
-
-    // Types
-    const typesStr = document.getElementById('types').value.trim();
-    if (typesStr) {
-      values.types = typesStr.split(',').map(t => t.trim());
-    }
-
-    // Ability
-    const ability = document.getElementById('ability').value.trim();
-    if (ability) values.ability = ability;
-
-    // BST
-    const minBst = document.getElementById('minBst').value;
-    const maxBst = document.getElementById('maxBst').value;
-    if (minBst || maxBst) {
-      values.bst = {
-        min: minBst ? parseInt(minBst) : null,
-        max: maxBst ? parseInt(maxBst) : null
-      };
-    }
-
-    // Individual stats
-    const stats = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
-    stats.forEach(stat => {
-      const min = document.getElementById(`min${stat}`).value;
-      const max = document.getElementById(`max${stat}`).value;
-      if (min || max) {
-        values[stat] = {
-          min: min ? parseInt(min) : null,
-          max: max ? parseInt(max) : null
-        };
-      }
-    });
-
-    return values;
-  }
-
-  clear() {
-    this.container.querySelectorAll('input').forEach(input => {
-      input.value = '';
-    });
-  }
-}
-```
-
-#### Step 2.5: Results Components
-
-Create `web/src/components/results/ResultsHeader.js`:
-
-```javascript
-export class ResultsHeader {
-  constructor(container) {
-    this.container = container;
-  }
-
-  render(count) {
-    const existing = this.container.querySelector('.results-header');
-    if (existing) {
-      existing.querySelector('.count').textContent = `${count} Pokemon`;
-    } else {
-      const header = document.createElement('div');
-      header.className = 'results-header';
-      header.innerHTML = `
-        <h2>Results</h2>
-        <span class="count">${count} Pokemon</span>
-      `;
-      this.container.prepend(header);
+Generate `move_data.json`:
+```json
+{
+  "metadata": {
+    "total_pokemon": 1082,
+    "source": "pokeemerald-expansion"
+  },
+  "pokemon": {
+    "BULBASAUR": {
+      "name": "Bulbasaur",
+      "level_up_moves": [
+        {"level": 1, "move": "Tackle"},
+        {"level": 3, "move": "Vine Whip"}
+      ],
+      "teachable_moves": ["Body Slam", "Cut", "Solar Beam"],
+      "egg_moves": ["Curse", "Endure", "Giga Drain"]
     }
   }
 }
-```
-
-Create `web/src/components/results/PokemonList.js`:
-
-```javascript
-import { PokemonCard } from './PokemonCard.js';
-
-export class PokemonList {
-  constructor(container) {
-    this.container = container;
-  }
-
-  render(pokemon) {
-    // Remove existing list
-    const existing = this.container.querySelector('.results-list');
-    if (existing) {
-      existing.remove();
-    }
-
-    if (pokemon.length === 0) {
-      const placeholder = document.createElement('div');
-      placeholder.className = 'placeholder';
-      placeholder.textContent = 'No Pokemon found matching the criteria.';
-      this.container.appendChild(placeholder);
-      return;
-    }
-
-    // Create results list
-    const list = document.createElement('div');
-    list.className = 'results-list';
-
-    pokemon.forEach(p => {
-      const card = new PokemonCard(p);
-      list.appendChild(card.render());
-    });
-
-    this.container.appendChild(list);
-  }
-}
-```
-
-Create `web/src/components/results/PokemonCard.js`:
-
-```javascript
-import { config } from '../../config.js';
-
-export class PokemonCard {
-  constructor(pokemon) {
-    this.pokemon = pokemon;
-  }
-
-  render() {
-    const card = document.createElement('div');
-    card.className = 'pokemon-card';
-
-    card.innerHTML = `
-      <div class="pokemon-header">
-        <div>
-          <div class="pokemon-name">${this.pokemon.name}</div>
-          <div class="pokemon-species">${this.pokemon.species}</div>
-        </div>
-      </div>
-
-      <div class="pokemon-info">
-        <div class="info-item">
-          <span class="info-label">Gen:</span>
-          <span class="info-value">${this.pokemon.generation}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Types:</span>
-          <div class="types">${this.renderTypes()}</div>
-        </div>
-        <div class="info-item">
-          <span class="info-label">BST:</span>
-          <span class="info-value">${this.pokemon.bst}</span>
-        </div>
-      </div>
-
-      <div class="stat-bar-container">
-        ${this.renderStats()}
-      </div>
-
-      <div class="abilities">
-        <span class="abilities-label">Abilities:</span>
-        ${this.renderAbilities()}
-      </div>
-    `;
-
-    return card;
-  }
-
-  renderTypes() {
-    return this.pokemon.types.map(type => `
-      <span class="type-badge type-${type.toLowerCase()}">${type}</span>
-    `).join('');
-  }
-
-  renderStats() {
-    const stats = this.pokemon.baseStats;
-    return ['HP', 'ATK', 'DEF', 'SPA', 'SPD', 'SPE'].map((name, i) => {
-      const key = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'][i];
-      return `
-        <div class="stat-item">
-          <div class="stat-name">${name}</div>
-          <div class="stat-value">${stats[key] || 0}</div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  renderAbilities() {
-    const abilities = this.pokemon.abilities.map(a => `
-      <span class="ability">${a}</span>
-    `).join('');
-
-    const hidden = this.pokemon.hiddenAbility ? `
-      <span class="ability hidden">Hidden: ${this.pokemon.hiddenAbility}</span>
-    ` : '';
-
-    return abilities + hidden;
-  }
-}
-```
-
-#### Step 2.6: HTML Entry Point
-
-Create `web/index.html`:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokemon Stat Filter V2</title>
-  <link rel="stylesheet" href="public/styles/main.css">
-  <link rel="stylesheet" href="public/styles/components.css">
-</head>
-<body>
-  <div id="app">
-    <!-- App renders here -->
-  </div>
-
-  <script type="module" src="src/app.js"></script>
-</body>
-</html>
-```
-
-#### Step 2.7: Styles
-
-Create `web/public/styles/main.css`:
-
-```css
-/* Copy exact styles from existing web/styles.css */
-/* Use the purple gradient theme (#667eea to #764ba2) */
-/* Include all type colors */
-/* Include responsive breakpoints */
-
-/* Key requirements:
-   - Purple gradient background
-   - White container with shadow
-   - Type badge colors for all 18 types
-   - Responsive grid layouts
-   - Smooth transitions
-   - Custom scrollbar
-*/
-
-/* See current implementation at tools/trainer_gen/web/styles.css */
 ```
 
 ---
 
-### **Phase 3: Plugin System** (Build Third)
+## Phase 2: Core Filter Library
 
-Create `plugins/filters/evolution-stage-filter.js`:
+Build a reusable JavaScript library for filtering Pokemon. This will be used by all interfaces (web, CLI, etc.).
+
+### Architecture Requirements:
+
+**Base Filter Class:**
+- Every filter extends a base class
+- Implements `apply(pokemon, value)` method
+- Implements `validate(value)` method
+- Has metadata (name, type, label, options)
+
+**Filter Types:**
+- `number` - Single number input (Generation)
+- `text` - Text search (Ability)
+- `multi-select` - Multiple selections (Types)
+- `range` - Min/max inputs (BST, individual stats)
+
+**Filter Registry:**
+- Central registry for all filters
+- Supports dynamic registration (plugins)
+- Can retrieve filters by name
+- Can get all available filters
+
+### Filters to Implement:
+
+1. **Generation Filter** - Filter by generation number (1-9)
+2. **Type Filter** - Filter by type(s), matches if Pokemon has ANY selected type
+3. **Ability Filter** - Filter by ability name (partial match, includes hidden)
+4. **BST Filter** - Filter by base stat total range
+5. **Individual Stat Filters** - Six filters for HP, Atk, Def, SpA, SpD, Spe (each with min/max)
+
+### Filter Logic:
+
+```
+For each Pokemon:
+  For each active filter:
+    - Skip if filter value is empty/null
+    - Validate the filter value
+    - Apply filter - if fails, exclude Pokemon
+  If all filters pass, include Pokemon
+```
+
+### Services to Implement:
+
+**PokemonService:**
+- Load Pokemon data from JSON
+- Cache loaded data
+- Search by name (fuzzy match)
+- Get by dex number
+- Get by species constant
+
+**FilterService:**
+- Apply multiple filters to Pokemon array
+- Get available filters from registry
+- Validate filter values
+
+---
+
+## Phase 3: Web Application
+
+Build a static web application that can be hosted on GitHub Pages.
+
+### File Structure:
+
+```
+web/
+├── index.html
+├── src/
+│   ├── app.js                    # Main application
+│   ├── config.js                 # Configuration
+│   ├── components/
+│   │   ├── FilterPanel.js        # Filter UI
+│   │   ├── PokemonList.js        # Results display
+│   │   └── PokemonCard.js        # Individual Pokemon card
+│   └── views/
+│       └── FilterView.js         # Main filter page
+├── public/
+│   ├── data/
+│   │   └── pokemon.json          # Generated data
+│   └── styles/
+│       ├── main.css              # Base styles
+│       └── components.css        # Component styles
+└── core/                         # Symlink to shared core library
+```
+
+### UI Requirements:
+
+**Layout:**
+- Header with title and subtitle
+- Filter panel on top
+- Results section below
+- Footer with credits
+
+**Filter Panel:**
+- Input for Generation (number, 1-9)
+- Input for Types (text, comma-separated)
+- Input for Ability (text, partial match)
+- Range inputs for BST (min/max)
+- Range inputs for each stat (HP, Atk, Def, SpA, SpD, Spe)
+- Three buttons: Filter, Clear, Show All
+
+**Results Display:**
+- Show count of results
+- Display Pokemon cards in scrollable area
+- Each card shows:
+  - Name and species
+  - Generation
+  - Types (with colored badges)
+  - BST
+  - All six stats
+  - Abilities (normal and hidden)
+
+**Styling Requirements:**
+- Purple gradient background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
+- White container with shadow
+- Type badge colors (all 18 types):
+  - Normal: #A8A878, Fire: #F08030, Water: #6890F0, Electric: #F8D030
+  - Grass: #78C850, Ice: #98D8D8, Fighting: #C03028, Poison: #A040A0
+  - Ground: #E0C068, Flying: #A890F0, Psychic: #F85888, Bug: #A8B820
+  - Rock: #B8A038, Ghost: #705898, Dragon: #7038F8, Dark: #705848
+  - Steel: #B8B8D0, Fairy: #EE99AC
+- Hidden ability badge: Gold background (#ffd700)
+- Responsive design (mobile breakpoint: 768px)
+- Smooth transitions (0.3s)
+- Custom scrollbar (purple themed)
+
+### Data Loading:
+
+1. On page load, fetch `public/data/pokemon.json`
+2. Show loading spinner while fetching
+3. On success, initialize PokemonService with data
+4. On error, show error message with retry button
+5. Cache data for the session
+
+### Event Handling:
+
+1. Filter button - Collect all filter values, apply filters, display results
+2. Clear button - Reset all inputs, show initial message
+3. Show All button - Display all Pokemon
+4. Enter key on any input - Trigger filter
+
+---
+
+## Phase 4: Plugin System
+
+Create a plugin architecture that allows adding custom filters without modifying core code.
+
+### Plugin Interface:
+
+Plugins should:
+1. Import base filter class
+2. Extend it with custom logic
+3. Register with FilterRegistry
+4. Automatically appear in all UIs
+
+### Example Plugin Structure:
 
 ```javascript
-import { BaseFilter } from '../../core/filters/base-filter.js';
-import { FilterRegistry } from '../../core/filters/filter-registry.js';
+// plugins/evolution-stage-filter.js
+import { BaseFilter } from '../core/filters/base-filter.js';
+import { FilterRegistry } from '../core/filters/filter-registry.js';
 
-/**
- * Example plugin: Filter by evolution stage
- */
-export class EvolutionStageFilter extends BaseFilter {
+class EvolutionStageFilter extends BaseFilter {
   constructor() {
     super({
       name: 'evolutionStage',
@@ -1336,207 +347,261 @@ export class EvolutionStageFilter extends BaseFilter {
   }
 
   apply(pokemon, stage) {
-    if (!stage) return true;
-
-    // This would require family evolution data
-    // For now, just return true
-    // In a real implementation, analyze pokemon.family
+    // Custom filter logic
     return true;
   }
 }
 
-// Auto-register when loaded
 FilterRegistry.register(new EvolutionStageFilter());
 ```
 
----
+### Plugin Loading:
 
-### **Phase 4: Build System** (Build Fourth)
-
-Create `build/generate-data.sh`:
-
-```bash
-#!/bin/bash
-# Generate pokemon_data.json and move_data.json from C source files
-
-echo "Generating Pokemon data from C source files..."
-
-cd ../tools/trainer_gen
-
-# Run existing Python extractors
-python3 extract_pokemon_data.py
-python3 extract_move_data.py
-
-echo "Copying data to web/public/data/"
-
-# Copy to web application
-cp pokemon_data.json ../../pokemon-tools-v2/web/public/data/pokemon.json
-cp move_data.json ../../pokemon-tools-v2/web/public/data/moves.json
-
-echo "✓ Data generation complete!"
-```
-
-Create `build/deploy.sh`:
-
-```bash
-#!/bin/bash
-# Deploy to GitHub Pages
-
-echo "Building for production..."
-
-# Generate data
-./generate-data.sh
-
-# TODO: Minify JavaScript
-# TODO: Optimize assets
-
-echo "Ready for GitHub Pages deployment!"
-echo "Commit and push the web/ directory to your gh-pages branch"
-```
+- Plugins are loaded as ES6 modules
+- Register themselves on import
+- Automatically integrate with UI
+- No core code changes needed
 
 ---
 
-### **Phase 5: Documentation** (Build Last)
+## Phase 5: Build and Deployment
 
-Create `README.md`:
+### Build Process:
 
-```markdown
-# Pokemon Tools V2
+**Step 1: Generate Data**
+- Run data extraction on C source files
+- Output pokemon_data.json
+- Copy to web/public/data/
 
-Modular, extensible Pokemon filtering and data management for pokeemerald-expansion.
+**Step 2: Optimize**
+- Minify JavaScript (optional for v1)
+- Compress JSON (optional)
+- Optimize images/assets
 
-## Features
+**Step 3: Deploy to GitHub Pages**
+- Copy web/ directory to repository
+- Enable GitHub Pages in settings
+- Source: Branch + Folder
+- URL: `https://username.github.io/repo-name/`
 
-- ✅ Filter 1000+ Pokemon by stats, types, abilities
-- ✅ Plugin system for custom filters
-- ✅ GitHub Pages ready
-- ✅ No dependencies, pure JavaScript
-- ✅ Responsive design
+### GitHub Actions Workflow:
 
-## Quick Start
-
-### Local Development
-
-1. Generate data:
-   ```bash
-   cd build
-   ./generate-data.sh
-   ```
-
-2. Start local server:
-   ```bash
-   cd web
-   python3 -m http.server 8000
-   ```
-
-3. Open http://localhost:8000
-
-### Adding Custom Filters
-
-See `plugins/filters/evolution-stage-filter.js` for example.
-
-## Architecture
-
-- `core/` - Shared library (filters, services, loaders)
-- `web/` - GitHub Pages application
-- `plugins/` - Community extensions
-- `build/` - Build scripts
-
-## License
-
-MIT
-```
+Create `.github/workflows/deploy.yml`:
+- Trigger on push to main
+- Run data extraction
+- Build web app
+- Deploy to gh-pages branch
 
 ---
 
 ## Testing Requirements
 
-Create `tests/core/filters.test.js`:
+### Core Library Tests:
 
-```javascript
-import { TypeFilter } from '../../core/filters/type-filter.js';
-import { GenerationFilter } from '../../core/filters/generation-filter.js';
+Test each filter:
+- Generation filter: Gen 9 returns 124 Pokemon
+- Type filter: Fire returns 90 Pokemon
+- Ability filter: Intimidate returns 33 Pokemon
+- BST filter: 500-600 returns 324 Pokemon
+- Stat filter: Speed >= 100 returns 192 Pokemon
+- Combined: Fire + Intimidate returns 6 Pokemon
 
-describe('TypeFilter', () => {
-  const filter = new TypeFilter();
+### Web Application Tests:
 
-  test('filters Fire types', () => {
-    const pokemon = { types: ['Fire', 'Flying'] };
-    expect(filter.apply(pokemon, ['Fire'])).toBe(true);
-  });
+- Data loads successfully (1082 Pokemon)
+- All filters work correctly
+- UI renders properly
+- Responsive on mobile
+- Type badges show correct colors
+- No console errors
 
-  test('returns true for empty filter', () => {
-    const pokemon = { types: ['Water'] };
-    expect(filter.apply(pokemon, [])).toBe(true);
-  });
-});
+### Data Extraction Tests:
 
-describe('GenerationFilter', () => {
-  const filter = new GenerationFilter();
-
-  test('filters Gen 9', () => {
-    const pokemon = { generation: 9 };
-    expect(filter.apply(pokemon, 9)).toBe(true);
-    expect(filter.apply(pokemon, 1)).toBe(false);
-  });
-});
-```
+- All 9 generations extracted
+- Families mapped correctly
+- Stats calculated correctly (BST)
+- Types converted correctly
+- Abilities extracted (normal + hidden)
 
 ---
 
-## Deployment to GitHub Pages
+## Configuration System
 
-1. Build the application:
-   ```bash
-   cd build
-   ./generate-data.sh
-   ```
+Create a centralized config file:
 
-2. Copy `web/` directory to your repository
+```javascript
+// web/src/config.js
+export const config = {
+  data: {
+    sources: {
+      pokemon: '/public/data/pokemon.json'
+    },
+    cache: {
+      enabled: true,
+      ttl: 3600000 // 1 hour
+    }
+  },
 
-3. Enable GitHub Pages in repository settings:
-   - Source: Branch `main`
-   - Folder: `/web`
+  ui: {
+    theme: 'purple-gradient',
+    resultsPerPage: 50,
+    typeColors: { /* ... */ }
+  },
 
-4. Your site will be at: `https://username.github.io/repo-name/`
+  features: {
+    comparison: false,      // Future feature
+    export: false,          // Future feature
+    teamBuilder: false      // Future feature
+  }
+};
+```
 
 ---
 
 ## Success Criteria
 
-The V2 implementation is complete when:
+The V2 application is complete when:
 
-✅ All Phase 1 core modules work independently
-✅ Filter system supports plugins
-✅ Web app loads and filters 1082 Pokemon correctly
-✅ All test cases pass
-✅ Data can be generated from C files
-✅ Application runs on GitHub Pages
-✅ Example plugin demonstrates extensibility
-✅ Code has no duplication between CLI/GUI/web
-✅ Documentation is complete
+✅ **Data Extraction:**
+- Extracts 1082 Pokemon from C files
+- All stats, types, abilities present
+- Families mapped correctly
+- BST calculated correctly
+- Output is valid JSON
+
+✅ **Core Library:**
+- All 7 filters implemented and working
+- Filter registry supports plugins
+- Services load and filter data
+- No code duplication
+
+✅ **Web Application:**
+- Loads and displays 1082 Pokemon
+- All filters work correctly
+- UI matches design (purple gradient, type colors)
+- Responsive on mobile
+- No errors in console
+
+✅ **Plugin System:**
+- Example plugin works
+- Can add filters without core changes
+- Plugins auto-integrate with UI
+
+✅ **Build Process:**
+- Data generation is automated
+- Can deploy to GitHub Pages
+- Production build is optimized
+
+✅ **Testing:**
+- All test cases pass
+- Data extraction is verified
+- Filter logic is correct
 
 ---
 
-## Key Differences from V1
+## Key Architectural Principles
 
-| V1 | V2 |
-|----|-----|
-| Duplicated filter logic | Shared core library |
-| Monolithic scripts | Modular components |
-| Hard to extend | Plugin system |
-| Manual deployment | Automated build |
-| No tests | Comprehensive tests |
-| Tightly coupled | Clean separation |
+### 1. Separation of Concerns
+- **Data Layer** - Handles loading, caching, storage
+- **Business Logic** - Handles filtering, validation
+- **Presentation** - Handles UI rendering
+
+### 2. Modularity
+- Each component has single responsibility
+- Components can be tested in isolation
+- Can replace components independently
+
+### 3. Extensibility
+- Plugin system for custom filters
+- Configuration-driven behavior
+- Easy to add new features
+
+### 4. No Duplication
+- Single filter implementation used by all interfaces
+- Shared data models
+- Reusable components
+
+### 5. Progressive Enhancement
+- Core features work first
+- Advanced features added via plugins
+- Graceful degradation
+
+---
+
+## Implementation Order
+
+Follow this exact sequence:
+
+**Phase 1: Data Extraction** (Build data pipeline first)
+1. Implement Pokemon stats extractor
+2. Implement move data extractor
+3. Generate JSON files
+4. Verify data quality
+
+**Phase 2: Core Library** (Build shared logic second)
+1. Create base filter class
+2. Implement all concrete filters
+3. Create filter registry
+4. Implement services
+5. Write unit tests
+
+**Phase 3: Web Application** (Build UI third)
+1. Create HTML structure
+2. Implement data loading
+3. Build filter panel component
+4. Build results components
+5. Wire up events
+6. Apply styles
+7. Test responsiveness
+
+**Phase 4: Plugin System** (Add extensibility fourth)
+1. Define plugin interface
+2. Create example plugin
+3. Document plugin development
+4. Test plugin integration
+
+**Phase 5: Build & Deploy** (Automate last)
+1. Create build scripts
+2. Set up GitHub Actions
+3. Deploy to GitHub Pages
+4. Verify production build
 
 ---
 
 ## Next Steps After V2
 
-1. Add team builder feature
-2. Add Pokemon comparison view
-3. Add export functionality
-4. Add move query interface
-5. Create CLI using same core library
-6. Build desktop app using Electron + core library
+Once V2 is complete, these features can be added as plugins:
 
+1. **Pokemon Comparison** - Compare stats of multiple Pokemon side-by-side
+2. **Export System** - Export filtered results to CSV, JSON, or trainers.party format
+3. **Team Builder** - Build 6-Pokemon teams with type coverage analysis
+4. **Move Query** - Look up all moves available to any Pokemon
+5. **Advanced Filters** - Egg groups, evolution stage, legendary status, etc.
+
+Each new feature should be built as a plugin to demonstrate the extensibility of the architecture.
+
+---
+
+## Documentation Requirements
+
+Create these documentation files:
+
+1. **README.md** - Quick start, features, usage
+2. **ARCHITECTURE.md** - System design, data flow
+3. **PLUGIN_GUIDE.md** - How to create plugins
+4. **API.md** - Core library API reference
+5. **DEPLOYMENT.md** - Build and deployment process
+
+---
+
+## Summary
+
+This V2 architecture provides:
+
+- **Modular design** - Shared core library eliminates duplication
+- **Extensibility** - Plugin system for community contributions
+- **Maintainability** - Clear separation of concerns
+- **Performance** - Optimized for static hosting
+- **Developer experience** - Easy to understand and extend
+
+The result is a professional, production-ready application that can evolve with community needs while maintaining code quality and architectural integrity.
