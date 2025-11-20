@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Filter Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-result {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+        .test-result.fail {
+            border-left-color: #f44336;
+        }
+        .pass { color: #4CAF50; font-weight: bold; }
+        .fail { color: #f44336; font-weight: bold; }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pokemon Filter - JavaScript Test Page</h1>
+    <p>This page tests if the filtering logic works correctly in the browser.</p>
+
+    <div id="tests">
+        <div class="test-result">
+            <strong>Status:</strong> <span id="status">Running tests...</span>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        let pokemonData = null;
+
+        async function runTests() {
+            const testsDiv = document.getElementById('tests');
+            const statusSpan = document.getElementById('status');
+
+            try {
+                // Test 1: Load data
+                addTest('Loading pokemon_data.json...');
+                const response = await fetch('pokemon_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                pokemonData = data.pokemon;
+                addTest(`✓ Loaded ${pokemonData.length} Pokemon`, true);
+
+                // Test 2: Filter by generation
+                addTest('Testing generation filter...');
+                const gen9 = pokemonData.filter(p => p.generation === 9);
+                addTest(`✓ Gen 9: ${gen9.length} Pokemon (expected ~124)`, gen9.length > 0);
+
+                // Test 3: Filter by type
+                addTest('Testing type filter...');
+                const fireTypes = pokemonData.filter(p => {
+                    const types = (p.types || []).map(t => t.toLowerCase());
+                    return types.includes('fire');
+                });
+                addTest(`✓ Fire types: ${fireTypes.length} Pokemon (expected ~90)`, fireTypes.length > 0);
+
+                // Test 4: Filter by ability
+                addTest('Testing ability filter...');
+                const intimidate = pokemonData.filter(p => {
+                    const abilities = (p.abilities || []).map(a => a.toLowerCase());
+                    const hidden = p.hiddenAbility ? p.hiddenAbility.toLowerCase() : '';
+                    if (hidden) abilities.push(hidden);
+                    return abilities.some(a => a.includes('intimidate'));
+                });
+                addTest(`✓ Intimidate: ${intimidate.length} Pokemon (expected ~33)`, intimidate.length > 0);
+
+                // Test 5: Filter by BST
+                addTest('Testing BST filter...');
+                const bstRange = pokemonData.filter(p => {
+                    const bst = p.bst || 0;
+                    return bst >= 500 && bst <= 600;
+                });
+                addTest(`✓ BST 500-600: ${bstRange.length} Pokemon (expected ~324)`, bstRange.length > 0);
+
+                // Test 6: Filter by stat
+                addTest('Testing stat filter...');
+                const fastPokemon = pokemonData.filter(p => {
+                    const stats = p.baseStats || {};
+                    return (stats.spe || 0) >= 100;
+                });
+                addTest(`✓ Speed >= 100: ${fastPokemon.length} Pokemon (expected ~192)`, fastPokemon.length > 0);
+
+                // Test 7: Combined filters
+                addTest('Testing combined filters...');
+                const combined = pokemonData.filter(p => {
+                    // Fire type
+                    const types = (p.types || []).map(t => t.toLowerCase());
+                    if (!types.includes('fire')) return false;
+
+                    // Intimidate
+                    const abilities = (p.abilities || []).map(a => a.toLowerCase());
+                    const hidden = p.hiddenAbility ? p.hiddenAbility.toLowerCase() : '';
+                    if (hidden) abilities.push(hidden);
+                    return abilities.some(a => a.includes('intimidate'));
+                });
+                addTest(`✓ Fire + Intimidate: ${combined.length} Pokemon (expected ~6)`, combined.length > 0);
+                if (combined.length > 0) {
+                    addTest(`  Sample: ${combined[0].name}`, true);
+                }
+
+                statusSpan.innerHTML = '<span class="pass">✓ All tests passed!</span>';
+
+            } catch (error) {
+                statusSpan.innerHTML = `<span class="fail">✗ Test failed: ${error.message}</span>`;
+                addTest(`✗ Error: ${error.message}`, false);
+                console.error(error);
+            }
+        }
+
+        function addTest(message, passed = null) {
+            const testsDiv = document.getElementById('tests');
+            const div = document.createElement('div');
+            div.className = 'test-result' + (passed === false ? ' fail' : '');
+            div.innerHTML = `<div>${message}</div>`;
+            testsDiv.appendChild(div);
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
