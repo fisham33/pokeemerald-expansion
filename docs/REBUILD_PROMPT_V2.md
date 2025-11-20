@@ -5,9 +5,10 @@
 Build a **modular, extensible web application** for filtering Pokemon data from the pokeemerald-expansion ROM hack codebase. The application should:
 
 1. Extract Pokemon data from C source files into JSON
-2. Provide a filterable web interface hosted on GitHub Pages
-3. Use a plugin architecture for easy extensibility
-4. Eliminate code duplication through a shared core library
+2. Convert Smogon Random Battle movesets to trainers.party format
+3. Provide a filterable web interface hosted on GitHub Pages
+4. Use a plugin architecture for easy extensibility
+5. Eliminate code duplication through a shared core library
 
 ---
 
@@ -173,7 +174,194 @@ Generate `move_data.json`:
 
 ---
 
-## Phase 2: Core Filter Library
+### Step 1.3: Integrate Smogon Random Battles Data (Optional)
+
+**Purpose:** Enhance the move database with competitive movesets from Smogon's Random Battle formats.
+
+**Source URLs:**
+- Singles: `https://pkmn.github.io/randbats/data/gen9randombattle.json`
+- Doubles: `https://pkmn.github.io/randbats/data/gen9randomdoublesbattle.json`
+- Baby/LC: `https://pkmn.github.io/randbats/data/gen9babyrandombattle.json`
+
+**Data Format:**
+```json
+{
+  "bulbasaur": {
+    "level": 84,
+    "moves": [
+      ["gigadrain", "sleeppowder", "sludgebomb"],
+      ["sludgebomb", "synthesis", "toxicspikes", "powerwhip"]
+    ],
+    "abilities": ["Overgrow", "Chlorophyll"],
+    "teraTypes": ["Fire", "Poison"],
+    "items": ["Life Orb", "Heavy-Duty Boots"]
+  }
+}
+```
+
+**Integration Requirements:**
+
+1. **Download all three JSON files** from Smogon's pkmn.github.io
+2. **Merge data** - Combine movesets from all formats, don't overwrite
+3. **Normalize names** - Convert Smogon names (lowercase, no spaces) to game constants (UPPERCASE)
+4. **Handle variants** - Map forme names like "charizardmegax" to "CHARIZARD_MEGA_X"
+5. **Identify roles** - Detect roles from moveset patterns (setup sweeper, wallbreaker, support, etc.)
+6. **Add to move_data.json** - Include under `randbats_movesets` for each Pokemon
+
+**Role Detection Logic:**
+- **Setup Sweeper** - Has setup moves (Dragon Dance, Swords Dance, Calm Mind, etc.)
+- **Wallbreaker** - High power moves with choice items
+- **Fast Attacker** - High speed tier with offensive moves
+- **Bulky Support** - Defensive moves (Protect, Wish, Heal Bell, etc.)
+- **Weather Setter** - Has weather-setting ability
+- **Weather Abuser** - Has weather-boosting ability
+
+This data will be used later for the trainers.party converter.
+
+---
+
+## Phase 2: Smogon to trainers.party Converter
+
+Build a tool that converts Smogon Random Battle data into pokeemerald's trainers.party format.
+
+### trainers.party Format
+
+The `trainers.party` file uses this format:
+```
+=== TRAINER_EXAMPLE ===
+Name: Ace Trainer John
+Class: Ace Trainer
+Pic: Ace Trainer
+Gender: Male
+Music: Male
+Double Battle: Yes
+AI: Check Bad Move / Try To Faint / Check Viability
+Party Size: 4
+Pool Rules: Weather Doubles
+
+Ninetales-Alola @ Light Clay
+Ability: Snow Warning
+Tera Type: Ice
+Tags: Weather Setter
+- Aurora Veil
+- Blizzard
+- Moonblast
+- Protect
+
+Arctozolt @ Life Orb
+Ability: Slush Rush
+Tera Type: Ice
+Tags: Weather Abuser
+- Bolt Beak
+- Freeze-Dry
+- Icicle Crash
+- Protect
+```
+
+### Converter Requirements:
+
+**Conversion Modes:**
+
+1. **Single Mode** - One moveset per Pokemon, no tags, 4 random moves
+2. **All Roles Mode** - Generate entry for every role a Pokemon can have
+3. **Pool Mode** - Generate Pokemon with TPP tags for manual pool building
+4. **Trainer Pool Mode** - Complete auto-generated trainer with configured pool
+
+**Tag Assignment System:**
+
+Automatically assign Trainer Party Pool (TPP) tags based on:
+
+**Role-Based Tags:**
+- Fast attackers, weather setters → `Lead`
+- Setup sweepers, wallbreakers → `Ace`
+- Support Pokemon → `Support`
+
+**Ability-Based Tags:**
+- Drought, Drizzle, Snow Warning, Sand Stream, terrain setters → `Weather Setter`
+- Chlorophyll, Swift Swim, Slush Rush, Sand Rush, Solar Power → `Weather Abuser`
+
+**Example Tag Mappings:**
+```
+Ninetales-Alola (Snow Warning) → Weather Setter
+Arctozolt (Slush Rush) → Weather Abuser
+Incineroar (Intimidate) → Support
+Urshifu (Unseen Fist) → Ace
+```
+
+**Move Selection:**
+
+1. **4 moves per set** - Randomly select 4 from available moves
+2. **Prioritize coverage** - If moveset has 5+ moves, create variants
+3. **Set variants** - Generate 2 variants when Pokemon has:
+   - Multiple abilities
+   - Multiple items
+   - 5+ moves
+
+**Archetype Filtering:**
+
+Support filtering Pokemon by:
+- **Type filtering** - Single type or comma-separated list (e.g., "Fire,Dragon")
+- **Trainer class filtering** - Use predefined archetypes:
+  - Hiker: Rock/Ground/Fighting
+  - Swimmer: Water
+  - Kindler: Fire
+  - Dragon Tamer: Dragon
+  - Hex Maniac: Ghost/Dark/Poison
+  - Psychic: Psychic
+  - Ace Trainer: Any type
+
+**Species Filtering:**
+
+Respect `include/config/species_enabled.h`:
+- Parse `#define P_GEN_X_POKEMON TRUE/FALSE`
+- Parse `#define P_FAMILY_* TRUE/FALSE`
+- Only include Pokemon from enabled families/generations
+
+**Output Features:**
+
+1. **Set comments** - Add role and format comments:
+   ```
+   /* Doubles */
+   /* Doubles Bulky Attacker */
+   Torkoal @ Sitrus Berry
+   ```
+
+2. **Split output** - Option to split into separate files:
+   - `converted_movesets_singles.txt`
+   - `converted_movesets_doubles.txt`
+   - `converted_movesets_babies.txt`
+
+3. **Level ranges** - Auto-detect from source:
+   - Baby Random Battles: levels 5-15
+   - Singles/Doubles: levels 75-85
+
+### Trainer Pool Rules
+
+When generating complete trainers, support these pool rules:
+- `Basic` - Basic lead/ace selection for singles
+- `Doubles` - Lead/ace for doubles (2 leads, 2 aces)
+- `Weather Singles` - Weather setter + abuser for singles
+- `Weather Doubles` - Weather setter + abuser for doubles
+- `Support Doubles` - Includes support Pokemon
+
+### Implementation Instructions:
+
+1. Load Smogon Random Battle JSON files
+2. Parse Pokemon entries and movesets
+3. Apply archetype filter if specified
+4. Apply species filter if `species_enabled.h` parsing enabled
+5. For each Pokemon:
+   - Detect roles from moveset patterns
+   - Assign appropriate tags
+   - Select 4 moves randomly
+   - Generate variants if multiple options exist
+6. Format output in trainers.party format
+7. Add comments for role/format identification
+8. Write to output file(s)
+
+---
+
+## Phase 3: Core Filter Library
 
 Build a reusable JavaScript library for filtering Pokemon. This will be used by all interfaces (web, CLI, etc.).
 
@@ -232,7 +420,7 @@ For each Pokemon:
 
 ---
 
-## Phase 3: Web Application
+## Phase 4: Web Application
 
 Build a static web application that can be hosted on GitHub Pages.
 
@@ -317,7 +505,7 @@ web/
 
 ---
 
-## Phase 4: Plugin System
+## Phase 5: Plugin System
 
 Create a plugin architecture that allows adding custom filters without modifying core code.
 
@@ -364,7 +552,7 @@ FilterRegistry.register(new EvolutionStageFilter());
 
 ---
 
-## Phase 5: Build and Deployment
+## Phase 6: Build and Deployment
 
 ### Build Process:
 
@@ -467,7 +655,16 @@ The V2 application is complete when:
 - All stats, types, abilities present
 - Families mapped correctly
 - BST calculated correctly
+- Smogon Random Battle data integrated
 - Output is valid JSON
+
+✅ **Smogon Converter:**
+- Parses all three Random Battle formats
+- Correctly assigns TPP tags
+- Generates valid trainers.party format
+- Archetype filtering works
+- Species filtering respects config
+- Produces usable trainer pools
 
 ✅ **Core Library:**
 - All 7 filters implemented and working
@@ -535,17 +732,27 @@ Follow this exact sequence:
 **Phase 1: Data Extraction** (Build data pipeline first)
 1. Implement Pokemon stats extractor
 2. Implement move data extractor
-3. Generate JSON files
-4. Verify data quality
+3. Integrate Smogon Random Battle data
+4. Generate JSON files
+5. Verify data quality
 
-**Phase 2: Core Library** (Build shared logic second)
+**Phase 2: Smogon Converter** (Build trainers.party converter second)
+1. Parse Smogon JSON format
+2. Implement role detection
+3. Implement tag assignment
+4. Implement archetype filtering
+5. Implement species filtering
+6. Generate trainers.party output
+7. Test all conversion modes
+
+**Phase 3: Core Library** (Build shared filter logic third)
 1. Create base filter class
 2. Implement all concrete filters
 3. Create filter registry
 4. Implement services
 5. Write unit tests
 
-**Phase 3: Web Application** (Build UI third)
+**Phase 4: Web Application** (Build UI fourth)
 1. Create HTML structure
 2. Implement data loading
 3. Build filter panel component
@@ -554,13 +761,13 @@ Follow this exact sequence:
 6. Apply styles
 7. Test responsiveness
 
-**Phase 4: Plugin System** (Add extensibility fourth)
+**Phase 5: Plugin System** (Add extensibility fifth)
 1. Define plugin interface
 2. Create example plugin
 3. Document plugin development
 4. Test plugin integration
 
-**Phase 5: Build & Deploy** (Automate last)
+**Phase 6: Build & Deploy** (Automate last)
 1. Create build scripts
 2. Set up GitHub Actions
 3. Deploy to GitHub Pages
@@ -570,13 +777,14 @@ Follow this exact sequence:
 
 ## Next Steps After V2
 
-Once V2 is complete, these features can be added as plugins:
+Once V2 is complete, these features can be added as plugins or extensions:
 
 1. **Pokemon Comparison** - Compare stats of multiple Pokemon side-by-side
-2. **Export System** - Export filtered results to CSV, JSON, or trainers.party format
-3. **Team Builder** - Build 6-Pokemon teams with type coverage analysis
-4. **Move Query** - Look up all moves available to any Pokemon
-5. **Advanced Filters** - Egg groups, evolution stage, legendary status, etc.
+2. **Team Builder** - Build 6-Pokemon teams with type coverage analysis
+3. **Move Query Interface** - Web UI for looking up all moves available to any Pokemon
+4. **Advanced Filters** - Egg groups, evolution stage, legendary status, etc.
+5. **Trainer Pool Generator UI** - Web interface for the Smogon converter with live preview
+6. **Moveset Analyzer** - Analyze competitive viability of movesets
 
 Each new feature should be built as a plugin to demonstrate the extensibility of the architecture.
 
