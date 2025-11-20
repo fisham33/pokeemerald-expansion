@@ -9,35 +9,35 @@ echo "Extracting context files for V2 rebuild..."
   echo "=========================================="
   echo "POKEMON DATA STRUCTURE (first 100 lines)"
   echo "=========================================="
-  head -100 ../tools/trainer_gen/pokemon_data.json
+  head -100 pokemon_data.json
   echo ""
   echo ""
 
   echo "=========================================="
   echo "MOVE DATA STRUCTURE (first 100 lines)"
   echo "=========================================="
-  head -100 ../tools/trainer_gen/move_data.json
+  head -100 move_data.json
   echo ""
   echo ""
 
   echo "=========================================="
   echo "CURRENT FILTER LOGIC (filterPokemon function)"
   echo "=========================================="
-  sed -n '103,157p' ../tools/trainer_gen/web/filter.js
+  sed -n '103,157p' web/filter.js
   echo ""
   echo ""
 
   echo "=========================================="
   echo "HTML STRUCTURE"
   echo "=========================================="
-  cat ../tools/trainer_gen/web/index.html
+  cat web/index.html
   echo ""
   echo ""
 
   echo "=========================================="
   echo "STYLES (complete CSS)"
   echo "=========================================="
-  cat ../tools/trainer_gen/web/styles.css
+  cat web/styles.css
   echo ""
 
 } > "$OUTPUT"
