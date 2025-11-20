@@ -30,9 +30,10 @@
 // Each entry pairs a trainer ID (from trainers.party) with their overworld sprite
 // The system randomly selects from this pool when spawning trainers in rooms
 static const struct DungeonTrainerEntry sCaveTest_TrainerPool[] = {
-    { .trainerId = TRAINER_NICOLAS_1, .graphicsId = OBJ_EVENT_GFX_HIKER },    // Hiker Nicolas
-    { .trainerId = TRAINER_CALVIN_1,  .graphicsId = OBJ_EVENT_GFX_YOUNGSTER }, // Youngster Calvin
-    { .trainerId = TRAINER_ANDRES_1,  .graphicsId = OBJ_EVENT_GFX_CAMPER },   // Camper Andres
+    { .trainerId = TRAINER_FOSSIL_SCIENTIST, .graphicsId = OBJ_EVENT_GFX_SCIENTIST_1 },
+    { .trainerId = TRAINER_FOSSIL_WORKER,  .graphicsId = OBJ_EVENT_GFX_HIKER },
+    { .trainerId = TRAINER_FOSSIL_COLLECTOR,  .graphicsId = OBJ_EVENT_GFX_MAN_4 },
+    { .trainerId = TRAINER_FOSSIL_GRUNT,  .graphicsId = OBJ_EVENT_GFX_SCIENTIST_2 },
 };
 
 // --- WILD ENCOUNTER TABLE ---
@@ -46,18 +47,18 @@ static const struct DungeonTrainerEntry sCaveTest_TrainerPool[] = {
 // Each entry: { minLevel, maxLevel, species }
 // Levels should match the dungeon tier (cave = ~18-24)
 static const struct WildPokemon sCaveTest_LandMons[] = {
-    { 18, 20, SPECIES_GEODUDE },      // 20% - Common rock type
-    { 18, 20, SPECIES_ZUBAT },        // 20% - Common cave type
-    { 19, 21, SPECIES_GEODUDE },      // 10% - Slightly higher level
-    { 19, 21, SPECIES_ZUBAT },        // 10% - Slightly higher level
-    { 18, 20, SPECIES_ROGGENROLA },   // 10% - Uncommon rock type
-    { 19, 21, SPECIES_ROGGENROLA },   // 10% - Uncommon rock type
-    { 20, 22, SPECIES_ONIX },         // 5%  - Semi-rare (matches boss theme)
-    { 20, 22, SPECIES_ONIX },         // 5%  - Semi-rare (matches boss theme)
-    { 21, 23, SPECIES_NOSEPASS },     // 4%  - Rare rock type
-    { 21, 23, SPECIES_NOSEPASS },     // 4%  - Rare rock type
-    { 22, 24, SPECIES_LARVITAR },     // 1%  - Very rare pseudo-legendary
-    { 22, 24, SPECIES_LARVITAR },     // 1%  - Very rare pseudo-legendary
+    { 24, 26, SPECIES_GEODUDE },      // 20% - Common rock
+    { 24, 26, SPECIES_ROGGENROLA },   // 20% - Common rock
+    { 25, 27, SPECIES_GEODUDE },      // 10%
+    { 25, 27, SPECIES_DIGLETT },      // 10% - Ground support
+    { 25, 27, SPECIES_ARON },         // 10% - Uncommon steel/rock
+    { 25, 27, SPECIES_ARON },         // 10% - Uncommon steel/rock
+    { 26, 28, SPECIES_ANORITH },      // 5%  - Rare Fossil
+    { 26, 28, SPECIES_LILEEP },       // 5%  - Rare Fossil
+    { 27, 29, SPECIES_GRAVELER },     // 4%  - Evolved danger
+    { 27, 29, SPECIES_BOLDORE },      // 4%  - Evolved danger
+    { 28, 30, SPECIES_AERODACTYL },   // 1%  - Ultra Rare Apex
+    { 28, 30, SPECIES_AERODACTYL },   // 1%  - Ultra Rare Apex
 };
 
 // Wrap the encounter table in a WildPokemonInfo struct
@@ -73,21 +74,18 @@ static const struct WildPokemonInfo sCaveTest_LandMonsInfo = {
 // Score thresholds defined in src/dungeon.c (typically 0-100, 101-200, 201+)
 // NOTE: All items in a pool should be the same type (all TMs or all regular items) for correct graphics
 static const u16 sCaveTest_BronzeRewardPool[] = {
-    ITEM_POKE_BALL,
-    ITEM_POTION,
-    ITEM_ANTIDOTE,
+    ITEM_HARD_STONE,
+    ITEM_STARDUST,
 };
 
 static const u16 sCaveTest_SilverRewardPool[] = {
-    ITEM_GREAT_BALL,
-    ITEM_SUPER_POTION,
-    ITEM_FULL_HEAL,
+    ITEM_RARE_BONE,
+    ITEM_THICK_CLUB,
 };
 
 static const u16 sCaveTest_GoldRewardPool[] = {
-    ITEM_ULTRA_BALL,
-    ITEM_HYPER_POTION,
-    ITEM_MAX_REVIVE,
+    ITEM_OLD_AMBER,
+    ITEM_AERODACTYLITE,
 };
 
 static const u16 * const sCaveTest_RewardPools[] = {
@@ -187,8 +185,8 @@ static const struct DungeonNarrative gNarrative_CaveTest = {
     .bossType = BOSS_TYPE_POKEMON,
     .boss = {
         .pokemon = {
-            .species = SPECIES_ONIX,              // Boss Pokemon species
-            .level = 28,                          // Boss level (typically +8 above dungeon base)
+            .species = SPECIES_AERODACTYL,              // Boss Pokemon species
+            .level = 32,                          // Boss level (typically +8 above dungeon base)
             .heldItem = ITEM_HARD_STONE,          // Held item (can be ITEM_NONE)
             .totemBoosts = {1, 1, 1, 1, 1, 1, 1}, // Stat boosts: HP/Atk/Def/SpA/SpD/Spe/Acc (+1 to all)
         },

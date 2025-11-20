@@ -17341,6 +17341,7 @@ Starmie
 Level: 43
 IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 
+/* START TRAINER REMOVAL
 === TRAINER_KOJI_2 ===
 Name: KOJI
 Class: Black Belt
@@ -17796,6 +17797,7 @@ IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 Swellow
 Level: 37
 IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
+END TRAINER REMOVAL */
 
 === TRAINER_MARIELA ===
 Name: MARIELA
@@ -17884,3 +17886,249 @@ Double Battle: No
 Kyogre
 Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* NEW TRAINER ADDITIONS */
+=== TRAINER_FOSSIL_GRUNT ===
+Name: DIGGER
+Class: Ruin Maniac
+Pic: Ruin Maniac
+Gender: Male
+Music: Hiker
+Double Battle: No
+AI: Basic Trainer / Try To Faint
+Party Size: 3
+Pool Rules: POOL_RULESET_BASIC
+
+Geodude @ Hard Stone
+Ability: Sturdy
+Level: 24
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+Tags: Lead
+- Stealth Rock
+- Rock Throw
+- Magnitude
+- Defense Curl
+
+Roggenrola @ Oran Berry
+Ability: Sturdy
+Level: 25
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Headbutt
+- Rock Blast
+- Sand Attack
+- Iron Defense
+
+Shieldon @ Leftovers
+Ability: Sturdy
+Level: 26
+IVs: 20 HP / 15 Atk / 25 Def / 15 SpA / 25 SpD / 15 Spe
+Tags: Support
+- Protect
+- Ancient Power
+- Metal Sound
+- Take Down
+
+Cranidos @ Sitrus Berry
+Ability: Mold Breaker
+Level: 26
+IVs: 15 HP / 31 Atk / 10 Def / 10 SpA / 10 SpD / 20 Spe
+Tags: Ace
+- Headbutt
+- Pursuit
+- Scary Face
+- Rock Tomb
+
+Sandshrew @ Soft Sand
+Ability: Sand Veil
+Level: 24
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Dig
+- Slash
+- Sandstorm
+- Poison Sting
+
+Tyrunt @ Oran Berry
+Ability: Strong Jaw
+Level: 25
+IVs: 15 HP / 20 Atk / 15 Def / 10 SpA / 10 SpD / 15 Spe
+- Bite
+- Ancient Power
+- Roar
+- Stomp
+
+=== TRAINER_FOSSIL_SCIENTIST ===
+Name: ALBERT
+Class: Collector
+Pic: Collector
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Check Viability / Smart Switching / Try To Faint
+Party Size: 3
+Pool Rules: POOL_RULESET_BASIC
+
+Magnemite @ Oran Berry
+Ability: Magnet Pull
+Level: 25
+IVs: 20 HP / 10 Atk / 20 Def / 31 SpA / 20 SpD / 20 Spe
+Tags: Lead
+- Thunder Wave
+- Sonic Boom
+- Spark
+- Supersonic
+
+Porygon @ Silk Scarf
+Ability: Download
+Level: 26
+IVs: 20 HP / 10 Atk / 20 Def / 25 SpA / 20 SpD / 20 Spe
+Tags: Support
+- Sharpen
+- Psybeam
+- Recover
+- Tri Attack
+
+Kabuto @ Mystic Water
+Ability: Battle Armor
+Level: 25
+IVs: 15 HP / 20 Atk / 25 Def / 15 SpA / 15 SpD / 20 Spe
+- Aqua Jet
+- Mega Drain
+- Rock Tomb
+- Sand Attack
+
+Omanyte @ Hard Stone
+Ability: Shell Armor
+Level: 25
+IVs: 15 HP / 15 Atk / 25 Def / 20 SpA / 15 SpD / 15 Spe
+- Mud Shot
+- Water Gun
+- Rollout
+- Bite
+
+Magneton @ Sitrus Berry
+Ability: Sturdy
+Level: 27
+IVs: 20 HP / 10 Atk / 25 Def / 31 SpA / 25 SpD / 25 Spe
+Tags: Ace
+- Shock Wave
+- Tri Attack
+- Metal Sound
+- Thunder Wave
+
+=== TRAINER_FOSSIL_WORKER ===
+Name: BRUNO
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Risky / Prefer Highest Damage Move
+Party Size: 3
+Pool Rules: POOL_RULESET_BASIC
+
+Machop @ Oran Berry
+Ability: Guts
+Level: 25
+IVs: 25 HP / 31 Atk / 15 Def / 10 SpA / 15 SpD / 15 Spe
+Tags: Lead
+- Karate Chop
+- Low Kick
+- Rock Tomb
+- Foresight
+
+Timburr @ Oran Berry
+Ability: Sheer Force
+Level: 25
+IVs: 20 HP / 25 Atk / 20 Def / 10 SpA / 15 SpD / 15 Spe
+- Rock Throw
+- Low Kick
+- Slam
+- Bide
+
+Graveler @ Hard Stone
+Ability: Rock Head
+Level: 26
+IVs: 20 HP / 25 Atk / 31 Def / 10 SpA / 15 SpD / 10 Spe
+Tags: Ace
+- Magnitude
+- Rock Blast
+- Defense Curl
+- Rollout
+
+Onix @ Sitrus Berry
+Ability: Sturdy
+Level: 26
+IVs: 20 HP / 20 Atk / 31 Def / 10 SpA / 15 SpD / 25 Spe
+- Rock Tomb
+- Bind
+- Dragon Breath
+- Screech
+
+Machoke @ Sitrus Berry
+Ability: No Guard
+Level: 27
+IVs: 25 HP / 31 Atk / 20 Def / 10 SpA / 20 SpD / 20 Spe
+Tags: Ace
+- Vital Throw
+- Karate Chop
+- Rock Slide
+- Leer
+
+=== TRAINER_FOSSIL_COLLECTOR ===
+Name: OSWALD
+Class: Collector
+Pic: Collector
+Gender: Male
+Music: Suspicious
+Double Battle: No
+AI: Basic Trainer / HP Aware
+Party Size: 4
+Pool Rules: POOL_RULESET_BASIC
+
+Lileep @ Big Root
+Ability: Suction Cups
+Level: 25
+IVs: 31 HP / 10 Atk / 25 Def / 20 SpA / 31 SpD / 5 Spe
+Tags: Lead
+- Ingrain
+- Constrict
+- Acid
+- Confuse Ray
+
+Anorith @ Oran Berry
+Ability: Battle Armor
+Level: 25
+IVs: 20 HP / 31 Atk / 20 Def / 10 SpA / 15 SpD / 25 Spe
+- Fury Cutter
+- Water Gun
+- Metal Claw
+- Harden
+
+Yanma @ Scope Lens
+Ability: Speed Boost
+Level: 26
+IVs: 20 HP / 15 Atk / 15 Def / 25 SpA / 15 SpD / 31 Spe
+- Sonic Boom
+- Quick Attack
+- Double Team
+- Foresight
+
+Relicanth @ Hard Stone
+Ability: Swift Swim
+Level: 26
+IVs: 31 HP / 25 Atk / 31 Def / 15 SpA / 20 SpD / 15 Spe
+Tags: Ace
+- Water Gun
+- Rock Tomb
+- Yawn
+- Take Down
+
+Corsola @ Leftovers
+Ability: Natural Cure
+Level: 25
+IVs: 25 HP / 15 Atk / 25 Def / 20 SpA / 25 SpD / 15 Spe
+Tags: Support
+- Recover
+- Bubble Beam
+- Spike Cannon
+- Refresh
